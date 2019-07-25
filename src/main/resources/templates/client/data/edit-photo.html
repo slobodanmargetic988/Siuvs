@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <th:block th:include="fragments/head :: head" />
+</head>
+<body>
+
+<!-- Nav -->
+<th:block th:insert="fragments/navigation :: navigation-end-user"></th:block>
+
+<!-- Content -->
+<div class="px-content">
+
+    <div class="page-header">
+        <h1>
+            <th:block th:insert="fragments/navigation :: nav-breadcrumbs-client(${client}, true)" />
+        </h1>
+    </div>
+
+    <div th:replace="fragments/alert :: success (${successMessage})"></div>
+    <div th:replace="fragments/alert :: error (${errorMessage})"></div>
+
+    <th:block th:with="deleteActionUrl=@{/client/{pageId}/delete/(pageId=${page.id})}">
+        <th:block th:with="uploadActionUrl=@{/client/{pageId}/upload(pageId=${page.id})}">
+            <th:block th:insert="fragments/forms/photo :: edit_photo(${deleteActionUrl}, ${uploadActionUrl})" />
+        </th:block>
+    </th:block>
+
+</div>
+
+<th:block th:insert="fragments/footer :: footer-standard" />
+
+<th:block th:insert="fragments/scripts :: standard" />
+</body>
+</html>

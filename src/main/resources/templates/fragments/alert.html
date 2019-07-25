@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>СИУВС 1.0</title>
+</head>
+
+<body>
+
+<div th:fragment="success (message)" class="alert alert-success alert-dark" th:if="${message}">
+    <button type="button" class="close" data-dismiss="alert">x</button>
+    <h4 class="alert-heading" th:text="${message}">Успешно!</h4>
+</div>
+
+<div th:fragment="error (message)" class="alert alert-danger alert-dark" th:if="${message}">
+    <button type="button" class="close" data-dismiss="alert">x</button>
+    <h4 class="alert-heading" th:text="${message}">Неуспешно!</h4>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>СИУВС 1.0</title>
+</head>
+
+<body>
+
+<th:block th:fragment="change-password (action, backLink)" class="page-header">
+    <form th:action="${action}" th:object="${changePasswordEntity}" method="post" class="form-horizontal" autocomplete="off">
+        <th:block th:fragment="change-password">
+            <div class="form-group">
+                <label class="col-md-3 control-label required">Тренутна лозинка</label>
+                <div th:class="${#fields.hasErrors('oldPassword')} ? 'col-md-9 has-error' : 'col-md-9'">
+                    <input type="password" th:field="*{oldPassword}" placeholder="" class="form-control" autocomplete="new-password">
+                    <small class="form-message" th:if="${#fields.hasErrors('oldPassword')}" th:errors="*{oldPassword}"></small>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-3 control-label required">Нова лозинка</label>
+                <div th:class="${#fields.hasErrors('newPassword')} ? 'col-md-9 has-error' : 'col-md-9'">
+                    <input type="password" th:field="*{newPassword}" placeholder="" class="form-control" autocomplete="new-password">
+                    <small class="form-message" th:if="${#fields.hasErrors('newPassword')}" th:errors="*{newPassword}"></small>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-3 control-label required">Нова лозинка поново</label>
+                <div th:class="${#fields.hasErrors('newPasswordRepeat')} ? 'col-md-9 has-error' : 'col-md-9'">
+                    <input type="password" th:field="*{newPasswordRepeat}" placeholder="" class="form-control" autocomplete="new-password">
+                    <small class="form-message" th:if="${#fields.hasErrors('newPasswordRepeat')}" th:errors="*{newPasswordRepeat}"></small>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-offset-3 col-md-9">
+                    <button type="submit" class="btn btn-primary">Измени лозинку</button>
+                    <a th:href="${backLink}" class="btn">Одустани</a>
+                </div>
+            </div>
+        </th:block>
+    </form>
+</th:block>
+
+
+<th:block th:fragment="change-email (action, backLink)" class="page-header">
+    <form th:action="${action}" th:object="${changeEmailEntity}" method="post" class="form-horizontal" autocomplete="off">
+        <th:block th:fragment="change-email">
+            <div class="form-group">
+                <label class="col-md-3 control-label required">Тренутна лозинка</label>
+                <div th:class="${#fields.hasErrors('currentPassword')} ? 'col-md-9 has-error' : 'col-md-9'">
+                    <input type="password" th:field="*{currentPassword}" placeholder="" class="form-control" autocomplete="new-password">
+                    <small class="form-message" th:if="${#fields.hasErrors('currentPassword')}" th:errors="*{currentPassword}"></small>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-3 control-label required">Нова имејл адреса</label>
+                <div th:class="${#fields.hasErrors('newEmail')} ? 'col-md-9 has-error' : 'col-md-9'">
+                    <input type="text" th:field="*{newEmail}" placeholder="" class="form-control" autocomplete="new-password">
+                    <small class="form-message" th:if="${#fields.hasErrors('newEmail')}" th:errors="*{newEmail}"></small>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-offset-3 col-md-9">
+                    <button type="submit" class="btn btn-primary">Измени имејл</button>
+                    <a th:href="${backLink}" class="btn">Одустани</a>
+                </div>
+            </div>
+        </th:block>
+    </form>
+</th:block>
+
+</body>
+</html>
+
+
+

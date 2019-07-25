@@ -1,0 +1,1 @@
+ALTER TABLE `dynamic_group_row` ADD COLUMN `order` INT(11) NOT NULL AFTER `custom_table_definition_id`;

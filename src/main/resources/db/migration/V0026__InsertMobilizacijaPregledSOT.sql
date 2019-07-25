@@ -1,0 +1,3 @@
+INSERT INTO `table_definition` (`table_id`, `page_id`, `order`, `user_defined`, `title`) VALUES (33,20,2,1,'Преглед стручно оперативног тима');
+
+INSERT INTO `table_column` (`column_id`, `table_definition_id`, `title`, `type`, `col_span`, `row2`, `col_span2`, `row3`, `col_span3`, `row4`) VALUES (197,33,'Име и презиме','STRING',1,NULL,0,NULL,0,NULL),(198,33,'Адреса становања','STRING',0,NULL,0,NULL,0,NULL),(199,33,'Телефони','STRING',3,'Кућни',1,NULL,0,NULL),(200,33,NULL,'STRING',0,'На послу',1,NULL,0,NULL),(201,33,NULL,'STRING',0,'Мобилни',1,NULL,0,NULL),(202,33,'Дужност у СОТ-у','STRING',1,NULL,0,NULL,0,NULL);

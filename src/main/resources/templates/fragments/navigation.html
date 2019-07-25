@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:replace="fragments/head :: head"></head>
+<body>
+
+<th:block th:fragment="navigation">
+    <th:block th:insert="fragments/navigation :: left" />
+
+    <th:block th:insert="fragments/navigation :: top" />
+</th:block>
+
+<th:block th:fragment="navigation-client">
+    <th:block th:insert="fragments/navigation :: nav-client" />
+
+    <th:block th:insert="fragments/navigation :: top-client" />
+</th:block>
+
+<th:block th:fragment="navigation-end-user">
+    <th:block th:insert="fragments/navigation-end-user :: nav-client" />
+
+    <th:block th:insert="fragments/navigation :: top-navbar ('end-user-overview')" />
+</th:block>
+
+<th:block th:fragment="nav-admin-root">
+    <th:block th:insert="fragments/navigation :: nav-admin-root-left" />
+
+    <th:block th:insert="fragments/navigation :: top" />
+</th:block>
+
+<th:block th:fragment="toggle-menu-button">
+    <button type="button" class="px-nav-toggle" data-toggle="px-nav">
+        <span class="px-nav-toggle-arrow"></span>
+        <span class="navbar-toggle-icon"></span>
+        <span class="px-nav-toggle-label" style="font-size: 11px;">Сакри мени</span>
+    </button>
+</th:block>
+
+<th:block th:fragment="left">
+    <!-- Nav -->
+    <nav class="px-nav px-nav-left" id="px-nav-dropdowns-left">
+        <th:block th:insert="fragments/navigation :: toggle-menu-button" />
+
+        <ul class="px-nav-content">
+            <li class="px-nav-item">
+                <a th:href="@{/admin/clients}"><i class="fa fa-institution m-r-1"></i>Клијенти</a>
+            </li>
+            <li class="px-nav-item" sec:authorize="hasAnyAuthority('ADMIN','RIS')">
+                <a th:href="@{/admin/users}"><i class="fa fa-users m-r-1"></i>РИС</a>
+            </li>
+        </ul>
+    </nav>
+</th:block>
+
+<th:block th:fragment="top">
+    <th:block th:insert="fragments/navigation :: top-navbar ('admin-root')" />
+</th:block>
+
+<th:block th:fragment="top-client">
+    <th:block th:insert="fragments/navigation :: top-navbar ('admin-client-overview')" />
+</th:block>
+
+<th:block th:fragment="top-navbar (type)">
+    <!-- Navbar -->
+    <nav class="navbar px-navbar">
+        <!-- Header -->
+        <div class="navbar-header">
+            <a class="navbar-brand" th:href="@{/admin}" sec:authorize="hasAnyAuthority('ADMIN','RIS', 'MUP')"><img th:src="@{/img/logo_white.png}" alt="СИУВС 1.0" /></a>
+            <a class="navbar-brand" th:href="@{/client}" sec:authorize="hasAnyAuthority('CLIENT','CLIENT_READ_ONLY')"><img th:src="@{/img/logo_white.png}" alt="СИУВС 1.0" /></a>
+        </div>
+        <!-- Navbar links -->
+        <div class="navbar-collapse collapse" id="px-navbar-navs-collapse" aria-expanded="false">
+            <ul class="nav navbar-nav" th:if="${type == 'admin-client-overview'}" sec:authorize="hasAnyAuthority('ADMIN','RIS')">
+                <li><a th:href="@{/admin/clients/{id}/users(id=${client.id})}"><i class="px-nav-icon fa fa-users"></i><span class="px-nav-label">Корисници</span></a></li>
+                <!-- <li><a href="#"><i class="px-nav-icon fa fa-euro"></i><span class="px-nav-label">Уплате</span></a></li> -->
+            </ul>
+            <ul class="nav navbar-nav" th:if="${type == 'end-user-overview'}" sec:authorize="hasAnyAuthority('CLIENT')">
+                <li><a th:href="@{/client/users}"><i class="px-nav-icon fa fa-users"></i><span class="px-nav-label">Корисници</span></a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true">
+                        <span sec:authentication="principal.user.name"></span>
+                        <span sec:authentication="principal.user.lastName"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a th:href="@{/profile}">Профил</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a th:href="@{/logout}"><i class="dropdown-icon fa fa-power-off"></i>&nbsp;&nbsp;Одјава</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</th:block>
+
+<th:block th:fragment="nav-item(menuItem,baseMenuUrl)">
+
+    <th:block th:switch="${menuItem.type.toString()}">
+
+        <th:block th:case="MENU">
+            <a href="#"><span th:text="${menuItem.title}" class="px-nav-label"></span></a>
+            <ul th:if="${menuItem.hasChildren()}" class="px-nav-dropdown-menu">
+                <li th:each="subMenuItem: ${menuItem.getChildrenCached()}" class="px-nav-item"
+                    th:classappend="${
+                    (subMenuItem.hasChildren() ? 'px-nav-dropdown' : '') + ' '
+                    + (#lists.contains(globalMenuSelectedPages, subMenuItem.getId()) ? 'px-open active' : '')
+                    }"
+                >
+                    <th:block th:insert="fragments/navigation :: nav-item(${subMenuItem},${baseMenuUrl})" />
+                </li>
+            </ul>
+        </th:block>
+
+        <th:block th:case="ASSESSMENT">
+            <a th:href="@{{baseMenuUrl}/assessment/{pageId}(baseMenuUrl=${baseMenuUrl},pageId=${menuItem.id})}"><span th:text="${menuItem.title}" class="px-nav-label"></span></a>
+        </th:block>
+
+        <th:block th:case="TABLE">
+            <a th:href="@{{baseMenuUrl}/{pageId}(baseMenuUrl=${baseMenuUrl},pageId=${menuItem.id})}"><span th:text="${menuItem.title}" class="px-nav-label"></span></a>
+        </th:block>
+
+    </th:block>
+
+</th:block>
+
+<th:block th:fragment="nav-client">
+    <nav class="px-nav px-nav-left" id="px-nav-dropdowns-left">
+        <th:block th:insert="fragments/navigation :: toggle-menu-button" />
+
+        <ul class="px-nav-content">
+            <li th:each="topMenuItem: ${globalMenuItems}" class="px-nav-item" th:classappend="${topMenuItem.hasChildren()} ? 'px-nav-dropdown' : ''">
+                <th:block th:insert="fragments/navigation :: nav-item(${topMenuItem},${'/admin/clients/' + client.id})" />
+            </li>
+        </ul>
+
+    </nav>
+</th:block>
+
+<th:block th:fragment="nav-admin-root-left">
+    <nav class="px-nav px-nav-left" id="px-nav-dropdowns-left">
+        <th:block th:insert="fragments/navigation :: toggle-menu-button" />
+
+        <ul class="px-nav-content">
+            <li class="px-nav-item">
+                <a th:href="@{/admin/clients}"><i class="px-nav-icon fa fa-institution"></i><span class="px-nav-label">Клијенти</span></a>
+            </li>
+
+            <li class="px-nav-item" sec:authorize="hasAnyAuthority('ADMIN','RIS')">
+                <a th:href="@{/admin/users}"><i class="px-nav-icon fa fa-users"></i><span class="px-nav-label">РИС</span></a>
+            </li>
+        </ul>
+    </nav>
+</th:block>
+
+<th:block th:fragment="navigation-script">
+    <!-- Nav -->
+    <script>
+      $(function() {
+        $('#px-nav-dropdowns-left').pxNav({
+          storeState: false,
+        });
+      });
+    </script>
+</th:block>
+
+<th:block th:fragment="nav-breadcrumbs-client-table-custom(client, tableDefinition, customTableDefinition)">
+    <th:block th:insert="fragments/navigation :: nav-breadcrumbs-client(${client}, false)" />
+    <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-link(
+        ${tableDefinition.title},
+        @{/client/{pageId}/{tableDefinitionId}(pageId=${page.id},tableDefinitionId=${customTableDefinition.tableDefinition.id})},
+        false)"
+    />
+    <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-separator(false)"/>
+    <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-text(${customTableDefinition.title}, true)" />
+</th:block>
+
+<th:block th:fragment="nav-breadcrumbs-client-table(client, tableDefinition)">
+    <th:block th:insert="fragments/navigation :: nav-breadcrumbs-client(${client}, false)" />
+    <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-text(${tableDefinition.title}, true)" />
+</th:block>
+
+<th:block th:fragment="nav-breadcrumbs-client(client, lastIterationSeparate)">
+    <span class="text-muted font-weight-light">
+        <i class="page-header-icon fa fa-institution"></i>
+    </span>
+    <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-link(${client.name}, @{/client}, false)"/>
+    <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-separator(false)"/>
+    <th:block th:insert="fragments/navigation :: nav-breadcrumbs-pages(${'/client'}, ${lastIterationSeparate})" />
+</th:block>
+
+<th:block th:fragment="nav-breadcrumbs-admin-client-table-custom(client, tableDefinition, customTableDefinition)">
+    <th:block th:insert="fragments/navigation :: nav-breadcrumbs-admin-client(${client}, false)" />
+    <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-link(
+        ${tableDefinition.title},
+        @{/admin/clients/{clientId}/{pageId}/{tableDefinitionId}(clientId=${client.id},pageId=${page.id},tableDefinitionId=${customTableDefinition.tableDefinition.id})},
+        false)"
+    />
+    <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-separator(false)"/>
+    <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-text(${customTableDefinition.title}, true)" />
+</th:block>
+
+<th:block th:fragment="nav-breadcrumbs-admin-client-table(client, tableDefinition)">
+    <th:block th:insert="fragments/navigation :: nav-breadcrumbs-admin-client(${client}, false)" />
+    <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-text(${tableDefinition.title}, true)" />
+</th:block>
+
+<th:block th:fragment="nav-breadcrumbs-admin-client-view(client)">
+    <span class="text-muted font-weight-light">
+        <i class="page-header-icon fa fa-institution"></i>
+    </span>
+    <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-link(Клијенти, @{/admin/clients}, false)"/>
+    <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-separator(false)"/>
+    <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-text(${client.name}, true)"/>
+</th:block>
+
+<th:block th:fragment="nav-breadcrumbs-admin-client-edit(client)">
+    <span class="text-muted font-weight-light">
+        <i class="page-header-icon fa fa-institution"></i>
+    </span>
+    <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-link(Клијенти, @{/admin/clients}, false)"/>
+    <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-separator(false)"/>
+    <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-link(${client.name}, @{/admin/clients/{id}(id=${client.id})}, false)"/>
+    <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-separator(false)"/>
+    <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-text(Измени, true)"/>
+</th:block>
+
+<th:block th:fragment="nav-breadcrumbs-admin-client(client, lastIterationSeparate)">
+    <span class="text-muted font-weight-light">
+        <i class="page-header-icon fa fa-institution"></i>
+    </span>
+    <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-link(Клијенти, @{/admin/clients}, false)"/>
+    <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-separator(false)"/>
+    <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-link(${client.name}, @{/admin/clients/{id}(id=${client.id})}, false)"/>
+    <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-separator(false)"/>
+    <th:block th:insert="fragments/navigation :: nav-breadcrumbs-pages(${'/admin/clients/' + client.id}, ${lastIterationSeparate})" />
+</th:block>
+
+<th:block th:fragment="nav-breadcrumbs-pages(baseMenuUrl, lastIterationSeparate)">
+    <th:block th:each="breadCrumbPage, iteration: ${breadCrumbsPages}">
+        <span th:if="${(lastIterationSeparate && !iteration.last) || !lastIterationSeparate}">
+            <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-page(${breadCrumbPage}, false)" />
+            <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-separator(false)" />
+        </span>
+        <span th:if="${lastIterationSeparate && iteration.last}">
+            <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-text(${breadCrumbPage.title}, true)" />
+        </span>
+    </th:block>
+</th:block>
+
+<th:block th:fragment="nav-breadcrumbs-item-page(page, isDark)">
+    <th:block th:switch="${page.type.toString()}">
+        <th:block th:case="MENU">
+            <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-text(
+                ${page.title},
+                ${isDark})"
+            />
+        </th:block>
+
+        <th:block th:case="ASSESSMENT">
+            <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-link(
+                ${page.title},
+                @{{baseMenuUrl}/assessment/{pageId}(baseMenuUrl=${baseMenuUrl},pageId=${page.id})},
+                ${isDark})"
+            />
+        </th:block>
+
+        <th:block th:case="TABLE">
+            <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-link(
+                ${page.title},
+                @{{baseMenuUrl}/{pageId}(baseMenuUrl=${baseMenuUrl},pageId=${page.id})},
+                ${isDark})"
+            />
+        </th:block>
+    </th:block>
+</th:block>
+
+<th:block th:fragment="nav-breadcrumbs-item-text(text, isDark)">
+    <span th:classappend="${isDark} ? '' : 'text-muted font-weight-light'">
+        <th:block th:text="${text}" />
+    </span>
+</th:block>
+
+<th:block th:fragment="nav-breadcrumbs-item-link(text, link, isDark)">
+    <span th:classappend="${isDark} ? '' : 'text-muted font-weight-light'">
+        <a th:href="${link}" th:text="${text}"></a>
+    </span>
+</th:block>
+
+<th:block th:fragment="nav-breadcrumbs-item-separator(isDark)">
+    <span th:classappend="${isDark} ? '' : 'text-muted font-weight-light'">
+        /
+    </span>
+</th:block>
+
+</body>
+</html>

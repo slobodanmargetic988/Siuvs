@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <title>СИУВС 1.0</title>
+</head>
+
+<body>
+
+<th:block th:fragment="data_view (viewUrl)">
+    <div style="display:none" id="row-delete-popover-template">
+        <form th:action="${viewUrl + '/deleterow'}" method="post" class="form-horizontal" autocomplete="off">
+            <input type="hidden" name="rowId" value="" />
+            <button type="submit" class="btn btn-xs btn-danger btn-outline"><i class="fa fa-check"></i></button>
+        </form>
+    </div>
+    <table class="table table-striped">
+        <thead>
+        <tr th:each="headerRow : ${tableHeader}">
+            <th th:each="column : ${headerRow.columns}"
+                th:utext="${column.title}"
+                th:attr="rowspan=${column.rowSpan}, colspan=${column.colSpan}"
+                th:classappend="${column.colSpan} > 1 ? 'text-xs-center' : ''">
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+            <tr th:each="row,iterator : ${dynamicTable.rows}">
+                <th scope="row" class="data-header-actions-row" sec:authorize="hasAnyAuthority('ADMIN','RIS', 'CLIENT')">
+                    <div class="data-header-action-block">
+                        <a th:href="${viewUrl + '/edit/' + row.id}" class="btn btn-xs btn-info btn-outline"><i class="fa fa-pencil"></i></a>
+                    </div>
+                    <div class="data-header-action-block">
+                        <a href="#" class="btn btn-xs btn-danger btn-outline row-delete-button" th:attr="data-rowid=${row.id}"><i class="fa fa-trash"></i></a>
+                    </div>
+                    <div class="data-header-action-block" th:if="${!iterator.first}">
+                        <a th:href="${viewUrl + '/moverow/' + row.id + '/up'}" class="btn btn-xs btn-warning btn-outline"><i class="fa fa-arrow-up"></i></a>
+                    </div>
+                    <div class="data-header-action-block" th:if="${!iterator.last}">
+                        <a th:href="${viewUrl + '/moverow/' + row.id + '/down'}" class="btn btn-xs btn-warning btn-outline"><i class="fa fa-arrow-down"></i></a>
+                    </div>
+                </th>
+                <th scope="row">
+                    <div th:text="${iterator.index + 1}"></div>
+                </th>
+                <th:block th:each="data: ${row.getDataForColumns(tableDefinition.getDataColumns(client))}">
+                    <th:block th:switch="${data.rowSpan}">
+                        <th:block th:case="-1"/>
+                        <th:block th:case="*">
+                            <th:block th:with="value=(${data.column.type.toString()} eq 'AGGREGATE'
+                                    or ${data.column.type.toString()} eq 'PART'
+                                    or ${data.column.type.toString()} eq 'ENUM'
+                                    or ${data.column.type.toString()} eq 'SUM'
+                                    or ${data.column.type.toString()} eq 'AUTOSUM'
+                                    )
+                                    ? ${data.virtualValue} : ${data.value}">
+                                <th:block th:with="value=(${data.column.type.toString()} eq 'NUMBER'
+                                    or ${data.column.type.toString()} eq 'SUM'
+                                    or ${data.column.type.toString()} eq 'AUTOSUM'
+                                    )
+                                    ? ${#siuvs.formatNumber(value)} : ${value}">
+                                    <td th:text="${value == '' ? '/' : value}"
+                                        th:rowspan="${data.rowSpan} > 1 ? ${data.rowSpan} : '1'"
+                                        th:classappend="${data.rowSpan} > 1 ? 'align-middle' : ''"
+                                    >
+                                    </td>
+                                </th:block>
+                            </th:block>
+                        </th:block>
+                    </th:block>
+                </th:block>
+            </tr>
+            <tr th:if="${tableFooter != null}">
+                <th:block th:each="field, iterator : ${tableFooter.fields}">
+                    <th:block th:switch="${iterator.index}">
+                        <th:block th:case="0">
+                            <td th:colspan="${field.colSpan}">Укупно:</td>
+                        </th:block>
+                        <th:block th:case="*">
+                            <td th:colspan="${field.colSpan}" th:text="${#siuvs.formatNumber(field.getDisplayValue())}"></td>
+                        </th:block>
+                    </th:block>
+                </th:block>
+            </tr>
+        </tbody>
+    </table>
+    <div th:if="${dynamicTable.description != ''}">
+        <div>Напомена:</div>
+        <span th:text="${dynamicTable.description}"></span>
+    </div>
+</th:block>
+
+<th:block th:fragment="data_insert (actionUrl)">
+    <form th:action="${actionUrl}" th:object="${newRow}" method="post" class="form-horizontal" autocomplete="off">
+        <th:block th:each="field,iterator : ${newRow.data}">
+
+            <th:block th:if="${!field.column.isDynamicRoot()}">
+
+                <th:block th:switch="${field.column.type.toString()}">
+                    <th:block th:case="'AGGREGATE'">
+                        <div class="form-group">
+                            <label class="col-md-3 control-label" th:text="${field.column.title}"></label>
+                            <div class="col-md-9">
+                                <select th:field="*{data[__${field.order}__].value}" class="form-control">
+                                    <th:block th:each="option : ${groupOptions}">
+                                        <option th:value="${option.id}" th:text="${option.data.get(0).value}"></option>
+                                    </th:block>
+                                </select>
+                            </div>
+                        </div>
+                    </th:block>
+                    <th:block th:case="'PART'" />
+                    <th:block th:case="'SUM'" />
+                    <th:block th:case="'AUTOSUM'" />
+                    <th:block th:case="'ENUM'">
+                        <div class="form-group">
+                            <label th:if="${field.column.title} != null and ${field.column.row2} == null and ${field.column.row3} == null and ${field.column.row4} == null" class="col-md-3 control-label" th:utext="${field.column.title}"></label>
+                            <label th:if="${field.column.row2} != null and ${field.column.row3} == null and ${field.column.row4} == null" class="col-md-3 control-label" th:utext="${field.column.row2}"></label>
+                            <label th:if="${field.column.row3} != null and ${field.column.row4} == null" class="col-md-3 control-label" th:utext="${field.column.row3}"></label>
+                            <label th:if="${field.column.row4} != null" class="col-md-3 control-label" th:utext="${field.column.row4}"></label>
+                            <div class="col-md-9">
+                                <select th:field="*{data[__${field.order}__].value}" class="form-control">
+                                    <th:block th:each="option : ${field.column.values}">
+                                        <option th:value="${option.id}" th:text="${option.value}"></option>
+                                    </th:block>
+                                </select>
+                            </div>
+                        </div>
+                    </th:block>
+                    <th:block th:case="'FIELDSET'">
+                        <div class="form-group">
+                            <label class="col-md-12" th:text="${field.column.title}"></label>
+                        </div>
+                    </th:block>
+                    <th:block th:case="*">
+                        <div class="form-group">
+                            <label th:if="${field.column.title} != null and ${field.column.row2} == null and ${field.column.row3} == null and ${field.column.row4} == null" class="col-md-3 control-label" th:utext="${field.column.title}"></label>
+                            <label th:if="${field.column.row2} != null and ${field.column.row3} == null and ${field.column.row4} == null" class="col-md-3 control-label" th:utext="${field.column.row2}"></label>
+                            <label th:if="${field.column.row3} != null and ${field.column.row4} == null" class="col-md-3 control-label" th:utext="${field.column.row3}"></label>
+                            <label th:if="${field.column.row4} != null" class="col-md-3 control-label" th:utext="${field.column.row4}"></label>
+                            <div class="col-md-9">
+                                <input type="text" th:field="*{data[__${field.order}__].value}" class="form-control">
+                            </div>
+                        </div>
+                    </th:block>
+                </th:block>
+
+            </th:block>
+
+
+        </th:block>
+        <div class="form-group" th:if="${not tableDefinition.hasAggregateColumns() or not #lists.isEmpty(groupOptions)}">
+            <div class="col-md-offset-3 col-md-9">
+                <button type="submit" class="btn btn-primary">Додај ред</button>
+            </div>
+        </div>
+    </form>
+</th:block>
+
+<th:block th:fragment="data_edit (actionUrl,viewUrl)">
+    <form th:action="${actionUrl}" th:object="${dynamicRow}" method="post" class="form-horizontal" autocomplete="off">
+        <th:block th:each="field,iterator : ${dynamicRow.data}">
+
+            <th:block th:if="${!field.column.isDynamicRoot()}">
+
+                <th:block th:switch="${field.column.type.toString()}">
+                    <th:block th:case="'AGGREGATE'">
+                        <div class="form-group">
+                            <label class="col-md-3 control-label" th:text="${field.column.title}"></label>
+                            <div class="col-md-9">
+                                <select th:field="*{data[__${field.order}__].value}" class="form-control">
+                                    <th:block th:each="option : ${groupOptions}">
+                                        <option th:value="${option.id}" th:text="${option.data.get(0).value}"></option>
+                                    </th:block>
+                                </select>
+                            </div>
+                        </div>
+                    </th:block>
+                    <th:block th:case="'PART'" />
+                    <th:block th:case="'SUM'" />
+                    <th:block th:case="'AUTOSUM'" />
+                    <th:block th:case="'ENUM'">
+                        <div class="form-group">
+                            <label th:if="${field.column.title} != null and ${field.column.row2} == null and ${field.column.row3} == null and ${field.column.row4} == null" class="col-md-3 control-label" th:utext="${field.column.title}"></label>
+                            <label th:if="${field.column.row2} != null and ${field.column.row3} == null and ${field.column.row4} == null" class="col-md-3 control-label" th:utext="${field.column.row2}"></label>
+                            <label th:if="${field.column.row3} != null and ${field.column.row4} == null" class="col-md-3 control-label" th:utext="${field.column.row3}"></label>
+                            <label th:if="${field.column.row4} != null" class="col-md-3 control-label" th:utext="${field.column.row4}"></label>
+                            <div class="col-md-9">
+                                <select  th:id="${'data' + field.order + '.value'}" th:name="${'data[' + field.order + '].value'}" class="form-control">
+                                    <th:block th:each="option : ${field.column.values}">
+                                        <option th:value="${option.id}" th:text="${option.value}" th:selected="${option.id.toString() == field.value}"></option>
+                                    </th:block>
+                                </select>
+                            </div>
+                        </div>
+                    </th:block>
+                    <th:block th:case="'FIELDSET'">
+                        <div class="form-group">
+                            <label class="col-md-12" th:text="${field.column.title}"></label>
+                        </div>
+                    </th:block>
+                    <th:block th:case="*">
+                        <div class="form-group">
+                            <label th:if="${field.column.title} != null and ${field.column.row2} == null and ${field.column.row3} == null and ${field.column.row4} == null" class="col-md-3 control-label" th:utext="${field.column.title}"></label>
+                            <label th:if="${field.column.row2} != null and ${field.column.row3} == null and ${field.column.row4} == null" class="col-md-3 control-label" th:utext="${field.column.row2}"></label>
+                            <label th:if="${field.column.row3} != null and ${field.column.row4} == null" class="col-md-3 control-label" th:utext="${field.column.row3}"></label>
+                            <label th:if="${field.column.row4} != null" class="col-md-3 control-label" th:utext="${field.column.row4}"></label>
+                            <div class="col-md-9">
+                                <input type="text" th:id="${'data' + field.order + '.value'}" th:name="${'data[' + field.order + '].value'}" th:value="*{data[__${iterator.index}__].value}" class="form-control">
+                            </div>
+                        </div>
+                    </th:block>
+                </th:block>
+
+            </th:block>
+
+        </th:block>
+        <div class="form-group" th:if="${not tableDefinition.hasAggregateColumns() or not #lists.isEmpty(groupOptions)}">
+            <div class="col-md-offset-3 col-md-9">
+                <button type="submit" class="btn btn-primary">Сачувај</button>
+                <a th:href="${viewUrl}" class="btn">Одустани</a>
+            </div>
+        </div>
+    </form>
+</th:block>
+
+<th:block th:fragment="group_insert (actionUrl)">
+    <form th:action="${actionUrl}" th:object="${newGroup}" method="post" class="form-horizontal" autocomplete="off">
+        <div class="form-group" th:each="field,iterator : ${newGroup.data}">
+            <label class="col-md-3 control-label required" th:text="${field.column.title}"></label>
+            <div class="col-md-9">
+                <input type="text" th:field="*{data[__${iterator.index}__].value}" class="form-control">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-3 col-md-9">
+                <button type="submit" class="btn btn-primary">Додај групу</button>
+            </div>
+        </div>
+    </form>
+</th:block>
+
+<th:block th:fragment="column_insert (actionUrl,dynamicColumn)">
+    <form th:action="${actionUrl}" th:object="${newColumn}" method="post" class="form-horizontal" autocomplete="off">
+        <div class="form-group">
+            <label class="col-md-3 control-label required">Назив</label>
+            <div class="col-md-9">
+                <input type="text" th:field="*{title}" class="form-control">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-3 col-md-9">
+                <button type="submit" class="btn btn-primary">Додај колону</button>
+            </div>
+        </div>
+    </form>
+</th:block>
+
+<th:block th:fragment="description_update (actionUrl)">
+    <form th:action="${actionUrl}" th:object="${dynamicTable}" method="post" class="form-horizontal" autocomplete="off">
+        <div class="form-group">
+            <label class="col-md-3 control-label">Напомена</label>
+            <div class="col-md-9">
+                <textarea th:field="*{description}" class="form-control" rows="5"></textarea>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-3 col-md-9">
+                <button type="submit" class="btn btn-primary">Сачувај напомену</button>
+            </div>
+        </div>
+    </form>
+</th:block>
+
+</body>
+</html>
+
+
+

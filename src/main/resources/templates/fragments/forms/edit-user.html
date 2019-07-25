@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>СИУВС 1.0</title>
+</head>
+
+<body>
+
+<th:block th:fragment="edit-user(action, backLink)" class="page-header">
+    <form th:action="${action}" th:object="${user}" method="post" class="form-horizontal" autocomplete="off">
+        <div class="form-group">
+            <label class="col-md-3 control-label required">Име</label>
+            <div th:class="${#fields.hasErrors('name')} ? 'col-md-9 has-error' : 'col-md-9'">
+                <input type="text" th:field="*{name}" placeholder="Име" class="form-control">
+                <small class="form-message" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-3 control-label required">Презиме</label>
+            <div th:class="${#fields.hasErrors('lastName')} ? 'col-md-9 has-error' : 'col-md-9'">
+                <input type="text" th:field="*{lastName}" placeholder="Презиме" class="form-control">
+                <small class="form-message" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-3 control-label required">Имејл адреса</label>
+            <div th:class="${#fields.hasErrors('email')} ? 'col-md-9 has-error' : 'col-md-9'">
+                <input type="text" th:field="*{email}" placeholder="Имејл адреса" class="form-control" autocomplete="new-password">
+                <small class="form-message" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></small>
+            </div>
+        </div>
+        <div class="form-group" th:if="${client != null}">
+            <label class="col-md-3 control-label required">Ниво приступа</label>
+            <div th:classappend="${roleErrorMessage} ? 'has-error' : ''" class="col-md-9">
+                <th:block th:with="chosenRole=*{getFirstRole().getRole().toString()}">
+                    <select name="role" class="form-control">
+                        <option value="UNSELECTED" th:selected="${chosenRole == 'UNSELECTED'}">Одабери</option>
+                        <option value="CLIENT" th:selected="${chosenRole == 'CLIENT'}">Унос / измена</option>
+                        <option value="CLIENT_READ_ONLY" th:selected="${chosenRole == 'CLIENT_READ_ONLY'}">Преглед</option>
+                    </select>
+                </th:block>
+                <small class="form-message" th:text="${roleErrorMessage}"></small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-3 control-label required">Активан</label>
+            <div th:class="${#fields.hasErrors('active')} ? 'col-md-9 has-error' : 'col-md-9'">
+                <input type="checkbox" th:field="*{active}" class="form-control">
+                <small class="form-message" th:if="${#fields.hasErrors('active')}" th:errors="*{active}"></small>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-3 col-md-9">
+                <button type="submit" class="btn btn-primary">Сачувај</button>
+                <a th:href="${backLink}" class="btn">Одустани</a>
+            </div>
+        </div>
+    </form>
+</th:block>
+
+</body>
+</html>
+
+
+

@@ -1,0 +1,1 @@
+UPDATE `table_column` SET `column_id_internal` = `column_id`;

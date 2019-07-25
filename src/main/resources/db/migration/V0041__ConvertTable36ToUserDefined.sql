@@ -1,0 +1,1 @@
+UPDATE `table_definition` SET `user_defined`='1' WHERE `table_id`='36';

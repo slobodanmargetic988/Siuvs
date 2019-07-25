@@ -1,0 +1,1 @@
+UPDATE `table_column` SET `col_span` = 1;

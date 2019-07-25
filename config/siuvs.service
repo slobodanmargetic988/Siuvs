@@ -1,0 +1,16 @@
+[Unit]
+Description=SIUVS Web Application
+After=syslog.target
+ 
+[Service]
+User=siuvs
+ExecStart=/usr/bin/java -Dspring.config.location=/home/siuvs/application-prod.properties -jar /home/siuvs/siuvs.jar
+SuccessExitStatus=143 
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=siuvs
+# Environment=CLASSPATH=.:/usr/share/java/mysql-connector-java.jar:/data/git/siuvs/config
+# Environment=PATH=$PATH:/usr/lib/jvm/java-8-oracle/bin:/usr/lib/jvm/java-8-oracle/db/bin:/usr/lib/jvm/java-8-oracle/jre/bin
+ 
+[Install] 
+WantedBy=multi-user.target

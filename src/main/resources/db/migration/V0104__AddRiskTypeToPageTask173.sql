@@ -1,0 +1,1 @@
+ALTER TABLE `page` ADD COLUMN `risk_type` INT(11) NULL DEFAULT 0 AFTER `type`;

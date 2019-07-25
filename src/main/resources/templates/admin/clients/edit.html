@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <th:block th:include="fragments/head :: head" />
+</head>
+<body>
+
+<th:block th:insert="fragments/navigation :: nav-admin-root" />
+
+<!-- Content -->
+<div class="px-content">
+
+    <div class="page-header">
+        <h1>
+            <th:block th:insert="fragments/navigation :: nav-breadcrumbs-admin-client-edit(${editClient})" />
+        </h1>
+    </div>
+
+    <div th:replace="fragments/alert :: error (${errorMessage})"></div>
+
+    <div class="panel">
+        <div class="panel-heading">
+            <span class="panel-title">Подаци о клијенту</span>
+        </div>
+        <div class="panel-body">
+
+            <form th:action="@{/admin/clients/{id}/edit(id=${editClient.id})}" th:object="${editClient}" method="post" class="form-horizontal" autocomplete="off">
+                <div class="form-group">
+                    <label class="col-md-3 control-label required">Назив</label>
+                    <div th:class="${#fields.hasErrors('name')} ? 'col-md-9 has-error' : 'col-md-9'">
+                        <input type="text" th:field="*{name}" placeholder="Назив" class="form-control">
+                        <small class="form-message" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></small>
+                    </div>
+                    <label class="col-md-3 control-label required">Активан</label>
+                    <div th:class="${#fields.hasErrors('active')} ? 'col-md-9 has-error' : 'col-md-9'">
+                        <input type="checkbox" th:field="*{active}" class="form-control">
+                        <small class="form-message" th:if="${#fields.hasErrors('active')}" th:errors="*{active}"></small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-offset-3 col-md-9">
+                        <button type="submit" class="btn btn-primary">Сачувај</button>
+                        <a th:href="@{/admin/clients/{id}(id=${editClient.id})}" class="btn">Одустани</a>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+    </div>
+
+</div>
+
+<th:block th:insert="fragments/footer :: footer-standard" />
+
+<th:block th:insert="fragments/scripts :: standard" />
+</body>
+</html>

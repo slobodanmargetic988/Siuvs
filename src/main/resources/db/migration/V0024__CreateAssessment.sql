@@ -1,0 +1,22 @@
+CREATE TABLE `assessment` (
+  `assessment_id` int(11) NOT NULL AUTO_INCREMENT,
+  `client_id` int(11) NOT NULL,
+  `page_id` int(11) NOT NULL,
+  `consequences` tinyint(4) NOT NULL DEFAULT '1',
+  `probability` tinyint(4) NOT NULL DEFAULT '1',
+  `description` text NOT NULL,
+  `created_by` int(11) NOT NULL,
+  `created_on` datetime NOT NULL,
+  `modified_by` int(11) NOT NULL,
+  `modified_on` datetime NOT NULL,
+  PRIMARY KEY (`assessment_id`),
+  UNIQUE KEY `true_key` (`client_id`,`page_id`),
+  KEY `FK3ujx3bg02nxl9g8kfqyu509ve` (`client_id`),
+  KEY `FK9jwbxdccyfwkv0a9et7w56wh4` (`created_by`),
+  KEY `FKbcikdu9rc1eyfus48sytcq2ux` (`modified_by`),
+  KEY `FKq0xdp1fmlcx4aqt7crpb0g4lk` (`page_id`),
+  CONSTRAINT `FK3ujx3bg02nxl9g8kfqyu509ve` FOREIGN KEY (`client_id`) REFERENCES `client` (`client_id`),
+  CONSTRAINT `FK9jwbxdccyfwkv0a9et7w56wh4` FOREIGN KEY (`created_by`) REFERENCES `user` (`user_id`),
+  CONSTRAINT `FKbcikdu9rc1eyfus48sytcq2ux` FOREIGN KEY (`modified_by`) REFERENCES `user` (`user_id`),
+  CONSTRAINT `FKq0xdp1fmlcx4aqt7crpb0g4lk` FOREIGN KEY (`page_id`) REFERENCES `page` (`page_id`)
+) ENGINE=InnoDB;

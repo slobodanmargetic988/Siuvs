@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <th:block th:include="fragments/head :: head" />
+</head>
+<body>
+
+<!-- Nav -->
+<th:block th:insert="fragments/navigation :: navigation-client"></th:block>
+
+<!-- Content -->
+<div class="px-content">
+
+    <div class="page-header">
+        <h1>
+            <th:block th:insert="fragments/navigation :: nav-breadcrumbs-admin-client(${client}, true)" />
+        </h1>
+    </div>
+
+    <div th:replace="fragments/alert :: error (${errorMessage})"></div>
+
+    <form th:action="@{/admin/clients/{clientId}/assessment/{pageId}/edit(clientId=${client.id},pageId=${page.id})}" th:object="${newAssessment}" method="post" class="form-horizontal" autocomplete="off" style="margin-bottom: 20px;">
+        <p class="assessment-text-label">Појављивање</p>
+        <textarea th:field="*{textPojavljivanje}" class="wysiwyg_editor_default"></textarea>
+        <p class="assessment-text-label">Просторна димензија</p>
+        <textarea th:field="*{textProstornaDimenzija}" class="wysiwyg_editor_default"></textarea>
+        <p class="assessment-text-label">Интензитет</p>
+        <textarea th:field="*{textIntenzitet}" class="wysiwyg_editor_default"></textarea>
+        <p class="assessment-text-label">Време</p>
+        <textarea th:field="*{textVreme}" class="wysiwyg_editor_default"></textarea>
+        <p class="assessment-text-label">Ток</p>
+        <textarea th:field="*{textTok}" class="wysiwyg_editor_default"></textarea>
+        <p class="assessment-text-label">Трајање</p>
+        <textarea th:field="*{textTrajanje}" class="wysiwyg_editor_default"></textarea>
+        <p class="assessment-text-label">Рана најава</p>
+        <textarea th:field="*{textRanaNajava}" class="wysiwyg_editor_default"></textarea>
+        <p class="assessment-text-label">Припремљеност</p>
+        <textarea th:field="*{textPripremljenost}" class="wysiwyg_editor_default"></textarea>
+        <p class="assessment-text-label">Утицај</p>
+        <textarea th:field="*{textUticaj}" class="wysiwyg_editor_default"></textarea>
+        <p class="assessment-text-label">Генерисање других опасности</p>
+        <textarea th:field="*{textGenerisanjeDrugihOpasnosti}" class="wysiwyg_editor_default"></textarea>
+        <p class="assessment-text-label">Референтни инциденти</p>
+        <textarea th:field="*{textReferentniIncidenti}" class="wysiwyg_editor_default"></textarea>
+        <p class="assessment-text-label">Информисање јавности</p>
+        <textarea th:field="*{textInformisanjeJavnosti}" class="wysiwyg_editor_default"></textarea>
+        <p class="assessment-text-label">Будуће информације</p>
+        <textarea th:field="*{textBuduceInformacije}" class="wysiwyg_editor_default"></textarea>
+        <input type="hidden" th:field="*{consequences}" />
+        <input type="hidden" th:field="*{probability}" />
+        <input type="hidden" name="risk_type_icon" th:value="${page.getRiskTypeIconRelativePath()}" />
+        <th:block th:insert="fragments/forms/matrix :: matrix" />
+        <button type="submit" class="btn btn-primary">Сачувај</button>
+        <a th:href="@{/admin/clients/{clientId}/assessment/{pageId}(clientId=${client.id},pageId=${page.id})}" class="btn">Одустани</a>
+    </form>
+
+    <th:block th:with="deleteActionUrl=@{/admin/clients/{clientId}/assessment/{pageId}/delete/(clientId=${client.id},pageId=${page.id})}">
+        <th:block th:with="uploadActionUrl=@{/admin/clients/{clientId}/assessment/{pageId}/upload(clientId=${client.id},pageId=${page.id})}">
+            <th:block th:insert="fragments/forms/photo :: edit_photo(${deleteActionUrl}, ${uploadActionUrl})" />
+        </th:block>
+    </th:block>
+
+</div>
+<th:block th:insert="fragments/footer :: footer-standard" />
+
+<th:block th:insert="fragments/scripts :: standard" />
+<script th:src="@{/js/wysiwyg.js}"></script>
+<script th:src="@{/js/matrix.js}"></script>
+</body>
+</html>

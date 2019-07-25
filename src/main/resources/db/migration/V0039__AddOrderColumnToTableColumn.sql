@@ -1,0 +1,1 @@
+ALTER TABLE `table_column` ADD COLUMN `order` INT(11) NOT NULL AFTER `table_definition_id`;

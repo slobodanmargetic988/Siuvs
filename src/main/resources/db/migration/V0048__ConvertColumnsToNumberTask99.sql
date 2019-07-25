@@ -1,0 +1,1 @@
+UPDATE `table_column` SET `type`='NUMBER' WHERE `column_id` IN (91, 92) LIMIT 2;

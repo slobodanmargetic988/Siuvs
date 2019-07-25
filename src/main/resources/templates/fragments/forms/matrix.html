@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<body>
+
+<th:block th:fragment="matrix ()">
+    <table th:attr="id=${matrixId ?: 'matrix'}" class="assessment-matrix">
+        <tr>
+            <th class="head-left">Катастрофална</th>
+            <th rowspan="5" class="head-left-vertical"><div>Последице</div></th>
+            <td id="m51" style="background-color: yellow;"></td>
+            <td id="m52" style="background-color: orange;"></td>
+            <td id="m53" style="background-color: red;"></td>
+            <td id="m54" style="background-color: red;"></td>
+            <td id="m55" style="background-color: red;"></td>
+        </tr>
+        <tr>
+            <th class="head-left">Озбиљна</th>
+            <td id="m41" style="background-color: yellow;"></td>
+            <td id="m42" style="background-color: orange;"></td>
+            <td id="m43" style="background-color: red;"></td>
+            <td id="m44" style="background-color: red;"></td>
+            <td id="m45" style="background-color: red;"></td>
+        </tr>
+        <tr>
+            <th class="head-left">Умерена</th>
+            <td id="m31" style="background-color: yellow;"></td>
+            <td id="m32" style="background-color: orange;"></td>
+            <td id="m33" style="background-color: orange;"></td>
+            <td id="m34" style="background-color: orange;"></td>
+            <td id="m35" style="background-color: orange;"></td>
+        </tr>
+        <tr>
+            <th class="head-left">Мала</th>
+            <td id="m21" style="background-color: green;"></td>
+            <td id="m22" style="background-color: yellow;"></td>
+            <td id="m23" style="background-color: yellow;"></td>
+            <td id="m24" style="background-color: yellow;"></td>
+            <td id="m25" style="background-color: yellow;"></td>
+        </tr>
+        <tr>
+            <th class="head-left">Минимална</th>
+            <td id="m11" style="background-color: green;"></td>
+            <td id="m12" style="background-color: green;"></td>
+            <td id="m13" style="background-color: green;"></td>
+            <td id="m14" style="background-color: green;"></td>
+            <td id="m15" style="background-color: green;"></td>
+        </tr>
+        <tr>
+            <th colspan="2">&nbsp;</th>
+            <th colspan="5" class="head-bottom-horizontal">Вероватноћа</th>
+        </tr>
+        <tr>
+            <th colspan="2">&nbsp;</th>
+            <th class="head-bottom"><div>Занемарљива</div></th>
+            <th class="head-bottom"><div>Мала</div></th>
+            <th class="head-bottom"><div>Средња</div></th>
+            <th class="head-bottom"><div>Велика</div></th>
+            <th class="head-bottom"><div>Изразито Велика</div></th>
+        </tr>
+    </table>
+</th:block>
+
+</body>
+</html>
+
+
+

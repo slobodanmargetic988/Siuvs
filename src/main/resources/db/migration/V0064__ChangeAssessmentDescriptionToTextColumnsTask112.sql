@@ -1,0 +1,15 @@
+ALTER TABLE `assessment`
+ADD COLUMN `text_pojavljivanje` TEXT NOT NULL,
+ADD COLUMN `text_prostorna_dimenzija` TEXT NOT NULL,
+ADD COLUMN `text_intenzitet` TEXT NOT NULL,
+ADD COLUMN `text_vreme` TEXT NOT NULL,
+ADD COLUMN `text_tok` TEXT NOT NULL,
+ADD COLUMN `text_trajanje` TEXT NOT NULL,
+ADD COLUMN `text_rana_najava` TEXT NOT NULL,
+ADD COLUMN `text_pripremljenost` TEXT NOT NULL,
+ADD COLUMN `text_uticaj` TEXT NOT NULL,
+ADD COLUMN `text_generisanje_drugih_opasnosti` TEXT NOT NULL,
+ADD COLUMN `text_referentni_incidenti` TEXT NOT NULL,
+ADD COLUMN `text_informisanje_javnosti` TEXT NOT NULL,
+ADD COLUMN `text_buduce_informacije` TEXT NOT NULL,
+DROP COLUMN `description`;

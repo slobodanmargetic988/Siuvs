@@ -4,6 +4,7 @@ import org.bitbucket.pbosko.siuvs.model.Assessment;
 import org.bitbucket.pbosko.siuvs.model.Client;
 import org.bitbucket.pbosko.siuvs.model.Page;
 import org.bitbucket.pbosko.siuvs.service.*;
+import org.bitbucket.pbosko.siuvs.shared.AssesmentHelper1;
 import org.bitbucket.pbosko.siuvs.valueObject.ClientId;
 import org.bitbucket.pbosko.siuvs.valueObject.PageId;
 import org.bitbucket.pbosko.siuvs.valueObject.PhotoId;
@@ -59,6 +60,7 @@ public class ClientsAssessmentController {
         model.addAttribute("page", page);
         model.addAttribute("assessment", assessment);
         model.addAttribute("photos", photoService.findByClientAndPage(client, page));
+        model.addAttribute("vrsta_opasnosti", AssesmentHelper1.getOpasnost(pageId.getValue()));  
         return "admin/clients/assessment/view";
     }
 

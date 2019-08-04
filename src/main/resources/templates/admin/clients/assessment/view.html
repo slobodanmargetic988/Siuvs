@@ -57,9 +57,8 @@
                 <h1></h1>
                 <th:block th:insert="fragments/forms/matrix :: matrix(matrixId='assessment_preview')" />
             </form>
-            <p>На основу анализе сценарија и процене ризика можемо констатовати да је ниво ризика од земљотреса <span id="risk_level"></span>, што значи да је ризик <span id="risk_adequacy"></span>.</p>
-
-        </div>
+         <p>На основу анализе сценарија и процене ризика можемо констатовати да је ниво ризика од <span th:text="${vrsta_opasnosti}"></span> <span id="risk_level"></span>, што значи да је ризик <span id="risk_adequacy"></span>.</p>
+      </div>
     </div>
 
     <th:block th:with="photoUrl=@{/admin/clients/{clientId}/photo/(clientId=${client.id})}">

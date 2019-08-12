@@ -34,3 +34,4 @@ siuvs servis koji runuje aplikaciju.txt
 application.properties
 siuvs-prod-2019-08-04-0100.sql
 application.properties
+src/main/resources/application.properties

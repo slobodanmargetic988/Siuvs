@@ -171,9 +171,4 @@ table.assessment-matrix th.head-bottom-horizontal {
 no after for PDF generation support
 */
 
-div.no-before-after:after{
-    content:"";
-}
-div.no-before-after:before{
-    content:"";
-}
+

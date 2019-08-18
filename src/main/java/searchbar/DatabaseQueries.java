@@ -43,21 +43,23 @@ SELECT distinct table_definition_id FROM table_column  where column_id in (
 # sve jedinstvene kolone i zaglavlja
 # sve definicije tabela tj info za link + naslov tabele
 # sve ovo mi je potrebno za pretragu regularnih tabela koje nemaju dodatne grupe za grupe moram novo a mozda i za assesmente
-*/
-
-
-
+ */
 package searchbar;
+
+import java.util.List;
+import org.bitbucket.pbosko.siuvs.model.DynamicData;
+import org.bitbucket.pbosko.siuvs.model.TableDefinition;
 
 /**
  *
  * @author deca
  */
 public class DatabaseQueries {
-    // to find entire row of data on pages like strucno operativni tim za *****
-   // select * from dynamic_data where row_id=(select row_id from dynamic_data where value='asssssddddaadassss');
-    
-    
-    
-    
+    /* //the tables that contain searchable data are 
+    //dynamic_group_data;
+    //dynamic_data;
+    //prvo radimo za dynamic data jer tu ima vise smisla.
+     */
+    List<DynamicData> dynamicData ;
+
 }

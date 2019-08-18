@@ -32,14 +32,9 @@ public class SearchController {
     @PostMapping("/search-results")
     public String performSearch(final Model model, @RequestParam(name = "upit") String upit ) {
         model.addAttribute("query", upit );
+        
         return "results"; //view
     }
     
-  /*
-    @RequestMapping(value = "message", method = RequestMethod.GET)
-    public String messages(Model model) {
-        model.addAttribute("messages", messageRepository.findAll());
-        return "message/list";
-    }
-    */
+
 }

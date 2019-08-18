@@ -18,9 +18,9 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     User findById(Integer userId);
 
-    Page<User> findAllByClientIsNullOrderByNameAscLastNameAsc(Pageable pageable);
+    Page<User> findAllByClientIsNullOrderByIdAsc(Pageable pageable);
 
-    Page<User> findAllByClientOrderByNameAscLastNameAsc(Client client, Pageable pageable);
+    Page<User> findAllByClientOrderByIdAsc(Client client, Pageable pageable);
 
     @Modifying
     @Transactional

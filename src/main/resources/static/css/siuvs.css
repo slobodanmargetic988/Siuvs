@@ -140,7 +140,7 @@ table.assessment-matrix th.head-bottom-horizontal {
 
 .PDFButton {
   width: 40px;
-  height: 36px;
+  height: 34px;
   border: 1px solid #00B4CC;
   background: #00B4CC;
   text-align: center;
@@ -149,12 +149,13 @@ table.assessment-matrix th.head-bottom-horizontal {
   cursor: pointer;
   font-size: 14px;
     position: absolute;
-  top: 15%;
+  top: 12%;
   left: 70%;
+    box-sizing: content-box;
 }
 .PNGButton {
   width: 40px;
-  height: 36px;
+  height: 34px;
   border: 1px solid #00B4CC;
   background: #00B4CC;
   text-align: center;
@@ -163,8 +164,9 @@ table.assessment-matrix th.head-bottom-horizontal {
   cursor: pointer;
   font-size: 14px;
     position: absolute;
-  top: 15%;
+  top: 12%;
   left: 75%;
+      box-sizing: content-box;
 }
 
 /*

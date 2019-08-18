@@ -11,7 +11,7 @@ import java.util.List;
 @Repository("clientRepository")
 public interface ClientRepository extends JpaRepository<Client, Integer> {
 
-    Page<Client> findAllByOrderByActiveDescNameAsc(Pageable pageable);
+    Page<Client> findAllByOrderByActiveDescIdAsc(Pageable pageable);
 
     List<Client> findByName(String name);
 

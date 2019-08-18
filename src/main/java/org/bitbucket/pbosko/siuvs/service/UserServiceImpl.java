@@ -86,12 +86,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Page<User> findAllClientIsNullOrderByNameAscLastNameAsc(Pageable pageable) {
-        return userRepository.findAllByClientIsNullOrderByNameAscLastNameAsc(pageable);
+        return userRepository.findAllByClientIsNullOrderByIdAsc(pageable);
     }
 
     @Override
     public Page<User> findAllByClientOrderByNameAscLastNameAsc(Client client, Pageable pageable) {
-        return userRepository.findAllByClientOrderByNameAscLastNameAsc(client, pageable);
+        return userRepository.findAllByClientOrderByIdAsc(client, pageable);
     }
 
     public boolean performChangePassword(ChangePasswordEntity changePasswordEntity) throws SiuvsException {

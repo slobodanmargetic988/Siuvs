@@ -37,7 +37,7 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public Page<Client> findAllOrderByActiveDescNameAsc(Pageable pageable) {
-        return clientRepository.findAllByOrderByActiveDescNameAsc(pageable);
+        return clientRepository.findAllByOrderByActiveDescIdAsc(pageable);
     }
 
     @Override

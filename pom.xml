@@ -5,7 +5,7 @@
 
 	<groupId>org.bitbucket.pbosko</groupId>
 	<artifactId>siuvs</artifactId>
-	<version>1.0.6.RELEASE</version>
+	<version>1.SRCH.9.RELEASE</version>
 	<packaging>jar</packaging>
 
 	<name>siuvs</name>
@@ -78,6 +78,13 @@
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context-support</artifactId>
 		</dependency>
+                <!-- https://mvnrepository.com/artifact/com.twilio.sdk/twilio -->
+<dependency>
+    <groupId>com.twilio.sdk</groupId>
+    <artifactId>twilio</artifactId>
+    <version>7.41.1</version>
+    <type>jar</type>
+</dependency>
 	</dependencies>
 
 	<build>

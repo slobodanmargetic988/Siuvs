@@ -1,11 +1,27 @@
 
 function getPNG() {
+    //sometimes canvas cant work because the file is too big so we need to conver url to blob
+    function dataURLtoBlob(dataurl) {
+    var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
+        bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
+    while(n--){
+        u8arr[n] = bstr.charCodeAt(n);
+    }
+    return new Blob([u8arr], {type:mime});
+}
+    
+    
+    
+    
 //html2canvas does not have a save file function like jsPDF so we have to make one
     function saveAs(uri, filename) {
         var link = document.createElement('a');
         if (typeof link.download === 'string') {
-            link.href = uri;
+           // link.href = uri;
             link.download = filename;
+            var blob=dataURLtoBlob(uri);
+            var objurl = URL.createObjectURL(blob);
+      link.href = objurl;
 
             //Firefox requires the link to be in the body
             document.body.appendChild(link);

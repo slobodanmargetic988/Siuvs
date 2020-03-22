@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+    <head> 
+        <th:block th:include="fragments/head :: head" />
+    </head>
+    <body>
+
+        <!-- Nav -->
+        <th:block th:insert="fragments/navigation :: navigation-end-user"></th:block>
+
+        <!-- Content -->
+        <div class="px-content">
+
+            <div class="page-header" >
+                <h1>
+                    <th:block th:insert="fragments/navigation :: nav-breadcrumbs-admin-client(${client}, true)" />
+                </h1>
+            </div>
+
+            <div th:replace="fragments/alert :: success (${successMessage})"></div>
+
+            <div th:replace="fragments/alert :: error (${errorMessage})"></div>
+
+            <div class="panel" >
+                <div class="panel-heading">
+
+                    <span class="panel-title" >Додај нов подрезултат</span> 
+                </div>
+
+                <div class="panel-body data-panel-body">
+
+
+
+                    <div class="panel-body">
+
+                        <form th:action="@{/client/plan/{pageId}/saveNewPodRezultat/{rezultatId} (rezultatId=${rezultatId},pageId=${page.id})}"  method="post" class="form-horizontal" autocomplete="off">
+                            <div class="form-group">
+                                <label  class="col-md-3 " >Активност текст: </label>
+                                <div class="col-md-9" >
+                                    <input type="text"  class="col-md-9"  name="aktivnostText" value="Активност текст..."> 
+                                </div>
+                                <br> </br>
+                                <label  class="col-md-3 " >Индикатори текст: </label>
+                                <div class="col-md-9" >
+                                    <input type="text"  class="col-md-9"  name="indikatorText" value="Индикатори текст..."> 
+                                </div>
+                                <br> </br>
+                                <label  class="col-md-3 " >Одговорна институција текст: </label>
+                                <div class="col-md-9" >
+                                    <input type="text"  class="col-md-9"  name="odgInstText" value="Одговорна институција текст..."> 
+                                </div>
+                                <br> </br>
+                                <label  class="col-md-3 " >Партнер институција/е текст: </label>
+                                <div class="col-md-9" >
+                                    <input type="text"  class="col-md-9"  name="partInstText" value="Партнер институција/е текст..."> 
+                                </div>
+                                <br> </br>
+                                <label  class="col-md-3 " >Период текст: </label>
+                                <div class="col-md-9" >
+                                    <input type="text"  class="col-md-9"  name="periodText" value="период текст..."> 
+                                </div>
+                                <br> </br>
+                                <label  class="col-md-3 " >Период комплетирано: </label>
+                                <div class="col-md-9" >
+                                    <input type="number"  class="col-md-9"  name="periodKompletirano" value="0"> 
+                                </div>
+                                <br> </br>
+                                <label  class="col-md-3 " >Буџет ЈЛС текст: </label>
+                                <div class="col-md-9" >
+                                    <input type="text" class="col-md-9"   name="budzetJLS" value="Буџет ЈЛС текст..."> 
+                                </div>
+                                <br> </br>
+                                <label  class="col-md-3 " >Буџет остали извори текст: </label>
+                                <div class="col-md-9" >
+                                    <input type="text" class="col-md-9"   name="budzetOstalo" value="Буџет остали извори текст..."> 
+                                </div>
+                                <br> </br>
+                                <label  class="col-md-3 " >Буџет необезбеђени ресурси текст: </label>
+                                <div class="col-md-9" >
+                                    <input type="text"  class="col-md-9"  name="budzetNeobezbedjeno" value="Буџет необезбеђени ресурси текст..."> 
+                                </div>
+                                <br> </br>
+
+
+                                <div class="col-md-offset-3 col-md-9">
+                                    <button type="submit" class="btn btn-primary">Сачувај</button>
+                                    <a th:href="@{/client/plan/{pageId}(pageId=${page.id})}" class="btn">Одустани</a>
+                                </div> 
+                            </div> 
+                        </form>
+                    </div>
+
+
+                </div> 
+
+            </div>
+
+
+
+
+        </div>
+
+        <th:block th:insert="fragments/footer :: footer-standard" />
+
+        <th:block th:insert="fragments/scripts :: standard" />
+        <script th:src="@{/js/matrix.js}"></script> 
+    </body>
+</html>

@@ -13,7 +13,6 @@ import org.bitbucket.pbosko.siuvs.facade.TableFacade;
 import org.bitbucket.pbosko.siuvs.model.Client;
 import org.bitbucket.pbosko.siuvs.model.DynamicData;
 import org.bitbucket.pbosko.siuvs.model.Roles;
-import org.bitbucket.pbosko.siuvs.model.SearchResults;
 import org.bitbucket.pbosko.siuvs.model.SiuvsUserPrincipal;
 import org.bitbucket.pbosko.siuvs.model.TableColumn;
 import org.bitbucket.pbosko.siuvs.model.TableDefinition;
@@ -96,6 +95,7 @@ int numberofPages=(int) Math.ceil((double)dyndshort.size()/20);
             model.addAttribute("PagesNo", numberofPages);
             model.addAttribute("dynamicDataList", dyndshort);
             model.addAttribute("tableheaders", tableheaders);
+            
           //  model.addAttribute("clients", clients);
             model.addAttribute("datas", datas);
         }

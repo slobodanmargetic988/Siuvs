@@ -144,7 +144,10 @@
                 <th:block th:case="TABLE">
                     <a th:href="@{{baseMenuUrl}/{pageId}(baseMenuUrl=${baseMenuUrl},pageId=${menuItem.id})}"><span th:text="${menuItem.title}" class="px-nav-label"></span></a>
                 </th:block>
-
+                
+                <th:block th:case="PLAN">
+                    <a th:href="@{{baseMenuUrl}/plan/{pageId}(baseMenuUrl=${baseMenuUrl},pageId=${menuItem.id})}"><span th:text="${menuItem.title}" class="px-nav-label"></span></a>
+                </th:block>
             </th:block>
 
         </th:block>
@@ -294,6 +297,15 @@
                     <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-link(
                               ${page.title},
                               @{{baseMenuUrl}/{pageId}(baseMenuUrl=${baseMenuUrl},pageId=${page.id})},
+                              ${isDark})"
+                              />
+                </th:block>
+                    
+                    <!-- Ovde dodajemo podrsku za planove-->
+                    <th:block th:case="PLAN">
+                    <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-link(
+                              ${page.title},
+                              @{{baseMenuUrl}/plan/{pageId}(baseMenuUrl=${baseMenuUrl},pageId=${page.id})},
                               ${isDark})"
                               />
                 </th:block>

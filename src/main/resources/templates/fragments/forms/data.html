@@ -24,7 +24,11 @@
             </th>
         </tr>
         </thead>
-        <tbody>
+        <tbody> <!-- ovde počinje deo koji se dodaje da bi se dugme dodalo na sve tabele
+                <div class="data-header-action-block">
+                        <a th:href="${viewUrl}" class="btn btn-xs btn-info btn-outline"><i class="fa fa-pencil"></i></a>
+                    </div> 
+            ovde se zavrsava -->
             <tr th:each="row,iterator : ${dynamicTable.rows}">
                 <th scope="row" class="data-header-actions-row" sec:authorize="hasAnyAuthority('ADMIN','RIS', 'CLIENT')">
                     <div class="data-header-action-block">

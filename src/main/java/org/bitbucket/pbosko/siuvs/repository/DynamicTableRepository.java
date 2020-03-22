@@ -15,5 +15,5 @@ public interface DynamicTableRepository extends JpaRepository<DynamicTable, Inte
             CustomTableDefinition customTableDefinition,
             Client client
     );
-
-}
+   
+ }

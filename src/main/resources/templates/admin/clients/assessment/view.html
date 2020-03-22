@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
-<head>
+<head> 
     <th:block th:include="fragments/head :: head" />
 </head>
 <body>
@@ -10,18 +10,18 @@
 <th:block th:insert="fragments/navigation :: navigation-client"></th:block>
 
 <!-- Content -->
-<div class="px-content">
+<div class=" px-content" >
 
-    <div class="page-header">
+    <div class="page-header" >
         <h1>
             <th:block th:insert="fragments/navigation :: nav-breadcrumbs-admin-client(${client}, true)" />
         </h1>
     </div>
 
     <div th:replace="fragments/alert :: success (${successMessage})"></div>
-
-    <div class="panel">
-        <div class="panel-body">
+    
+    <div class="panel"  >
+        <div class=" panel-body" >
 
             <p class="assessment-text-label">Појављивање</p>
             <th:block th:utext="${assessment.textPojavljivanje}" />
@@ -60,16 +60,19 @@
          <p>На основу анализе сценарија и процене ризика можемо констатовати да је ниво ризика од <span th:text="${vrsta_opasnosti}"></span> <span id="risk_level"></span>, што значи да је ризик <span id="risk_adequacy"></span>.</p>
       </div>
     </div>
+   
+        
 
-    <th:block th:with="photoUrl=@{/admin/clients/{clientId}/photo/(clientId=${client.id})}">
+    
+    <th:block th:with="photoUrl=@{/admin/clients/{clientId}/photo/(clientId=${client.id})}" >
         <th:block th:insert="fragments/forms/photo :: view_photos(${photoUrl})" />
     </th:block>
-
+   
     <form sec:authorize="hasAnyAuthority('ADMIN','RIS')" th:if="${page.attachablePhotos}" th:action="@{/admin/clients/{clientId}/assessment/{pageId}/edit(clientId=${client.id},pageId=${page.id})}" method="get" class="form-horizontal" autocomplete="off" style="margin-bottom: 20px;">
-        <button type="submit" class="btn btn-primary">Измена</button>
+        <button type="submit" class="btn btn-primary">Измена</button>      
     </form>
 
-</div>
+    </div>
 
 <th:block th:insert="fragments/footer :: footer-standard" />
 

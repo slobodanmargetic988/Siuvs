@@ -28,7 +28,7 @@ public class Rezultat {
     @Column(name = "rezultat_text")
     private String rezultatText;
     
-    @Column(name = "Redosled")
+    @Column(name = "redosled")
     private int redosled;
     
     @OneToMany(mappedBy = "rezultat")

@@ -28,35 +28,39 @@
             <form th:action="@{/admin/clients/{id}/edit(id=${editClient.id})}"  method="post" class="form-horizontal" autocomplete="off">
                 <div class="form-group">
                     <label class="col-md-3 control-label required">Назив јединице локалне самоуправе:</label>
+                   
                     
-                        <input class="col-md-9 " type="text" th:value="${editClient.name}" name="name" >
-                            <br><br/>
-                   
-                     <label class="col-md-3 control-label required">Локална самоуправа:</label>
-                  
-                         <select class="col-md-9 " th:value="${editClient.opstina}" name="opstinaId"    >
-                                    <option  th:each="eopstina : ${opstine}" th:selected="${eopstina.id==editClient.opstina.id}" th:value="${eopstina.id}" th:text="${eopstina.name}">Текст</option>
-
+                                        <div th:class="${NameErrorMessage} ? 'col-md-3 has-error' : 'col-md-3'">
+                        <input type="text"  th:value="${editClient.name}" name="name" class="form-control">
+                            <small class="form-message"  th:text="${NameErrorMessage}"></small>
+                    </div>
+                    </div>
+            
+                <div class="form-group" >
+                     <label class="col-md-3 control-label required">Локална самоуправа:</label>                     
+                     <div th:classappend="${LSGErrorMessage} ? 'has-error' : ''" class="col-md-3">
+                         
+                         <select  class="form-control" th:value="${editClient.opstina}" name="opstinaId"    >
+                             <th:block th:if="${editClient.getOpstina() != null}">    
+                             <option  th:each="eopstina : ${opstine}" th:selected="${eopstina.id==editClient.opstina.id}" th:value="${eopstina.id}" th:text="${eopstina.name}">Текст</option>
+                             </th:block>
+                             <th:block th:if="${editClient.getOpstina() == null}">  
+                             <option value="0">Одабери локалну самоуправу</option>
+                             <option  th:each="eopstina : ${opstine}"  th:value="${eopstina.id}" th:text="${eopstina.name}">Текст</option>
+                             </th:block>
                                 </select>
-                     <br><br/>
-                   <label class="col-md-3 control-label required">Аутономна покрајина:</label>
-                  
-                         <select class="col-md-9 " th:value="${editClient.opstina.provincija}" name="provincijaId"    >
-                                    <option  th:each="eprovincija : ${provincije}" th:selected="${eprovincija.id==editClient.opstina.provincija.id}" th:value="${eprovincija.id}" th:text="${eprovincija.name}">Текст</option>
+                     <small class="form-message" th:text="${LSGErrorMessage}"></small>
+                     </div>
+                     </div>
 
-                                </select>
-                   <br><br/>
-                   <label class="col-md-3 control-label required">Управни округ: </label>
-                   <select class="col-md-9 " th:value="${editClient.opstina.distrikt}" name="distriktId"    >
-                                    <option  th:each="edistrikt : ${districts}" th:selected="${edistrikt.id==editClient.opstina.distrikt.id}"th:value="${edistrikt.id}" th:text="${edistrikt.name}">Текст</option>
-
-                                </select>
-                    <br><br/>
+               <div class="form-group">
                     <label class="col-md-3 control-label required">Активан</label>
-                   
-                        <input class="col-md-9 form-control" type="checkbox"  name="aktivan" th:checked="${editClient.isActive()}">
-                        
+                    <div class="col-md-3">
+                        <input type="checkbox"  name="aktivan" class="form-control" th:checked="${editClient.isActive()}">
+                            
+                    </div>
                 </div>
+
                 <div class="form-group">
                     <div class="col-md-offset-3 col-md-9">
                         <button type="submit" class="btn btn-primary">Сачувај</button>

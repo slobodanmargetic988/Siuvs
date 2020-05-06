@@ -29,7 +29,7 @@
                 <div class="panel" >
                 <label   >Назив јединице локалне самоуправе: <span th:text="${client.name}"></span> </label>
                 <br><br/>
-                
+                    <th:block th:if="${client.getOpstina() != null}">
                 <label >Локална самоуправа: <span th:text="${client.opstina.name}"></span> </label>
                 <br><br/>
                
@@ -64,12 +64,14 @@
                </th:block>
                 
                 <br><br/>
+                    </th:block>
                     </div>
+                 <!-- 
                 <div class="panel" ></div>
                 <label   >Графичка репрезентација: Тек треба додати!! </label>
                 <br><br/>    
-                    
-                <a th:href="@{/admin/clients/{id}/edit(id=${client.id})}" class="btn btn-primary">Измени</a>
+                     <!-- -->
+               
 </div>
             </div>
         </div>

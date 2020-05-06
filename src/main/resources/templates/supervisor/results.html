@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <th:block th:include="fragments/head :: head" />
+</head>
+<body class="dashboard">
+    <th:block th:insert="fragments/navigation :: navigation" />
+
+    <!-- Content -->
+    <div class="px-content">
+
+    
+        <p>Prikazuje se rezultat pretrage za 1 <span th:text="${query}">ilineradi </span> </p>
+    </div>
+
+
+    <th:block th:insert="fragments/footer :: footer-standard" />
+
+    <th:block th:insert="fragments/scripts :: standard" />
+</body>
+</html>

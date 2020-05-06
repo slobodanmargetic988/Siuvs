@@ -1,0 +1,46 @@
+/*
+ * 
+ */
+package slobodan.siuvs2.service;
+
+/**
+ *
+ * @author deca
+ */
+import java.util.List;
+import slobodan.siuvs2.model.PosebanCilj;
+import slobodan.siuvs2.model.Plan;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import slobodan.siuvs2.repository.PosebanCiljRepository;
+import slobodan.siuvs2.valueObject.PlanID;
+import slobodan.siuvs2.valueObject.PosebanCiljID;
+import org.springframework.transaction.annotation.Transactional;
+
+@Service
+public class PosebanCiljServiceImpl implements PosebanCiljService{
+      @Autowired
+    private PosebanCiljRepository posebanCiljRepository;
+
+      @Override
+  public PosebanCilj findOne(PosebanCiljID posebanCiljID){
+      return posebanCiljRepository.findOne(posebanCiljID.getValue());
+  }
+
+@Override
+  public List<PosebanCilj> findAllByPlanOrderByRedosledAsc(Plan plan){
+   return posebanCiljRepository.findAllByPlanOrderByRedosledAsc(plan);
+           };
+  
+   @Override
+  // @Transactional
+   public void save(PosebanCilj posebanCilj){
+
+   posebanCiljRepository.save(posebanCilj);
+   
+   }
+    @Override
+ public void delete(PosebanCiljID posebanCiljID){
+ posebanCiljRepository.delete(posebanCiljID.getValue());
+ };
+}

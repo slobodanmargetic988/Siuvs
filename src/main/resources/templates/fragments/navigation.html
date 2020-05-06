@@ -10,6 +10,16 @@
             <th:block th:insert="fragments/navigation :: top" />
         </th:block>
 
+        <th:block th:fragment="navigation-supervisor">
+            <th:block th:insert="fragments/navigation :: left-supervisor" />
+
+            <th:block th:insert="fragments/navigation :: top-navbar ('end-user-overview')" />
+        </th:block>
+       <th:block th:fragment="navigation-supervisor-client">
+            <th:block th:insert="fragments/navigation :: left-supervisor-client" />
+
+            <th:block th:insert="fragments/navigation :: top-navbar ('end-user-overview')" />
+        </th:block>
         <th:block th:fragment="navigation-client">
             <th:block th:insert="fragments/navigation :: nav-client" />
 
@@ -48,10 +58,25 @@
                     <li class="px-nav-item" sec:authorize="hasAnyAuthority('ADMIN','RIS')">
                         <a th:href="@{/admin/users}"><i class="fa fa-users m-r-1"></i>РИС</a>
                     </li>
+                    <li class="px-nav-item" sec:authorize="hasAnyAuthority('ADMIN','RIS')">
+                        <a th:href="@{/admin/supervisors}"><i class="fa fa-users m-r-1"></i>Супервизори</a>
+                    </li>
                 </ul>
             </nav>
         </th:block>
+        <th:block th:fragment="left-supervisor">
+            <!-- Nav -->
+            <nav class="px-nav px-nav-left" id="px-nav-dropdowns-left">
+                <th:block th:insert="fragments/navigation :: toggle-menu-button" />
 
+                <ul class="px-nav-content">
+                    <li class="px-nav-item">
+                        <a th:href="@{/supervisor/clients}"><i class="fa fa-institution m-r-1"></i>Клијенти</a>
+                    </li>
+
+                </ul>
+            </nav>
+        </th:block>
         <th:block th:fragment="top">
             <th:block th:insert="fragments/navigation :: top-navbar ('admin-root')" />
         </th:block>
@@ -65,8 +90,9 @@
             <nav class="navbar px-navbar">
                 <!-- Header -->
                 <div class="navbar-header">
-                    <a class="navbar-brand" th:href="@{/admin}" sec:authorize="hasAnyAuthority('ADMIN','RIS', 'MUP')"><img th:src="@{/img/logo_white.png}" alt="СИУВС 1.0" /></a>
-                    <a class="navbar-brand" th:href="@{/client}" sec:authorize="hasAnyAuthority('CLIENT','CLIENT_READ_ONLY')"><img th:src="@{/img/logo_white.png}" alt="СИУВС 1.0" /></a>
+                    <a class="navbar-brand" th:href="@{/admin}" sec:authorize="hasAnyAuthority('ADMIN','RIS', 'MUP')"><img th:src="@{/img/logo_white.png}" alt="СИУВС 2.0" /></a>
+                    <a class="navbar-brand" th:href="@{/client}" sec:authorize="hasAnyAuthority('CLIENT','CLIENT_READ_ONLY')"><img th:src="@{/img/logo_white.png}" alt="СИУВС 2.0" /></a>
+                    <a class="navbar-brand" th:href="@{/supervisor}" sec:authorize="hasAnyAuthority('DISTRIKT','PROVINCE')"><img th:src="@{/img/logo_white.png}" alt="СИУВС 2.0" /></a>
                 </div>
                 <!-- Navbar links -->
                 <div class="navbar-collapse collapse" id="px-navbar-navs-collapse" aria-expanded="false">
@@ -77,7 +103,7 @@
                     <ul class="nav navbar-nav" th:if="${type == 'end-user-overview'}" sec:authorize="hasAnyAuthority('CLIENT')">
                         <li><a th:href="@{/client/users}"><i class="px-nav-icon fa fa-users"></i><span class="px-nav-label">Корисници</span></a></li>
                     </ul>
-<!-- Search start -->
+                    <!-- Search start -->
                     <div>
 
                         <form class="nav navbar-nav"  action="#" th:action="@{/search-results}"  method="POST">  
@@ -95,7 +121,7 @@
                         <button onclick="getPDF()" class="PDFButton"  id="btnSavePDF" ><b> PDF</b></button> </li> 
                         <button onclick="getPNG()" class="PNGButton"  id="btnSavePNG" ><b> PNG</b></button> </li>
                     </div>
-<!-- Search end -->
+                    <!-- Search end -->
 
 
 
@@ -144,7 +170,7 @@
                 <th:block th:case="TABLE">
                     <a th:href="@{{baseMenuUrl}/{pageId}(baseMenuUrl=${baseMenuUrl},pageId=${menuItem.id})}"><span th:text="${menuItem.title}" class="px-nav-label"></span></a>
                 </th:block>
-                
+
                 <th:block th:case="PLAN">
                     <a th:href="@{{baseMenuUrl}/plan/{pageId}(baseMenuUrl=${baseMenuUrl},pageId=${menuItem.id})}"><span th:text="${menuItem.title}" class="px-nav-label"></span></a>
                 </th:block>
@@ -164,6 +190,19 @@
 
             </nav>
         </th:block>
+                           
+                        <th:block th:fragment="left-supervisor-client">
+            <nav class="px-nav px-nav-left" id="px-nav-dropdowns-left">
+                <th:block th:insert="fragments/navigation :: toggle-menu-button" />
+
+                <ul class="px-nav-content">
+                    <li th:each="topMenuItem: ${globalMenuItems}" class="px-nav-item" th:classappend="${topMenuItem.hasChildren()} ? 'px-nav-dropdown' : ''">
+                        <th:block th:insert="fragments/navigation :: nav-item(${topMenuItem},${'/supervisor/clients/' + client.id})" />
+                    </li>
+                </ul>
+
+            </nav>
+        </th:block>
 
         <th:block th:fragment="nav-admin-root-left">
             <nav class="px-nav px-nav-left" id="px-nav-dropdowns-left">
@@ -176,6 +215,9 @@
 
                     <li class="px-nav-item" sec:authorize="hasAnyAuthority('ADMIN','RIS')">
                         <a th:href="@{/admin/users}"><i class="px-nav-icon fa fa-users"></i><span class="px-nav-label">РИС</span></a>
+                    </li>
+                    <li class="px-nav-item" sec:authorize="hasAnyAuthority('ADMIN','RIS')">
+                        <a th:href="@{/admin/supervisors}"><i class="fa fa-users m-r-1"></i>Супервизори</a>
                     </li>
                 </ul>
             </nav>
@@ -263,6 +305,41 @@
             <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-separator(false)"/>
             <th:block th:insert="fragments/navigation :: nav-breadcrumbs-pages(${'/admin/clients/' + client.id}, ${lastIterationSeparate})" />
         </th:block>
+            
+            <th:block th:fragment="nav-breadcrumbs-supervisor-table(client, tableDefinition)">
+            <th:block th:insert="fragments/navigation :: nav-breadcrumbs-supervisor(${client}, false)" />
+            <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-text(${tableDefinition.title}, true)" />
+        </th:block>
+                   
+            <th:block th:fragment="nav-breadcrumbs-supervisor-view(client)">
+            <span class="text-muted font-weight-light">
+                <i class="page-header-icon fa fa-institution"></i>
+            </span>
+            <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-link(Клијенти, @{/supervisor/clients}, false)"/>
+            <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-separator(false)"/>
+            <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-text(${client.name}, true)"/>
+        </th:block>
+            
+            <th:block th:fragment="nav-breadcrumbs-supervisor-table-custom(client, tableDefinition, customTableDefinition)">
+            <th:block th:insert="fragments/navigation :: nav-breadcrumbs-supervisor(${client}, false)" />
+            <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-link(
+                      ${tableDefinition.title},
+                      @{/supervisor/clients/{clientId}/{pageId}/{tableDefinitionId}(clientId=${client.id},pageId=${page.id},tableDefinitionId=${customTableDefinition.tableDefinition.id})},
+                      false)"
+                      />
+            <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-separator(false)"/>
+            <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-text(${customTableDefinition.title}, true)" />
+        </th:block>
+            <th:block th:fragment="nav-breadcrumbs-supervisor(client, lastIterationSeparate)">
+            <span class="text-muted font-weight-light">
+                <i class="page-header-icon fa fa-institution"></i>
+            </span>
+            <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-link(Клијенти, @{/supervisor/clients}, false)"/>
+            <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-separator(false)"/>
+            <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-link(${client.name}, @{/supervisor/clients/{id}(id=${client.id})}, false)"/>
+            <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-separator(false)"/>
+            <th:block th:insert="fragments/navigation :: nav-breadcrumbs-pages(${'/supervisor/clients/' + client.id}, ${lastIterationSeparate})" />
+        </th:block>
 
         <th:block th:fragment="nav-breadcrumbs-pages(baseMenuUrl, lastIterationSeparate)">
             <th:block th:each="breadCrumbPage, iteration: ${breadCrumbsPages}">
@@ -300,9 +377,9 @@
                               ${isDark})"
                               />
                 </th:block>
-                    
-                    <!-- Ovde dodajemo podrsku za planove-->
-                    <th:block th:case="PLAN">
+
+                <!-- Ovde dodajemo podrsku za planove-->
+                <th:block th:case="PLAN">
                     <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-link(
                               ${page.title},
                               @{{baseMenuUrl}/plan/{pageId}(baseMenuUrl=${baseMenuUrl},pageId=${page.id})},

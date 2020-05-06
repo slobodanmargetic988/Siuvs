@@ -1,72 +1,212 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 
-<head>
-    <title>СИУВС 1.0</title>
-</head>
+    <head>
+        <title>СИУВС 1.0</title>
+    </head>
 
-<body>
+    <body >
 
-<th:block th:fragment="new-user(action, backLink)" class="page-header">
-    <form th:action="${action}" th:object="${newUser}" method="post" class="form-horizontal" autocomplete="off">
-        <th:block th:fragment="new-user">
-            <div class="form-group">
-                <label class="col-md-3 control-label required">Име</label>
-                <div th:class="${#fields.hasErrors('name')} ? 'col-md-9 has-error' : 'col-md-9'">
-                    <input type="text" th:field="*{name}" placeholder="Име" class="form-control">
-                    <small class="form-message" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></small>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-md-3 control-label required">Презиме</label>
-                <div th:class="${#fields.hasErrors('lastName')} ? 'col-md-9 has-error' : 'col-md-9'">
-                    <input type="text" th:field="*{lastName}" placeholder="Презиме" class="form-control">
-                    <small class="form-message" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></small>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-md-3 control-label required">Имејл адреса</label>
-                <div th:class="${#fields.hasErrors('email')} ? 'col-md-9 has-error' : 'col-md-9'">
-                    <input type="text" th:field="*{email}" placeholder="Имејл адреса" class="form-control" autocomplete="new-password">
-                    <small class="form-message" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></small>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-md-3 control-label required">Лозинка</label>
-                <div th:class="${#fields.hasErrors('password')} ? 'col-md-9 has-error' : 'col-md-9'">
-                    <input type="password" th:field="*{password}" placeholder="Лозинка" class="form-control" autocomplete="new-password">
-                    <small class="form-message" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></small>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-md-3 control-label required">Поновљена лозинка</label>
-                <div th:class="${#fields.hasErrors('password')} ? 'col-md-9 has-error' : 'col-md-9'">
-                    <input type="password" name="passwordRepeat" placeholder="Поновљена лозинка" class="form-control" autocomplete="new-password">
-                    <small class="form-message" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></small>
-                </div>
-            </div>
-            <div class="form-group" th:if="${client != null}">
-                <label class="col-md-3 control-label required">Ниво приступа</label>
-                <div th:classappend="${roleErrorMessage} ? 'has-error' : ''" class="col-md-9">
-                    <select name="role" class="form-control">
-                        <option value="UNSELECTED">Одабери</option>
-                        <option value="CLIENT">Унос / измена</option>
-                        <option value="CLIENT_READ_ONLY">Преглед</option>
-                    </select>
-                    <small class="form-message" th:text="${roleErrorMessage}"></small>
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="col-md-offset-3 col-md-9">
-                    <button type="submit" class="btn btn-primary">Додај корисника</button>
-                    <a th:href="${backLink}" class="btn">Одустани</a>
-                </div>
-            </div>
+        <th:block th:fragment="new-userCLI (action, backLink)" class="page-header">
+            <form th:action="${action}" th:object="${newUser}" method="post" class="form-horizontal" autocomplete="off">
+                <th:block th:fragment="new-user">
+                    <div class="form-group">
+                        <label class="col-md-3 control-label required">Име</label>
+                        <div th:class="${#fields.hasErrors('name')} ? 'col-md-9 has-error' : 'col-md-9'">
+                            <input type="text" th:field="*{name}" placeholder="Име" class="form-control">
+                                <small class="form-message" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></small>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-3 control-label required">Презиме</label>
+                        <div th:class="${#fields.hasErrors('lastName')} ? 'col-md-9 has-error' : 'col-md-9'">
+                            <input type="text" th:field="*{lastName}" placeholder="Презиме" class="form-control">
+                                <small class="form-message" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></small>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-3 control-label required">Имејл адреса</label>
+                        <div th:class="${#fields.hasErrors('email')} ? 'col-md-9 has-error' : 'col-md-9'">
+                            <input type="text" th:field="*{email}" placeholder="Имејл адреса" class="form-control" autocomplete="new-password">
+                                <small class="form-message" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></small>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-3 control-label required">Лозинка</label>
+                        <div th:class="${#fields.hasErrors('password')} ? 'col-md-9 has-error' : 'col-md-9'">
+                            <input type="password" th:field="*{password}" placeholder="Лозинка" class="form-control" autocomplete="new-password">
+                                <small class="form-message" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></small>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-3 control-label required">Поновљена лозинка</label>
+                        <div th:class="${#fields.hasErrors('password')} ? 'col-md-9 has-error' : 'col-md-9'">
+                            <input type="password" name="passwordRepeat" placeholder="Поновљена лозинка" class="form-control" autocomplete="new-password">
+                                <small class="form-message" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></small>
+                        </div>
+                    </div>
+
+                    <div class="form-group" th:if="${client != null}">
+                        <label class="col-md-3 control-label required">Ниво приступа</label>
+                        <div th:classappend="${roleErrorMessage} ? 'has-error' : ''" class="col-md-9">
+                            <select name="role" class="form-control">
+                                <option value="UNSELECTED">Одабери</option>
+                                <option value="CLIENT">Унос / измена</option>
+                                <option value="CLIENT_READ_ONLY">Преглед</option>
+                            </select>
+                            <small class="form-message" th:text="${roleErrorMessage}"></small>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <div class="col-md-offset-3 col-md-9">
+                            <button type="submit" class="btn btn-primary">Додај корисника</button>
+                            <a th:href="${backLink}" class="btn">Одустани</a>
+                        </div>
+                    </div>
+                </th:block>
+            </form>
         </th:block>
-    </form>
-</th:block>
 
-</body>
+        <th:block th:fragment="new-userRIS(action, backLink)" class="page-header">
+            <form th:action="${action}" th:object="${newUser}" method="post" class="form-horizontal" autocomplete="off">
+                <th:block th:fragment="new-user">
+                    <div class="form-group">
+                        <label class="col-md-3 control-label required">Име</label>
+                        <div th:class="${#fields.hasErrors('name')} ? 'col-md-9 has-error' : 'col-md-9'">
+                            <input type="text" th:field="*{name}" placeholder="Име" class="form-control">
+                                <small class="form-message" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></small>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-3 control-label required">Презиме</label>
+                        <div th:class="${#fields.hasErrors('lastName')} ? 'col-md-9 has-error' : 'col-md-9'">
+                            <input type="text" th:field="*{lastName}" placeholder="Презиме" class="form-control">
+                                <small class="form-message" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></small>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-3 control-label required">Имејл адреса</label>
+                        <div th:class="${#fields.hasErrors('email')} ? 'col-md-9 has-error' : 'col-md-9'">
+                            <input type="text" th:field="*{email}" placeholder="Имејл адреса" class="form-control" autocomplete="new-password">
+                                <small class="form-message" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></small>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-3 control-label required">Лозинка</label>
+                        <div th:class="${#fields.hasErrors('password')} ? 'col-md-9 has-error' : 'col-md-9'">
+                            <input type="password" th:field="*{password}" placeholder="Лозинка" class="form-control" autocomplete="new-password">
+                                <small class="form-message" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></small>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-3 control-label required">Поновљена лозинка</label>
+                        <div th:class="${#fields.hasErrors('password')} ? 'col-md-9 has-error' : 'col-md-9'">
+                            <input type="password" name="passwordRepeat" placeholder="Поновљена лозинка" class="form-control" autocomplete="new-password">
+                                <small class="form-message" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></small>
+                        </div>
+                    </div>
+
+
+
+                    <div class="form-group">
+                        <div class="col-md-offset-3 col-md-9">
+                            <button type="submit" class="btn btn-primary">Додај корисника</button>
+                            <a th:href="${backLink}" class="btn">Одустани</a>
+                        </div>
+                    </div>
+                </th:block>
+            </form>
+        </th:block>
+
+        <th:block th:fragment="new-userMUP(action, backLink)" class="page-header">
+            <form th:action="${action}" th:object="${newUser}" method="post" class="form-horizontal" autocomplete="off">
+                <th:block th:fragment="new-user">
+                    <div class="form-group">
+                        <label class="col-md-3 control-label required">Име</label>
+                        <div th:class="${#fields.hasErrors('name')} ? 'col-md-9 has-error' : 'col-md-9'">
+                            <input type="text" th:field="*{name}" placeholder="Име" class="form-control">
+                                <small class="form-message" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></small>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-3 control-label required">Презиме</label>
+                        <div th:class="${#fields.hasErrors('lastName')} ? 'col-md-9 has-error' : 'col-md-9'">
+                            <input type="text" th:field="*{lastName}" placeholder="Презиме" class="form-control">
+                                <small class="form-message" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></small>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-3 control-label required">Имејл адреса</label>
+                        <div th:class="${#fields.hasErrors('email')} ? 'col-md-9 has-error' : 'col-md-9'">
+                            <input type="text" th:field="*{email}" placeholder="Имејл адреса" class="form-control" autocomplete="new-password">
+                                <small class="form-message" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></small>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-3 control-label required">Лозинка</label>
+                        <div th:class="${#fields.hasErrors('password')} ? 'col-md-9 has-error' : 'col-md-9'">
+                            <input type="password" th:field="*{password}" placeholder="Лозинка" class="form-control" autocomplete="new-password">
+                                <small class="form-message" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></small>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-3 control-label required">Поновљена лозинка</label>
+                        <div th:class="${#fields.hasErrors('password')} ? 'col-md-9 has-error' : 'col-md-9'">
+                            <input type="password" name="passwordRepeat" placeholder="Поновљена лозинка" class="form-control" autocomplete="new-password">
+                                <small class="form-message" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></small>
+                        </div>
+                    </div>
+
+                    <div class="form-group" th:if="${client == null}">
+                        <label class="col-md-3 control-label required">Ниво приступа</label>
+                        <div th:classappend="${roleErrorMessage} ? 'has-error' : ''" class="col-md-9">
+                            <select name="role" class="form-control" id="selectrole" onchange="resetElement(this.value)">
+                                <option value="UNSELECTED">Одабери</option>
+                                <option value="MUP">Mup</option>                     
+                                <option value="DISTRIKT">Окружни супервизор</option>
+                                <option value="PROVINCE">Регионални супервизор</option>
+                            </select>
+                            <small class="form-message" th:text="${roleErrorMessage}"></small>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group" th:if="${client == null}" id="selectprovincecontainer" >
+                        <label class="col-md-3 control-label required">Супервизује</label>
+                        <div th:classappend="${roleErrorMessage} ? 'has-error' : ''" class="col-md-9">
+                            <select name="supervisingprovince" class="form-control">
+                                <option value="0">Одабери регион</option>
+
+                                <option th:each="provincija : ${provincije}" th:value="${provincija.id}" th:text="${provincija.name}"></option>
+                            </select>
+                            <small class="form-message" th:text="${roleErrorMessage}"></small>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group" th:if="${client == null}" id="selectdistriktcontainer" o>
+                        <label class="col-md-3 control-label required">Супервизује</label>
+                        <div th:classappend="${roleErrorMessage} ? 'has-error' : ''" class="col-md-9">
+                            <select name="supervisingdistrikt" class="form-control">
+                               <option value="0">Одабери округ</option>
+
+                                <option th:each="distrikt : ${distrikti}" th:value="${distrikt.id}" th:text="${distrikt.name}"></option>
+                            </select>
+                            <small class="form-message" th:text="${roleErrorMessage}"></small>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-offset-3 col-md-9">
+                            <button type="submit" class="btn btn-primary">Додај корисника</button>
+                            <a th:href="${backLink}" class="btn">Одустани</a>
+                        </div>
+                    </div>
+                </th:block>
+            </form>
+        </th:block>
+
+    </body>
 </html>
 
 

@@ -27,10 +27,48 @@
     </div>
 
     <div th:replace="fragments/alert :: success (${successMessage})"></div>
-
+<!-- Users list -->
     <div class="panel">
         <div class="panel-heading">
             <span class="panel-title">Списак корисника</span>
+       
+            <div class="panel-heading-controls">
+                <ul class="pagination pagination-xs">
+                    <li th:class="${users.isFirst()} ? 'disabled' : ''">
+                        <a th:if="${users.isFirst()}" href="#">«</a>
+                        <a th:if="${users.getNumber() == 1}" th:href="@{/admin/users}">«</a>
+                        <a th:if="${users.getNumber() > 1}" th:href="@{/admin/users(page=${users.getNumber()-1})}">«</a>
+                    </li>
+                    <th:block th:with="startPage = ${users.getNumber() - 2}">
+                        <th:block th:with="startPage = ${startPage < 0} ? 0 : ${startPage}">
+                            <th:block th:with="endPage = ${startPage} + 4">
+                                <th:block th:with="lastPage = (${users.getTotalPages() - 1})">
+                                    <th:block th:with="endPage = ${endPage > lastPage} ? ${lastPage} : ${endPage}">
+                                        <th:block th:with="startPage = ${startPage > 0 and endPage == lastPage} ? ${endPage - 3} : ${startPage}">
+                                            <th:block th:with="startPage = ${startPage > 0 and endPage == lastPage} ? ${startPage - 1} : ${startPage}">
+                                                <th:block th:each="pageNo : ${#numbers.sequence(startPage, endPage)}">
+                                                    <li th:if="${pageNo == users.getNumber()}" class="active">
+                                                        <a th:text="${pageNo + 1}" href="#"></a>
+                                                    </li>
+                                                    <li th:if="${pageNo != users.getNumber()}">
+                                                        <a th:if="${pageNo > 0}" th:text="${pageNo + 1}" th:href="@{/admin/users(page=${pageNo})}"></a>
+                                                        <a th:if="${pageNo == 0}" th:text="${pageNo + 1}" th:href="@{/admin/users}"></a>
+                                                    </li>
+                                                </th:block>
+                                            </th:block>
+                                        </th:block>
+                                    </th:block>
+                                </th:block>
+                            </th:block>
+                        </th:block>
+                    </th:block>
+                    <li th:class="${users.isLast()} ? 'disabled' : ''">
+                        <a th:if="${users.isLast()}" href="#">»</a>
+                        <a th:if="${not users.isLast()}" th:href="@{/admin/users(page=${users.getNumber()+1})}">»</a>
+                    </li>
+                </ul>
+            </div>
+            
         </div>
         <div class="panel-body">
 

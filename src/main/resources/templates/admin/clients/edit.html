@@ -25,18 +25,37 @@
         </div>
         <div class="panel-body">
 
-            <form th:action="@{/admin/clients/{id}/edit(id=${editClient.id})}" th:object="${editClient}" method="post" class="form-horizontal" autocomplete="off">
+            <form th:action="@{/admin/clients/{id}/edit(id=${editClient.id})}"  method="post" class="form-horizontal" autocomplete="off">
                 <div class="form-group">
-                    <label class="col-md-3 control-label required">Назив</label>
-                    <div th:class="${#fields.hasErrors('name')} ? 'col-md-9 has-error' : 'col-md-9'">
-                        <input type="text" th:field="*{name}" placeholder="Назив" class="form-control">
-                        <small class="form-message" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></small>
-                    </div>
+                    <label class="col-md-3 control-label required">Назив јединице локалне самоуправе:</label>
+                    
+                        <input class="col-md-9 " type="text" th:value="${editClient.name}" name="name" >
+                            <br><br/>
+                   
+                     <label class="col-md-3 control-label required">Локална самоуправа:</label>
+                  
+                         <select class="col-md-9 " th:value="${editClient.opstina}" name="opstinaId"    >
+                                    <option  th:each="eopstina : ${opstine}" th:selected="${eopstina.id==editClient.opstina.id}" th:value="${eopstina.id}" th:text="${eopstina.name}">Текст</option>
+
+                                </select>
+                     <br><br/>
+                   <label class="col-md-3 control-label required">Аутономна покрајина:</label>
+                  
+                         <select class="col-md-9 " th:value="${editClient.opstina.provincija}" name="provincijaId"    >
+                                    <option  th:each="eprovincija : ${provincije}" th:selected="${eprovincija.id==editClient.opstina.provincija.id}" th:value="${eprovincija.id}" th:text="${eprovincija.name}">Текст</option>
+
+                                </select>
+                   <br><br/>
+                   <label class="col-md-3 control-label required">Управни округ: </label>
+                   <select class="col-md-9 " th:value="${editClient.opstina.distrikt}" name="distriktId"    >
+                                    <option  th:each="edistrikt : ${districts}" th:selected="${edistrikt.id==editClient.opstina.distrikt.id}"th:value="${edistrikt.id}" th:text="${edistrikt.name}">Текст</option>
+
+                                </select>
+                    <br><br/>
                     <label class="col-md-3 control-label required">Активан</label>
-                    <div th:class="${#fields.hasErrors('active')} ? 'col-md-9 has-error' : 'col-md-9'">
-                        <input type="checkbox" th:field="*{active}" class="form-control">
-                        <small class="form-message" th:if="${#fields.hasErrors('active')}" th:errors="*{active}"></small>
-                    </div>
+                   
+                        <input class="col-md-9 form-control" type="checkbox"  name="aktivan" th:checked="${editClient.isActive()}">
+                        
                 </div>
                 <div class="form-group">
                     <div class="col-md-offset-3 col-md-9">

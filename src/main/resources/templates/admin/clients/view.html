@@ -26,11 +26,51 @@
                 <span class="panel-title">Подаци о клијенту</span>
             </div>
             <div class="panel-body">
-
-                <th:block th:text="${client.name}"></th:block>
-                <br/>
+                <div class="panel" >
+                <label   >Назив јединице локалне самоуправе: <span th:text="${client.name}"></span> </label>
+                <br><br/>
+                
+                <label >Локална самоуправа: <span th:text="${client.opstina.name}"></span> </label>
+                <br><br/>
+               
+                <label   >Аутономна покрајина: <span  th:text="${client.opstina.provincija.name}"></span> </label>
+                <br><br/>
+                   
+                <label   >Управни округ: <span th:text="${client.opstina.distrikt.name}"></span> </label>
+                <br><br/>
+                   
+                <label   >Надлежности и делокруг: </label> 
+                    
+                    <th:block th:each="tasks : ${client.opstina.tasks}">
+                  <br><br/>  <span th:text="${tasks.name}"></span> 
+                  
+               </th:block>
+                   
+                    <br><br/>
+                       
+                <label  >Листа међународних докумената: </label>
+                 <th:block th:each="internationalAgreements : ${client.opstina.internationalAgreements}">
+                   <br><br/>
+                     <span  th:text="${internationalAgreements.name}"></span> 
+               
+               </th:block>
+                
+                <br><br/>
+                   
+                <label   >Листа јавних докумената: </label>
+                     <th:block th:each="publicPolicyDocuments : ${client.opstina.publicPolicyDocuments}">
+                   <br><br/> <span  th:text="${publicPolicyDocuments.name}"></span> 
+                
+               </th:block>
+                
+                <br><br/>
+                    </div>
+                <div class="panel" ></div>
+                <label   >Графичка репрезентација: Тек треба додати!! </label>
+                <br><br/>    
+                    
                 <a th:href="@{/admin/clients/{id}/edit(id=${client.id})}" class="btn btn-primary">Измени</a>
-
+</div>
             </div>
         </div>
 

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <th:block th:include="fragments/head :: head" />
+</head>
+<body>
+
+<th:block th:insert="fragments/navigation :: nav-admin-root" />
+
+<!-- Content -->
+<div class="px-content">
+
+    <div class="page-header">
+        <div class="box m-y-0 bg-transparent">
+            <h1 class="box-cell">
+                <span class="text-muted font-weight-light">
+                    <i class="page-header-icon fa fa-users"></i>
+                    <a th:href="@{/admin/supervisors}">Супервизори</a> /
+                </span>
+                <span th:text="${user.name + ' ' + user.lastName}"></span>
+            </h1>
+
+            <!-- Spacer -->
+            <hr class="visible-xs visible-sm">
+        </div>
+    </div>
+
+    <div th:replace="fragments/alert :: error (${errorMessage})"></div>
+
+    <div class="panel">
+        <div class="panel-heading">
+            <span class="panel-title">Подаци о кориснику</span>
+        </div>
+        <div class="panel-body">
+            <table class="table table-sm">
+                <tbody>
+                    <tr>
+                        <th scope="row" class="col-sm-2">Име</th>
+                        <td class="col-sm-10" th:text="${user.name}"></td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Презиме</th>
+                        <td th:text="${user.lastName}"></td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Имејл адреса</th>
+                        <td th:text="${user.email}"></td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Рола</th>
+                        <td th:text="${user.humanReadableRole}"></td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Активан</th>
+                        <td th:text="${user.active ? 'Да' : 'Не'}"></td>
+                    </tr>
+                    <tr th:if="${canEdit}">
+                        <th colspan="2">
+                            <a th:href="@{/admin/supervisors/{userId}/edit(userId=${user.id})}" class="btn btn-primary">Измени</a>
+                        </th>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="panel">
+        <div class="panel-heading">
+            <span class="panel-title">Историја логовања на систем</span>
+        </div>
+        <div class="panel-body">
+            <th:block th:if="!${#lists.isEmpty(loginHistory)}">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th class="col-sm-2">Датум</th>
+                            <th>ИП Адреса</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="loginLog: ${loginHistory}">
+                            <td th:text="${#temporals.format(loginLog.createdOn, 'dd.MM.yyyy HH:mm:ss')}"></td>
+                            <td th:text="${loginLog.ip}"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </th:block>
+            <th:block th:if="${#lists.isEmpty(loginHistory)}">
+                <p>Нема информација о логовањима на систем</p>
+            </th:block>
+        </div>
+    </div>
+
+</div>
+
+<th:block th:insert="fragments/footer :: footer-standard" />
+
+<th:block th:insert="fragments/scripts :: standard" />
+</body>
+</html>

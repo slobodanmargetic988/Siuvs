@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <th:block th:include="fragments/head :: head" />
+</head>
+<body>
+
+    <th:block th:insert="fragments/navigation :: navigation-supervisor" />
+
+<!-- Content -->
+<div class="px-content">
+
+    <div class="page-header">
+        <div class="box m-y-0 bg-transparent">
+            <h1 class="box-cell col-md-7 col-lg-8 col-xl-9"><i class="page-header-icon fa fa-institution"></i>Клијенти</h1>
+
+            <!-- Spacer -->
+            <hr class="visible-xs visible-sm">
+
+      
+        </div>
+    </div>
+
+    <div th:replace="fragments/alert :: success (${successMessage})"></div>
+
+    <!-- Clients list -->
+    <div class="panel">
+        <div class="panel-heading">
+            <span class="panel-title">Списак клијената</span>
+            <div class="panel-heading-controls">
+                <ul class="pagination pagination-xs">
+                    <li th:class="${clients.isFirst()} ? 'disabled' : ''">
+                        <a th:if="${clients.isFirst()}" href="#">«</a>
+                        <a th:if="${clients.getNumber() == 1}" th:href="@{/supervisor/clients}">«</a>
+                        <a th:if="${clients.getNumber() > 1}" th:href="@{/supervisor/clients(page=${clients.getNumber()-1})}">«</a>
+                    </li>
+                    <th:block th:with="startPage = ${clients.getNumber() - 2}">
+                        <th:block th:with="startPage = ${startPage < 0} ? 0 : ${startPage}">
+                            <th:block th:with="endPage = ${startPage} + 4">
+                                <th:block th:with="lastPage = (${clients.getTotalPages() - 1})">
+                                    <th:block th:with="endPage = ${endPage > lastPage} ? ${lastPage} : ${endPage}">
+                                        <th:block th:with="startPage = ${startPage > 0 and endPage == lastPage} ? ${endPage - 3} : ${startPage}">
+                                            <th:block th:with="startPage = ${startPage > 0 and endPage == lastPage} ? ${startPage - 1} : ${startPage}">
+                                                <th:block th:each="pageNo : ${#numbers.sequence(startPage, endPage)}">
+                                                    <li th:if="${pageNo == clients.getNumber()}" class="active">
+                                                        <a th:text="${pageNo + 1}" href="#"></a>
+                                                    </li>
+                                                    <li th:if="${pageNo != clients.getNumber()}">
+                                                        <a th:if="${pageNo > 0}" th:text="${pageNo + 1}" th:href="@{/supervisor/clients(page=${pageNo})}"></a>
+                                                        <a th:if="${pageNo == 0}" th:text="${pageNo + 1}" th:href="@{/supervisor/clients}"></a>
+                                                    </li>
+                                                </th:block>
+                                            </th:block>
+                                        </th:block>
+                                    </th:block>
+                                </th:block>
+                            </th:block>
+                        </th:block>
+                    </th:block>
+                    <li th:class="${clients.isLast()} ? 'disabled' : ''">
+                        <a th:if="${clients.isLast()}" href="#">»</a>
+                        <a th:if="${not clients.isLast()}" th:href="@{/supervisor/clients(page=${clients.getNumber()+1})}">»</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="panel-body">
+
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Назив клијента</th>
+                        <th>Активан</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="client: ${clients}" th:attr="data-href=@{/supervisor/clients/{id}(id=${client.id})}">
+                        <th scope="row" th:text="${client.id}"></th>
+                        <td th:text="${client.name}"></td>
+                        <td th:text="${client.isActive()} ? 'ДА' : 'НЕ'"></td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+
+</div>
+
+<th:block th:insert="fragments/footer :: footer-standard" />
+
+<th:block th:insert="fragments/scripts :: standard" />
+</body>
+</html>

@@ -61,6 +61,9 @@
                     <li class="px-nav-item" sec:authorize="hasAnyAuthority('ADMIN','RIS')">
                         <a th:href="@{/admin/supervisors}"><i class="fa fa-users m-r-1"></i>Супервизори</a>
                     </li>
+                    <li class="px-nav-item" sec:authorize="hasAnyAuthority('ADMIN','RIS')">
+                        <a th:href="@{/admin/opstine}"><i class="fa fa-users m-r-1"></i>Локалне самоуправе</a>
+                    </li>
                 </ul>
             </nav>
         </th:block>
@@ -218,6 +221,9 @@
                     </li>
                     <li class="px-nav-item" sec:authorize="hasAnyAuthority('ADMIN','RIS')">
                         <a th:href="@{/admin/supervisors}"><i class="fa fa-users m-r-1"></i>Супервизори</a>
+                    </li>
+                    <li class="px-nav-item" sec:authorize="hasAnyAuthority('ADMIN','RIS')">
+                        <a th:href="@{/admin/opstine}"><i class="fa fa-users m-r-1"></i>Локалне самоуправе</a>
                     </li>
                 </ul>
             </nav>

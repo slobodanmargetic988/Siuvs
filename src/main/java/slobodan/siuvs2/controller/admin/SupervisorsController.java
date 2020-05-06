@@ -176,6 +176,7 @@ public class SupervisorsController {
             Supervising supervising;
             if (Roles.DISTRIKT.toString().equals(roleName)) {
                 DistriktID distriktID= new DistriktID(distrikt);
+                
                 supervising = supervisingService.findFirstByDistrikt(distriktService.findOne(distriktID));//.findFirstById(distrikt));
                 userService.setSupervising(user, supervising);
                 userService.addRole(user, Roles.DISTRIKT);
@@ -267,7 +268,7 @@ public class SupervisorsController {
             redirectAttributes.addFlashAttribute("newUser", user);
             return "redirect:/admin/supervisors/{userId}/edit";
         } else {
-        
+         try {
          Supervising supervising=new Supervising();
         if (Roles.MUP.toString().equals(roleName)) {
             //user.setSupervising(null);
@@ -296,6 +297,11 @@ userService.setSupervising(user, null);
         }
         // userService.addRole(editUser, Roles.RIS);
         userService.updateUser(userId, editUser);
+           redirectAttributes.addFlashAttribute("successMessage", "Корисник успешно измењен!");
+           } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+            return "redirect:/admin/supervisors/" + userId + "/edit";
+        } 
         return "redirect:/admin/supervisors/" + userId;
     }
         }

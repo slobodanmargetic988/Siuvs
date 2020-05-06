@@ -151,7 +151,13 @@ public class ClientsController {
             redirectAttributes.addFlashAttribute("NameErrorMessage", "Морате унети име клијента");
             redirectAttributes.addFlashAttribute("errorMessage", "Грешка приликом креирања клијента!");
             return "redirect:/admin/clients/{clientId}/edit";
-        }
+        }else {
+                 if (clientService.isNameUsed(clientId,name)) {
+                redirectAttributes.addFlashAttribute("errorMessage", "Клијент са истим називом већ постоји!");
+                return "redirect:/admin/clients/{clientId}/edit";
+            }
+            }
+            
         Client client = clientService.findOne(clientId);
         client.setName(name);
         if (aktivan == true) {
@@ -165,6 +171,7 @@ public class ClientsController {
             redirectAttributes.addFlashAttribute("successMessage", "Клијент успешно измењен!");
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+            return "redirect:/admin/clients/{clientId}/edit";
         }
         return "redirect:/admin/clients/" + clientId;
     }

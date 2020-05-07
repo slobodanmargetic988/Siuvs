@@ -109,8 +109,9 @@
                         <li><a th:href="@{/admin/clients/{id}/users(id=${client.id})}"><i class="px-nav-icon fa fa-users"></i><span class="px-nav-label">Корисници</span></a></li>
                         <!-- <li><a href="#"><i class="px-nav-icon fa fa-euro"></i><span class="px-nav-label">Уплате</span></a></li> -->
                     </ul>
-                    <ul class="nav navbar-nav" th:if="${type == 'end-user-overview'}" sec:authorize="hasAnyAuthority('CLIENT')">
-                        <li><a th:href="@{/client/users}"><i class="px-nav-icon fa fa-users"></i><span class="px-nav-label">Корисници</span></a></li>
+                    <ul class="nav navbar-nav" th:if="${type == 'end-user-overview'}" sec:authorize="hasAnyAuthority('CLIENT','CLIENT_READ_ONLY')">
+                        <li sec:authorize="hasAnyAuthority('CLIENT')" ><a th:href="@{/client/users}"><i class="px-nav-icon fa fa-users"></i><span class="px-nav-label">Корисници</span></a></li>
+                    <li ><a th:href="@{/client/overview}"><i class="px-nav-icon fa fa-institution"></i><span class="px-nav-label">Преглед</span></a></li>
                     </ul>
                     <!-- Search start -->
                     <div>

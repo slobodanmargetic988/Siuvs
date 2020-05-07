@@ -7,14 +7,14 @@
     <body>
 
         <!-- Nav -->
-        <th:block th:insert="fragments/navigation :: navigation-client"></th:block>
+       <th:block th:insert="fragments/navigation :: navigation-end-user"></th:block>
 
         <!-- Content -->
         <div class="px-content">
 
             <div class="page-header">
                 <h1>
-                    <th:block th:insert="fragments/navigation :: nav-breadcrumbs-admin-client-view(${client})" />
+                   <th:block th:insert="fragments/navigation :: nav-breadcrumbs-client(${client}, true)" />
                 </h1>
             </div>
 
@@ -67,14 +67,14 @@
 
                                                     <br><br/>
                        </th:block>
-                    </div>
+                            </div>
                     </div>
                     <!-- 
                     <div class="panel" ></div>
                     <label   >Графичка репрезентација: Тек треба додати!! </label>
                     <br><br/>    
  <!-- -->
-                        <a th:href="@{/admin/clients/{id}/edit(id=${client.id})}" sec:authorize="hasAnyAuthority('ADMIN','RIS')" class="btn btn-primary">Измени</a>
+                    
                 </div>
             </div>
         </div>

@@ -64,26 +64,27 @@ public class OpstineController {
             final Model model,
             final RedirectAttributes redirectAttributes,
             @RequestParam(name = "name", defaultValue = "opstina") String name,
-             @RequestParam(name = "supervisingprovince", defaultValue = "0") String provincija,
-            @RequestParam(name = "supervisingdistrikt", defaultValue = "0") String distrikt,
+             @RequestParam(name = "supervisingprovince", defaultValue = "0") ProvincijaID provincijaID,
+            @RequestParam(name = "supervisingdistrikt", defaultValue = "0") DistriktID distriktID,
             @PathVariable final OpstinaID opstinaId
     ) {
                       if (name.isEmpty() || name.equals("") || name.equals(" ")) {
-                          redirectAttributes.addFlashAttribute("roleErrorMessage", "Морате унети валидан назив");
+                          redirectAttributes.addFlashAttribute("NameErrorMessage", "Морате унети валидан назив");
                           redirectAttributes.addFlashAttribute("errorMessage", "Грешка приликом измене!");
                           return "redirect:/admin/opstine/" + opstinaId + "/edit";
                       } else {
-                          if (provincija.equals(0)) {
-                              redirectAttributes.addFlashAttribute("roleErrorMessage", "Морате одабрати аутономну покрајину");
+                          if (provincijaID.getValue()==0) {
+                              redirectAttributes.addFlashAttribute("provinceErrorMessage", "Морате одабрати аутономну покрајину");
                               redirectAttributes.addFlashAttribute("errorMessage", "Грешка приликом измене!");
                                return "redirect:/admin/opstine/" + opstinaId + "/edit";
                           } else {
-                              if (distrikt.equals(0)) {
-                                  redirectAttributes.addFlashAttribute("roleErrorMessage", "Морате одабрати управни округ");
+                              if (distriktID.getValue()==0) {
+                                  redirectAttributes.addFlashAttribute("distriktErrorMessage", "Морате одабрати управни округ");
                                   redirectAttributes.addFlashAttribute("errorMessage", "Грешка приликом измене!");
                                    return "redirect:/admin/opstine/" + opstinaId + "/edit";
                               }else {
                  if (opstinaService.isNameUsed(opstinaId,name)) {
+                     redirectAttributes.addFlashAttribute("NameErrorMessage", "Морате унети валидан назив");
                 redirectAttributes.addFlashAttribute("errorMessage", "Јединица локалне самоуправе са истим називом већ постоји!");
                return "redirect:/admin/opstine/" + opstinaId + "/edit";
             }
@@ -94,8 +95,8 @@ public class OpstineController {
                         try {
                       Opstina opstina=opstinaService.findOne(opstinaId);
                       opstina.setName(name);
-                       DistriktID distriktID= new DistriktID(distrikt);
-                ProvincijaID provincijaID= new ProvincijaID(provincija);
+                     //  DistriktID distriktID= new DistriktID(distrikt);
+               // ProvincijaID provincijaID= new ProvincijaID(provincija);
                       opstina.setDistrikt(distriktService.findOne(distriktID));
                       opstina.setProvincija(provincijaService.findOne(provincijaID));
                      opstinaService.save(opstina);
@@ -110,5 +111,56 @@ public class OpstineController {
        return "redirect:/admin/opstine/" + opstinaId;
        
 }
-    
+                @GetMapping(value = "/opstine/new")
+    public String editOpstina(final Model model) {
+        model.addAttribute("provincije", provincijaService.findAllOrderByNameAsc());
+        model.addAttribute("distrikti", distriktService.findAllOrderByNameAsc());
+        return "admin/opstine/new";
+}
+    @PostMapping(value = "/opstine/new")
+    public String addOpstina(final Model model,
+            final RedirectAttributes redirectAttributes,
+            @RequestParam(name = "name", defaultValue = "opstina") String name,
+               @RequestParam(name = "supervisingprovince", defaultValue = "0") ProvincijaID provincijaID,
+            @RequestParam(name = "supervisingdistrikt", defaultValue = "0") DistriktID distriktID
+            ) {
+          if (name.isEmpty() || name.equals("") || name.equals(" ")) {
+                          redirectAttributes.addFlashAttribute("NameErrorMessage", "Морате унети валидан назив");
+                          redirectAttributes.addFlashAttribute("errorMessage", "Грешка приликом измене!");
+                          return "redirect:/admin/opstine/new";
+                      } else {
+                          if (provincijaID.getValue()==0) {
+                              redirectAttributes.addFlashAttribute("provinceErrorMessage", "Морате одабрати аутономну покрајину");
+                              redirectAttributes.addFlashAttribute("errorMessage", "Грешка приликом измене!");
+                               return "redirect:/admin/opstine/new";
+                          } else {
+                              if (distriktID.getValue()==0) {
+                                  redirectAttributes.addFlashAttribute("distriktErrorMessage", "Морате одабрати управни округ");
+                                  redirectAttributes.addFlashAttribute("errorMessage", "Грешка приликом измене!");
+                                  return "redirect:/admin/opstine/new";
+                              }else {
+                 if (opstinaService.isNameUsed(name)) {
+                 redirectAttributes.addFlashAttribute("NameErrorMessage", "Морате унети валидан назив");    
+                redirectAttributes.addFlashAttribute("errorMessage", "Јединица локалне самоуправе са истим називом већ постоји!");
+             return "redirect:/admin/opstine/new";
+            }
+            }
+                          }
+                      }
+          
+                  try {
+                      Opstina opstina=new Opstina();
+                      opstina.setName(name);
+                       //DistriktID distriktID= new DistriktID(distrikt);
+              //  ProvincijaID provincijaID= new ProvincijaID(provincija);
+                      opstina.setDistrikt(distriktService.findOne(distriktID));
+                      opstina.setProvincija(provincijaService.findOne(provincijaID));
+                     opstinaService.save(opstina);
+            redirectAttributes.addFlashAttribute("successMessage", "Локална самоуправа успешно додата!");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+            return "redirect:/admin/opstine/new";
+        }
+        return "redirect:/admin/opstine";
+    }
 }

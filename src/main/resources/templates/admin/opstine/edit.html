@@ -45,7 +45,7 @@
                 
                    <div class="form-group" id="selectdistriktcontainer" o>
                         <label class="col-md-3 control-label required">Припада управном округу</label>
-                        <div th:classappend="${distriktErrorMessage} ? 'has-error' : ''" class="col-md-9">
+                        <div th:classappend="${distriktErrorMessage} ? 'has-error' : ''" class="col-md-3">
                             <select name="supervisingdistrikt" class="form-control">
                                <option value="0">Одабери округ</option>
                                 <option th:each="distrikt : ${distrikti}" th:selected="${opstina.getDistrikt().getName() == distrikt.name}" th:value="${distrikt.id}" th:text="${distrikt.name}"></option>
@@ -56,7 +56,7 @@
                 
                 <div class="form-group"  id="selectprovincecontainer" >
                         <label class="col-md-3 control-label required">Припада аутономној покрајини</label>
-                        <div th:classappend="${provinceErrorMessage} ? 'has-error' : ''" class="col-md-9">
+                        <div th:classappend="${provinceErrorMessage} ? 'has-error' : ''" class="col-md-3">
                             <select name="supervisingprovince" class="form-control">
                                 <option value="0">Одабери аутономну покрајину</option>
                                 <option th:each="provincija : ${provincije}" th:selected="${opstina.getProvincija().getName() == provincija.name}" th:value="${provincija.id}" th:text="${provincija.name}"></option>

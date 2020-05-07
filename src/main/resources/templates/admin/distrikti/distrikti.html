@@ -13,14 +13,14 @@
 
     <div class="page-header">
         <div class="box m-y-0 bg-transparent">
-            <h1 class="box-cell col-md-7 col-lg-8 col-xl-9"><i class="page-header-icon fa fa-institution"></i>Локалне самоуправе</h1>
+            <h1 class="box-cell col-md-7 col-lg-8 col-xl-9"><i class="page-header-icon fa fa-institution"></i>Управни окрузи</h1>
 
             <!-- Spacer -->
             <hr class="visible-xs visible-sm">
 
             <div class="box-cell col-md-5 col-lg-4 col-xl-3" sec:authorize="hasAnyAuthority('ADMIN','RIS')">
-                <form th:action="@{/admin/opstine/new}" method="get" class="form-horizontal" autocomplete="off">
-                    <button type="submit" class="btn btn-primary pull-right">Нова локална самоуправа</button>
+                <form th:action="@{/admin/distrikt/new}" method="get" class="form-horizontal" autocomplete="off">
+                    <button type="submit" class="btn btn-primary pull-right">Нови управни округ</button>
                 </form>
             </div>
 
@@ -32,28 +32,28 @@
     <!-- Clients list  -->
     <div class="panel">
         <div class="panel-heading">
-            <span class="panel-title">Списак локалних самоуправа</span>
+            <span class="panel-title">Списак управних округа</span>
             <div class="panel-heading-controls">
                 <ul class="pagination pagination-xs">
-                    <li th:class="${opstine.isFirst()} ? 'disabled' : ''">
-                        <a th:if="${opstine.isFirst()}" href="#">«</a>
-                        <a th:if="${opstine.getNumber() == 1}" th:href="@{/admin/opstine}">«</a>
-                        <a th:if="${opstine.getNumber() > 1}" th:href="@{/admin/opstine(page=${opstine.getNumber()-1})}">«</a>
+                    <li th:class="${distrikti.isFirst()} ? 'disabled' : ''">
+                        <a th:if="${distrikti.isFirst()}" href="#">«</a>
+                        <a th:if="${distrikti.getNumber() == 1}" th:href="@{/admin/distrikt}">«</a>
+                        <a th:if="${distrikti.getNumber() > 1}" th:href="@{/admin/distrikt(page=${distrikti.getNumber()-1})}">«</a>
                     </li>
-                    <th:block th:with="startPage = ${opstine.getNumber() - 2}">
+                    <th:block th:with="startPage = ${distrikti.getNumber() - 2}">
                         <th:block th:with="startPage = ${startPage < 0} ? 0 : ${startPage}">
                             <th:block th:with="endPage = ${startPage} + 4">
-                                <th:block th:with="lastPage = (${opstine.getTotalPages() - 1})">
+                                <th:block th:with="lastPage = (${distrikti.getTotalPages() - 1})">
                                     <th:block th:with="endPage = ${endPage > lastPage} ? ${lastPage} : ${endPage}">
                                         <th:block th:with="startPage = ${startPage > 0 and endPage == lastPage} ? ${endPage - 3} : ${startPage}">
                                             <th:block th:with="startPage = ${startPage > 0 and endPage == lastPage} ? ${startPage - 1} : ${startPage}">
                                                 <th:block th:each="pageNo : ${#numbers.sequence(startPage, endPage)}">
-                                                    <li th:if="${pageNo == opstine.getNumber()}" class="active">
+                                                    <li th:if="${pageNo == distrikti.getNumber()}" class="active">
                                                         <a th:text="${pageNo + 1}" href="#"></a>
                                                     </li>
-                                                    <li th:if="${pageNo != opstine.getNumber()}">
-                                                        <a th:if="${pageNo > 0}" th:text="${pageNo + 1}" th:href="@{/admin/opstine(page=${pageNo})}"></a>
-                                                        <a th:if="${pageNo == 0}" th:text="${pageNo + 1}" th:href="@{/admin/opstine}"></a>
+                                                    <li th:if="${pageNo != distrikti.getNumber()}">
+                                                        <a th:if="${pageNo > 0}" th:text="${pageNo + 1}" th:href="@{/admin/distrikt(page=${pageNo})}"></a>
+                                                        <a th:if="${pageNo == 0}" th:text="${pageNo + 1}" th:href="@{/admin/distrikt}"></a>
                                                     </li>
                                                 </th:block>
                                             </th:block>
@@ -63,9 +63,9 @@
                             </th:block>
                         </th:block>
                     </th:block>
-                    <li th:class="${opstine.isLast()} ? 'disabled' : ''">
-                        <a th:if="${opstine.isLast()}" href="#">»</a>
-                        <a th:if="${not opstine.isLast()}" th:href="@{/admin/opstine(page=${opstine.getNumber()+1})}">»</a>
+                    <li th:class="${distrikti.isLast()} ? 'disabled' : ''">
+                        <a th:if="${distrikti.isLast()}" href="#">»</a>
+                        <a th:if="${not distrikti.isLast()}" th:href="@{/admin/distrikt(page=${distrikti.getNumber()+1})}">»</a>
                     </li>
                 </ul>
             </div>
@@ -77,17 +77,15 @@
                 <thead>
                     <tr>
                         <th>#</th>
-                        <th>Назив јединице локалне самоуправе</th>
-                        <th>Припада управном округу</th>
-                        <th>Припада аутономној покрајини</th>
+                        <th>Назив управног округа</th>
+                      
                     </tr>
                 </thead>   
                 <tbody>
-                    <tr th:each="opstina: ${opstine}" th:attr="data-href=@{/admin/opstine/{id}(id=${opstina.id})}">
-                        <th scope="row" th:text="${opstina.id}"></th>
-                        <td th:text="${opstina.name}"></td>
-                       <td th:text="${opstina.getDistrikt().getName()}"></td> 
-                        <td th:text="${opstina.getProvincija().getName()}"></td> 
+                    <tr th:each="distrikt: ${distrikti}" th:attr="data-href=@{/admin/distrikt/{id}(id=${distrikt.id})}">
+                        <th scope="row" th:text="${distrikt.id}"></th>
+                        <td th:text="${distrikt.name}"></td>
+                     
                     </tr>
                 </tbody>
             </table>

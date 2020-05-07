@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <th:block th:include="fragments/head :: head" />
+</head>
+<body>
+
+<th:block th:insert="fragments/navigation :: nav-admin-root" />
+
+<!-- Content -->
+<div class="px-content">
+
+    <div class="page-header">
+        <div class="box m-y-0 bg-transparent">
+            <h1 class="box-cell">
+                <span class="text-muted font-weight-light">
+                    <i class="page-header-icon fa fa-users"></i>
+                    <a th:href="@{/admin/province}">Аутономне покрајине</a> 
+                </span>
+             
+            </h1>
+
+            <!-- Spacer -->
+            <hr class="visible-xs visible-sm">
+        </div>
+    </div>
+
+    <div th:replace="fragments/alert :: error (${errorMessage})"></div>
+
+    <div class="panel">
+        <div class="panel-heading">
+            <span class="panel-title">Подаци о аутономној покрајини</span>
+        </div>
+        <div class="panel-body">
+            
+            <form th:action="@{/admin/province/new}"  method="post" class="form-horizontal" autocomplete="off">
+                <div class="form-group">
+                    <label class="col-md-3 control-label required">Назив аутономне покрајине:</label>
+                    <div th:class="${NameErrorMessage} ? 'col-md-3 has-error' : 'col-md-3'">
+                        <input type="text"   name="name" class="form-control">
+                            <small class="form-message"  th:text="${NameErrorMessage}"></small>
+                    </div>
+                    </div>
+                
+                  
+                
+                <div class="form-group">
+                    <div class="col-md-offset-3 col-md-9">
+                        <button type="submit" class="btn btn-primary">Сачувај</button>
+                       <a th:href="@{/admin/province}" class="btn">Одустани</a> 
+                    </div>
+                </div>
+                            </form>
+        </div>
+    </div>
+
+    
+
+</div>
+
+<th:block th:insert="fragments/footer :: footer-standard" />
+
+<th:block th:insert="fragments/scripts :: standard" />
+</body>
+</html>
+
+
+           

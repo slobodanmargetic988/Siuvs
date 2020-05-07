@@ -13,6 +13,8 @@ import slobodan.siuvs2.model.Provincija;
 import slobodan.siuvs2.repository.ProvincijaRepository;
 import slobodan.siuvs2.valueObject.ProvincijaID;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -44,4 +46,26 @@ ProvincijaRepository provincijaRepository;
     public Provincija findFirstByName(String name){
     return provincijaRepository.findFirstByName(name) ;
             }
+    @Override
+    public Page<Provincija> findAllByOrderByNameAsc(Pageable pageable){
+        return provincijaRepository.findAllByOrderByNameAsc(pageable) ;
+    }
+     @Override
+    public Boolean isNameUsed(String name) {
+        Boolean result = false;
+        List<Provincija> provincija = provincijaRepository.findByName(name);
+        if (provincija.size() > 0) {
+            result = true;
+        }
+        return result;}
+         @Override
+    public Boolean isNameUsed(ProvincijaID provincijaID,String name) {
+        Boolean result = false;
+        List<Provincija> provincije = provincijaRepository.findByName(name);
+      for (Provincija provincija : provincije){
+            if (provincija.getId()!=provincijaID.getValue()){result = true;}
+        } 
+      return result;
+    }
+    
 }

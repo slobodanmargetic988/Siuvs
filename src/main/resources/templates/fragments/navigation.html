@@ -64,6 +64,12 @@
                     <li class="px-nav-item" sec:authorize="hasAnyAuthority('ADMIN','RIS')">
                         <a th:href="@{/admin/opstine}"><i class="fa fa-users m-r-1"></i>Локалне самоуправе</a>
                     </li>
+                    <li class="px-nav-item" sec:authorize="hasAnyAuthority('ADMIN','RIS')">
+                        <a th:href="@{/admin/distrikt}"><i class="fa fa-users m-r-1"></i>Управни окрузи</a>
+                    </li>
+                    <li class="px-nav-item" sec:authorize="hasAnyAuthority('ADMIN','RIS')">
+                        <a th:href="@{/admin/province}"><i class="fa fa-users m-r-1"></i>Аутономне покрајине</a>
+                    </li>
                 </ul>
             </nav>
         </th:block>
@@ -224,6 +230,12 @@
                     </li>
                     <li class="px-nav-item" sec:authorize="hasAnyAuthority('ADMIN','RIS')">
                         <a th:href="@{/admin/opstine}"><i class="fa fa-users m-r-1"></i>Локалне самоуправе</a>
+                    </li>
+                    <li class="px-nav-item" sec:authorize="hasAnyAuthority('ADMIN','RIS')">
+                        <a th:href="@{/admin/distrikt}"><i class="fa fa-users m-r-1"></i>Управни окрузи</a>
+                    </li>
+                    <li class="px-nav-item" sec:authorize="hasAnyAuthority('ADMIN','RIS')">
+                        <a th:href="@{/admin/province}"><i class="fa fa-users m-r-1"></i>Аутономне покрајине</a>
                     </li>
                 </ul>
             </nav>

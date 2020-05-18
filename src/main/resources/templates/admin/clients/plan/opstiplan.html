@@ -7,14 +7,16 @@
     <body>
 
         <!-- Nav -->
-        <th:block th:insert="fragments/navigation :: navigation-end-user"></th:block>
+     
+        <th:block th:insert="fragments/navigation :: navigation-client"></th:block>
 
         <!-- Content -->
+           <th:block th:if="${plan != ''}">
         <div class="px-content">
 
             <div class="page-header" >
                 <h1>
-                  <th:block th:insert="fragments/navigation :: nav-breadcrumbs-client(${client}, true)" />
+                    <th:block th:insert="fragments/navigation :: nav-breadcrumbs-admin-client(${client}, true)" />
                 </h1>
             </div>
 
@@ -39,7 +41,7 @@
                         Прво додајте нови план путем странице <a th:href="@{/admin/clients/{clientId}/plan/ceo(clientId=${client.id})}" >"Цео план"</a>.
                     </th:block>
                     <th:block th:if="${!planempty}">
-                        <th:block th:insert="fragments/forms/plan ::data_view(${plan}, ${planurl})" />
+                        <th:block th:insert="fragments/forms/plan ::data_view_ceo(${plan}, ${planurl})" />
                     </th:block>
 
 
@@ -47,22 +49,22 @@
                 </div> 
 
             </div>
-            <!-- Nov посебан цилј-->
-               <th:block th:if="${!planempty}"> 
-            <div class="panel" sec:authorize="hasAnyAuthority('CLIENT')">
+            <!-- Nova посебан цилј-->
+            <th:block th:if="${!planempty}"> 
+            <div class="panel" sec:authorize="hasAnyAuthority('ADMIN','RIS')">
                 <div class="panel-heading">
                     <span class="panel-title">Нови посебан циљ</span>
                 </div>
 
                 <div class="panel-body">
 
-                    <form th:action="@{/client/plan/{pageId}/posebanCilj (pageId=${page.id})}"  method="post" class="form-horizontal" autocomplete="off">
+                    <form th:action="@{/admin/clients/{clientId}/plan/{pageId}/posebanCilj (clientId=${client.id},pageId=${page.id})}"  method="post" class="form-horizontal" autocomplete="off">
                         <div class="form-group">
                             <label  class="col-md-3 " >Посебан циљ текст: </label>
                             <div class="col-md-9" >
                                 <input type="text"  class="col-md-9"   name="posebanCiljText" value="Посебан циљ текст..."> 
                             </div><br> </br>
-                            <label  class="col-md-3 " >Индикатор текст: </label>
+                            <label  class="col-md-3 " >Показатељ текст: </label>
                             <div class="col-md-9">
                                 <input type="text"  class="col-md-9"  name="indikator" value="Индикатор текст"> 
                             </div><br> </br>
@@ -83,17 +85,17 @@
                 </div>
 
             </div>
-                    </th:block>
+                </th:block>
             <!-- Nova mera-->
              <th:block th:if="${!PClist.empty}"> 
-            <div class="panel" sec:authorize="hasAnyAuthority('CLIENT')">
+            <div class="panel" sec:authorize="hasAnyAuthority('ADMIN','RIS')">
                 <div class="panel-heading">
                     <span class="panel-title">Нова мера</span>
                 </div>
 
                 <div class="panel-body">
 
-                    <form  th:action="@{/client/plan/{pageId}/mera (pageId=${page.id})}"  method="post" class="form-horizontal" autocomplete="off">
+                    <form  th:action="@{/admin/clients/{clientId}/plan/{pageId}/mera (clientId=${client.id},pageId=${page.id})}"  method="post" class="form-horizontal" autocomplete="off">
                         <div class="form-group">
 
                             <label  class="col-md-3 " >Изабери посебан циљ: </label>
@@ -117,17 +119,17 @@
                 </div>
 
             </div>
-                  </th:block>
+                 </th:block>
             <!-- Nov rezultat-->
             <th:block th:if="${!meralist.empty}"> 
-            <div class="panel" sec:authorize="hasAnyAuthority('CLIENT')">
+            <div class="panel" sec:authorize="hasAnyAuthority('ADMIN','RIS')">
                 <div class="panel-heading">
                     <span class="panel-title">Нов резултат</span>
                 </div>
 
                 <div class="panel-body">
 
-                    <form  th:action="@{/client/plan/{pageId}/rezultat (pageId=${page.id})}"  method="post" class="form-horizontal" autocomplete="off">
+                    <form  th:action="@{/admin/clients/{clientId}/plan/{pageId}/rezultat (clientId=${client.id},pageId=${page.id})}"  method="post" class="form-horizontal" autocomplete="off">
                         <div class="form-group">
 
                             <label  class="col-md-3 " >Изабери меру: </label>
@@ -153,18 +155,18 @@
                 </div>
 
             </div>
-                 </th:block>
+                </th:block>
             <!-- -->
             <!-- Nov pod_rezultat-->
              <th:block th:if="${!rezultatlist.empty}"> 
-            <div class="panel" sec:authorize="hasAnyAuthority('CLIENT')">
+            <div class="panel" sec:authorize="hasAnyAuthority('ADMIN','RIS')">
                 <div class="panel-heading">
                     <span class="panel-title">Нов подрезултат</span>
                 </div>
 
                 <div class="panel-body">
 
-                    <form  th:action="@{/client/plan/{pageId}/podrezultat (pageId=${page.id})}"  method="post" class="form-horizontal" autocomplete="off">
+                    <form  th:action="@{/admin/clients/{clientId}/plan/{pageId}/podrezultat (clientId=${client.id},pageId=${page.id})}"  method="post" class="form-horizontal" autocomplete="off">
                         <div class="form-group">
 
                             <label  class="col-md-3 " >Изабери резултат: </label>
@@ -228,10 +230,11 @@
                 </div>
 
             </div>
- </th:block>
+                 </th:block>
+
             <!---->
         </div>
-
+</th:block>
         <th:block th:insert="fragments/footer :: footer-standard" />
 
         <th:block th:insert="fragments/scripts :: standard" />

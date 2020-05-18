@@ -23,4 +23,5 @@ public interface PosebanCiljRepository extends JpaRepository<PosebanCilj, Intege
     List<PosebanCilj> findAllByPlanOrderByPageIdAsc(Plan plan);//ovo treba testirati
     PosebanCilj findFirstByClientAndPage(Client client, Page page);
     List<PosebanCilj> findAllByClientAndPage(Client client, Page page);
+    
 }

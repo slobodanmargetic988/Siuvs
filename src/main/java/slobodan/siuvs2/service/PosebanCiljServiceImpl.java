@@ -28,6 +28,11 @@ public class PosebanCiljServiceImpl implements PosebanCiljService{
   public PosebanCilj findOne(PosebanCiljID posebanCiljID){
       return posebanCiljRepository.findOne(posebanCiljID.getValue());
   }
+        @Override
+  public List<PosebanCilj> findAllByPlanOrderByPagePageIdAsc(Plan plan){
+  return posebanCiljRepository.findAllByPlanOrderByPageIdAsc(plan);
+  };
+
 
 @Override
   public List<PosebanCilj> findAllByPlanOrderByRedosledAsc(Plan plan){

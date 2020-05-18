@@ -331,7 +331,6 @@ public class SupervisorClientsController {
 
     //plan controller
     @GetMapping(value = "clients/{clientId}/plan/{pageId}")
-
     public String plan(
             @PathVariable final ClientId clientId,
             @PathVariable final PageId pageId,
@@ -341,55 +340,51 @@ public class SupervisorClientsController {
         Page page = pageService.findOne(pageId);
         Plan plan = planRepository.findFirstByClient(client);
 List<PosebanCilj> PClist = posebanCiljService.findAllByClientAndPage(client, page);
-     if (plan == null) {
-     
-     }  
-
-/*
-if (plan == null) {//plan empty
-            plan = planFactory.empty(client);
-            planService.save(plan);
-            PosebanCilj posebanCilj = posebanCiljFactory.empty(plan);
-            posebanCiljService.save(posebanCilj);
-            Mera mera = meraFactory.empty(posebanCilj);
-            meraService.save(mera);
-            Rezultat rezultat = rezultatFactory.empty(mera);
-            rezultatService.save(rezultat);
-            PodRezultat podRezultat = podRezultatFactory.empty(rezultat);
-            podRezultatService.save(podRezultat);
-//this section can be eddited out if the plan is refreshed
-            List<PodRezultat> PRlist = new ArrayList();
-            PRlist.add(podRezultat);
-            rezultat.setChildren(PRlist);
-
-            List<Rezultat> Rlist = new ArrayList();
-            Rlist.add(rezultat);
-            mera.setChildren(Rlist);
-
-            List<Mera> mlist = new ArrayList();
-            mlist.add(mera);
-            posebanCilj.setChildren(mlist);
-
-            List<PosebanCilj> PClist = new ArrayList();
-            PClist.add(posebanCilj);
-            plan.setChildren(PClist);
-// end section
-        }*/
         String viewurl = "/supervisor/clients/" + clientId + "/plan/" + pageId;
-
-       // List<Mera> meralist = makeMeraList(plan);
-       // List<Rezultat> rezultatlist = makeRezultatList(plan);
         model.addAttribute("client", client);
         model.addAttribute("page", page);
         model.addAttribute("plan", plan);
         model.addAttribute("PClist", PClist);
-        //model.addAttribute("meralist", meralist);
-       // model.addAttribute("rezultatlist", rezultatlist);
         model.addAttribute("planurl", viewurl);
-       // int i;
-
         return "supervisor/planview";
     }
+        @GetMapping(value = "clients/{clientId}/plan/opstideo/{pageId}")
+    public String planOpsti(
+            @PathVariable final ClientId clientId,
+            @PathVariable final PageId pageId,
+            final Model model
+    ) {
+        Client client = clientService.findOne(clientId);
+        Page page = pageService.findOne(pageId);
+        Plan plan = planRepository.findFirstByClient(client);
+List<PosebanCilj> PClist = posebanCiljService.findAllByClientAndPage(client, page);
+        String viewurl = "/supervisor/clients/" + clientId + "/plan/" + pageId;
+        model.addAttribute("client", client);
+        model.addAttribute("page", page);
+        model.addAttribute("plan", plan);
+        model.addAttribute("PClist", PClist);
+        model.addAttribute("planurl", viewurl);
+        return "supervisor/planopsti";
+    }
+    @GetMapping(value = "clients/{clientId}/plan/ceo/{pageId}")
+    public String planCeo(
+            @PathVariable final ClientId clientId,
+            @PathVariable final PageId pageId,
+            final Model model
+    ) {
+        Client client = clientService.findOne(clientId);
+        Page page = pageService.findOne(pageId);
+        Plan plan = planRepository.findFirstByClient(client);
+List<PosebanCilj> PClist = posebanCiljService.findAllByPlanOrderByPagePageIdAsc(plan);
+        String viewurl = "/supervisor/clients/" + clientId + "/plan/" + pageId;
+        model.addAttribute("client", client);
+        model.addAttribute("page", page);
+        model.addAttribute("plan", plan);
+        model.addAttribute("PClist", PClist);
+        model.addAttribute("planurl", viewurl);
+        return "supervisor/planopsti";
+    }
+    
     //serve photo controller
     @Autowired
     private StorageService storageService;

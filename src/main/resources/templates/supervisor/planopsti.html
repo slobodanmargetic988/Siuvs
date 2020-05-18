@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+    <head> 
+        <th:block th:include="fragments/head :: head" />
+    </head>
+    <body>
+
+     
+<!-- Nav -->
+    <th:block th:insert="fragments/navigation :: navigation-supervisor-client"></th:block>
+
+        <!-- Content -->
+        <div class="px-content">
+
+            <div class="page-header" >
+                <h1>
+                    <th:block th:insert="fragments/navigation :: nav-breadcrumbs-supervisor(${client}, true)" />
+                </h1>
+            </div>
+
+            <div th:replace="fragments/alert :: success (${successMessage})"></div>
+
+            <div th:replace="fragments/alert :: error (${errorMessage})"></div>
+
+            <div class="panel" >
+                <div class="panel-heading">
+                    <th:block th:if="${plan != null}">
+                    <span class="panel-title" th:text="${plan.planText}"></span>
+                    </th:block>
+                    
+                   <th:block th:if="${plan == null}">
+                    <span class="panel-title" >План још није унет</span>
+                    </th:block>
+                </div>
+
+                <div class="panel-body data-panel-body">
+                    <th:block th:if="${plan != null}">
+                    <th:block th:insert="fragments/forms/plan ::data_view_ceo(${plan}, ${planurl})" />
+</th:block>
+                        <th:block th:if="${plan == null}">
+                            План za изабраног клијента тренутно не постоји у бази.
+                        </th:block>
+                </div> 
+
+            </div>
+            
+        </div>
+
+        <th:block th:insert="fragments/footer :: footer-standard" />
+
+        <th:block th:insert="fragments/scripts :: standard" />
+        <script th:src="@{/js/matrix.js}"></script>
+    </body>
+</html>

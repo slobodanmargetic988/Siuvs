@@ -20,7 +20,7 @@ public interface PosebanCiljService {
     PosebanCilj findOne(PosebanCiljID posebanCiljID);
     
 List<PosebanCilj> findAllByPlanOrderByRedosledAsc(Plan plan);
-
+List<PosebanCilj> findAllByPlanOrderByPagePageIdAsc(Plan plan);
     void save(PosebanCilj posebanCilj);
 //void addPosebanCilj(DynamicTable dynamicTable, DynamicRow dynamicRow, Client client) throws SiuvsException;
     void delete(PosebanCiljID posebanCiljID);

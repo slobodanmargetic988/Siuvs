@@ -115,7 +115,84 @@ public class PlanController {
         model.addAttribute("planurl", viewurl);
         return "client/plan/view";
     }
+ @GetMapping(value = "/plan/opstideo/{pageId}")
+    public String planOpsti(
+            @PathVariable final PageId pageId,
+            final Model model
+    ) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = ((SiuvsUserPrincipal) authentication.getPrincipal()).getUser();
+        Client client = user.getClient();
 
+        Page page = pageService.findOne(pageId);
+        Plan plan = planService.findFirstByClient(client);
+        List<PosebanCilj> PClist = posebanCiljService.findAllByClientAndPage(client, page);
+        List<Mera> meralist = new ArrayList();
+        List<Rezultat> rezultatlist = new ArrayList();
+        String viewurl = "/client/plan/" + pageId;
+
+        if (plan == null) {
+            plan = planFactory.empty(client);
+            model.addAttribute("planempty", true);
+        } else {
+            model.addAttribute("planempty", false);
+        }
+        if (PClist == null) {
+            PClist = new ArrayList();
+            // posebanCiljFactory.empty(plan, page);
+        } else {
+            makeRezultatList(PClist, rezultatlist);
+            makeMeraList(PClist, meralist);
+        }
+
+        model.addAttribute("client", client);
+        model.addAttribute("page", page);
+        model.addAttribute("plan", plan);
+        model.addAttribute("PClist", PClist);
+        model.addAttribute("meralist", meralist);
+        model.addAttribute("rezultatlist", rezultatlist);
+        model.addAttribute("planurl", viewurl);
+        return "client/plan/opstiplan";
+    }
+    @GetMapping(value = "/plan/ceo/{pageId}")
+    public String planCeo(
+            @PathVariable final PageId pageId,
+            final Model model
+    ) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = ((SiuvsUserPrincipal) authentication.getPrincipal()).getUser();
+        Client client = user.getClient();
+
+        Page page = pageService.findOne(pageId);
+        Plan plan = planService.findFirstByClient(client);
+       List<PosebanCilj> PClist = posebanCiljService.findAllByPlanOrderByPagePageIdAsc(plan);
+        List<Mera> meralist = new ArrayList();
+        List<Rezultat> rezultatlist = new ArrayList();
+        String viewurl = "/client/plan/" + pageId;
+
+        if (plan == null) {
+            plan = planFactory.empty(client);
+            model.addAttribute("planempty", true);
+        } else {
+            model.addAttribute("planempty", false);
+        }
+        if (PClist == null) {
+            PClist = new ArrayList();
+            // posebanCiljFactory.empty(plan, page);
+        } else {
+            makeRezultatList(PClist, rezultatlist);
+            makeMeraList(PClist, meralist);
+        }
+
+        model.addAttribute("client", client);
+        model.addAttribute("page", page);
+        model.addAttribute("plan", plan);
+        model.addAttribute("PClist", PClist);
+        model.addAttribute("meralist", meralist);
+        model.addAttribute("rezultatlist", rezultatlist);
+        model.addAttribute("planurl", viewurl);
+        return "client/plan/opstiplan";
+    }
     public List<Mera> makeMeraList(List<PosebanCilj> PClist, List<Mera> meralist) {
         for (PosebanCilj pc : PClist) {
             for (Mera mera : pc.getChildren()) {

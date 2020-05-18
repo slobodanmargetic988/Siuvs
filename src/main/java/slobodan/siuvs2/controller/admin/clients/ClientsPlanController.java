@@ -104,7 +104,6 @@ public class ClientsPlanController {
     private PlanRepository planRepository;
 
     @GetMapping(value = "/{clientId}/plan/{pageId}")
-
     public String plan(
             @PathVariable final ClientId clientId,
             @PathVariable final PageId pageId,
@@ -138,7 +137,75 @@ public class ClientsPlanController {
         model.addAttribute("planurl", viewurl);
         return "admin/clients/plan/view";
     }
-
+    
+    @GetMapping(value = "/{clientId}/plan/opstideo/{pageId}")
+    public String planOpsti(
+            @PathVariable final ClientId clientId,
+            @PathVariable final PageId pageId,
+            final Model model
+    ) {
+        Client client = clientService.findOne(clientId);
+        Page page = pageService.findOne(pageId);
+        Plan plan = planService.findFirstByClient(client);
+        List<PosebanCilj> PClist = posebanCiljService.findAllByClientAndPage(client, page);
+        String viewurl = "/admin/clients/" + clientId + "/plan/" + pageId;
+        List<Mera> meralist = new ArrayList();        
+        List<Rezultat> rezultatlist = new ArrayList();
+        
+        if (plan == null) {
+            plan= planFactory.empty(client);
+            model.addAttribute("planempty", true);
+            }else{model.addAttribute("planempty", false);}
+        if (PClist == null) {
+            PClist= new ArrayList();
+                   // posebanCiljFactory.empty(plan, page);
+            }else{
+        makeRezultatList(PClist, rezultatlist);
+        makeMeraList(PClist, meralist);
+        }
+        model.addAttribute("client", client);
+        model.addAttribute("page", page);
+        model.addAttribute("plan", plan);
+        model.addAttribute("PClist", PClist);
+        model.addAttribute("meralist", meralist);
+        model.addAttribute("rezultatlist", rezultatlist);
+        model.addAttribute("planurl", viewurl);
+        return "admin/clients/plan/opstiplan";
+    }
+@GetMapping(value = "/{clientId}/plan/ceo/{pageId}")
+    public String planCeo(
+            @PathVariable final ClientId clientId,
+            @PathVariable final PageId pageId,
+            final Model model
+    ) {
+        Client client = clientService.findOne(clientId);
+        Page page = pageService.findOne(pageId);
+        Plan plan = planService.findFirstByClient(client);
+        List<PosebanCilj> PClist = posebanCiljService.findAllByPlanOrderByPagePageIdAsc(plan);
+        String viewurl = "/admin/clients/" + clientId + "/plan/" + pageId;
+        List<Mera> meralist = new ArrayList();        
+        List<Rezultat> rezultatlist = new ArrayList();
+        
+        if (plan == null) {
+            plan= planFactory.empty(client);
+            model.addAttribute("planempty", true);
+            }else{model.addAttribute("planempty", false);}
+        if (PClist == null) {
+            PClist= new ArrayList();
+                   // posebanCiljFactory.empty(plan, page);
+            }else{
+        makeRezultatList(PClist, rezultatlist);
+        makeMeraList(PClist, meralist);
+        }
+        model.addAttribute("client", client);
+        model.addAttribute("page", page);
+        model.addAttribute("plan", plan);
+        model.addAttribute("PClist", PClist);
+        model.addAttribute("meralist", meralist);
+        model.addAttribute("rezultatlist", rezultatlist);
+        model.addAttribute("planurl", viewurl);
+        return "admin/clients/plan/opstiplan";
+    }
     public List<Mera> makeMeraList(List<PosebanCilj> PClist,List<Mera> meralist) {
         for (PosebanCilj pc : PClist) {
             for (Mera mera : pc.getChildren()) {

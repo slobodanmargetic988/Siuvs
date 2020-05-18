@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+    <head> 
+        <th:block th:include="fragments/head :: head" />
+    </head>
+    <body>
+
+        <!-- Nav -->
+        <th:block th:insert="fragments/navigation :: navigation-end-user"></th:block>
+
+        <!-- Content -->
+        <div class="px-content">
+
+            <div class="page-header" >
+                <h1>
+                  <th:block th:insert="fragments/navigation :: nav-breadcrumbs-client(${client}, true)" />
+                </h1>
+            </div>
+
+            <div th:replace="fragments/alert :: success (${successMessage})"></div>
+
+            <div th:replace="fragments/alert :: error (${errorMessage})"></div>
+
+            <div class="panel" >
+                <div class="panel-heading">
+                    <th:block th:if="${!planempty}">
+                        <span class="panel-title" th:text="${plan.planText}"></span>
+                    </th:block>
+
+                    <th:block th:if="${planempty}">
+                        <span class="panel-title" >План још није унет</span>
+                    </th:block>
+                </div>
+
+                <div class="panel-body data-panel-body">
+                    <th:block th:if="${planempty}">
+                        План za изабраног клијента тренутно не постоји у бази.<br></br>
+                        Прво додајте нови план путем странице <a th:href="@{/admin/clients/{clientId}/plan/ceo(clientId=${client.id})}" >"Цео план"</a>.
+                    </th:block>
+                    <th:block th:if="${!planempty}">
+                        <th:block th:insert="fragments/forms/plan ::data_view_ceo(${plan}, ${planurl})" />
+                    </th:block>
+
+
+
+                </div> 
+
+            </div>
+            <!-- Nov посебан цилј-->
+               <th:block th:if="${!planempty}"> 
+            <div class="panel" sec:authorize="hasAnyAuthority('CLIENT')">
+                <div class="panel-heading">
+                    <span class="panel-title">Нови посебан циљ</span>
+                </div>
+
+                <div class="panel-body">
+
+                    <form th:action="@{/client/plan/{pageId}/posebanCilj (pageId=${page.id})}"  method="post" class="form-horizontal" autocomplete="off">
+                        <div class="form-group">
+                            <label  class="col-md-3 " >Посебан циљ текст: </label>
+                            <div class="col-md-9" >
+                                <input type="text"  class="col-md-9"   name="posebanCiljText" value="Посебан циљ текст..."> 
+                            </div><br> </br>
+                            <label  class="col-md-3 " >Индикатор текст: </label>
+                            <div class="col-md-9">
+                                <input type="text"  class="col-md-9"  name="indikator" value="Индикатор текст"> 
+                            </div><br> </br>
+                            <label  class="col-md-3 " >ЦВ текст: </label> 
+                            <div class="col-md-9">
+                                <input type="text"  class="col-md-9"   name="indikatorPV" value="ЦВ текст">
+                            </div><br> </br>
+                            <label  class="col-md-3 " >ПВ текст: </label>     
+                            <div class="col-md-9">
+                                <input type="text"   class="col-md-9"  name="indikatorCV" value="ПВ текст">
+                            </div><br> </br>
+
+                            <div class="col-md-offset-3 col-md-9">
+                                <button type="submit" class="btn btn-primary">Додај посебан циљ</button>
+                            </div> 
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+                    </th:block>
+            <!-- Nova mera-->
+             <th:block th:if="${!PClist.empty}"> 
+            <div class="panel" sec:authorize="hasAnyAuthority('CLIENT')">
+                <div class="panel-heading">
+                    <span class="panel-title">Нова мера</span>
+                </div>
+
+                <div class="panel-body">
+
+                    <form  th:action="@{/client/plan/{pageId}/mera (pageId=${page.id})}"  method="post" class="form-horizontal" autocomplete="off">
+                        <div class="form-group">
+
+                            <label  class="col-md-3 " >Изабери посебан циљ: </label>
+                            <div class="col-md-9" >
+                                <select class="col-md-9 "  name="pcID"  >
+                                    <option  th:each="posebanCilj : ${PClist}" th:value="${posebanCilj.id}" th:text="${posebanCilj.posebanCiljText}">Текст</option>
+
+                                </select> 
+                            </div>
+                            <br> </br>
+                            <label  class="col-md-3 " >Мера текст: </label>
+                            <div class="col-md-9" >
+                                <input type="text" class="col-md-9" id="novamerarequest"  name="meraText" value="Мера текст..."> 
+                            </div>
+                            <br> </br>
+                            <div class="col-md-offset-3 col-md-9">
+                                <button type="submit" class="btn btn-primary">Додај меру</button>
+                            </div> 
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+                  </th:block>
+            <!-- Nov rezultat-->
+            <th:block th:if="${!meralist.empty}"> 
+            <div class="panel" sec:authorize="hasAnyAuthority('CLIENT')">
+                <div class="panel-heading">
+                    <span class="panel-title">Нов резултат</span>
+                </div>
+
+                <div class="panel-body">
+
+                    <form  th:action="@{/client/plan/{pageId}/rezultat (pageId=${page.id})}"  method="post" class="form-horizontal" autocomplete="off">
+                        <div class="form-group">
+
+                            <label  class="col-md-3 " >Изабери меру: </label>
+                            <div class="col-md-9" >
+                                <select  class="col-md-9" name="meraID"  >
+                                    <option th:each="mera : ${meralist}" th:value="${mera.id}" th:text="${mera.meraText}">Текст</option>
+
+                                </select>
+                            </div>
+                            <br> </br>
+                            <label  class="col-md-3 " >Резултат текст: </label>
+                            <div class="col-md-9" >
+
+                                <input type="text" class="col-md-9" id="novrezultatrequest"  name="rezultatText" value="Резултат текст..."> 
+
+                            </div>
+                            <br> </br>
+                        </div>
+                        <div class="col-md-offset-3 col-md-9">
+                            <button type="submit" class="btn btn-primary">Додај резултат</button>
+                        </div> 
+                    </form>
+                </div>
+
+            </div>
+                 </th:block>
+            <!-- -->
+            <!-- Nov pod_rezultat-->
+             <th:block th:if="${!rezultatlist.empty}"> 
+            <div class="panel" sec:authorize="hasAnyAuthority('CLIENT')">
+                <div class="panel-heading">
+                    <span class="panel-title">Нов подрезултат</span>
+                </div>
+
+                <div class="panel-body">
+
+                    <form  th:action="@{/client/plan/{pageId}/podrezultat (pageId=${page.id})}"  method="post" class="form-horizontal" autocomplete="off">
+                        <div class="form-group">
+
+                            <label  class="col-md-3 " >Изабери резултат: </label>
+                            <div class="col-md-9" >
+                                <select class="col-md-9"  name="rezultatID"  >
+                                    <option th:each="rezultat : ${rezultatlist}" th:value="${rezultat.id}" th:text="${rezultat.rezultatText}">Текст</option>
+
+                                </select>
+                            </div>
+                            <br> </br>
+                            <label  class="col-md-3 " >Активност текст: </label>
+                            <div class="col-md-9" >
+                                <input type="text"  class="col-md-9"  name="aktivnostText" value="Активност текст..."> 
+                            </div>
+                            <br> </br>
+                            <label  class="col-md-3 " >Индикатори текст: </label>
+                            <div class="col-md-9" >
+                                <input type="text"  class="col-md-9"  name="indikatorText" value="Индикатори текст..."> 
+                            </div>
+                            <br> </br>
+                            <label  class="col-md-3 " >Одговорна институција текст: </label>
+                            <div class="col-md-9" >
+                                <input type="text"  class="col-md-9"  name="odgInstText" value="Одговорна институција текст..."> 
+                            </div>
+                            <br> </br>
+                            <label  class="col-md-3 " >Партнер институција/е текст: </label>
+                            <div class="col-md-9" >
+                                <input type="text"  class="col-md-9"  name="partInstText" value="Партнер институција/е текст..."> 
+                            </div>
+                            <br> </br>
+                            <label  class="col-md-3 " >Период текст: </label>
+                            <div class="col-md-9" >
+                                <input type="text"  class="col-md-9"  name="periodText" value="Период текст..."> 
+                            </div>
+                            <br> </br>
+                            <label  class="col-md-3 " >Период комплетирано: </label>
+                            <div class="col-md-9" >
+                                <input type="number"   class="col-md-9" name="periodKompletirano" value="0"> 
+                            </div>
+                            <br> </br>
+                            <label  class="col-md-3 " >Буџет ЈЛС текст: </label>
+                            <div class="col-md-9" >
+                                <input type="text"  class="col-md-9"  name="budzetJLS" value="Буџет ЈЛС текст..."> 
+                            </div>
+                            <br> </br>
+                            <label  class="col-md-3 " >Буџет остали извори текст: </label>
+                            <div class="col-md-9" >
+                                <input type="text"  class="col-md-9"  name="budzetOstalo" value="Буџет остали извори текст..."> 
+                            </div>
+                            <br> </br>
+                            <label  class="col-md-3 " >Буџет необезбеђени ресурси текст: </label>
+                            <div class="col-md-9" >
+                                <input type="text"  class="col-md-9"  name="budzetNeobezbedjeno" value="Буџет необезбеђени ресурси текст..."> 
+                            </div>
+                            <br> </br>            
+                        </div>
+                        <div class="col-md-offset-3 col-md-9">
+                            <button type="submit" class="btn btn-primary">Додај подрезултат</button>
+                        </div> 
+                    </form>
+                </div>
+
+            </div>
+ </th:block>
+            <!---->
+        </div>
+
+        <th:block th:insert="fragments/footer :: footer-standard" />
+
+        <th:block th:insert="fragments/scripts :: standard" />
+        <script th:src="@{/js/matrix.js}"></script>
+    </body>
+</html>

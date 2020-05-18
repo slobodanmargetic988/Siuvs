@@ -59,8 +59,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @SessionAttributes("plan")
 public class ClientsPlanController {
 
-   
-
     @Autowired
     private ClientService clientService;
 
@@ -111,22 +109,30 @@ public class ClientsPlanController {
     ) {
         Client client = clientService.findOne(clientId);
         Page page = pageService.findOne(pageId);
+        switch (page.getType()) {//switch for when users edit something via ceoplan page or opsti plan page
+            case CEOPLAN:
+                return "redirect:/admin/clients/" + clientId + "/plan/ceo/" + pageId;
+            case OPSTIPLAN:
+                return "redirect:/admin/clients/" + clientId + "/plan/opstideo/" + pageId;
+        }
         Plan plan = planService.findFirstByClient(client);
         List<PosebanCilj> PClist = posebanCiljService.findAllByClientAndPage(client, page);
         String viewurl = "/admin/clients/" + clientId + "/plan/" + pageId;
-        List<Mera> meralist = new ArrayList();        
+        List<Mera> meralist = new ArrayList();
         List<Rezultat> rezultatlist = new ArrayList();
-        
+
         if (plan == null) {
-            plan= planFactory.empty(client);
+            plan = planFactory.empty(client);
             model.addAttribute("planempty", true);
-            }else{model.addAttribute("planempty", false);}
+        } else {
+            model.addAttribute("planempty", false);
+        }
         if (PClist == null) {
-            PClist= new ArrayList();
-                   // posebanCiljFactory.empty(plan, page);
-            }else{
-        makeRezultatList(PClist, rezultatlist);
-        makeMeraList(PClist, meralist);
+            PClist = new ArrayList();
+            // posebanCiljFactory.empty(plan, page);
+        } else {
+            makeRezultatList(PClist, rezultatlist);
+            makeMeraList(PClist, meralist);
         }
         model.addAttribute("client", client);
         model.addAttribute("page", page);
@@ -137,7 +143,7 @@ public class ClientsPlanController {
         model.addAttribute("planurl", viewurl);
         return "admin/clients/plan/view";
     }
-    
+
     @GetMapping(value = "/{clientId}/plan/opstideo/{pageId}")
     public String planOpsti(
             @PathVariable final ClientId clientId,
@@ -149,19 +155,21 @@ public class ClientsPlanController {
         Plan plan = planService.findFirstByClient(client);
         List<PosebanCilj> PClist = posebanCiljService.findAllByClientAndPage(client, page);
         String viewurl = "/admin/clients/" + clientId + "/plan/" + pageId;
-        List<Mera> meralist = new ArrayList();        
+        List<Mera> meralist = new ArrayList();
         List<Rezultat> rezultatlist = new ArrayList();
-        
+
         if (plan == null) {
-            plan= planFactory.empty(client);
+            plan = planFactory.empty(client);
             model.addAttribute("planempty", true);
-            }else{model.addAttribute("planempty", false);}
+        } else {
+            model.addAttribute("planempty", false);
+        }
         if (PClist == null) {
-            PClist= new ArrayList();
-                   // posebanCiljFactory.empty(plan, page);
-            }else{
-        makeRezultatList(PClist, rezultatlist);
-        makeMeraList(PClist, meralist);
+            PClist = new ArrayList();
+            // posebanCiljFactory.empty(plan, page);
+        } else {
+            makeRezultatList(PClist, rezultatlist);
+            makeMeraList(PClist, meralist);
         }
         model.addAttribute("client", client);
         model.addAttribute("page", page);
@@ -172,7 +180,8 @@ public class ClientsPlanController {
         model.addAttribute("planurl", viewurl);
         return "admin/clients/plan/opstiplan";
     }
-@GetMapping(value = "/{clientId}/plan/ceo/{pageId}")
+
+    @GetMapping(value = "/{clientId}/plan/ceo/{pageId}")
     public String planCeo(
             @PathVariable final ClientId clientId,
             @PathVariable final PageId pageId,
@@ -183,19 +192,21 @@ public class ClientsPlanController {
         Plan plan = planService.findFirstByClient(client);
         List<PosebanCilj> PClist = posebanCiljService.findAllByPlanOrderByPagePageIdAsc(plan);
         String viewurl = "/admin/clients/" + clientId + "/plan/" + pageId;
-        List<Mera> meralist = new ArrayList();        
+        List<Mera> meralist = new ArrayList();
         List<Rezultat> rezultatlist = new ArrayList();
-        
+
         if (plan == null) {
-            plan= planFactory.empty(client);
+            plan = planFactory.empty(client);
             model.addAttribute("planempty", true);
-            }else{model.addAttribute("planempty", false);}
+        } else {
+            model.addAttribute("planempty", false);
+        }
         if (PClist == null) {
-            PClist= new ArrayList();
-                   // posebanCiljFactory.empty(plan, page);
-            }else{
-        makeRezultatList(PClist, rezultatlist);
-        makeMeraList(PClist, meralist);
+            PClist = new ArrayList();
+            // posebanCiljFactory.empty(plan, page);
+        } else {
+            makeRezultatList(PClist, rezultatlist);
+            makeMeraList(PClist, meralist);
         }
         model.addAttribute("client", client);
         model.addAttribute("page", page);
@@ -206,7 +217,8 @@ public class ClientsPlanController {
         model.addAttribute("planurl", viewurl);
         return "admin/clients/plan/opstiplan";
     }
-    public List<Mera> makeMeraList(List<PosebanCilj> PClist,List<Mera> meralist) {
+
+    public List<Mera> makeMeraList(List<PosebanCilj> PClist, List<Mera> meralist) {
         for (PosebanCilj pc : PClist) {
             for (Mera mera : pc.getChildren()) {
                 meralist.add(mera);
@@ -216,7 +228,7 @@ public class ClientsPlanController {
         return meralist;
     }
 
-    public List<Rezultat> makeRezultatList(List<PosebanCilj> PClist,List<Rezultat> rezultatlist) {
+    public List<Rezultat> makeRezultatList(List<PosebanCilj> PClist, List<Rezultat> rezultatlist) {
         for (PosebanCilj pc : PClist) {
             for (Mera mera : pc.getChildren()) {
                 for (Rezultat rezultat : mera.getChildren()) {
@@ -243,15 +255,15 @@ public class ClientsPlanController {
         Client client = clientService.findOne(clientId);
         Plan plan = planService.findFirstByClient(client);
         List<PosebanCilj> PClist = posebanCiljService.findAllByClientAndPage(client, page);
-        
-        PosebanCilj pc = posebanCiljFactory.empty(plan,page);
+
+        PosebanCilj pc = posebanCiljFactory.empty(plan, page);
         pc.setRedosled(PClist.size() + 1);
         pc.setPosebanCiljText(posebanCiljText);
         pc.setIndikator(indikator);
         pc.setIndikatorPv(indikatorPV);
         pc.setIndikatorCv(indikatorCV);
         try {
-           posebanCiljService.save(pc);
+            posebanCiljService.save(pc);
             redirectAttributes.addFlashAttribute("successMessage", "Додали сте нови посебан циљ!");
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
@@ -275,7 +287,7 @@ public class ClientsPlanController {
         mera.setMeraText(meraText);
         mera.setRedosled(pc.getChildren().size() + 1);
         try {
-            meraService.save(mera);  
+            meraService.save(mera);
             redirectAttributes.addFlashAttribute("successMessage", "Додали сте нову меру!");
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
@@ -358,7 +370,7 @@ public class ClientsPlanController {
     ) {
         Client client = clientService.findOne(clientId);
         Page page = pageService.findOne(pageId);
-      //  Plan plan = planService.findFirstByClient(client);
+        //  Plan plan = planService.findFirstByClient(client);
         model.addAttribute("client", client);
         model.addAttribute("page", page);
         //model.addAttribute("plan", plan);
@@ -403,9 +415,10 @@ public class ClientsPlanController {
         return "redirect:/admin/clients/" + clientId + "/plan/" + pageId + "#izmenjenplan";
 
     }
-/*  poseban cilj*/
 
-     @GetMapping(value = "/{clientId}/plan/{pageId}/deletePosebanCilj/{posebanCiljId}")
+    /*  poseban cilj*/
+
+    @GetMapping(value = "/{clientId}/plan/{pageId}/deletePosebanCilj/{posebanCiljId}")
     public String deletePosebanCilj(
             @PathVariable final ClientId clientId,
             @PathVariable final PageId pageId,
@@ -415,12 +428,10 @@ public class ClientsPlanController {
     ) {
         Client client = clientService.findOne(clientId);
         Page page = pageService.findOne(pageId);
-       
-
 
         model.addAttribute("client", client);
         model.addAttribute("page", page);
-           try {
+        try {
             posebanCiljService.delete(posebanCiljId);
 
             redirectAttributes.addFlashAttribute("successMessage", "Успешно сте обрисали посебан циљ!");
@@ -428,13 +439,9 @@ public class ClientsPlanController {
             redirectAttributes.addFlashAttribute("errorMessage", "Из безбедносних разлога, пре брисања посебног циља је неопходно да обришете све мере које припадају том циљу као и све резултате и подрезултате који припадају његовим мерама!");
         }
 
-        return  "redirect:/admin/clients/" + clientId + "/plan/" + pageId + "#Obrisancilj";
-    }      
-    
-    
-    
-    
-            
+        return "redirect:/admin/clients/" + clientId + "/plan/" + pageId + "#Obrisancilj";
+    }
+
     @GetMapping(value = "/{clientId}/plan/{pageId}/editPosebanCilj/{posebanCiljId}")
     public String editPosebanCilj(
             @PathVariable final ClientId clientId,
@@ -491,7 +498,7 @@ public class ClientsPlanController {
     }
 
     /* mera edit*/
-                 @GetMapping(value = "/{clientId}/plan/{pageId}/deleteMera/{meraId}")
+    @GetMapping(value = "/{clientId}/plan/{pageId}/deleteMera/{meraId}")
     public String deleteMera(
             @PathVariable final ClientId clientId,
             @PathVariable final PageId pageId,
@@ -501,22 +508,20 @@ public class ClientsPlanController {
     ) {
         Client client = clientService.findOne(clientId);
         Page page = pageService.findOne(pageId);
-       
-
 
         model.addAttribute("client", client);
         model.addAttribute("page", page);
-           try {
-           meraService.delete(meraId);
+        try {
+            meraService.delete(meraId);
 
             redirectAttributes.addFlashAttribute("successMessage", "Успешно сте обрисали меру!");
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("errorMessage", "Из безбедносних разлога, пре брисања мере је неопходно да обришете све  резултате и подрезултате који припадају тој мери!");
         }
 
-        return  "redirect:/admin/clients/" + clientId + "/plan/" + pageId + "#Obrisanamera";
+        return "redirect:/admin/clients/" + clientId + "/plan/" + pageId + "#Obrisanamera";
     }
-    
+
     @GetMapping(value = "/{clientId}/plan/{pageId}/editMera/{meraId}")
     public String editMera(
             @PathVariable final ClientId clientId,
@@ -565,9 +570,10 @@ public class ClientsPlanController {
         return "redirect:/admin/clients/" + clientId + "/plan/" + pageId + "#izmenjenamera";
 
     }
+
     /**/
-    /* rezultat edit*/
-             @GetMapping(value = "/{clientId}/plan/{pageId}/deleteRezultat/{rezultatId}")
+ /* rezultat edit*/
+    @GetMapping(value = "/{clientId}/plan/{pageId}/deleteRezultat/{rezultatId}")
     public String deleteRezultat(
             @PathVariable final ClientId clientId,
             @PathVariable final PageId pageId,
@@ -577,12 +583,10 @@ public class ClientsPlanController {
     ) {
         Client client = clientService.findOne(clientId);
         Page page = pageService.findOne(pageId);
-       
-
 
         model.addAttribute("client", client);
         model.addAttribute("page", page);
-           try {
+        try {
             rezultatService.delete(rezultatId);
 
             redirectAttributes.addFlashAttribute("successMessage", "Успешно сте обрисали резултат!");
@@ -590,9 +594,9 @@ public class ClientsPlanController {
             redirectAttributes.addFlashAttribute("errorMessage", "Из безбедносних разлога, пре брисања резултата је неопходно да обришете све подрезултате!");
         }
 
-        return  "redirect:/admin/clients/" + clientId + "/plan/" + pageId + "#Obrisanrezultat";
+        return "redirect:/admin/clients/" + clientId + "/plan/" + pageId + "#Obrisanrezultat";
     }
-    
+
     @GetMapping(value = "/{clientId}/plan/{pageId}/editRezultat/{rezultatId}")
     public String editRezultat(
             @PathVariable final ClientId clientId,
@@ -624,7 +628,7 @@ public class ClientsPlanController {
 
         Client client = clientService.findOne(clientId);
         Page page = pageService.findOne(pageId);
-          Rezultat rezultat = rezultatService.findOne(rezultatId);
+        Rezultat rezultat = rezultatService.findOne(rezultatId);
         model.addAttribute("client", client);
         model.addAttribute("page", page);
 
@@ -641,10 +645,11 @@ public class ClientsPlanController {
         return "redirect:/admin/clients/" + clientId + "/plan/" + pageId + "#izmenjenrezultat";
 
     }
+
     /**/
-    
-     /* PODrezultat edit*/
-         @GetMapping(value = "/{clientId}/plan/{pageId}/deletePodRezultat/{podRezultatId}")
+
+ /* PODrezultat edit*/
+    @GetMapping(value = "/{clientId}/plan/{pageId}/deletePodRezultat/{podRezultatId}")
     public String deletePodRezultat(
             @PathVariable final ClientId clientId,
             @PathVariable final PageId pageId,
@@ -654,12 +659,10 @@ public class ClientsPlanController {
     ) {
         Client client = clientService.findOne(clientId);
         Page page = pageService.findOne(pageId);
-       
-
 
         model.addAttribute("client", client);
         model.addAttribute("page", page);
-           try {
+        try {
             podRezultatService.delete(podRezultatId);
 
             redirectAttributes.addFlashAttribute("successMessage", "Успешно сте обрисали подрезултат!");
@@ -667,13 +670,9 @@ public class ClientsPlanController {
             redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
         }
 
-        return  "redirect:/admin/clients/" + clientId + "/plan/" + pageId + "#Obrisanpodrezultat";
-    } 
-    
-    
-    
-    
-    
+        return "redirect:/admin/clients/" + clientId + "/plan/" + pageId + "#Obrisanpodrezultat";
+    }
+
     @GetMapping(value = "/{clientId}/plan/{pageId}/editPodRezultat/{podRezultatId}")
     public String editPodRezultat(
             @PathVariable final ClientId clientId,
@@ -713,7 +712,7 @@ public class ClientsPlanController {
 
         Client client = clientService.findOne(clientId);
         Page page = pageService.findOne(pageId);
-          PodRezultat podRezultat = podRezultatService.findOne(podRezultatId);
+        PodRezultat podRezultat = podRezultatService.findOne(podRezultatId);
         model.addAttribute("client", client);
         model.addAttribute("page", page);
 
@@ -738,21 +737,22 @@ public class ClientsPlanController {
         return "redirect:/admin/clients/" + clientId + "/plan/" + pageId + "#izmenjenpodRezultat";
 
     }
+
     /**/
-/* new pc*/
-        @GetMapping(value = "/{clientId}/plan/{pageId}/newPosebanCilj")
+ /* new pc*/
+    @GetMapping(value = "/{clientId}/plan/{pageId}/newPosebanCilj")
     public String editNewPosebanCilj(
             @PathVariable final ClientId clientId,
-            @PathVariable final PageId pageId,       
+            @PathVariable final PageId pageId,
             final Model model
     ) {
         Client client = clientService.findOne(clientId);
         Page page = pageService.findOne(pageId);
         model.addAttribute("client", client);
-        model.addAttribute("page", page);       
+        model.addAttribute("page", page);
         return "admin/clients/plan/newPosebanCilj";
     }
-    
+
     @PostMapping(value = "/{clientId}/plan/{pageId}/saveNewPosebanCilj/{planId}")
     public String saveNewPosebanCilj(
             @PathVariable final ClientId clientId,
@@ -768,21 +768,20 @@ public class ClientsPlanController {
 
         Client client = clientService.findOne(clientId);
         Page page = pageService.findOne(pageId);
-        
-         model.addAttribute("client", client);
+
+        model.addAttribute("client", client);
         model.addAttribute("page", page);
-        
-        
+
         Plan plan = planRepository.findFirstByClient(client);
-      
-        PosebanCilj pc = posebanCiljFactory.empty(plan,page);
-        pc.setRedosled(plan.getChildren().size() + 1);            
+
+        PosebanCilj pc = posebanCiljFactory.empty(plan, page);
+        pc.setRedosled(plan.getChildren().size() + 1);
         pc.setPosebanCiljText(posebanCiljText);
         pc.setIndikator(indikator);
         pc.setIndikatorPv(indikatorPV);
         pc.setIndikatorCv(indikatorCV);
 
-            try {
+        try {
             posebanCiljService.save(pc);
             //adding empty children
             //done empty children
@@ -794,44 +793,42 @@ public class ClientsPlanController {
         return "redirect:/admin/clients/" + clientId + "/plan/" + pageId + "#newcilj";
 
     }
+
     /**/
-    
-    /*new mera*/
-            @GetMapping(value = "/{clientId}/plan/{pageId}/newMera/{posebanCiljId}")
+
+ /*new mera*/
+    @GetMapping(value = "/{clientId}/plan/{pageId}/newMera/{posebanCiljId}")
     public String editNewMera(
             @PathVariable final ClientId clientId,
-            @PathVariable final PageId pageId, 
-            @PathVariable final PosebanCiljID posebanCiljId, 
+            @PathVariable final PageId pageId,
+            @PathVariable final PosebanCiljID posebanCiljId,
             final Model model
     ) {
         Client client = clientService.findOne(clientId);
         Page page = pageService.findOne(pageId);
         model.addAttribute("client", client);
-        model.addAttribute("page", page);  
-        model.addAttribute("posebanCiljId", posebanCiljId); 
+        model.addAttribute("page", page);
+        model.addAttribute("posebanCiljId", posebanCiljId);
         return "admin/clients/plan/newMera";
     }
-    
-     @PostMapping(value = "/{clientId}/plan/{pageId}/saveNewMera/{posebanCiljId}")
+
+    @PostMapping(value = "/{clientId}/plan/{pageId}/saveNewMera/{posebanCiljId}")
     public String saveNewMera(
             @PathVariable final ClientId clientId,
             @PathVariable final PageId pageId,
             @PathVariable final PosebanCiljID posebanCiljId,
             @RequestParam(name = "meraText") String meraText,
-
             final RedirectAttributes redirectAttributes,
             final Model model
     ) {
 
         Client client = clientService.findOne(clientId);
         Page page = pageService.findOne(pageId);
-        
-         model.addAttribute("client", client);
-        model.addAttribute("page", page);
-        
-    
 
- PosebanCilj pc = posebanCiljService.findOne(posebanCiljId);
+        model.addAttribute("client", client);
+        model.addAttribute("page", page);
+
+        PosebanCilj pc = posebanCiljService.findOne(posebanCiljId);
         Mera mera = meraFactory.empty(pc);
         mera.setMeraText(meraText);
         mera.setRedosled(pc.getChildren().size() + 1);
@@ -846,42 +843,41 @@ public class ClientsPlanController {
         return "redirect:/admin/clients/" + clientId + "/plan/" + pageId + "#newmera";
 
     }
+
     /**/
-     /*new rezultat*/
-            @GetMapping(value = "/{clientId}/plan/{pageId}/newRezultat/{meraId}")
+ /*new rezultat*/
+    @GetMapping(value = "/{clientId}/plan/{pageId}/newRezultat/{meraId}")
     public String editNewRezultat(
             @PathVariable final ClientId clientId,
-            @PathVariable final PageId pageId, 
-            @PathVariable final MeraID meraId, 
+            @PathVariable final PageId pageId,
+            @PathVariable final MeraID meraId,
             final Model model
     ) {
         Client client = clientService.findOne(clientId);
         Page page = pageService.findOne(pageId);
         model.addAttribute("client", client);
-        model.addAttribute("page", page);  
-        model.addAttribute("meraId", meraId); 
-        
+        model.addAttribute("page", page);
+        model.addAttribute("meraId", meraId);
+
         return "admin/clients/plan/newRezultat";
     }
-    
-     @PostMapping(value = "/{clientId}/plan/{pageId}/saveNewRezultat/{meraId}")
+
+    @PostMapping(value = "/{clientId}/plan/{pageId}/saveNewRezultat/{meraId}")
     public String saveNewRezultat(
             @PathVariable final ClientId clientId,
             @PathVariable final PageId pageId,
             @PathVariable final MeraID meraId,
             @RequestParam(name = "rezultatText") String rezultatText,
-
             final RedirectAttributes redirectAttributes,
             final Model model
     ) {
 
         Client client = clientService.findOne(clientId);
         Page page = pageService.findOne(pageId);
-        
-         model.addAttribute("client", client);
+
+        model.addAttribute("client", client);
         model.addAttribute("page", page);
-        
-    
+
         Mera mera = meraService.findOne(meraId);
         Rezultat rezultat = rezultatFactory.empty(mera);
         rezultat.setRezultatText(rezultatText);
@@ -895,31 +891,31 @@ public class ClientsPlanController {
         }
         return "redirect:/admin/clients/" + clientId + "/plan/" + pageId + "#new-rezultat";
     }
+
     /**/
-    /*new rezultat*/
-            @GetMapping(value = "/{clientId}/plan/{pageId}/newPodRezultat/{rezultatId}")
+ /*new rezultat*/
+    @GetMapping(value = "/{clientId}/plan/{pageId}/newPodRezultat/{rezultatId}")
     public String editNewPodRezultat(
             @PathVariable final ClientId clientId,
-            @PathVariable final PageId pageId, 
-            @PathVariable final RezultatID rezultatId, 
+            @PathVariable final PageId pageId,
+            @PathVariable final RezultatID rezultatId,
             final Model model
     ) {
         Client client = clientService.findOne(clientId);
         Page page = pageService.findOne(pageId);
         model.addAttribute("client", client);
-        model.addAttribute("page", page);  
-        model.addAttribute("rezultatId", rezultatId); 
-        
+        model.addAttribute("page", page);
+        model.addAttribute("rezultatId", rezultatId);
+
         return "admin/clients/plan/newPodRezultat";
     }
-    
-     @PostMapping(value = "/{clientId}/plan/{pageId}/saveNewPodRezultat/{rezultatId}")
+
+    @PostMapping(value = "/{clientId}/plan/{pageId}/saveNewPodRezultat/{rezultatId}")
     public String saveNewPodRezultat(
             @PathVariable final ClientId clientId,
             @PathVariable final PageId pageId,
             @PathVariable final RezultatID rezultatId,
-            
-@RequestParam(name = "aktivnostText") String aktivnostText,
+            @RequestParam(name = "aktivnostText") String aktivnostText,
             @RequestParam(name = "indikatorText") String indikatorText,
             @RequestParam(name = "odgInstText") String odgInstText,
             @RequestParam(name = "partInstText") String partInstText,
@@ -934,11 +930,10 @@ public class ClientsPlanController {
 
         Client client = clientService.findOne(clientId);
         Page page = pageService.findOne(pageId);
-        
-         model.addAttribute("client", client);
+
+        model.addAttribute("client", client);
         model.addAttribute("page", page);
-        
-    
+
         Rezultat rezultat = rezultatService.findOne(rezultatId);
         PodRezultat podRezultat = podRezultatFactory.empty(rezultat);
         podRezultat.setAktivnostiText(aktivnostText);

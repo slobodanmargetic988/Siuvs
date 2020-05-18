@@ -46,6 +46,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import slobodan.siuvs2.model.PageType;
 
 @Scope(WebApplicationContext.SCOPE_REQUEST)
 @Controller
@@ -86,6 +87,14 @@ public class PlanController {
         Client client = user.getClient();
 
         Page page = pageService.findOne(pageId);
+          switch (page.getType()){//switch for when users edit something via ceoplan page or opsti plan page
+          case CEOPLAN:
+         return "redirect:/client/plan/ceo/" + pageId;
+        
+         case OPSTIPLAN:
+         return "redirect:/client/plan/opstideo/" + pageId;
+        
+         }
         Plan plan = planService.findFirstByClient(client);
         List<PosebanCilj> PClist = posebanCiljService.findAllByClientAndPage(client, page);
         List<Mera> meralist = new ArrayList();

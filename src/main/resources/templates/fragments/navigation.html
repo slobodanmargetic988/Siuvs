@@ -184,6 +184,9 @@
                 <th:block th:case="PLAN">
                     <a th:href="@{{baseMenuUrl}/plan/{pageId}(baseMenuUrl=${baseMenuUrl},pageId=${menuItem.id})}"><span th:text="${menuItem.title}" class="px-nav-label"></span></a>
                 </th:block>
+                            <th:block th:case="OPSTIPLAN">
+                    <a th:href="@{{baseMenuUrl}/plan/{pageId}(baseMenuUrl=${baseMenuUrl},pageId=${menuItem.id})}"><span th:text="${menuItem.title}" class="px-nav-label"></span></a>
+                </th:block>
             </th:block>
 
         </th:block>

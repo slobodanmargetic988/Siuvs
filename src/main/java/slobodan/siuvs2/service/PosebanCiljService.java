@@ -8,6 +8,8 @@ package slobodan.siuvs2.service;
  * @author deca
  */
 import java.util.List;
+import slobodan.siuvs2.model.Client;
+import slobodan.siuvs2.model.Page;
 import slobodan.siuvs2.model.PosebanCilj;
 import slobodan.siuvs2.model.Plan;
 import slobodan.siuvs2.valueObject.PlanID;
@@ -22,4 +24,5 @@ List<PosebanCilj> findAllByPlanOrderByRedosledAsc(Plan plan);
     void save(PosebanCilj posebanCilj);
 //void addPosebanCilj(DynamicTable dynamicTable, DynamicRow dynamicRow, Client client) throws SiuvsException;
     void delete(PosebanCiljID posebanCiljID);
+    List<PosebanCilj>  findAllByClientAndPage(Client client, Page page);
 }

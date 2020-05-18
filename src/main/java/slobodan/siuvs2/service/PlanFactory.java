@@ -14,5 +14,5 @@ import slobodan.siuvs2.model.Client;
 import slobodan.siuvs2.model.Page;
 
 public interface PlanFactory {
-       Plan empty(Client client, Page page);
+       Plan empty(Client client);
 }

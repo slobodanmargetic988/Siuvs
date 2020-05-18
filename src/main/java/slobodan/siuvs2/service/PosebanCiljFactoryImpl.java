@@ -14,6 +14,7 @@ import slobodan.siuvs2.model.PosebanCilj;
 import slobodan.siuvs2.model.Plan;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import slobodan.siuvs2.model.Page;
 
 @Service
 public class PosebanCiljFactoryImpl implements PosebanCiljFactory{
@@ -22,10 +23,12 @@ public class PosebanCiljFactoryImpl implements PosebanCiljFactory{
   @Autowired
     private MeraService meraService;
 @Override
-    public PosebanCilj empty(Plan plan){
+    public PosebanCilj empty(Plan plan,Page page){
     
        PosebanCilj posebanCilj = new PosebanCilj();
         posebanCilj.setPlan(plan);
+        posebanCilj.setClient(plan.getClient());
+        posebanCilj.setPage(page);
         posebanCilj.setPosebanCiljText("Нови посебан циљ");
         posebanCilj.setIndikator("/");
         posebanCilj.setIndikatorCv("/");

@@ -26,9 +26,7 @@ public class Plan {
     @Column(name = "plan_id")
     private int id;
     
-    @ManyToOne
-    @JoinColumn(name = "page_id")
-    private Page page;
+   
         
     @ManyToOne
     @JoinColumn(name = "client_id")
@@ -95,13 +93,7 @@ public class Plan {
         this.id = id;
     }
 
-    public Page getPage() {
-        return page;
-    }
 
-    public void setPage(Page page) {
-        this.page = page;
-    }
 
     public Client getClient() {
         return client;

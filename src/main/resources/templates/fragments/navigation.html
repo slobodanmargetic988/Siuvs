@@ -185,7 +185,10 @@
                     <a th:href="@{{baseMenuUrl}/plan/{pageId}(baseMenuUrl=${baseMenuUrl},pageId=${menuItem.id})}"><span th:text="${menuItem.title}" class="px-nav-label"></span></a>
                 </th:block>
                             <th:block th:case="OPSTIPLAN">
-                    <a th:href="@{{baseMenuUrl}/plan/{pageId}(baseMenuUrl=${baseMenuUrl},pageId=${menuItem.id})}"><span th:text="${menuItem.title}" class="px-nav-label"></span></a>
+                    <a th:href="@{{baseMenuUrl}/plan/opstideo/{pageId}(baseMenuUrl=${baseMenuUrl},pageId=${menuItem.id})}"><span th:text="${menuItem.title}" class="px-nav-label"></span></a>
+                </th:block>
+                                          <th:block th:case="CEOPLAN">
+                    <a th:href="@{{baseMenuUrl}/plan/ceo/{pageId}(baseMenuUrl=${baseMenuUrl},pageId=${menuItem.id})}"><span th:text="${menuItem.title}" class="px-nav-label"></span></a>
                 </th:block>
             </th:block>
 
@@ -408,6 +411,21 @@
                               ${isDark})"
                               />
                 </th:block>
+                 <th:block th:case="CEOPLAN">
+                    <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-link(
+                              ${page.title},
+                              @{{baseMenuUrl}/plan/ceo/{pageId}(baseMenuUrl=${baseMenuUrl},pageId=${page.id})},
+                              ${isDark})"
+                              />
+                </th:block>
+                     <th:block th:case="OPSTIPLAN">
+                    <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-link(
+                              ${page.title},
+                              @{{baseMenuUrl}/plan/opstideo/{pageId}(baseMenuUrl=${baseMenuUrl},pageId=${page.id})},
+                              ${isDark})"
+                              />
+                </th:block>
+                    
             </th:block>
         </th:block>
 

@@ -16,6 +16,8 @@ import slobodan.siuvs2.repository.PosebanCiljRepository;
 import slobodan.siuvs2.valueObject.PlanID;
 import slobodan.siuvs2.valueObject.PosebanCiljID;
 import org.springframework.transaction.annotation.Transactional;
+import slobodan.siuvs2.model.Client;
+import slobodan.siuvs2.model.Page;
 
 @Service
 public class PosebanCiljServiceImpl implements PosebanCiljService{
@@ -42,5 +44,10 @@ public class PosebanCiljServiceImpl implements PosebanCiljService{
     @Override
  public void delete(PosebanCiljID posebanCiljID){
  posebanCiljRepository.delete(posebanCiljID.getValue());
+ };
+ 
+    @Override
+ public List<PosebanCilj>  findAllByClientAndPage(Client client, Page page){
+ return posebanCiljRepository.findAllByClientAndPage(client,page);
  };
 }

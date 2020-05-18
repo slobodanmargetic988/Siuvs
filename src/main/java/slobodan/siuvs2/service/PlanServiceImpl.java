@@ -15,6 +15,7 @@ import slobodan.siuvs2.repository.PosebanCiljRepository;
 import slobodan.siuvs2.valueObject.PlanID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import slobodan.siuvs2.valueObject.ClientId;
 
 @Service
 public class PlanServiceImpl implements PlanService{
@@ -36,5 +37,10 @@ public class PlanServiceImpl implements PlanService{
        // posebanCiljRepository.save(posebanCiljFactory.empty(plan));
         planRepository.save(plan);
     }
+    @Override
+    public Plan findFirstByClient(Client client){
+    return planRepository.findFirstByClient(client);
+    };
+
     
 }

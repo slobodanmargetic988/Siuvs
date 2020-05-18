@@ -24,6 +24,14 @@ public class PosebanCilj {
     @ManyToOne
     @JoinColumn(name = "plan_id")
     private Plan plan;
+    
+    @ManyToOne
+    @JoinColumn(name = "page_id")
+    private Page page;
+        
+    @ManyToOne
+    @JoinColumn(name = "client_id")
+    private Client client;
 
     @Column(name = "poseban_cilj_text")
     private String posebanCiljText;
@@ -50,6 +58,22 @@ public class PosebanCilj {
 
     public void setChildren(List<Mera> children) {
         this.children = children;
+    }
+
+    public Page getPage() {
+        return page;
+    }
+
+    public void setPage(Page page) {
+        this.page = page;
+    }
+
+    public Client getClient() {
+        return client;
+    }
+
+    public void setClient(Client client) {
+        this.client = client;
     }
 
     

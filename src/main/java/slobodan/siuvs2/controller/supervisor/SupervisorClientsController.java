@@ -339,10 +339,15 @@ public class SupervisorClientsController {
     ) {
         Client client = clientService.findOne(clientId);
         Page page = pageService.findOne(pageId);
-        Plan plan = planRepository.findFirstByClientAndPage(client, page);
+        Plan plan = planRepository.findFirstByClient(client);
+List<PosebanCilj> PClist = posebanCiljService.findAllByClientAndPage(client, page);
+     if (plan == null) {
+     
+     }  
 
-        if (plan == null) {//plan empty
-            plan = planFactory.empty(client, page);
+/*
+if (plan == null) {//plan empty
+            plan = planFactory.empty(client);
             planService.save(plan);
             PosebanCilj posebanCilj = posebanCiljFactory.empty(plan);
             posebanCiljService.save(posebanCilj);
@@ -369,18 +374,19 @@ public class SupervisorClientsController {
             PClist.add(posebanCilj);
             plan.setChildren(PClist);
 // end section
-        }
+        }*/
         String viewurl = "/supervisor/clients/" + clientId + "/plan/" + pageId;
 
-        List<Mera> meralist = makeMeraList(plan);
-        List<Rezultat> rezultatlist = makeRezultatList(plan);
+       // List<Mera> meralist = makeMeraList(plan);
+       // List<Rezultat> rezultatlist = makeRezultatList(plan);
         model.addAttribute("client", client);
         model.addAttribute("page", page);
         model.addAttribute("plan", plan);
-        model.addAttribute("meralist", meralist);
-        model.addAttribute("rezultatlist", rezultatlist);
+        model.addAttribute("PClist", PClist);
+        //model.addAttribute("meralist", meralist);
+       // model.addAttribute("rezultatlist", rezultatlist);
         model.addAttribute("planurl", viewurl);
-        int i;
+       // int i;
 
         return "supervisor/planview";
     }

@@ -112,77 +112,50 @@ public class ClientsPlanController {
     ) {
         Client client = clientService.findOne(clientId);
         Page page = pageService.findOne(pageId);
-        Plan plan = planRepository.findFirstByClientAndPage(client, page);
-
-        if (plan == null) {//plan empty
-            plan = planFactory.empty(client, page);
-            planService.save(plan);
-
-            PosebanCilj posebanCilj = posebanCiljFactory.empty(plan);
-            posebanCiljService.save(posebanCilj);
-
-            Mera mera = meraFactory.empty(posebanCilj);
-            meraService.save(mera);
-
-            Rezultat rezultat = rezultatFactory.empty(mera);
-            rezultatService.save(rezultat);
-
-            PodRezultat podRezultat = podRezultatFactory.empty(rezultat);
-            podRezultatService.save(podRezultat);
-//this section can be eddited out if the plan is refreshed
-            List<PodRezultat> PRlist = new ArrayList();
-            PRlist.add(podRezultat);
-            rezultat.setChildren(PRlist);
-
-            List<Rezultat> Rlist = new ArrayList();
-            Rlist.add(rezultat);
-            mera.setChildren(Rlist);
-
-            List<Mera> mlist = new ArrayList();
-            mlist.add(mera);
-            posebanCilj.setChildren(mlist);
-
-            List<PosebanCilj> PClist = new ArrayList();
-            PClist.add(posebanCilj);
-            plan.setChildren(PClist);
-// end section
-        }
+        Plan plan = planService.findFirstByClient(client);
+        List<PosebanCilj> PClist = posebanCiljService.findAllByClientAndPage(client, page);
         String viewurl = "/admin/clients/" + clientId + "/plan/" + pageId;
-
-        List<Mera> meralist = makeMeraList(plan);
-        List<Rezultat> rezultatlist = makeRezultatList(plan);
+        List<Mera> meralist = new ArrayList();        
+        List<Rezultat> rezultatlist = new ArrayList();
+        
+        if (plan == null) {
+            plan= planFactory.empty(client);
+            model.addAttribute("planempty", true);
+            }else{model.addAttribute("planempty", false);}
+        if (PClist == null) {
+            PClist= new ArrayList();
+                   // posebanCiljFactory.empty(plan, page);
+            }else{
+        makeRezultatList(PClist, rezultatlist);
+        makeMeraList(PClist, meralist);
+        }
         model.addAttribute("client", client);
         model.addAttribute("page", page);
         model.addAttribute("plan", plan);
+        model.addAttribute("PClist", PClist);
         model.addAttribute("meralist", meralist);
         model.addAttribute("rezultatlist", rezultatlist);
         model.addAttribute("planurl", viewurl);
-        int i;
-
         return "admin/clients/plan/view";
     }
 
-    public List<Mera> makeMeraList(Plan plan) {
-        List<Mera> meralist = new ArrayList();
-        for (PosebanCilj pc : plan.getChildren()) {
+    public List<Mera> makeMeraList(List<PosebanCilj> PClist,List<Mera> meralist) {
+        for (PosebanCilj pc : PClist) {
             for (Mera mera : pc.getChildren()) {
                 meralist.add(mera);
             }
-
         }
 
         return meralist;
     }
 
-    public List<Rezultat> makeRezultatList(Plan plan) {
-        List<Rezultat> rezultatlist = new ArrayList();
-        for (PosebanCilj pc : plan.getChildren()) {
+    public List<Rezultat> makeRezultatList(List<PosebanCilj> PClist,List<Rezultat> rezultatlist) {
+        for (PosebanCilj pc : PClist) {
             for (Mera mera : pc.getChildren()) {
                 for (Rezultat rezultat : mera.getChildren()) {
                     rezultatlist.add(rezultat);
                 }
             }
-
         }
 
         return rezultatlist;
@@ -197,44 +170,21 @@ public class ClientsPlanController {
             @RequestParam(name = "indikator") String indikator,
             @RequestParam(name = "indikatorPV") String indikatorPV,
             @RequestParam(name = "indikatorCV") String indikatorCV,
-            @ModelAttribute("plan") Plan plan,
             @PageableDefault final Pageable pageable, final RedirectAttributes redirectAttributes
     ) {
-
-        PosebanCilj pc = posebanCiljFactory.empty(plan);
-        pc.setRedosled(plan.getChildren().size() + 1);
+        Page page = pageService.findOne(pageId);
+        Client client = clientService.findOne(clientId);
+        Plan plan = planService.findFirstByClient(client);
+        List<PosebanCilj> PClist = posebanCiljService.findAllByClientAndPage(client, page);
         
+        PosebanCilj pc = posebanCiljFactory.empty(plan,page);
+        pc.setRedosled(PClist.size() + 1);
         pc.setPosebanCiljText(posebanCiljText);
         pc.setIndikator(indikator);
         pc.setIndikatorPv(indikatorPV);
         pc.setIndikatorCv(indikatorCV);
-        pc.setRedosled(plan.getChildren().size() + 1);
-
         try {
-            posebanCiljService.save(pc);
-            //adding empty children
-            Mera mera = meraFactory.empty(pc);
-            meraService.save(mera);
-
-            Rezultat rezultat = rezultatFactory.empty(mera);
-            rezultatService.save(rezultat);
-
-            PodRezultat podRezultat = podRezultatFactory.empty(rezultat);
-            podRezultatService.save(podRezultat);
-
-            List<PodRezultat> PRlist = new ArrayList();
-            PRlist.add(podRezultat);
-            rezultat.setChildren(PRlist);
-
-            List<Rezultat> Rlist = new ArrayList();
-            Rlist.add(rezultat);
-            mera.setChildren(Rlist);
-
-            List<Mera> mlist = new ArrayList();
-            mlist.add(mera);
-            pc.setChildren(mlist);
-
-            //done empty children
+           posebanCiljService.save(pc);
             redirectAttributes.addFlashAttribute("successMessage", "Додали сте нови посебан циљ!");
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
@@ -249,28 +199,16 @@ public class ClientsPlanController {
             @PathVariable final ClientId clientId,
             @PathVariable final PageId pageId,
             @RequestParam(name = "meraText") String meraText,
-            @RequestParam(name = "pcID") int pcId,
+            @RequestParam(name = "pcID") PosebanCiljID posebanCiljID,
             @ModelAttribute("plan") Plan plan,
             @PageableDefault final Pageable pageable, final RedirectAttributes redirectAttributes
     ) {
-        PosebanCilj pc = posebanCiljRepository.findOne(pcId);
+        PosebanCilj pc = posebanCiljService.findOne(posebanCiljID);
         Mera mera = meraFactory.empty(pc);
         mera.setMeraText(meraText);
         mera.setRedosled(pc.getChildren().size() + 1);
-
         try {
-
-            meraService.save(mera);
-            Rezultat rezultat = rezultatFactory.empty(mera);
-            rezultatService.save(rezultat);
-            PodRezultat podRezultat = podRezultatFactory.empty(rezultat);
-            podRezultatService.save(podRezultat);
-            List<PodRezultat> PRlist = new ArrayList();
-            PRlist.add(podRezultat);
-            rezultat.setChildren(PRlist);
-            List<Rezultat> Rlist = new ArrayList();
-            Rlist.add(rezultat);
-            mera.setChildren(Rlist);
+            meraService.save(mera);  
             redirectAttributes.addFlashAttribute("successMessage", "Додали сте нову меру!");
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
@@ -284,25 +222,17 @@ public class ClientsPlanController {
             @PathVariable final ClientId clientId,
             @PathVariable final PageId pageId,
             @RequestParam(name = "rezultatText") String rezultatText,
-            @RequestParam(name = "meraID") int meraID,
+            @RequestParam(name = "meraID") MeraID meraID,
             @ModelAttribute("plan") Plan plan,
             @PageableDefault final Pageable pageable, final RedirectAttributes redirectAttributes
     ) {
 
-        Mera mera = meraRepository.findOne(meraID);
+        Mera mera = meraService.findOne(meraID);
         Rezultat rezultat = rezultatFactory.empty(mera);
         rezultat.setRezultatText(rezultatText);
         rezultat.setRedosled(mera.getChildren().size() + 1);
-
         try {
-
             rezultatService.save(rezultat);
-            PodRezultat podRezultat = podRezultatFactory.empty(rezultat);
-            podRezultatService.save(podRezultat);
-            List<PodRezultat> PRlist = new ArrayList();
-            PRlist.add(podRezultat);
-            rezultat.setChildren(PRlist);
-
             redirectAttributes.addFlashAttribute("successMessage", "Додали сте нов резултат!");
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
@@ -324,12 +254,12 @@ public class ClientsPlanController {
             @RequestParam(name = "budzetOstalo") String budzetOstalo,
             @RequestParam(name = "budzetNeobezbedjeno") String budzetNeobezbedjeno,
             @RequestParam(name = "periodKompletirano") int periodKompletirano,
-            @RequestParam(name = "rezultatID") int rezultatID,
+            @RequestParam(name = "rezultatID") RezultatID rezultatID,
             @ModelAttribute("plan") Plan plan,
             @PageableDefault final Pageable pageable, final RedirectAttributes redirectAttributes
     ) {
 
-        Rezultat rezultat = rezultatRepository.findOne(rezultatID);
+        Rezultat rezultat = rezultatService.findOne(rezultatID);
         PodRezultat podRezultat = podRezultatFactory.empty(rezultat);
         podRezultat.setAktivnostiText(aktivnostText);
         podRezultat.setIndikatoriText(indikatorText);
@@ -361,7 +291,7 @@ public class ClientsPlanController {
     ) {
         Client client = clientService.findOne(clientId);
         Page page = pageService.findOne(pageId);
-        Plan plan = planRepository.findFirstByClientAndPage(client, page);
+      //  Plan plan = planService.findFirstByClient(client);
         model.addAttribute("client", client);
         model.addAttribute("page", page);
         //model.addAttribute("plan", plan);
@@ -385,7 +315,7 @@ public class ClientsPlanController {
     ) {
         Client client = clientService.findOne(clientId);
         Page page = pageService.findOne(pageId);
-        Plan plan = planRepository.findFirstByClientAndPage(client, page);
+        Plan plan = planRepository.findFirstByClient(client);
         model.addAttribute("client", client);
         model.addAttribute("page", page);
         plan.setPlanText(planText);
@@ -447,7 +377,7 @@ public class ClientsPlanController {
     ) {
         Client client = clientService.findOne(clientId);
         Page page = pageService.findOne(pageId);
-        Plan plan = planRepository.findFirstByClientAndPage(client, page);
+        //Plan plan = planRepository.findFirstByClient(client);
         PosebanCilj posebanCilj = posebanCiljService.findOne(posebanCiljId);
 
         model.addAttribute("client", client);
@@ -776,12 +706,10 @@ public class ClientsPlanController {
         model.addAttribute("page", page);
         
         
-        Plan plan = planRepository.findFirstByClientAndPage(client, page);
+        Plan plan = planRepository.findFirstByClient(client);
       
-        PosebanCilj pc = posebanCiljFactory.empty(plan);
-        pc.setRedosled(plan.getChildren().size() + 1);
-        
-       
+        PosebanCilj pc = posebanCiljFactory.empty(plan,page);
+        pc.setRedosled(plan.getChildren().size() + 1);            
         pc.setPosebanCiljText(posebanCiljText);
         pc.setIndikator(indikator);
         pc.setIndikatorPv(indikatorPV);
@@ -790,27 +718,6 @@ public class ClientsPlanController {
             try {
             posebanCiljService.save(pc);
             //adding empty children
-            Mera mera = meraFactory.empty(pc);
-            meraService.save(mera);
-
-            Rezultat rezultat = rezultatFactory.empty(mera);
-            rezultatService.save(rezultat);
-
-            PodRezultat podRezultat = podRezultatFactory.empty(rezultat);
-            podRezultatService.save(podRezultat);
-
-            List<PodRezultat> PRlist = new ArrayList();
-            PRlist.add(podRezultat);
-            rezultat.setChildren(PRlist);
-
-            List<Rezultat> Rlist = new ArrayList();
-            Rlist.add(rezultat);
-            mera.setChildren(Rlist);
-
-            List<Mera> mlist = new ArrayList();
-            mlist.add(mera);
-            pc.setChildren(mlist);
-
             //done empty children
             redirectAttributes.addFlashAttribute("successMessage", "Додали сте нови посебан циљ!");
         } catch (Exception e) {
@@ -863,18 +770,7 @@ public class ClientsPlanController {
         mera.setRedosled(pc.getChildren().size() + 1);
 
         try {
-
             meraService.save(mera);
-            Rezultat rezultat = rezultatFactory.empty(mera);
-            rezultatService.save(rezultat);
-            PodRezultat podRezultat = podRezultatFactory.empty(rezultat);
-            podRezultatService.save(podRezultat);
-            List<PodRezultat> PRlist = new ArrayList();
-            PRlist.add(podRezultat);
-            rezultat.setChildren(PRlist);
-            List<Rezultat> Rlist = new ArrayList();
-            Rlist.add(rezultat);
-            mera.setChildren(Rlist);
             redirectAttributes.addFlashAttribute("successMessage", "Додали сте нову меру!");
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
@@ -925,14 +821,7 @@ public class ClientsPlanController {
         rezultat.setRedosled(mera.getChildren().size() + 1);
 
         try {
-
             rezultatService.save(rezultat);
-            PodRezultat podRezultat = podRezultatFactory.empty(rezultat);
-            podRezultatService.save(podRezultat);
-            List<PodRezultat> PRlist = new ArrayList();
-            PRlist.add(podRezultat);
-            rezultat.setChildren(PRlist);
-
             redirectAttributes.addFlashAttribute("successMessage", "Додали сте нов резултат!");
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
@@ -997,9 +886,7 @@ public class ClientsPlanController {
         podRezultat.setRedosled(rezultat.getChildren().size() + 1);
 
         try {
-
             podRezultatService.save(podRezultat);
-
             redirectAttributes.addFlashAttribute("successMessage", "Додали сте нов подрезултат!");
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());

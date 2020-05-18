@@ -13,7 +13,8 @@ import slobodan.siuvs2.model.Plan;
 import slobodan.siuvs2.model.Client;
 import slobodan.siuvs2.model.Page;
 import org.springframework.data.jpa.repository.JpaRepository;
+import slobodan.siuvs2.valueObject.ClientId;
 
 public interface PlanRepository extends JpaRepository<Plan, Integer>{
-    Plan findFirstByClientAndPage(Client client, Page page);
+    Plan findFirstByClient(Client client);
 }

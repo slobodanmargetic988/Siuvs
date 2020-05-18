@@ -24,18 +24,31 @@
 
             <div class="panel" >
                 <div class="panel-heading">
-                    <span class="panel-title" th:text="${plan.planText}"></span> 
+                    <th:block th:if="${!planempty}">
+                        <span class="panel-title" th:text="${plan.planText}"></span>
+                    </th:block>
+
+                    <th:block th:if="${planempty}">
+                        <span class="panel-title" >План још није унет</span>
+                    </th:block>
                 </div>
 
                 <div class="panel-body data-panel-body">
+                    <th:block th:if="${planempty}">
+                        План za изабраног клијента тренутно не постоји у бази.<br></br>
+                        Прво додајте нови план путем странице <a th:href="@{/admin/clients/{clientId}/plan/ceo(clientId=${client.id})}" >"Цео план"</a>.
+                    </th:block>
+                    <th:block th:if="${!planempty}">
+                        <th:block th:insert="fragments/forms/plan ::data_view(${plan}, ${planurl})" />
+                    </th:block>
 
-                    <th:block th:insert="fragments/forms/plan ::data_view(${plan}, ${planurl})" />
 
 
                 </div> 
 
             </div>
             <!-- Nov посебан цилј-->
+               <th:block th:if="${!planempty}"> 
             <div class="panel" sec:authorize="hasAnyAuthority('CLIENT')">
                 <div class="panel-heading">
                     <span class="panel-title">Нови посебан циљ</span>
@@ -70,7 +83,9 @@
                 </div>
 
             </div>
+                    </th:block>
             <!-- Nova mera-->
+             <th:block th:if="${!PClist.empty}"> 
             <div class="panel" sec:authorize="hasAnyAuthority('CLIENT')">
                 <div class="panel-heading">
                     <span class="panel-title">Нова мера</span>
@@ -84,7 +99,7 @@
                             <label  class="col-md-3 " >Изабери посебан циљ: </label>
                             <div class="col-md-9" >
                                 <select class="col-md-9 "  name="pcID"  >
-                                    <option  th:each="posebanCilj : ${plan.children}" th:value="${posebanCilj.id}" th:text="${posebanCilj.posebanCiljText}">Текст</option>
+                                    <option  th:each="posebanCilj : ${PClist}" th:value="${posebanCilj.id}" th:text="${posebanCilj.posebanCiljText}">Текст</option>
 
                                 </select> 
                             </div>
@@ -102,7 +117,9 @@
                 </div>
 
             </div>
+                  </th:block>
             <!-- Nov rezultat-->
+            <th:block th:if="${!meralist.empty}"> 
             <div class="panel" sec:authorize="hasAnyAuthority('CLIENT')">
                 <div class="panel-heading">
                     <span class="panel-title">Нов резултат</span>
@@ -136,8 +153,10 @@
                 </div>
 
             </div>
+                 </th:block>
             <!-- -->
             <!-- Nov pod_rezultat-->
+             <th:block th:if="${!rezultatlist.empty}"> 
             <div class="panel" sec:authorize="hasAnyAuthority('CLIENT')">
                 <div class="panel-heading">
                     <span class="panel-title">Нов подрезултат</span>
@@ -209,7 +228,7 @@
                 </div>
 
             </div>
-
+ </th:block>
             <!---->
         </div>
 

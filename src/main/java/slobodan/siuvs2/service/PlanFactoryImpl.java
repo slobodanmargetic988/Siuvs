@@ -24,24 +24,16 @@ public class PlanFactoryImpl implements PlanFactory {
     private PosebanCiljService posebanCiljService;
     
     @Override
-     public Plan empty(Client client, Page page){
+     public Plan empty(Client client){
         Plan plan= new Plan();
         plan.setClient(client);
-        plan.setPage(page);
         plan.setIndikator("/");
         plan.setIndikatorCv("/");
         plan.setIndikatorPv("/");
         plan.setOpstiCilj("/");
         plan.setPeriodDo("/");
         plan.setPeriodOd("/");
-        plan.setPlanText("Нови план");
-        /*
-        PosebanCilj pc=posebanCiljFactory.empty(plan);
-        posebanCiljService.save(pc);
-        List<PosebanCilj> PClist=new ArrayList();
-        PClist.add(pc);
-        plan.setChildren(PClist);
-        */
+        plan.setPlanText("План још увек није унет у базу");
          return plan;
      }
 }

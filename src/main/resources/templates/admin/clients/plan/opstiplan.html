@@ -41,7 +41,7 @@
                         Прво додајте нови план путем странице <a th:href="@{/admin/clients/{clientId}/plan/ceo(clientId=${client.id})}" >"Цео план"</a>.
                     </th:block>
                     <th:block th:if="${!planempty}">
-                        <th:block th:insert="fragments/forms/plan ::data_view(${plan}, ${planurl})" />
+                        <th:block th:insert="fragments/forms/plan ::data_view_ceo(${plan}, ${planurl})" />
                     </th:block>
 
 

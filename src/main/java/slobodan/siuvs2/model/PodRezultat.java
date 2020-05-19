@@ -47,6 +47,8 @@ public class PodRezultat {
      
      @Column(name = "period_kompletiran")
     private int periodKompletiran;
+     @Column(name = "kratko_obrazlozenje")
+    private String kratkoObrazlozenje;
      
      @Column(name = "budzet_jls_text")
     private String budzetJlsText;
@@ -66,6 +68,14 @@ public class PodRezultat {
  
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getKratkoObrazlozenje() {
+        return kratkoObrazlozenje;
+    }
+
+    public void setKratkoObrazlozenje(String kratkoObrazlozenje) {
+        this.kratkoObrazlozenje = kratkoObrazlozenje;
     }
 
     public String getPartnerInstitucijaText() {

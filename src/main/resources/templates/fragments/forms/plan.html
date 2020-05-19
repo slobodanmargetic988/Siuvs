@@ -44,7 +44,7 @@
                          Посебан циљ <span th:text="${__(${iCilj.index}+1)__ +': '+posebanCilj.posebanCiljText}"></span> </td>
                 
                     
-                        <td colspan="3"> Индикатор : <span th:text="${posebanCilj.indikator}"></span></td>
+                        <td colspan="3"> Показатељ : <span th:text="${posebanCilj.indikator}"></span></td>
                     </tr>
                 <tr> <td colspan="3">ПВ : <span th:text="${posebanCilj.indikatorPv}"></span></td></tr>
                 <tr> <td colspan="3"> ЦВ : <span th:text="${posebanCilj.indikatorCv}"></span></td></tr>
@@ -72,17 +72,17 @@
                 <tr >
                     <td rowspan="2">Резултат</td>
                     <td rowspan="2">Активности</td>
-                    <td rowspan="2">Индикатори</td>
-                    <td rowspan="2">Одговорна институција</td>
-                    <td rowspan="2">Партнер институција/е</td>
-                    <td colspan="2">Период</td>
-                    
+                    <td rowspan="2">Показатељи</td>
+                    <td rowspan="2">Одговорна служба</td>
+                  <!-- --  <td rowspan="2">Партнер институција/е</td><!-- -->
+                    <td rowspan="2">Рок</td>
+                    <td rowspan="2">Статус реализације</td>
+                    <td rowspan="2">Кратко образложење напретка</td>
                     <td colspan="2">Издвојено ресурси</td>
                     <td rowspan="2">Необезбеђени ресурси %</td>
                 </tr>
                 <tr >
-                    <td >Опис</td>
-                    <td >Комплетирано %</td>
+                    
                     <td>Буџет ЈЛС</td>
                     <td>Остали извори</td>
                 </tr>
@@ -119,9 +119,19 @@
                     <span th:text="${'Активност '+__(${iCilj.index}+1)__ +'.'+ __(${iMera.index}+1)__+'.'+ __(${iRezultat.index}+1)__+'.'+ __(${iPodRezultat.index}+1)__+': '+podRezultat.aktivnostiText}"></span></td>
                     <td > <span th:text="${podRezultat.indikatoriText}"></span></td>
                     <td > <span th:text="${podRezultat.odgovornaInstitucijaText}"></span></td>
-                    <td > <span th:text="${podRezultat.partnerInstitucijaText}"></span></td>
+                 <!-- --   <td > <span th:text="${podRezultat.partnerInstitucijaText}"></span></td> <!-- -->
                     <td > <span th:text="${podRezultat.periodText}"></span></td>
-                    <td > <span th:text="${podRezultat.periodKompletiran}"></span></td>
+                    <td > 
+                          <th:block th:switch="${podRezultat.periodKompletiran}">
+                            <th:block th:case="1"> <span >У току</span></th:block>
+                            <th:block th:case="2"> <span >Завршено</span></th:block>
+                            <th:block th:case="3"> <span >Одустало се</span></th:block>
+                            <th:block th:case="4"> <span >Није релевантно</span></th:block>
+                            <th:block th:case="*"> <span >Није унето</span></th:block>
+                          </th:block>
+                  <!--      <span th:text="${podRezultat.periodKompletiran}"></span>-->
+                        </td>
+                    <td > <span th:text="${podRezultat.kratkoObrazlozenje}"></span></td>
                     <td > <span th:text="${podRezultat.budzetJlsText}"></span></td>
                     <td > <span th:text="${podRezultat.budzetOstaloText}"></span></td>
                     <td > <span th:text="${podRezultat.budzetNeobezbedjenoText}"></span></td>
@@ -182,7 +192,7 @@
                          Посебан циљ <span th:text="${__(${iCilj.index}+1)__ +': '+posebanCilj.posebanCiljText}"></span> </td>
                 
                     
-                        <td colspan="3"> Индикатор : <span th:text="${posebanCilj.indikator}"></span></td>
+                        <td colspan="3"> Показатељ : <span th:text="${posebanCilj.indikator}"></span></td>
                     </tr>
                 <tr> <td colspan="3">ПВ : <span th:text="${posebanCilj.indikatorPv}"></span></td></tr>
                 <tr> <td colspan="3"> ЦВ : <span th:text="${posebanCilj.indikatorCv}"></span></td></tr>
@@ -210,17 +220,17 @@
                 <tr >
                     <td rowspan="2">Резултат</td>
                     <td rowspan="2">Активности</td>
-                    <td rowspan="2">Индикатори</td>
-                    <td rowspan="2">Одговорна институција</td>
-                    <td rowspan="2">Партнер институција/е</td>
-                    <td colspan="2">Период</td>
-                    
+                    <td rowspan="2">Показатељи</td>
+                    <td rowspan="2">Одговорна служба</td>
+                   <!-- -- <td rowspan="2">Партнер институција/е</td><!-- -->
+                    <td rowspan="2">Рок</td>
+                    <td rowspan="2">Статус реализације</td>
+                    <td rowspan="2">Кратко образложење напретка</td>
                     <td colspan="2">Издвојено ресурси</td>
                     <td rowspan="2">Необезбеђени ресурси %</td>
                 </tr>
                 <tr >
-                    <td >Опис</td>
-                    <td >Комплетирано %</td>
+                    
                     <td>Буџет ЈЛС</td>
                     <td>Остали извори</td>
                 </tr>
@@ -257,9 +267,18 @@
                     <span th:text="${'Активност '+__(${iCilj.index}+1)__ +'.'+ __(${iMera.index}+1)__+'.'+ __(${iRezultat.index}+1)__+'.'+ __(${iPodRezultat.index}+1)__+': '+podRezultat.aktivnostiText}"></span></td>
                     <td > <span th:text="${podRezultat.indikatoriText}"></span></td>
                     <td > <span th:text="${podRezultat.odgovornaInstitucijaText}"></span></td>
-                    <td > <span th:text="${podRezultat.partnerInstitucijaText}"></span></td>
+              <!-- --      <td > <span th:text="${podRezultat.partnerInstitucijaText}"></span></td> <!-- -->
                     <td > <span th:text="${podRezultat.periodText}"></span></td>
-                    <td > <span th:text="${podRezultat.periodKompletiran}"></span></td>
+                    <td >
+                        <th:block th:switch="${podRezultat.periodKompletiran}">
+                            <th:block th:case="1"> <span >У току</span></th:block>
+                            <th:block th:case="2"> <span >Завршено</span></th:block>
+                            <th:block th:case="3"> <span >Одустало се</span></th:block>
+                            <th:block th:case="4"> <span >Није релевантно</span></th:block>
+                             <th:block th:case="*"> <span >Није унето</span></th:block>
+                        </th:block>
+                    </td>
+                    <td > <span th:text="${podRezultat.kratkoObrazlozenje}"></span></td>
                     <td > <span th:text="${podRezultat.budzetJlsText}"></span></td>
                     <td > <span th:text="${podRezultat.budzetOstaloText}"></span></td>
                     <td > <span th:text="${podRezultat.budzetNeobezbedjenoText}"></span></td>

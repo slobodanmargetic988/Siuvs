@@ -312,12 +312,14 @@ public class PlanController {
             @RequestParam(name = "aktivnostText") String aktivnostText,
             @RequestParam(name = "indikatorText") String indikatorText,
             @RequestParam(name = "odgInstText") String odgInstText,
-            @RequestParam(name = "partInstText") String partInstText,
+            //@RequestParam(name = "partInstText") String partInstText,
+            @RequestParam(name = "kratkoObrazlozenje") String kratkoObrazlozenje,
+        
             @RequestParam(name = "periodText") String periodText,
             @RequestParam(name = "budzetJLS") String budzetJLS,
             @RequestParam(name = "budzetOstalo") String budzetOstalo,
             @RequestParam(name = "budzetNeobezbedjeno") String budzetNeobezbedjeno,
-            @RequestParam(name = "periodKompletirano") int periodKompletirano,
+            @RequestParam(name = "periodKompletiran") int periodKompletiran,
             @RequestParam(name = "rezultatID") RezultatID rezultatID,
             @ModelAttribute("plan") Plan plan,
             @PageableDefault final Pageable pageable, final RedirectAttributes redirectAttributes
@@ -328,9 +330,11 @@ public class PlanController {
         podRezultat.setAktivnostiText(aktivnostText);
         podRezultat.setIndikatoriText(indikatorText);
         podRezultat.setOdgovornaInstitucijaText(odgInstText);
-        podRezultat.setPartnerInstitucijaText(partInstText);
+       // podRezultat.setPartnerInstitucijaText(partInstText);
+   
+           podRezultat.setKratkoObrazlozenje(kratkoObrazlozenje);
         podRezultat.setPeriodText(periodText);
-        podRezultat.setPeriodKompletiran(periodKompletirano);
+        podRezultat.setPeriodKompletiran(periodKompletiran);
         podRezultat.setBudzetJlsText(budzetJLS);
         podRezultat.setBudzetOstaloText(budzetOstalo);
         podRezultat.setBudzetNeobezbedjenoText(budzetNeobezbedjeno);
@@ -659,7 +663,9 @@ public class PlanController {
             @RequestParam(name = "aktivnostiText") String aktivnostiText,
             @RequestParam(name = "indikatoriText") String indikatoriText,
             @RequestParam(name = "odgovornaInstitucijaText") String odgovornaInstitucijaText,
-            @RequestParam(name = "partnerInstitucijaText") String partnerInstitucijaText,
+           // @RequestParam(name = "partnerInstitucijaText") String partnerInstitucijaText,
+            @RequestParam(name = "kratkoObrazlozenje") String kratkoObrazlozenje,
+      
             @RequestParam(name = "periodText") String periodText,
             @RequestParam(name = "periodKompletiran") int periodKompletiran,
             @RequestParam(name = "budzetJlsText") String budzetJlsText,
@@ -678,7 +684,8 @@ public class PlanController {
         podRezultat.setAktivnostiText(aktivnostiText);
         podRezultat.setIndikatoriText(indikatoriText);
         podRezultat.setOdgovornaInstitucijaText(odgovornaInstitucijaText);
-        podRezultat.setPartnerInstitucijaText(partnerInstitucijaText);
+      //  podRezultat.setPartnerInstitucijaText(partnerInstitucijaText);
+       podRezultat.setKratkoObrazlozenje(kratkoObrazlozenje);
         podRezultat.setPeriodText(periodText);
         podRezultat.setPeriodKompletiran(periodKompletiran);
         podRezultat.setBudzetJlsText(budzetJlsText);
@@ -864,12 +871,14 @@ public class PlanController {
             @RequestParam(name = "aktivnostText") String aktivnostText,
             @RequestParam(name = "indikatorText") String indikatorText,
             @RequestParam(name = "odgInstText") String odgInstText,
-            @RequestParam(name = "partInstText") String partInstText,
+           // @RequestParam(name = "partInstText") String partInstText,
+            @RequestParam(name = "kratkoObrazlozenje") String kratkoObrazlozenje,
+       
             @RequestParam(name = "periodText") String periodText,
             @RequestParam(name = "budzetJLS") String budzetJLS,
             @RequestParam(name = "budzetOstalo") String budzetOstalo,
             @RequestParam(name = "budzetNeobezbedjeno") String budzetNeobezbedjeno,
-            @RequestParam(name = "periodKompletirano") int periodKompletirano,
+            @RequestParam(name = "periodKompletiran") int periodKompletiran,
             final RedirectAttributes redirectAttributes,
             final Model model
     ) {
@@ -884,9 +893,11 @@ public class PlanController {
         podRezultat.setAktivnostiText(aktivnostText);
         podRezultat.setIndikatoriText(indikatorText);
         podRezultat.setOdgovornaInstitucijaText(odgInstText);
-        podRezultat.setPartnerInstitucijaText(partInstText);
+       // podRezultat.setPartnerInstitucijaText(partInstText);
+
+           podRezultat.setKratkoObrazlozenje(kratkoObrazlozenje);
         podRezultat.setPeriodText(periodText);
-        podRezultat.setPeriodKompletiran(periodKompletirano);
+        podRezultat.setPeriodKompletiran(periodKompletiran);
         podRezultat.setBudzetJlsText(budzetJLS);
         podRezultat.setBudzetOstaloText(budzetOstalo);
         podRezultat.setBudzetNeobezbedjenoText(budzetNeobezbedjeno);

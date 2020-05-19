@@ -27,6 +27,7 @@ public class PodRezultatFactoryImpl implements PodRezultatFactory{
         podRezultat.setPartnerInstitucijaText("/");
         podRezultat.setRedosled(0);
         podRezultat.setPeriodKompletiran(0);
+        podRezultat.setKratkoObrazlozenje("/");
         podRezultat.setPeriodText("/");
         return podRezultat;
     }

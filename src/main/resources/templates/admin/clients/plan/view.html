@@ -66,7 +66,7 @@
                             </div><br> </br>
                             <label  class="col-md-3 " >Показатељ текст: </label>
                             <div class="col-md-9">
-                                <input type="text"  class="col-md-9"  name="indikator" value="Индикатор текст"> 
+                                <input type="text"  class="col-md-9"  name="indikator" value="Показатељ текст"> 
                             </div><br> </br>
                             <label  class="col-md-3 " >ЦВ текст: </label> 
                             <div class="col-md-9">
@@ -182,31 +182,44 @@
                                 <input type="text"  class="col-md-9"  name="aktivnostText" value="Активност текст..."> 
                             </div>
                             <br> </br>
-                            <label  class="col-md-3 " >Индикатори текст: </label>
+                            <label  class="col-md-3 " >Показатељи текст: </label>
                             <div class="col-md-9" >
-                                <input type="text"  class="col-md-9"  name="indikatorText" value="Индикатори текст..."> 
+                                <input type="text"  class="col-md-9"  name="indikatorText" value="Показатељи текст..."> 
                             </div>
                             <br> </br>
-                            <label  class="col-md-3 " >Одговорна институција текст: </label>
+                            <label  class="col-md-3 " >Одговорна служба текст: </label>
                             <div class="col-md-9" >
-                                <input type="text"  class="col-md-9"  name="odgInstText" value="Одговорна институција текст..."> 
+                                <input type="text"  class="col-md-9"  name="odgInstText" value="Одговорна служба текст..."> 
                             </div>
                             <br> </br>
+                            <!-- --
                             <label  class="col-md-3 " >Партнер институција/е текст: </label>
                             <div class="col-md-9" >
                                 <input type="text"  class="col-md-9"  name="partInstText" value="Партнер институција/е текст..."> 
                             </div>
                             <br> </br>
-                            <label  class="col-md-3 " >Период текст: </label>
+                            <!-- -->
+                            <label  class="col-md-3 " >Рок: </label>
                             <div class="col-md-9" >
-                                <input type="text"  class="col-md-9"  name="periodText" value="Период текст..."> 
+                                <input type="text"  class="col-md-9"  name="periodText" value="Рок..."> 
                             </div>
                             <br> </br>
-                            <label  class="col-md-3 " >Период комплетирано: </label>
+                            <label  class="col-md-3 " >Статус реализације: </label>
                             <div class="col-md-9" >
-                                <input type="number"   class="col-md-9" name="periodKompletirano" value="0"> 
+                               <select class="col-md-9"  name="periodKompletiran"  >
+                                    <option value="1" >У току</option>
+                                    <option value="2" >Завршено</option>
+                                    <option value="3" >Одустало се</option>
+                                    <option value="4" >Није релевантно</option>
+                               
+                                </select>
                             </div>
                             <br> </br>
+                            <label  class="col-md-3 " >Кратко образложење напретка: </label>
+                                <div class="col-md-9" >
+                                    <input type="text"   class="col-md-9"  name="kratkoObrazlozenje" value="Кратко образложење tekst..."> 
+                                </div>
+                                <br> </br>
                             <label  class="col-md-3 " >Буџет ЈЛС текст: </label>
                             <div class="col-md-9" >
                                 <input type="text"  class="col-md-9"  name="budzetJLS" value="Буџет ЈЛС текст..."> 

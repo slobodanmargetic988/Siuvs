@@ -15,7 +15,7 @@
 
             <th:block th:insert="fragments/navigation :: top-navbar ('end-user-overview')" />
         </th:block>
-       <th:block th:fragment="navigation-supervisor-client">
+        <th:block th:fragment="navigation-supervisor-client">
             <th:block th:insert="fragments/navigation :: left-supervisor-client" />
 
             <th:block th:insert="fragments/navigation :: top-navbar ('end-user-overview')" />
@@ -111,7 +111,7 @@
                     </ul>
                     <ul class="nav navbar-nav" th:if="${type == 'end-user-overview'}" sec:authorize="hasAnyAuthority('CLIENT','CLIENT_READ_ONLY')">
                         <li sec:authorize="hasAnyAuthority('CLIENT')" ><a th:href="@{/client/users}"><i class="px-nav-icon fa fa-users"></i><span class="px-nav-label">Корисници</span></a></li>
-                    <li ><a th:href="@{/client/overview}"><i class="px-nav-icon fa fa-institution"></i><span class="px-nav-label">Преглед</span></a></li>
+                        <li ><a th:href="@{/client/overview}"><i class="px-nav-icon fa fa-institution"></i><span class="px-nav-label">Преглед</span></a></li>
                     </ul>
                     <!-- Search start -->
                     <div>
@@ -184,10 +184,10 @@
                 <th:block th:case="PLAN">
                     <a th:href="@{{baseMenuUrl}/plan/{pageId}(baseMenuUrl=${baseMenuUrl},pageId=${menuItem.id})}"><span th:text="${menuItem.title}" class="px-nav-label"></span></a>
                 </th:block>
-                            <th:block th:case="OPSTIPLAN">
+                <th:block th:case="OPSTIPLAN">
                     <a th:href="@{{baseMenuUrl}/plan/opstideo/{pageId}(baseMenuUrl=${baseMenuUrl},pageId=${menuItem.id})}"><span th:text="${menuItem.title}" class="px-nav-label"></span></a>
                 </th:block>
-                                          <th:block th:case="CEOPLAN">
+                <th:block th:case="CEOPLAN">
                     <a th:href="@{{baseMenuUrl}/plan/ceo/{pageId}(baseMenuUrl=${baseMenuUrl},pageId=${menuItem.id})}"><span th:text="${menuItem.title}" class="px-nav-label"></span></a>
                 </th:block>
             </th:block>
@@ -206,8 +206,8 @@
 
             </nav>
         </th:block>
-                           
-                        <th:block th:fragment="left-supervisor-client">
+
+        <th:block th:fragment="left-supervisor-client">
             <nav class="px-nav px-nav-left" id="px-nav-dropdowns-left">
                 <th:block th:insert="fragments/navigation :: toggle-menu-button" />
 
@@ -330,13 +330,13 @@
             <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-separator(false)"/>
             <th:block th:insert="fragments/navigation :: nav-breadcrumbs-pages(${'/admin/clients/' + client.id}, ${lastIterationSeparate})" />
         </th:block>
-            
-            <th:block th:fragment="nav-breadcrumbs-supervisor-table(client, tableDefinition)">
+
+        <th:block th:fragment="nav-breadcrumbs-supervisor-table(client, tableDefinition)">
             <th:block th:insert="fragments/navigation :: nav-breadcrumbs-supervisor(${client}, false)" />
             <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-text(${tableDefinition.title}, true)" />
         </th:block>
-                   
-            <th:block th:fragment="nav-breadcrumbs-supervisor-view(client)">
+
+        <th:block th:fragment="nav-breadcrumbs-supervisor-view(client)">
             <span class="text-muted font-weight-light">
                 <i class="page-header-icon fa fa-institution"></i>
             </span>
@@ -344,8 +344,8 @@
             <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-separator(false)"/>
             <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-text(${client.name}, true)"/>
         </th:block>
-            
-            <th:block th:fragment="nav-breadcrumbs-supervisor-table-custom(client, tableDefinition, customTableDefinition)">
+
+        <th:block th:fragment="nav-breadcrumbs-supervisor-table-custom(client, tableDefinition, customTableDefinition)">
             <th:block th:insert="fragments/navigation :: nav-breadcrumbs-supervisor(${client}, false)" />
             <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-link(
                       ${tableDefinition.title},
@@ -355,7 +355,7 @@
             <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-separator(false)"/>
             <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-text(${customTableDefinition.title}, true)" />
         </th:block>
-            <th:block th:fragment="nav-breadcrumbs-supervisor(client, lastIterationSeparate)">
+        <th:block th:fragment="nav-breadcrumbs-supervisor(client, lastIterationSeparate)">
             <span class="text-muted font-weight-light">
                 <i class="page-header-icon fa fa-institution"></i>
             </span>
@@ -411,21 +411,21 @@
                               ${isDark})"
                               />
                 </th:block>
-                 <th:block th:case="CEOPLAN">
+                <th:block th:case="CEOPLAN">
                     <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-link(
                               ${page.title},
                               @{{baseMenuUrl}/plan/ceo/{pageId}(baseMenuUrl=${baseMenuUrl},pageId=${page.id})},
                               ${isDark})"
                               />
                 </th:block>
-                     <th:block th:case="OPSTIPLAN">
+                <th:block th:case="OPSTIPLAN">
                     <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-link(
                               ${page.title},
                               @{{baseMenuUrl}/plan/opstideo/{pageId}(baseMenuUrl=${baseMenuUrl},pageId=${page.id})},
                               ${isDark})"
                               />
                 </th:block>
-                    
+
             </th:block>
         </th:block>
 

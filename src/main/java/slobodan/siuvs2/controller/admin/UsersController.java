@@ -21,9 +21,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 import javax.validation.Valid;
-import slobodan.siuvs2.model.Role;
 
 @Scope(WebApplicationContext.SCOPE_REQUEST)
 @Controller
@@ -32,10 +30,8 @@ public class UsersController {
 
     @Autowired
     private UserService userService;
-
     @Autowired
     private LoginMonitorService loginMonitorService;
-
     @Autowired
     private PasswordValidationService passwordValidationService;
 
@@ -160,7 +156,6 @@ public class UsersController {
             redirectAttributes.addFlashAttribute("errorMessage", "Задата имејл адреса већ постоји у систему");
             return "redirect:/admin/users/" + userId;
         }
-
         userService.addRole(editUser, Roles.RIS);
         userService.updateUser(userId, editUser);
         return "redirect:/admin/users/" + userId;

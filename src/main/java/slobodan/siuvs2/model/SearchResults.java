@@ -1,16 +1,5 @@
 package slobodan.siuvs2.model;
 
-import slobodan.siuvs2.valueObject.ClientId;
-import org.hibernate.validator.constraints.NotEmpty;
-import org.springframework.data.annotation.CreatedBy;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedBy;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
-import javax.persistence.*;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import slobodan.siuvs2.controller.SearchController;
 
@@ -23,7 +12,7 @@ public class SearchResults {
     private List<DynamicData> dataseach;
     private List<String> links;
     private List< List<SearchController.HeaderRow>> tableheaders;
-   
+
     private List<List<DynamicData>> datas;
     private int numberofPages;
 
@@ -86,8 +75,6 @@ public class SearchResults {
         this.tableheaders = tableheaders;
     }
 
-
-
     public List<List<DynamicData>> getDatas() {
         return datas;
     }
@@ -104,5 +91,4 @@ public class SearchResults {
         this.numberofPages = numberofPages;
     }
 
-    
 }

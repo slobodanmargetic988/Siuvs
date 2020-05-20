@@ -21,5 +21,5 @@ public class ClientId implements IdValueObjectInterface {
     public ClientId(Integer value) {
         this.value = value;
     }
-    
+
 }

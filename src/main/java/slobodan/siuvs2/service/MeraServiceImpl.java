@@ -5,27 +5,27 @@ package slobodan.siuvs2.service;
 
 /**
  *
- * @author deca
+ * @author Slobodan Margetic slobodanmargetic988@gmail.com
  */
 import slobodan.siuvs2.model.Mera;
-import slobodan.siuvs2.model.PosebanCilj;
 import slobodan.siuvs2.repository.MeraRepository;
-import slobodan.siuvs2.repository.RezultatRepository;
 import slobodan.siuvs2.valueObject.MeraID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class MeraServiceImpl implements MeraService{
+public class MeraServiceImpl implements MeraService {
+
     @Autowired
     private MeraRepository meraRepository;
+
     /*
     @Autowired
     private RezultatRepository rezultatRepository;
     @Autowired
     private RezultatFactory rezultatFactory;
-    */
-        @Override
+     */
+    @Override
     public Mera findOne(MeraID meraID) {
         return meraRepository.findOne(meraID.getValue());
     }
@@ -35,10 +35,11 @@ public class MeraServiceImpl implements MeraService{
         //rezultatRepository.save(rezultatFactory.empty(mera));
         meraRepository.save(mera);
     }
-    
-            @Override
-   // @Transactional
-    public void delete(MeraID meraID){
-   meraRepository.delete(meraID.getValue());
-    };
+
+    @Override
+    // @Transactional
+    public void delete(MeraID meraID) {
+        meraRepository.delete(meraID.getValue());
+    }
+;
 }

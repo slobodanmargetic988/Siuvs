@@ -7,7 +7,7 @@ package slobodan.siuvs2.model;
 
 /**
  *
- * @author sloba
+ * @author Slobodan Margetic slobodanmargetic988@gmail.comba
  */
 import java.util.List;
 import javax.persistence.*;
@@ -15,22 +15,22 @@ import javax.persistence.*;
 @Entity
 @Table(name = "rezultat")
 public class Rezultat {
-    
-       @Id
+
+    @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "rezultat_id")
     private int id;
-    
+
     @ManyToOne
     @JoinColumn(name = "mera_id")
     private Mera mera;
-    
+
     @Column(name = "rezultat_text")
     private String rezultatText;
-    
+
     @Column(name = "redosled")
     private int redosled;
-    
+
     @OneToMany(mappedBy = "rezultat")
     @OrderBy("redosled ASC")
     private List<PodRezultat> children;
@@ -43,7 +43,6 @@ public class Rezultat {
         this.children = children;
     }
 
-    
     public int getId() {
         return id;
     }
@@ -76,8 +75,4 @@ public class Rezultat {
         this.redosled = redosled;
     }
 
-   
-
-    
-    
 }

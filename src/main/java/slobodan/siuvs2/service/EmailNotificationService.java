@@ -54,17 +54,17 @@ public class EmailNotificationService {
 
     public void sendForgotPasswordEmail(PasswordResetToken token) throws SiuvsException {
         String resetLink = this.rootUrl + "/forgotpassword/" + token.getToken();
-        String body =
-            "<html>" +
-            "<body>" +
-            "<p>Вашу лозинку можете поставити на следећем линку: </p>" +
-            "<p><a href=\""+resetLink+"\">"+resetLink+"</a></p>" +
-            "</body>" +
-            "</html>";
+        String body
+                = "<html>"
+                + "<body>"
+                + "<p>Вашу лозинку можете поставити на следећем линку: </p>"
+                + "<p><a href=\"" + resetLink + "\">" + resetLink + "</a></p>"
+                + "</body>"
+                + "</html>";
         this.sendHtmlEmail(
-            token.getUser().getEmail(),
-            "СИУВС - Заборављена лозинка",
-            body
+                token.getUser().getEmail(),
+                "СИУВС - Заборављена лозинка",
+                body
         );
     }
 

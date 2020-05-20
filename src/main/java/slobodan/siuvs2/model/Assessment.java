@@ -89,9 +89,7 @@ public class Assessment {
 
     @Column(name = "text_buduce_informacije")
     private String textBuduceInformacije;
-    
 
- 
     public int getId() {
         return id;
     }
@@ -282,6 +280,5 @@ public class Assessment {
     public void setTextBuduceInformacije(String textBuduceInformacije) {
         this.textBuduceInformacije = textBuduceInformacije;
     }
-
 
 }

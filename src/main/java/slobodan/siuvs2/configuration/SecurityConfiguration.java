@@ -46,34 +46,34 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-            .authorizeRequests()
+                .authorizeRequests()
                 .antMatchers("/").permitAll()
                 .antMatchers("/forgotpassword/**").permitAll()
                 .antMatchers("/admin/**").hasAnyAuthority(Roles.ADMIN.toString(), Roles.RIS.toString(), Roles.MUP.toString())
                 .antMatchers("/supervisor/**").hasAnyAuthority(Roles.DISTRIKT.toString(), Roles.PROVINCE.toString())
                 .antMatchers("/client/**").hasAnyAuthority(Roles.CLIENT.toString(), Roles.CLIENT_READ_ONLY.toString())
-                .antMatchers("/profile/**").hasAnyAuthority(Roles.ADMIN.toString(), Roles.RIS.toString(), Roles.MUP.toString(), Roles.CLIENT.toString(), Roles.CLIENT_READ_ONLY.toString(),Roles.DISTRIKT.toString(), Roles.PROVINCE.toString())
+                .antMatchers("/profile/**").hasAnyAuthority(Roles.ADMIN.toString(), Roles.RIS.toString(), Roles.MUP.toString(), Roles.CLIENT.toString(), Roles.CLIENT_READ_ONLY.toString(), Roles.DISTRIKT.toString(), Roles.PROVINCE.toString())
                 .anyRequest().authenticated()
                 .and()
-            .formLogin()
+                .formLogin()
                 .loginPage("/").failureUrl("/?error")
                 .defaultSuccessUrl("/home")
                 .usernameParameter("email")
                 .passwordParameter("password")
                 .and()
-            .logout()
+                .logout()
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                 .logoutSuccessUrl("/?logout")
                 .and()
-            .exceptionHandling()
+                .exceptionHandling()
                 .accessDeniedPage("/access-denied");
     }
 
     @Override
     public void configure(WebSecurity web) throws Exception {
         web
-            .ignoring()
-            .antMatchers("/resources/**", "/static/**", "/css/**", "/js/**", "/img/**", "/fonts/**", "/favicon/**");
+                .ignoring()
+                .antMatchers("/resources/**", "/static/**", "/css/**", "/js/**", "/img/**", "/fonts/**", "/favicon/**");
     }
 
 }

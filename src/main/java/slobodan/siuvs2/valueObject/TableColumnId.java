@@ -21,5 +21,5 @@ public class TableColumnId implements IdValueObjectInterface {
     public TableColumnId(Integer value) {
         this.value = value;
     }
-    
+
 }

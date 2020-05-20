@@ -7,14 +7,14 @@
     <body>
 
         <!-- Nav -->
-       <th:block th:insert="fragments/navigation :: navigation-end-user"></th:block>
+        <th:block th:insert="fragments/navigation :: navigation-end-user"></th:block>
 
         <!-- Content -->
         <div class="px-content">
 
             <div class="page-header">
                 <h1>
-                   <th:block th:insert="fragments/navigation :: nav-breadcrumbs-client(${client}, true)" />
+                    <th:block th:insert="fragments/navigation :: nav-breadcrumbs-client(${client}, true)" />
                 </h1>
             </div>
 
@@ -28,59 +28,59 @@
                 <div class="panel-body">
                     <div class="panel" >
                         <div class="panel-body">
-                        <label   >Назив јединице локалне самоуправе: <span th:text="${client.name}"></span> </label>
-                        <br><br/>
-                            
-                            <th:block th:if="${client.getOpstina() != null}">
-                                <label >Локална самоуправа: <span th:text="${client.opstina.name}"></span> </label>
-                                <br><br/>
+                            <label   >Назив јединице локалне самоуправе: <span th:text="${client.name}"></span> </label>
+                            <br><br/>
 
-                                    <label   >Аутономна покрајина: <span  th:text="${client.opstina.provincija.name}"></span> </label>
+                                <th:block th:if="${client.getOpstina() != null}">
+                                    <label >Локална самоуправа: <span th:text="${client.opstina.name}"></span> </label>
                                     <br><br/>
 
-                                        <label   >Управни округ: <span th:text="${client.opstina.distrikt.name}"></span> </label>
+                                        <label   >Аутономна покрајина: <span  th:text="${client.opstina.provincija.name}"></span> </label>
                                         <br><br/>
 
-                                            <label   >Надлежности и делокруг: </label> 
-
-                                            <th:block th:each="tasks : ${client.opstina.tasks}">
-                                                <br><br/>  <span th:text="${tasks.name}"></span> 
-
-                                            </th:block>
-
+                                            <label   >Управни округ: <span th:text="${client.opstina.distrikt.name}"></span> </label>
                                             <br><br/>
 
-                                                <label  >Листа међународних докумената: </label>
-                                                <th:block th:each="internationalAgreements : ${client.opstina.internationalAgreements}">
-                                                    <br><br/>
-                                                        <span  th:text="${internationalAgreements.name}"></span> 
+                                                <label   >Надлежности и делокруг: </label> 
+
+                                                <th:block th:each="tasks : ${client.opstina.tasks}">
+                                                    <br><br/>  <span th:text="${tasks.name}"></span> 
 
                                                 </th:block>
 
                                                 <br><br/>
 
-                                                    <label   >Листа јавних докумената: </label>
-                                                    <th:block th:each="publicPolicyDocuments : ${client.opstina.publicPolicyDocuments}">
-                                                        <br><br/> <span  th:text="${publicPolicyDocuments.name}"></span> 
+                                                    <label  >Листа међународних докумената: </label>
+                                                    <th:block th:each="internationalAgreements : ${client.opstina.internationalAgreements}">
+                                                        <br><br/>
+                                                            <span  th:text="${internationalAgreements.name}"></span> 
 
                                                     </th:block>
 
                                                     <br><br/>
-                       </th:block>
-                            </div>
-                    </div>
-                    <!-- 
-                    <div class="panel" ></div>
-                    <label   >Графичка репрезентација: Тек треба додати!! </label>
-                    <br><br/>    
- <!-- -->
-                    
-                </div>
-            </div>
-        </div>
 
-    </div>
-<th:block th:insert="fragments/footer :: footer-standard" />
-<th:block th:insert="fragments/scripts :: standard" />
-</body>
- </html>
+                                                        <label   >Листа јавних докумената: </label>
+                                                        <th:block th:each="publicPolicyDocuments : ${client.opstina.publicPolicyDocuments}">
+                                                            <br><br/> <span  th:text="${publicPolicyDocuments.name}"></span> 
+
+                                                        </th:block>
+
+                                                        <br><br/>
+                                                            </th:block>
+                                                            </div>
+                                                            </div>
+                                                            <!-- 
+                                                            <div class="panel" ></div>
+                                                            <label   >Графичка репрезентација: Тек треба додати!! </label>
+                                                            <br><br/>    
+                                                            <!-- -->
+
+                                                            </div>
+                                                            </div>
+                                                            </div>
+
+                                                            </div>
+                                                            <th:block th:insert="fragments/footer :: footer-standard" />
+                                                            <th:block th:insert="fragments/scripts :: standard" />
+                                                            </body>
+                                                            </html>

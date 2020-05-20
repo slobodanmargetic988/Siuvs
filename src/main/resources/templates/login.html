@@ -1,161 +1,161 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 
-<head>
-    <th:block th:include="fragments/head :: head" />
+    <head>
+        <th:block th:include="fragments/head :: head" />
 
-    <!-- Custom styling -->
-    <style>
-    .page-signin-header {
-      box-shadow: 0 2px 2px rgba(0,0,0,.05), 0 1px 0 rgba(0,0,0,.05);
-    }
+        <!-- Custom styling -->
+        <style>
+            .page-signin-header {
+                box-shadow: 0 2px 2px rgba(0,0,0,.05), 0 1px 0 rgba(0,0,0,.05);
+            }
 
-    .page-signin-header .btn {
-      position: absolute;
-      top: 12px;
-      right: 15px;
-    }
+            .page-signin-header .btn {
+                position: absolute;
+                top: 12px;
+                right: 15px;
+            }
 
-    html[dir="rtl"] .page-signin-header .btn {
-      right: auto;
-      left: 15px;
-    }
+            html[dir="rtl"] .page-signin-header .btn {
+                right: auto;
+                left: 15px;
+            }
 
-    .page-signin-container {
-      width: auto;
-      margin: 30px 10px;
-    }
+            .page-signin-container {
+                width: auto;
+                margin: 30px 10px;
+            }
 
-    .page-signin-container form {
-      border: 0;
-      box-shadow: 0 2px 2px rgba(0,0,0,.05), 0 1px 0 rgba(0,0,0,.05);
-    }
+            .page-signin-container form {
+                border: 0;
+                box-shadow: 0 2px 2px rgba(0,0,0,.05), 0 1px 0 rgba(0,0,0,.05);
+            }
 
-    @media (min-width: 544px) {
-      .page-signin-container {
-        width: 350px;
-        margin: 60px auto;
-      }
-    }
+            @media (min-width: 544px) {
+                .page-signin-container {
+                    width: 350px;
+                    margin: 60px auto;
+                }
+            }
 
-    .page-signin-social-btn {
-      width: 40px;
-      padding: 0;
-      line-height: 40px;
-      text-align: center;
-      border: none !important;
-    }
+            .page-signin-social-btn {
+                width: 40px;
+                padding: 0;
+                line-height: 40px;
+                text-align: center;
+                border: none !important;
+            }
 
-    #page-signin-forgot-form { display: none; }
-  </style>
-    <!-- / Custom styling -->
-</head>
+            #page-signin-forgot-form { display: none; }
+        </style>
+        <!-- / Custom styling -->
+    </head>
 
-<body class="login">
+    <body class="login">
 
-    <div class="page-signin-header p-a-2 text-sm-center bg-white">
-        <a class="px-demo-brand px-demo-brand-lg text-default" th:href="@{/}">Систем за интегрисано управљање ванредним ситуацијама</a>
-    </div>
-
-    <div th:replace="fragments/alert :: success (${successMessage})"></div>
-
-    <!-- Sign In form -->
-    <div class="m-x-auto m-t-4" style="width: 450px;" th:if="${param.error}">
-        <div class="alert alert-danger alert-dark">
-            <button type="button" class="close" data-dismiss="alert">×</button>
-            <h4 class="alert-heading">Пријава на систем није успела</h4>
-            <p th:if="${errorMessage == null}">Проверите да ли сте исправно унели имејл адресу и лозинку</p>
-            <p th:if="${errorMessage != null}" th:text="${errorMessage}">Проверите да ли сте исправно унели имејл адресу и лозинку</p>
+        <div class="page-signin-header p-a-2 text-sm-center bg-white">
+            <a class="px-demo-brand px-demo-brand-lg text-default" th:href="@{/}">Систем за интегрисано управљање ванредним ситуацијама</a>
         </div>
-    </div>
 
-    <div class="m-x-auto m-t-4" style="width: 450px;" th:if="${param.logout}">
-        <div class="alert alert-success alert-dark">
-            <button type="button" class="close" data-dismiss="alert">×</button>
-            <h4 class="alert-heading">Успешно сте се одјавили са система</h4>
-        </div>
-    </div>
+        <div th:replace="fragments/alert :: success (${successMessage})"></div>
 
-    <div class="m-x-auto m-t-4" style="width: 450px;" th:if="${requestedPasswordReset}">
-        <div class="alert alert-success alert-dark">
-            <button type="button" class="close" data-dismiss="alert">×</button>
-            <h4 class="alert-heading">Уколико имамо Вашу имејл адресу у бази, послаћемо Вам поруку са линком за ресетовање лозинке, који је валидан наредна 24 сата</h4>
-        </div>
-    </div>
-
-    <div class="m-x-auto m-t-4" style="width: 450px;" th:if="${badPasswordResetToken}">
-        <div class="alert alert-danger alert-dark">
-            <button type="button" class="close" data-dismiss="alert">×</button>
-            <h4 class="alert-heading">Неисправан линк</h4>
-        </div>
-    </div>
-
-    <div class="page-signin-container" id="page-signin-form">
-        <img id="logo_login" th:src="@{/img/logo.png}" alt="СИУВС 1.0" />
-
-        <form th:action="@{/}" method="POST" class="panel p-a-4">
-            <fieldset class=" form-group form-group-lg">
-                <input type="text" name="email" class="form-control" placeholder="Имејл адреса">
-            </fieldset>
-
-            <fieldset class=" form-group form-group-lg">
-                <input type="password" name="password" class="form-control" placeholder="Шифра">
-            </fieldset>
-
-            <div class="clearfix">
-                <a href="#" class="font-size-12 text-muted pull-xs-right" id="page-signin-forgot-link">Заборављена лозинка</a>
+        <!-- Sign In form -->
+        <div class="m-x-auto m-t-4" style="width: 450px;" th:if="${param.error}">
+            <div class="alert alert-danger alert-dark">
+                <button type="button" class="close" data-dismiss="alert">×</button>
+                <h4 class="alert-heading">Пријава на систем није успела</h4>
+                <p th:if="${errorMessage == null}">Проверите да ли сте исправно унели имејл адресу и лозинку</p>
+                <p th:if="${errorMessage != null}" th:text="${errorMessage}">Проверите да ли сте исправно унели имејл адресу и лозинку</p>
             </div>
+        </div>
 
-            <button type="submit" name="Submit" class="btn btn-block btn-lg btn-primary m-t-3">Улогуј се</button>
-        </form>
-
-    </div>
-
-    <!-- Reset form -->
-    <div class="page-signin-container" id="page-signin-forgot-form">
-        <h2 class="m-t-0 m-b-4 text-xs-center font-weight-semibold font-size-20">Промена лозинке</h2>
-
-        <form th:action="@{/forgotpassword}" method="POST" class="panel p-a-4">
-            <fieldset class="form-group form-group-lg">
-                <input type="email" name="email" class="form-control" placeholder="Ваша имејл адреса">
-            </fieldset>
-
-            <button type="submit" class="btn btn-block btn-lg btn-primary m-t-3">Пошаљи захтев</button>
-            <div class="m-t-2 text-muted">
-                <a href="#" id="page-signin-forgot-back">&larr; Назад</a>
+        <div class="m-x-auto m-t-4" style="width: 450px;" th:if="${param.logout}">
+            <div class="alert alert-success alert-dark">
+                <button type="button" class="close" data-dismiss="alert">×</button>
+                <h4 class="alert-heading">Успешно сте се одјавили са система</h4>
             </div>
-        </form>
-    </div>
-<!--
-    <th:block th:insert="fragments/page :: contact" />
--->
-    <th:block th:insert="fragments/footer :: footer-login" />
+        </div>
 
-    <th:block th:insert="fragments/scripts :: core" />
+        <div class="m-x-auto m-t-4" style="width: 450px;" th:if="${requestedPasswordReset}">
+            <div class="alert alert-success alert-dark">
+                <button type="button" class="close" data-dismiss="alert">×</button>
+                <h4 class="alert-heading">Уколико имамо Вашу имејл адресу у бази, послаћемо Вам поруку са линком за ресетовање лозинке, који је валидан наредна 24 сата</h4>
+            </div>
+        </div>
 
-    <!-- Page specific scripts -->
+        <div class="m-x-auto m-t-4" style="width: 450px;" th:if="${badPasswordResetToken}">
+            <div class="alert alert-danger alert-dark">
+                <button type="button" class="close" data-dismiss="alert">×</button>
+                <h4 class="alert-heading">Неисправан линк</h4>
+            </div>
+        </div>
 
-    <script>
-        $(function() {
-            $('#page-signin-forgot-link').on('click', function(e) {
-                e.preventDefault();
+        <div class="page-signin-container" id="page-signin-form">
+            <img id="logo_login" th:src="@{/img/logo.png}" alt="СИУВС 1.0" />
 
-                $('#page-signin-form').css({ display: 'none' });
-                $('#page-signin-forgot-form').css({ display: 'block' });
+            <form th:action="@{/}" method="POST" class="panel p-a-4">
+                <fieldset class=" form-group form-group-lg">
+                    <input type="text" name="email" class="form-control" placeholder="Имејл адреса">
+                </fieldset>
 
-                $(window).trigger('resize');
+                <fieldset class=" form-group form-group-lg">
+                    <input type="password" name="password" class="form-control" placeholder="Шифра">
+                </fieldset>
+
+                <div class="clearfix">
+                    <a href="#" class="font-size-12 text-muted pull-xs-right" id="page-signin-forgot-link">Заборављена лозинка</a>
+                </div>
+
+                <button type="submit" name="Submit" class="btn btn-block btn-lg btn-primary m-t-3">Улогуј се</button>
+            </form>
+
+        </div>
+
+        <!-- Reset form -->
+        <div class="page-signin-container" id="page-signin-forgot-form">
+            <h2 class="m-t-0 m-b-4 text-xs-center font-weight-semibold font-size-20">Промена лозинке</h2>
+
+            <form th:action="@{/forgotpassword}" method="POST" class="panel p-a-4">
+                <fieldset class="form-group form-group-lg">
+                    <input type="email" name="email" class="form-control" placeholder="Ваша имејл адреса">
+                </fieldset>
+
+                <button type="submit" class="btn btn-block btn-lg btn-primary m-t-3">Пошаљи захтев</button>
+                <div class="m-t-2 text-muted">
+                    <a href="#" id="page-signin-forgot-back">&larr; Назад</a>
+                </div>
+            </form>
+        </div>
+        <!--
+            <th:block th:insert="fragments/page :: contact" />
+        -->
+        <th:block th:insert="fragments/footer :: footer-login" />
+
+        <th:block th:insert="fragments/scripts :: core" />
+
+        <!-- Page specific scripts -->
+
+        <script>
+            $(function () {
+                $('#page-signin-forgot-link').on('click', function (e) {
+                    e.preventDefault();
+
+                    $('#page-signin-form').css({display: 'none'});
+                    $('#page-signin-forgot-form').css({display: 'block'});
+
+                    $(window).trigger('resize');
+                });
+
+                $('#page-signin-forgot-back').on('click', function (e) {
+                    e.preventDefault();
+
+                    $('#page-signin-form').css({display: 'block'});
+                    $('#page-signin-forgot-form').css({display: 'none'});
+
+                    $(window).trigger('resize');
+                });
             });
+        </script>
 
-            $('#page-signin-forgot-back').on('click', function(e) {
-                e.preventDefault();
-
-                $('#page-signin-form').css({ display: 'block' });
-                $('#page-signin-forgot-form').css({ display: 'none' });
-
-                $(window).trigger('resize');
-            });
-        });
-    </script>
-
-</body>
+    </body>
 </html>

@@ -1,302 +1,304 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
-<head>
-    <title>СИУВС 1.0</title>
-</head>
+    <head>
+        <title>СИУВС 1.0</title>
+    </head>
 
-<body>
- 
-<th:block th:fragment="data_view (plan,planurl)">
-   
-              <table class="table table-striped">
-             <!-- plan-->
-             <th:block th:if="${plan.getPlanText() != null}">
-                <thead>
-        <tr >
-           
-                <td colspan="7" > 
-                    <a  sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')" th:href="${planurl + '/editPlan'}" class=" btn-xs btn-info btn-outline"><i class="fa fa-pencil fa-lg"></i></a>                   
-                    <span th:text="${plan.planText}"></span></td>
-                <td colspan="3"> Период : <span th:text="${plan.periodOd}"></span> - <span th:text="${plan.periodDo}"></span></td>
-                    
-                
-        </tr>
-                <!-- opsti cilj-->
+    <body>
 
-               
-         </thead>
-                 </th:block>
+        <th:block th:fragment="data_view (plan,planurl)">
 
-              <!-- cilj-->
-              <th:block th:if="${PClist.empty}"><tr ><td colspan="10" ><a sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')" th:href="${planurl + '/newPosebanCilj'}" class=" btn-xs btn-info btn-outline"><i class="fa fa-plus-square-o fa-lg"></i></a>
-                       <span >План тренутно не садржи ниједан посебан циљ</span></td></tr> </th:block>
-              <th:block th:if="${!PClist.empty}">
-              <th:block th:each="posebanCilj, iCilj : ${PClist}">
-                    <tr >
-                        
-                     <td colspan="7" rowspan="3">
-                         <a sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')" th:href="${planurl + '/editPosebanCilj/'+posebanCilj.id}" class=" btn-xs btn-info btn-outline"><i class="fa fa-pencil fa-lg"></i></a>
-                         <a sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')" th:href="${planurl + '/newPosebanCilj'}" class=" btn-xs btn-info btn-outline"><i class="fa fa-plus-square-o fa-lg"></i></a>
-                       
-                         <a sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')" onclick="return confirm('Да ли сте сигурни да желите да обришете посебан циљ?');"  th:href="${planurl + '/deletePosebanCilj/'+posebanCilj.id}" class=" btn-xs btn-danger btn-outline " ><i class="fa fa-trash fa-lg"></i></a>
-                     
-                         Посебан циљ <span th:text="${__(${iCilj.index}+1)__ +': '+posebanCilj.posebanCiljText}"></span> </td>
-                
-                    
-                        <td colspan="3"> Показатељ : <span th:text="${posebanCilj.indikator}"></span></td>
-                    </tr>
-                <tr> <td colspan="3">ПВ : <span th:text="${posebanCilj.indikatorPv}"></span></td></tr>
-                <tr> <td colspan="3"> ЦВ : <span th:text="${posebanCilj.indikatorCv}"></span></td></tr>
-                
-                 
-                  
-                 <!-- mera-->
-                 <th:block th:if="${posebanCilj.getChildren().empty}">
-                     <tr > <td colspan="10"><a sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')" th:href="${planurl + '/newMera/'+posebanCilj.id}" class=" btn-xs btn-info btn-outline"><i class="fa fa-plus-square-o fa-lg"></i></a>
-                    <span >Посебан циљ тренутно не садржи ниједну меру</span> </td> </tr>
-                 
-                 </th:block>
-              <th:block th:if="${!posebanCilj.getChildren().empty}">
-                 <th:block th:each="mera, iMera : ${posebanCilj.getChildren()}">
-                <tr >
-                    
-                    <td colspan="10">
-                    <a sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')" th:href="${planurl + '/editMera/'+mera.id}" class=" btn-xs btn-info btn-outline"><i class="fa fa-pencil fa-lg"></i></a>
-                    <a sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')" th:href="${planurl + '/newMera/'+posebanCilj.id}" class=" btn-xs btn-info btn-outline"><i class="fa fa-plus-square-o fa-lg"></i></a>
-                    <a sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')" onclick="return confirm('Да ли сте сигурни да желите да обришете меру?');" th:href="${planurl + '/deleteMera/'+mera.id}" class=" btn-xs btn-danger btn-outline row-delete-button" ><i class="fa fa-trash fa-lg"></i></a>
-                        Мера <span th:text="${__(${iCilj.index}+1)__ +'.'+ __(${iMera.index}+1)__+': '+mera.meraText}"></span></td>
-                </tr>
-                
-                
-                <tr >
-                    <td rowspan="2">Резултат</td>
-                    <td rowspan="2">Активности</td>
-                    <td rowspan="2">Показатељи</td>
-                    <td rowspan="2">Одговорна служба</td>
-                  <!-- --  <td rowspan="2">Партнер институција/е</td><!-- -->
-                    <td rowspan="2">Рок</td>
-                    <td rowspan="2">Статус реализације</td>
-                    <td rowspan="2">Кратко образложење напретка</td>
-                    <td colspan="2">Издвојено ресурси</td>
-                    <td rowspan="2">Необезбеђени ресурси %</td>
-                </tr>
-                <tr >
-                    
-                    <td>Буџет ЈЛС</td>
-                    <td>Остали извори</td>
-                </tr>
-                     <th:block th:if="${mera.getChildren().empty}">
-                     <tr > <td colspan="10"><a sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')" th:href="${planurl + '/newRezultat/'+mera.id}" class=" btn-xs btn-info btn-outline"><i class="fa fa-plus-square-o fa-lg"></i></a>
-                             <span >Мера тренутно не садржи ниједан резултат</span> </td> </tr>
-                 
-                 </th:block>
-              <th:block th:if="${!mera.getChildren().empty}">
-                     
-                     <th:block th:each="rezultat, iRezultat : ${mera.getChildren()}">
-                         
-                             <tr>
-                                <td  th:rowspan="${rezultat.getChildren().size()+1}" colspan="1">
-                    <a sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')" th:href="${planurl + '/editRezultat/'+rezultat.id}" class=" btn-xs btn-info btn-outline"><i class="fa fa-pencil fa-lg"></i></a>
-                    <a sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')" th:href="${planurl + '/newRezultat/'+mera.id}" class=" btn-xs btn-info btn-outline"><i class="fa fa-plus-square-o fa-lg"></i></a>
-                    <a sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')" onclick="return confirm('Да ли сте сигурни да желите да обришете резултат?');" th:href="${planurl + '/deleteRezultat/'+rezultat.id}" class=" btn-xs btn-danger btn-outline row-delete-button" ><i class="fa fa-trash fa-lg"></i></a>
-                    <span th:text="${'Резултат '+__(${iCilj.index}+1)__ +'.'+ __(${iMera.index}+1)__+'.'+ __(${iRezultat.index}+1)__+': '+rezultat.rezultatText}"></span></td> 
+            <table class="table table-striped">
+                <!-- plan-->
+                <th:block th:if="${plan.getPlanText() != null}">
+                    <thead>
+                        <tr >
 
-                              
-                        <th:block th:if="${rezultat.getChildren().empty}">
-                     <td colspan="9"><a sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')" th:href="${planurl + '/newPodRezultat/'+rezultat.id}" class=" btn-xs btn-info btn-outline"><i class="fa fa-plus-square-o fa-lg"></i></a>
-                         <span >Резултат тренутно не садржи ниједан подрезултат</span></td>  
-                 
-                 </th:block>
-                                 </tr>
-              <th:block th:if="${!rezultat.getChildren().empty}">
-                         <tr th:each="podRezultat,iPodRezultat : ${rezultat.getChildren()}">
- 
-                    <td >
-                    <a sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')" th:href="${planurl + '/editPodRezultat/'+podRezultat.id}" class=" btn-xs btn-info btn-outline"><i class="fa fa-pencil fa-lg"></i></a>
-                    <a sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')" th:href="${planurl + '/newPodRezultat/'+rezultat.id}" class=" btn-xs btn-info btn-outline"><i class="fa fa-plus-square-o fa-lg"></i></a>
-                    <a sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')" onclick="return confirm('Да ли сте сигурни да желите да обришете подрезултат?');" th:href="${planurl + '/deletePodRezultat/'+podRezultat.id}" class=" btn-xs btn-danger btn-outline row-delete-button" ><i class="fa fa-trash fa-lg"></i></a>
-                    <span th:text="${'Активност '+__(${iCilj.index}+1)__ +'.'+ __(${iMera.index}+1)__+'.'+ __(${iRezultat.index}+1)__+'.'+ __(${iPodRezultat.index}+1)__+': '+podRezultat.aktivnostiText}"></span></td>
-                    <td > <span th:text="${podRezultat.indikatoriText}"></span></td>
-                    <td > <span th:text="${podRezultat.odgovornaInstitucijaText}"></span></td>
-                 <!-- --   <td > <span th:text="${podRezultat.partnerInstitucijaText}"></span></td> <!-- -->
-                    <td > <span th:text="${podRezultat.periodText}"></span></td>
-                    <td > 
-                          <th:block th:switch="${podRezultat.periodKompletiran}">
-                            <th:block th:case="1"> <span >У току</span></th:block>
-                            <th:block th:case="2"> <span >Завршено</span></th:block>
-                            <th:block th:case="3"> <span >Одустало се</span></th:block>
-                            <th:block th:case="4"> <span >Није релевантно</span></th:block>
-                            <th:block th:case="*"> <span >Није унето</span></th:block>
-                          </th:block>
-                  <!--      <span th:text="${podRezultat.periodKompletiran}"></span>-->
-                        </td>
-                    <td > <span th:text="${podRezultat.kratkoObrazlozenje}"></span></td>
-                    <td > <span th:text="${podRezultat.budzetJlsText}"></span></td>
-                    <td > <span th:text="${podRezultat.budzetOstaloText}"></span></td>
-                    <td > <span th:text="${podRezultat.budzetNeobezbedjenoText}"></span></td>
-                </tr>
-                    </th:block>
+                            <td colspan="7" > 
+                                <a  sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')" th:href="${planurl + '/editPlan'}" class=" btn-xs btn-info btn-outline"><i class="fa fa-pencil fa-lg"></i></a>                   
+                                <span th:text="${plan.planText}"></span></td>
+                            <td colspan="3"> Период : <span th:text="${plan.periodOd}"></span> - <span th:text="${plan.periodDo}"></span></td>
 
-                
-                         </th:block>
-                         </th:block>
-                   </th:block>
-                   </th:block>
-              </th:block>
-                  </th:block>
-        </table>     
 
-</th:block>
+                        </tr>
+                        <!-- opsti cilj-->
 
-<th:block th:fragment="data_view_ceo (plan,planurl)">
-   
-              <table class="table table-striped">
-             <!-- plan-->
-             <th:block th:if="${plan.getPlanText() != null}">
-                <thead>
-        <tr >
-           
-                <td colspan="7" > 
-                    <a  sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')" th:href="${planurl + '/editPlan'}" class=" btn-xs btn-info btn-outline"><i class="fa fa-pencil fa-lg"></i></a>                   
-                    <span th:text="${plan.planText}"></span></td>
-                <td colspan="3"> Период : <span th:text="${plan.periodOd}"></span> - <span th:text="${plan.periodDo}"></span></td>
-                    
-                
-        </tr>
-                <!-- opsti cilj-->
 
-                <tr >
-                    
-                     <td colspan="7" rowspan="3">Општи циљ:  <span th:text="${plan.opstiCilj}"></span> </td>
-                
-                    <td colspan="3"> Показатељ : <span th:text="${plan.indikator}"></span></td></tr>
-                <tr> <td colspan="3">ПВ : <span th:text="${plan.indikatorPv}"></span></td></tr>
-                <tr> <td colspan="3"> ЦВ : <span th:text="${plan.indikatorCv}"></span></td></tr>
-         </thead>
-                 </th:block>
+                    </thead>
+                </th:block>
 
-              <!-- cilj-->
-              <th:block th:if="${PClist.empty}"><tr ><td colspan="10" ><a sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')" th:href="${planurl + '/newPosebanCilj'}" class=" btn-xs btn-info btn-outline"><i class="fa fa-plus-square-o fa-lg"></i></a>
-                       <span >План тренутно не садржи ниједан посебан циљ</span></td></tr> </th:block>
-              <th:block th:if="${!PClist.empty}">
-              <th:block th:each="posebanCilj, iCilj : ${PClist}">
-                    <tr >
-                        
-                     <td colspan="7" rowspan="3">
-                         <a sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')" th:href="${planurl + '/editPosebanCilj/'+posebanCilj.id}" class=" btn-xs btn-info btn-outline"><i class="fa fa-pencil fa-lg"></i></a>
-                         <a sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')" th:href="${planurl + '/newPosebanCilj'}" class=" btn-xs btn-info btn-outline"><i class="fa fa-plus-square-o fa-lg"></i></a>
-                       
-                         <a sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')" onclick="return confirm('Да ли сте сигурни да желите да обришете посебан циљ?');"  th:href="${planurl + '/deletePosebanCilj/'+posebanCilj.id}" class=" btn-xs btn-danger btn-outline " ><i class="fa fa-trash fa-lg"></i></a>
-                     
-                         Посебан циљ <span th:text="${__(${iCilj.index}+1)__ +': '+posebanCilj.posebanCiljText}"></span> </td>
-                
-                    
-                        <td colspan="3"> Показатељ : <span th:text="${posebanCilj.indikator}"></span></td>
-                    </tr>
-                <tr> <td colspan="3">ПВ : <span th:text="${posebanCilj.indikatorPv}"></span></td></tr>
-                <tr> <td colspan="3"> ЦВ : <span th:text="${posebanCilj.indikatorCv}"></span></td></tr>
-                
-                 
-                  
-                 <!-- mera-->
-                 <th:block th:if="${posebanCilj.getChildren().empty}">
-                     <tr > <td colspan="10"><a sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')" th:href="${planurl + '/newMera/'+posebanCilj.id}" class=" btn-xs btn-info btn-outline"><i class="fa fa-plus-square-o fa-lg"></i></a>
-                    <span >Посебан циљ тренутно не садржи ниједну меру</span> </td> </tr>
-                 
-                 </th:block>
-              <th:block th:if="${!posebanCilj.getChildren().empty}">
-                 <th:block th:each="mera, iMera : ${posebanCilj.getChildren()}">
-                <tr >
-                    
-                    <td colspan="10">
-                    <a sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')" th:href="${planurl + '/editMera/'+mera.id}" class=" btn-xs btn-info btn-outline"><i class="fa fa-pencil fa-lg"></i></a>
-                    <a sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')" th:href="${planurl + '/newMera/'+posebanCilj.id}" class=" btn-xs btn-info btn-outline"><i class="fa fa-plus-square-o fa-lg"></i></a>
-                    <a sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')" onclick="return confirm('Да ли сте сигурни да желите да обришете меру?');" th:href="${planurl + '/deleteMera/'+mera.id}" class=" btn-xs btn-danger btn-outline row-delete-button" ><i class="fa fa-trash fa-lg"></i></a>
-                        Мера <span th:text="${__(${iCilj.index}+1)__ +'.'+ __(${iMera.index}+1)__+': '+mera.meraText}"></span></td>
-                </tr>
-                
-                
-                <tr >
-                    <td rowspan="2">Резултат</td>
-                    <td rowspan="2">Активности</td>
-                    <td rowspan="2">Показатељи</td>
-                    <td rowspan="2">Одговорна служба</td>
-                   <!-- -- <td rowspan="2">Партнер институција/е</td><!-- -->
-                    <td rowspan="2">Рок</td>
-                    <td rowspan="2">Статус реализације</td>
-                    <td rowspan="2">Кратко образложење напретка</td>
-                    <td colspan="2">Издвојено ресурси</td>
-                    <td rowspan="2">Необезбеђени ресурси %</td>
-                </tr>
-                <tr >
-                    
-                    <td>Буџет ЈЛС</td>
-                    <td>Остали извори</td>
-                </tr>
-                     <th:block th:if="${mera.getChildren().empty}">
-                     <tr > <td colspan="10"><a sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')" th:href="${planurl + '/newRezultat/'+mera.id}" class=" btn-xs btn-info btn-outline"><i class="fa fa-plus-square-o fa-lg"></i></a>
-                             <span >Мера тренутно не садржи ниједан резултат</span> </td> </tr>
-                 
-                 </th:block>
-              <th:block th:if="${!mera.getChildren().empty}">
-                     
-                     <th:block th:each="rezultat, iRezultat : ${mera.getChildren()}">
-                         
-                             <tr>
-                                <td  th:rowspan="${rezultat.getChildren().size()+1}" colspan="1">
-                    <a sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')" th:href="${planurl + '/editRezultat/'+rezultat.id}" class=" btn-xs btn-info btn-outline"><i class="fa fa-pencil fa-lg"></i></a>
-                    <a sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')" th:href="${planurl + '/newRezultat/'+mera.id}" class=" btn-xs btn-info btn-outline"><i class="fa fa-plus-square-o fa-lg"></i></a>
-                    <a sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')" onclick="return confirm('Да ли сте сигурни да желите да обришете резултат?');" th:href="${planurl + '/deleteRezultat/'+rezultat.id}" class=" btn-xs btn-danger btn-outline row-delete-button" ><i class="fa fa-trash fa-lg"></i></a>
-                    <span th:text="${'Резултат '+__(${iCilj.index}+1)__ +'.'+ __(${iMera.index}+1)__+'.'+ __(${iRezultat.index}+1)__+': '+rezultat.rezultatText}"></span></td> 
+                <!-- cilj-->
+                <th:block th:if="${PClist.empty}"><tr ><td colspan="10" ><a sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')" th:href="${planurl + '/newPosebanCilj'}" class=" btn-xs btn-info btn-outline"><i class="fa fa-plus-square-o fa-lg"></i></a>
+                            <span >План тренутно не садржи ниједан посебан циљ</span></td></tr> </th:block>
+                <th:block th:if="${!PClist.empty}">
+                    <th:block th:each="posebanCilj, iCilj : ${PClist}">
+                        <tr >
 
-                              
-                        <th:block th:if="${rezultat.getChildren().empty}">
-                     <td colspan="9"><a sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')" th:href="${planurl + '/newPodRezultat/'+rezultat.id}" class=" btn-xs btn-info btn-outline"><i class="fa fa-plus-square-o fa-lg"></i></a>
-                         <span >Резултат тренутно не садржи ниједан подрезултат</span></td>  
-                 
-                 </th:block>
-                                 </tr>
-              <th:block th:if="${!rezultat.getChildren().empty}">
-                         <tr th:each="podRezultat,iPodRezultat : ${rezultat.getChildren()}">
- 
-                    <td >
-                    <a sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')" th:href="${planurl + '/editPodRezultat/'+podRezultat.id}" class=" btn-xs btn-info btn-outline"><i class="fa fa-pencil fa-lg"></i></a>
-                    <a sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')" th:href="${planurl + '/newPodRezultat/'+rezultat.id}" class=" btn-xs btn-info btn-outline"><i class="fa fa-plus-square-o fa-lg"></i></a>
-                    <a sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')" onclick="return confirm('Да ли сте сигурни да желите да обришете подрезултат?');" th:href="${planurl + '/deletePodRezultat/'+podRezultat.id}" class=" btn-xs btn-danger btn-outline row-delete-button" ><i class="fa fa-trash fa-lg"></i></a>
-                    <span th:text="${'Активност '+__(${iCilj.index}+1)__ +'.'+ __(${iMera.index}+1)__+'.'+ __(${iRezultat.index}+1)__+'.'+ __(${iPodRezultat.index}+1)__+': '+podRezultat.aktivnostiText}"></span></td>
-                    <td > <span th:text="${podRezultat.indikatoriText}"></span></td>
-                    <td > <span th:text="${podRezultat.odgovornaInstitucijaText}"></span></td>
-              <!-- --      <td > <span th:text="${podRezultat.partnerInstitucijaText}"></span></td> <!-- -->
-                    <td > <span th:text="${podRezultat.periodText}"></span></td>
-                    <td >
-                        <th:block th:switch="${podRezultat.periodKompletiran}">
-                            <th:block th:case="1"> <span >У току</span></th:block>
-                            <th:block th:case="2"> <span >Завршено</span></th:block>
-                            <th:block th:case="3"> <span >Одустало се</span></th:block>
-                            <th:block th:case="4"> <span >Није релевантно</span></th:block>
-                             <th:block th:case="*"> <span >Није унето</span></th:block>
+                            <td colspan="7" rowspan="3">
+                                <a sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')" th:href="${planurl + '/editPosebanCilj/'+posebanCilj.id}" class=" btn-xs btn-info btn-outline"><i class="fa fa-pencil fa-lg"></i></a>
+                                <a sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')" th:href="${planurl + '/newPosebanCilj'}" class=" btn-xs btn-info btn-outline"><i class="fa fa-plus-square-o fa-lg"></i></a>
+
+                                <a sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')" onclick="return confirm('Да ли сте сигурни да желите да обришете посебан циљ?');"  th:href="${planurl + '/deletePosebanCilj/'+posebanCilj.id}" class=" btn-xs btn-danger btn-outline " ><i class="fa fa-trash fa-lg"></i></a>
+
+                                Посебан циљ <span th:text="${__(${iCilj.index}+1)__ +': '+posebanCilj.posebanCiljText}"></span> </td>
+
+
+                            <td colspan="3"> Показатељ : <span th:text="${posebanCilj.indikator}"></span></td>
+                        </tr>
+                        <tr> <td colspan="3">ПВ : <span th:text="${posebanCilj.indikatorPv}"></span></td></tr>
+                        <tr> <td colspan="3"> ЦВ : <span th:text="${posebanCilj.indikatorCv}"></span></td></tr>
+
+
+
+                        <!-- mera-->
+                        <th:block th:if="${posebanCilj.getChildren().empty}">
+                            <tr > <td colspan="10"><a sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')" th:href="${planurl + '/newMera/'+posebanCilj.id}" class=" btn-xs btn-info btn-outline"><i class="fa fa-plus-square-o fa-lg"></i></a>
+                                    <span >Посебан циљ тренутно не садржи ниједну меру</span> </td> </tr>
+
                         </th:block>
-                    </td>
-                    <td > <span th:text="${podRezultat.kratkoObrazlozenje}"></span></td>
-                    <td > <span th:text="${podRezultat.budzetJlsText}"></span></td>
-                    <td > <span th:text="${podRezultat.budzetOstaloText}"></span></td>
-                    <td > <span th:text="${podRezultat.budzetNeobezbedjenoText}"></span></td>
-                </tr>
+                        <th:block th:if="${!posebanCilj.getChildren().empty}">
+                            <th:block th:each="mera, iMera : ${posebanCilj.getChildren()}">
+                                <tr >
+
+                                    <td colspan="10">
+                                        <a sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')" th:href="${planurl + '/editMera/'+mera.id}" class=" btn-xs btn-info btn-outline"><i class="fa fa-pencil fa-lg"></i></a>
+                                        <a sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')" th:href="${planurl + '/newMera/'+posebanCilj.id}" class=" btn-xs btn-info btn-outline"><i class="fa fa-plus-square-o fa-lg"></i></a>
+                                        <a sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')" onclick="return confirm('Да ли сте сигурни да желите да обришете меру?');" th:href="${planurl + '/deleteMera/'+mera.id}" class=" btn-xs btn-danger btn-outline row-delete-button" ><i class="fa fa-trash fa-lg"></i></a>
+                                        Мера <span th:text="${__(${iCilj.index}+1)__ +'.'+ __(${iMera.index}+1)__+': '+mera.meraText}"></span></td>
+                                </tr>
+
+
+                                <tr >
+                                    <td rowspan="2">Резултат</td>
+                                    <td rowspan="2">Активности</td>
+                                    <td rowspan="2">Показатељи</td>
+                                    <td rowspan="2">Одговорна служба</td>
+                                    <!-- --  <td rowspan="2">Партнер институција/е</td><!-- -->
+                                    <td rowspan="2">Рок</td>
+                                    <td rowspan="2">Статус реализације</td>
+                                    <td rowspan="2">Кратко образложење напретка</td>
+                                    <td colspan="2">Издвојено ресурси</td>
+                                    <td rowspan="2">Необезбеђени ресурси</td>
+                                </tr>
+                                <tr >
+
+                                    <td>Буџет ЈЛС</td>
+                                    <td>Остали извори</td>
+                                </tr>
+                                <th:block th:if="${mera.getChildren().empty}">
+                                    <tr > <td colspan="10"><a sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')" th:href="${planurl + '/newRezultat/'+mera.id}" class=" btn-xs btn-info btn-outline"><i class="fa fa-plus-square-o fa-lg"></i></a>
+                                            <span >Мера тренутно не садржи ниједан резултат</span> </td> </tr>
+
+                                </th:block>
+                                <th:block th:if="${!mera.getChildren().empty}">
+
+                                    <th:block th:each="rezultat, iRezultat : ${mera.getChildren()}">
+
+                                        <tr>
+                                            <td  th:rowspan="${rezultat.getChildren().size()+1}" colspan="1">
+                                                <a sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')" th:href="${planurl + '/editRezultat/'+rezultat.id}" class=" btn-xs btn-info btn-outline"><i class="fa fa-pencil fa-lg"></i></a>
+                                                <a sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')" th:href="${planurl + '/newRezultat/'+mera.id}" class=" btn-xs btn-info btn-outline"><i class="fa fa-plus-square-o fa-lg"></i></a>
+                                                <a sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')" onclick="return confirm('Да ли сте сигурни да желите да обришете резултат?');" th:href="${planurl + '/deleteRezultat/'+rezultat.id}" class=" btn-xs btn-danger btn-outline row-delete-button" ><i class="fa fa-trash fa-lg"></i></a>
+                                                <span th:text="${'Резултат '+__(${iCilj.index}+1)__ +'.'+ __(${iMera.index}+1)__+'.'+ __(${iRezultat.index}+1)__+': '+rezultat.rezultatText}"></span></td> 
+
+
+                                            <th:block th:if="${rezultat.getChildren().empty}">
+                                                <td colspan="9"><a sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')" th:href="${planurl + '/newPodRezultat/'+rezultat.id}" class=" btn-xs btn-info btn-outline"><i class="fa fa-plus-square-o fa-lg"></i></a>
+                                                    <span >Резултат тренутно не садржи ниједан подрезултат</span></td>  
+
+                                            </th:block>
+                                        </tr>
+                                        <th:block th:if="${!rezultat.getChildren().empty}">
+                                            <tr th:each="podRezultat,iPodRezultat : ${rezultat.getChildren()}">
+
+                                                <td >
+                                                    <a sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')" th:href="${planurl + '/editPodRezultat/'+podRezultat.id}" class=" btn-xs btn-info btn-outline"><i class="fa fa-pencil fa-lg"></i></a>
+                                                    <a sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')" th:href="${planurl + '/newPodRezultat/'+rezultat.id}" class=" btn-xs btn-info btn-outline"><i class="fa fa-plus-square-o fa-lg"></i></a>
+                                                    <a sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')" onclick="return confirm('Да ли сте сигурни да желите да обришете подрезултат?');" th:href="${planurl + '/deletePodRezultat/'+podRezultat.id}" class=" btn-xs btn-danger btn-outline row-delete-button" ><i class="fa fa-trash fa-lg"></i></a>
+                                                    <span th:text="${'Активност '+__(${iCilj.index}+1)__ +'.'+ __(${iMera.index}+1)__+'.'+ __(${iRezultat.index}+1)__+'.'+ __(${iPodRezultat.index}+1)__+': '+podRezultat.aktivnostiText}"></span></td>
+                                                <td > <span th:text="${podRezultat.indikatoriText}"></span></td>
+                                                <td > <span th:text="${podRezultat.odgovornaInstitucijaText}"></span></td>
+                                                <!-- --   <td > <span th:text="${podRezultat.partnerInstitucijaText}"></span></td> <!-- -->
+                                                <td > <span th:text="${podRezultat.periodText}"></span></td>
+                                                <td > 
+                                                    <th:block th:switch="${podRezultat.periodKompletiran}">
+                                                        <th:block th:case="1"> <span >У току</span></th:block>
+                                                        <th:block th:case="2"> <span >Завршено</span></th:block>
+                                                        <th:block th:case="3"> <span >Одустало се</span></th:block>
+                                                        <th:block th:case="4"> <span >Није релевантно</span></th:block>
+                                                        <th:block th:case="*"> <span >Није унето</span></th:block>
+                                                    </th:block>
+                                                    <!--      <span th:text="${podRezultat.periodKompletiran}"></span>-->
+                                                </td>
+                                                <td > <span th:text="${podRezultat.kratkoObrazlozenje}"></span></td>
+                                                <td > <span th:text="${podRezultat.budzetJls}"></span></td>
+                                                <td > <span th:text="${podRezultat.budzetOstalo}"></span></td>
+                                                <td > <span th:text="${podRezultat.budzetNeobezbedjeno}"></span></td>
+                                            </tr>
+                                        </th:block>
+
+
+                                    </th:block>
+                                </th:block>
+                            </th:block>
+                        </th:block>
                     </th:block>
+                </th:block>
+            </table>     
 
-                
-                         </th:block>
-                         </th:block>
-                   </th:block>
-                   </th:block>
-              </th:block>
-                  </th:block>
-        </table>     
+        </th:block>
 
-</th:block>
+        <th:block th:fragment="data_view_ceo (plan,planurl)">
 
-</body>
+            <table class="table table-striped">
+                <!-- plan-->
+                <th:block th:if="${plan.getPlanText() != null}">
+                    <thead>
+                        <tr >
+
+                            <td colspan="7" > 
+                                <a  sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')" th:href="${planurl + '/editPlan'}" class=" btn-xs btn-info btn-outline"><i class="fa fa-pencil fa-lg"></i></a>                   
+                                <span th:text="${plan.planText}"></span></td>
+                            <td colspan="3"> Период : <span th:text="${plan.periodOd}"></span> - <span th:text="${plan.periodDo}"></span></td>
+
+
+                        </tr>
+                        <!-- opsti cilj-->
+
+                        <tr >
+
+                            <td colspan="7" rowspan="3">Општи циљ:  <span th:text="${plan.opstiCilj}"></span> </td>
+
+                            <td colspan="3"> Показатељ : <span th:text="${plan.indikator}"></span></td></tr>
+                        <tr> <td colspan="3">ПВ : <span th:text="${plan.indikatorPv}"></span></td></tr>
+                        <tr> <td colspan="3"> ЦВ : <span th:text="${plan.indikatorCv}"></span></td></tr>
+                    </thead>
+                </th:block>
+
+                <!-- cilj-->
+                <th:block th:if="${PClist.empty}"><tr ><td colspan="10" ><a sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')" th:href="${planurl + '/newPosebanCilj'}" class=" btn-xs btn-info btn-outline"><i class="fa fa-plus-square-o fa-lg"></i></a>
+                            <span >План тренутно не садржи ниједан посебан циљ</span></td></tr> </th:block>
+                <th:block th:if="${!PClist.empty}">
+                    <th:block th:each="posebanCilj, iCilj : ${PClist}">
+                        <tr >
+
+                            <td colspan="7" rowspan="3">
+                                <a sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')" th:href="${planurl + '/editPosebanCilj/'+posebanCilj.id}" class=" btn-xs btn-info btn-outline"><i class="fa fa-pencil fa-lg"></i></a>
+
+                                <th:block th:if="${!ceoplan}">
+                                    <a sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')" th:href="${planurl + '/newPosebanCilj'}" class=" btn-xs btn-info btn-outline"><i class="fa fa-plus-square-o fa-lg"></i></a>
+                                </th:block>
+                                <a sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')" onclick="return confirm('Да ли сте сигурни да желите да обришете посебан циљ?');"  th:href="${planurl + '/deletePosebanCilj/'+posebanCilj.id}" class=" btn-xs btn-danger btn-outline " ><i class="fa fa-trash fa-lg"></i></a>
+
+                                Посебан циљ <span th:text="${__(${iCilj.index}+1)__ +': '+posebanCilj.posebanCiljText}"></span> </td>
+
+
+                            <td colspan="3"> Показатељ : <span th:text="${posebanCilj.indikator}"></span></td>
+                        </tr>
+                        <tr> <td colspan="3">ПВ : <span th:text="${posebanCilj.indikatorPv}"></span></td></tr>
+                        <tr> <td colspan="3"> ЦВ : <span th:text="${posebanCilj.indikatorCv}"></span></td></tr>
+
+
+
+                        <!-- mera-->
+                        <th:block th:if="${posebanCilj.getChildren().empty}">
+                            <tr > <td colspan="10"><a sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')" th:href="${planurl + '/newMera/'+posebanCilj.id}" class=" btn-xs btn-info btn-outline"><i class="fa fa-plus-square-o fa-lg"></i></a>
+                                    <span >Посебан циљ тренутно не садржи ниједну меру</span> </td> </tr>
+
+                        </th:block>
+                        <th:block th:if="${!posebanCilj.getChildren().empty}">
+                            <th:block th:each="mera, iMera : ${posebanCilj.getChildren()}">
+                                <tr >
+
+                                    <td colspan="10">
+                                        <a sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')" th:href="${planurl + '/editMera/'+mera.id}" class=" btn-xs btn-info btn-outline"><i class="fa fa-pencil fa-lg"></i></a>
+                                        <a sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')" th:href="${planurl + '/newMera/'+posebanCilj.id}" class=" btn-xs btn-info btn-outline"><i class="fa fa-plus-square-o fa-lg"></i></a>
+                                        <a sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')" onclick="return confirm('Да ли сте сигурни да желите да обришете меру?');" th:href="${planurl + '/deleteMera/'+mera.id}" class=" btn-xs btn-danger btn-outline row-delete-button" ><i class="fa fa-trash fa-lg"></i></a>
+                                        Мера <span th:text="${__(${iCilj.index}+1)__ +'.'+ __(${iMera.index}+1)__+': '+mera.meraText}"></span></td>
+                                </tr>
+
+
+                                <tr >
+                                    <td rowspan="2">Резултат</td>
+                                    <td rowspan="2">Активности</td>
+                                    <td rowspan="2">Показатељи</td>
+                                    <td rowspan="2">Одговорна служба</td>
+                                    <!-- -- <td rowspan="2">Партнер институција/е</td><!-- -->
+                                    <td rowspan="2">Рок</td>
+                                    <td rowspan="2">Статус реализације</td>
+                                    <td rowspan="2">Кратко образложење напретка</td>
+                                    <td colspan="2">Издвојено ресурси</td>
+                                    <td rowspan="2">Необезбеђени ресурси</td>
+                                </tr>
+                                <tr >
+
+                                    <td>Буџет ЈЛС</td>
+                                    <td>Остали извори</td>
+                                </tr>
+                                <th:block th:if="${mera.getChildren().empty}">
+                                    <tr > <td colspan="10"><a sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')" th:href="${planurl + '/newRezultat/'+mera.id}" class=" btn-xs btn-info btn-outline"><i class="fa fa-plus-square-o fa-lg"></i></a>
+                                            <span >Мера тренутно не садржи ниједан резултат</span> </td> </tr>
+
+                                </th:block>
+                                <th:block th:if="${!mera.getChildren().empty}">
+
+                                    <th:block th:each="rezultat, iRezultat : ${mera.getChildren()}">
+
+                                        <tr>
+                                            <td  th:rowspan="${rezultat.getChildren().size()+1}" colspan="1">
+                                                <a sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')" th:href="${planurl + '/editRezultat/'+rezultat.id}" class=" btn-xs btn-info btn-outline"><i class="fa fa-pencil fa-lg"></i></a>
+                                                <a sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')" th:href="${planurl + '/newRezultat/'+mera.id}" class=" btn-xs btn-info btn-outline"><i class="fa fa-plus-square-o fa-lg"></i></a>
+                                                <a sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')" onclick="return confirm('Да ли сте сигурни да желите да обришете резултат?');" th:href="${planurl + '/deleteRezultat/'+rezultat.id}" class=" btn-xs btn-danger btn-outline row-delete-button" ><i class="fa fa-trash fa-lg"></i></a>
+                                                <span th:text="${'Резултат '+__(${iCilj.index}+1)__ +'.'+ __(${iMera.index}+1)__+'.'+ __(${iRezultat.index}+1)__+': '+rezultat.rezultatText}"></span></td> 
+
+
+                                            <th:block th:if="${rezultat.getChildren().empty}">
+                                                <td colspan="9"><a sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')" th:href="${planurl + '/newPodRezultat/'+rezultat.id}" class=" btn-xs btn-info btn-outline"><i class="fa fa-plus-square-o fa-lg"></i></a>
+                                                    <span >Резултат тренутно не садржи ниједан подрезултат</span></td>  
+
+                                            </th:block>
+                                        </tr>
+                                        <th:block th:if="${!rezultat.getChildren().empty}">
+                                            <tr th:each="podRezultat,iPodRezultat : ${rezultat.getChildren()}">
+
+                                                <td >
+                                                    <a sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')" th:href="${planurl + '/editPodRezultat/'+podRezultat.id}" class=" btn-xs btn-info btn-outline"><i class="fa fa-pencil fa-lg"></i></a>
+                                                    <a sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')" th:href="${planurl + '/newPodRezultat/'+rezultat.id}" class=" btn-xs btn-info btn-outline"><i class="fa fa-plus-square-o fa-lg"></i></a>
+                                                    <a sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')" onclick="return confirm('Да ли сте сигурни да желите да обришете подрезултат?');" th:href="${planurl + '/deletePodRezultat/'+podRezultat.id}" class=" btn-xs btn-danger btn-outline row-delete-button" ><i class="fa fa-trash fa-lg"></i></a>
+                                                    <span th:text="${'Активност '+__(${iCilj.index}+1)__ +'.'+ __(${iMera.index}+1)__+'.'+ __(${iRezultat.index}+1)__+'.'+ __(${iPodRezultat.index}+1)__+': '+podRezultat.aktivnostiText}"></span></td>
+                                                <td > <span th:text="${podRezultat.indikatoriText}"></span></td>
+                                                <td > <span th:text="${podRezultat.odgovornaInstitucijaText}"></span></td>
+                                                <!-- --      <td > <span th:text="${podRezultat.partnerInstitucijaText}"></span></td> <!-- -->
+                                                <td > <span th:text="${podRezultat.periodText}"></span></td>
+                                                <td >
+                                                    <th:block th:switch="${podRezultat.periodKompletiran}">
+                                                        <th:block th:case="1"> <span >У току</span></th:block>
+                                                        <th:block th:case="2"> <span >Завршено</span></th:block>
+                                                        <th:block th:case="3"> <span >Одустало се</span></th:block>
+                                                        <th:block th:case="4"> <span >Није релевантно</span></th:block>
+                                                        <th:block th:case="*"> <span >Није унето</span></th:block>
+                                                    </th:block>
+                                                </td>
+                                                <td > <span th:text="${podRezultat.kratkoObrazlozenje}"></span></td>
+                                                <td > <span th:text="${podRezultat.budzetJls}"></span></td>
+                                                <td > <span th:text="${podRezultat.budzetOstalo}"></span></td>
+                                                <td > <span th:text="${podRezultat.budzetNeobezbedjeno}"></span></td>
+                                            </tr>
+                                        </th:block>
+
+
+                                    </th:block>
+                                </th:block>
+                            </th:block>
+                        </th:block>
+                    </th:block>
+                </th:block>
+            </table>     
+
+        </th:block>
+
+    </body>
 </html>
 
 

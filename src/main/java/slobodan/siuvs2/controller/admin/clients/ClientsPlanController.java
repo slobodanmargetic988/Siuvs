@@ -5,7 +5,7 @@ package slobodan.siuvs2.controller.admin.clients;
 
 /**
  *
- * @author deca
+ * @author Slobodan Margetic slobodanmargetic988@gmail.com
  */
 import slobodan.siuvs2.service.PosebanCiljFactory;
 import slobodan.siuvs2.service.RezultatFactory;
@@ -28,13 +28,6 @@ import slobodan.siuvs2.model.Page;
 import slobodan.siuvs2.model.Rezultat;
 import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.EntityManager;
-import slobodan.siuvs2.repository.MeraRepository;
-import slobodan.siuvs2.repository.PlanRepository;
-import slobodan.siuvs2.repository.PodRezultatRepository;
-import slobodan.siuvs2.repository.PosebanCiljRepository;
-import slobodan.siuvs2.repository.RezultatRepository;
-import slobodan.siuvs2.shared.SiuvsException;
 import slobodan.siuvs2.valueObject.ClientId;
 import slobodan.siuvs2.valueObject.MeraID;
 import slobodan.siuvs2.valueObject.PageId;
@@ -48,7 +41,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -61,10 +53,8 @@ public class ClientsPlanController {
 
     @Autowired
     private ClientService clientService;
-
     @Autowired
     private PageService pageService;
-
     @Autowired
     private PlanService planService;
     @Autowired
@@ -77,29 +67,14 @@ public class ClientsPlanController {
     private RezultatService rezultatService;
     @Autowired
     private PlanFactory planFactory;
-
     @Autowired
     private PosebanCiljFactory posebanCiljFactory;
-
     @Autowired
     private MeraFactory meraFactory;
-
     @Autowired
     private RezultatFactory rezultatFactory;
-
     @Autowired
     private PodRezultatFactory podRezultatFactory;
-
-    @Autowired
-    private PodRezultatRepository podRezultatRepository;
-    @Autowired
-    private MeraRepository meraRepository;
-    @Autowired
-    private PosebanCiljRepository posebanCiljRepository;
-    @Autowired
-    private RezultatRepository rezultatRepository;
-    @Autowired
-    private PlanRepository planRepository;
 
     @GetMapping(value = "/{clientId}/plan/{pageId}")
     public String plan(
@@ -120,7 +95,6 @@ public class ClientsPlanController {
         String viewurl = "/admin/clients/" + clientId + "/plan/" + pageId;
         List<Mera> meralist = new ArrayList();
         List<Rezultat> rezultatlist = new ArrayList();
-
         if (plan == null) {
             plan = planFactory.empty(client);
             model.addAttribute("planempty", true);
@@ -129,7 +103,6 @@ public class ClientsPlanController {
         }
         if (PClist == null) {
             PClist = new ArrayList();
-            // posebanCiljFactory.empty(plan, page);
         } else {
             makeRezultatList(PClist, rezultatlist);
             makeMeraList(PClist, meralist);
@@ -166,7 +139,6 @@ public class ClientsPlanController {
         }
         if (PClist == null) {
             PClist = new ArrayList();
-            // posebanCiljFactory.empty(plan, page);
         } else {
             makeRezultatList(PClist, rezultatlist);
             makeMeraList(PClist, meralist);
@@ -178,6 +150,7 @@ public class ClientsPlanController {
         model.addAttribute("meralist", meralist);
         model.addAttribute("rezultatlist", rezultatlist);
         model.addAttribute("planurl", viewurl);
+        model.addAttribute("ceoplan", false);
         return "admin/clients/plan/opstiplan";
     }
 
@@ -203,7 +176,6 @@ public class ClientsPlanController {
         }
         if (PClist == null) {
             PClist = new ArrayList();
-            // posebanCiljFactory.empty(plan, page);
         } else {
             makeRezultatList(PClist, rezultatlist);
             makeMeraList(PClist, meralist);
@@ -215,6 +187,7 @@ public class ClientsPlanController {
         model.addAttribute("meralist", meralist);
         model.addAttribute("rezultatlist", rezultatlist);
         model.addAttribute("planurl", viewurl);
+        model.addAttribute("ceoplan", true);
         return "admin/clients/plan/opstiplan";
     }
 
@@ -236,7 +209,6 @@ public class ClientsPlanController {
                 }
             }
         }
-
         return rezultatlist;
     }
 
@@ -255,7 +227,6 @@ public class ClientsPlanController {
         Client client = clientService.findOne(clientId);
         Plan plan = planService.findFirstByClient(client);
         List<PosebanCilj> PClist = posebanCiljService.findAllByClientAndPage(client, page);
-
         PosebanCilj pc = posebanCiljFactory.empty(plan, page);
         pc.setRedosled(PClist.size() + 1);
         pc.setPosebanCiljText(posebanCiljText);
@@ -268,7 +239,6 @@ public class ClientsPlanController {
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
         }
-
         return "redirect:/admin/clients/" + clientId + "/plan/" + pageId + "#new-pc";
     }
 
@@ -327,12 +297,12 @@ public class ClientsPlanController {
             @RequestParam(name = "aktivnostText") String aktivnostText,
             @RequestParam(name = "indikatorText") String indikatorText,
             @RequestParam(name = "odgInstText") String odgInstText,
-           // @RequestParam(name = "partInstText") String partInstText,
-             @RequestParam(name = "kratkoObrazlozenje") String kratkoObrazlozenje,
+            // @RequestParam(name = "partInstText") String partInstText,
+            @RequestParam(name = "kratkoObrazlozenje") String kratkoObrazlozenje,
             @RequestParam(name = "periodText") String periodText,
-            @RequestParam(name = "budzetJLS") String budzetJLS,
-            @RequestParam(name = "budzetOstalo") String budzetOstalo,
-            @RequestParam(name = "budzetNeobezbedjeno") String budzetNeobezbedjeno,
+            @RequestParam(name = "budzetJLS") int budzetJLS,
+            @RequestParam(name = "budzetOstalo") int budzetOstalo,
+            @RequestParam(name = "budzetNeobezbedjeno") int budzetNeobezbedjeno,
             @RequestParam(name = "periodKompletiran") int periodKompletiran,
             @RequestParam(name = "rezultatID") RezultatID rezultatID,
             @ModelAttribute("plan") Plan plan,
@@ -344,20 +314,17 @@ public class ClientsPlanController {
         podRezultat.setAktivnostiText(aktivnostText);
         podRezultat.setIndikatoriText(indikatorText);
         podRezultat.setOdgovornaInstitucijaText(odgInstText);
-      //  podRezultat.setPartnerInstitucijaText(partInstText);
-    
-           podRezultat.setKratkoObrazlozenje(kratkoObrazlozenje);
+        //  podRezultat.setPartnerInstitucijaText(partInstText);
+        podRezultat.setKratkoObrazlozenje(kratkoObrazlozenje);
         podRezultat.setPeriodText(periodText);
         podRezultat.setPeriodKompletiran(periodKompletiran);
-        podRezultat.setBudzetJlsText(budzetJLS);
-        podRezultat.setBudzetOstaloText(budzetOstalo);
-        podRezultat.setBudzetNeobezbedjenoText(budzetNeobezbedjeno);
+        podRezultat.setBudzetJls(budzetJLS);
+        podRezultat.setBudzetOstalo(budzetOstalo);
+        podRezultat.setBudzetNeobezbedjeno(budzetNeobezbedjeno);
         podRezultat.setRedosled(rezultat.getChildren().size() + 1);
 
         try {
-
             podRezultatService.save(podRezultat);
-
             redirectAttributes.addFlashAttribute("successMessage", "Додали сте нов подрезултат!");
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
@@ -373,11 +340,8 @@ public class ClientsPlanController {
     ) {
         Client client = clientService.findOne(clientId);
         Page page = pageService.findOne(pageId);
-        //  Plan plan = planService.findFirstByClient(client);
         model.addAttribute("client", client);
         model.addAttribute("page", page);
-        //model.addAttribute("plan", plan);
-
         return "admin/clients/plan/editPlan";
     }
 
@@ -397,7 +361,7 @@ public class ClientsPlanController {
     ) {
         Client client = clientService.findOne(clientId);
         Page page = pageService.findOne(pageId);
-        Plan plan = planRepository.findFirstByClient(client);
+        Plan plan = planService.findFirstByClient(client);
         model.addAttribute("client", client);
         model.addAttribute("page", page);
         plan.setPlanText(planText);
@@ -407,20 +371,16 @@ public class ClientsPlanController {
         plan.setIndikator(indikator);
         plan.setIndikatorPv(indikatorPV);
         plan.setIndikatorCv(indikatorCV);
-
         try {
             planService.save(plan);
-
             redirectAttributes.addFlashAttribute("successMessage", "Успешно сте изменили план!");
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
         }
         return "redirect:/admin/clients/" + clientId + "/plan/" + pageId + "#izmenjenplan";
-
     }
 
     /*  poseban cilj*/
-
     @GetMapping(value = "/{clientId}/plan/{pageId}/deletePosebanCilj/{posebanCiljId}")
     public String deletePosebanCilj(
             @PathVariable final ClientId clientId,
@@ -431,17 +391,14 @@ public class ClientsPlanController {
     ) {
         Client client = clientService.findOne(clientId);
         Page page = pageService.findOne(pageId);
-
         model.addAttribute("client", client);
         model.addAttribute("page", page);
         try {
             posebanCiljService.delete(posebanCiljId);
-
             redirectAttributes.addFlashAttribute("successMessage", "Успешно сте обрисали посебан циљ!");
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("errorMessage", "Из безбедносних разлога, пре брисања посебног циља је неопходно да обришете све мере које припадају том циљу као и све резултате и подрезултате који припадају његовим мерама!");
         }
-
         return "redirect:/admin/clients/" + clientId + "/plan/" + pageId + "#Obrisancilj";
     }
 
@@ -454,13 +411,10 @@ public class ClientsPlanController {
     ) {
         Client client = clientService.findOne(clientId);
         Page page = pageService.findOne(pageId);
-        //Plan plan = planRepository.findFirstByClient(client);
         PosebanCilj posebanCilj = posebanCiljService.findOne(posebanCiljId);
-
         model.addAttribute("client", client);
         model.addAttribute("page", page);
         model.addAttribute("posebanCilj", posebanCilj);
-
         return "admin/clients/plan/editPosebanCilj";
     }
 
@@ -476,10 +430,8 @@ public class ClientsPlanController {
             final RedirectAttributes redirectAttributes,
             final Model model
     ) {
-
         Client client = clientService.findOne(clientId);
         Page page = pageService.findOne(pageId);
-        // Plan plan = planRepository.findFirstByClientAndPage(client, page);
         PosebanCilj posebanCilj = posebanCiljService.findOne(posebanCiljId);
         model.addAttribute("client", client);
         model.addAttribute("page", page);
@@ -487,17 +439,13 @@ public class ClientsPlanController {
         posebanCilj.setIndikator(indikator);
         posebanCilj.setIndikatorPv(indikatorPV);
         posebanCilj.setIndikatorCv(indikatorCV);
-
         try {
             posebanCiljService.save(posebanCilj);
-
             redirectAttributes.addFlashAttribute("successMessage", "Успешно сте изменили посебан циљ!");
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
         }
-
         return "redirect:/admin/clients/" + clientId + "/plan/" + pageId + "#izmenjencilj";
-
     }
 
     /* mera edit*/
@@ -511,17 +459,14 @@ public class ClientsPlanController {
     ) {
         Client client = clientService.findOne(clientId);
         Page page = pageService.findOne(pageId);
-
         model.addAttribute("client", client);
         model.addAttribute("page", page);
         try {
             meraService.delete(meraId);
-
             redirectAttributes.addFlashAttribute("successMessage", "Успешно сте обрисали меру!");
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("errorMessage", "Из безбедносних разлога, пре брисања мере је неопходно да обришете све  резултате и подрезултате који припадају тој мери!");
         }
-
         return "redirect:/admin/clients/" + clientId + "/plan/" + pageId + "#Obrisanamera";
     }
 
@@ -534,13 +479,10 @@ public class ClientsPlanController {
     ) {
         Client client = clientService.findOne(clientId);
         Page page = pageService.findOne(pageId);
-
         Mera mera = meraService.findOne(meraId);
-
         model.addAttribute("client", client);
         model.addAttribute("page", page);
         model.addAttribute("mera", mera);
-
         return "admin/clients/plan/editMera";
     }
 
@@ -553,23 +495,18 @@ public class ClientsPlanController {
             final RedirectAttributes redirectAttributes,
             final Model model
     ) {
-
         Client client = clientService.findOne(clientId);
         Page page = pageService.findOne(pageId);
         Mera mera = meraService.findOne(meraId);
         model.addAttribute("client", client);
         model.addAttribute("page", page);
-
         mera.setMeraText(meraText);
-
         try {
             meraService.save(mera);
-
             redirectAttributes.addFlashAttribute("successMessage", "Успешно сте изменили меру!");
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
         }
-
         return "redirect:/admin/clients/" + clientId + "/plan/" + pageId + "#izmenjenamera";
 
     }
@@ -586,17 +523,14 @@ public class ClientsPlanController {
     ) {
         Client client = clientService.findOne(clientId);
         Page page = pageService.findOne(pageId);
-
         model.addAttribute("client", client);
         model.addAttribute("page", page);
         try {
             rezultatService.delete(rezultatId);
-
             redirectAttributes.addFlashAttribute("successMessage", "Успешно сте обрисали резултат!");
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("errorMessage", "Из безбедносних разлога, пре брисања резултата је неопходно да обришете све подрезултате!");
         }
-
         return "redirect:/admin/clients/" + clientId + "/plan/" + pageId + "#Obrisanrezultat";
     }
 
@@ -609,13 +543,10 @@ public class ClientsPlanController {
     ) {
         Client client = clientService.findOne(clientId);
         Page page = pageService.findOne(pageId);
-
         Rezultat rezultat = rezultatService.findOne(rezultatId);
-
         model.addAttribute("client", client);
         model.addAttribute("page", page);
         model.addAttribute("rezultat", rezultat);
-
         return "admin/clients/plan/editRezultat";
     }
 
@@ -628,25 +559,19 @@ public class ClientsPlanController {
             final RedirectAttributes redirectAttributes,
             final Model model
     ) {
-
         Client client = clientService.findOne(clientId);
         Page page = pageService.findOne(pageId);
         Rezultat rezultat = rezultatService.findOne(rezultatId);
         model.addAttribute("client", client);
         model.addAttribute("page", page);
-
         rezultat.setRezultatText(rezultatText);
-
         try {
             rezultatService.save(rezultat);
-
             redirectAttributes.addFlashAttribute("successMessage", "Успешно сте изменили резултат!");
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
         }
-
         return "redirect:/admin/clients/" + clientId + "/plan/" + pageId + "#izmenjenrezultat";
-
     }
 
     /**/
@@ -662,17 +587,14 @@ public class ClientsPlanController {
     ) {
         Client client = clientService.findOne(clientId);
         Page page = pageService.findOne(pageId);
-
         model.addAttribute("client", client);
         model.addAttribute("page", page);
         try {
             podRezultatService.delete(podRezultatId);
-
             redirectAttributes.addFlashAttribute("successMessage", "Успешно сте обрисали подрезултат!");
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
         }
-
         return "redirect:/admin/clients/" + clientId + "/plan/" + pageId + "#Obrisanpodrezultat";
     }
 
@@ -685,13 +607,10 @@ public class ClientsPlanController {
     ) {
         Client client = clientService.findOne(clientId);
         Page page = pageService.findOne(pageId);
-
         PodRezultat podRezultat = podRezultatService.findOne(podRezultatId);
-
         model.addAttribute("client", client);
         model.addAttribute("page", page);
         model.addAttribute("podRezultat", podRezultat);
-
         return "admin/clients/plan/editPodRezultat";
     }
 
@@ -703,13 +622,13 @@ public class ClientsPlanController {
             @RequestParam(name = "aktivnostiText") String aktivnostiText,
             @RequestParam(name = "indikatoriText") String indikatoriText,
             @RequestParam(name = "odgovornaInstitucijaText") String odgovornaInstitucijaText,
-          //  @RequestParam(name = "partnerInstitucijaText") String partnerInstitucijaText,
+            //  @RequestParam(name = "partnerInstitucijaText") String partnerInstitucijaText,
             @RequestParam(name = "kratkoObrazlozenje") String kratkoObrazlozenje,
             @RequestParam(name = "periodText") String periodText,
             @RequestParam(name = "periodKompletiran") int periodKompletiran,
-            @RequestParam(name = "budzetJlsText") String budzetJlsText,
-            @RequestParam(name = "budzetOstaloText") String budzetOstaloText,
-            @RequestParam(name = "budzetNeobezbedjenoText") String budzetNeobezbedjenoText,
+            @RequestParam(name = "budzetJls") int budzetJls,
+            @RequestParam(name = "budzetOstalo") int budzetOstalo,
+            @RequestParam(name = "budzetNeobezbedjeno") int budzetNeobezbedjeno,
             final RedirectAttributes redirectAttributes,
             final Model model
     ) {
@@ -719,27 +638,22 @@ public class ClientsPlanController {
         PodRezultat podRezultat = podRezultatService.findOne(podRezultatId);
         model.addAttribute("client", client);
         model.addAttribute("page", page);
-
         podRezultat.setAktivnostiText(aktivnostiText);
         podRezultat.setIndikatoriText(indikatoriText);
         podRezultat.setOdgovornaInstitucijaText(odgovornaInstitucijaText);
-       // podRezultat.setPartnerInstitucijaText(partnerInstitucijaText);
-     
-       podRezultat.setKratkoObrazlozenje(kratkoObrazlozenje);
+        // podRezultat.setPartnerInstitucijaText(partnerInstitucijaText);
+        podRezultat.setKratkoObrazlozenje(kratkoObrazlozenje);
         podRezultat.setPeriodText(periodText);
         podRezultat.setPeriodKompletiran(periodKompletiran);
-        podRezultat.setBudzetJlsText(budzetJlsText);
-        podRezultat.setBudzetOstaloText(budzetOstaloText);
-        podRezultat.setBudzetNeobezbedjenoText(budzetNeobezbedjenoText);
-
+        podRezultat.setBudzetJls(budzetJls);
+        podRezultat.setBudzetOstalo(budzetOstalo);
+        podRezultat.setBudzetNeobezbedjeno(budzetNeobezbedjeno);
         try {
             podRezultatService.save(podRezultat);
-
             redirectAttributes.addFlashAttribute("successMessage", "Успешно сте изменили подрезултат!");
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
         }
-
         return "redirect:/admin/clients/" + clientId + "/plan/" + pageId + "#izmenjenpodRezultat";
 
     }
@@ -771,33 +685,24 @@ public class ClientsPlanController {
             final RedirectAttributes redirectAttributes,
             final Model model
     ) {
-
         Client client = clientService.findOne(clientId);
         Page page = pageService.findOne(pageId);
-
         model.addAttribute("client", client);
         model.addAttribute("page", page);
-
-        Plan plan = planRepository.findFirstByClient(client);
-
+        Plan plan = planService.findFirstByClient(client);
         PosebanCilj pc = posebanCiljFactory.empty(plan, page);
         pc.setRedosled(plan.getChildren().size() + 1);
         pc.setPosebanCiljText(posebanCiljText);
         pc.setIndikator(indikator);
         pc.setIndikatorPv(indikatorPV);
         pc.setIndikatorCv(indikatorCV);
-
         try {
             posebanCiljService.save(pc);
-            //adding empty children
-            //done empty children
             redirectAttributes.addFlashAttribute("successMessage", "Додали сте нови посебан циљ!");
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
         }
-
         return "redirect:/admin/clients/" + clientId + "/plan/" + pageId + "#newcilj";
-
     }
 
     /**/
@@ -827,27 +732,21 @@ public class ClientsPlanController {
             final RedirectAttributes redirectAttributes,
             final Model model
     ) {
-
         Client client = clientService.findOne(clientId);
         Page page = pageService.findOne(pageId);
-
         model.addAttribute("client", client);
         model.addAttribute("page", page);
-
         PosebanCilj pc = posebanCiljService.findOne(posebanCiljId);
         Mera mera = meraFactory.empty(pc);
         mera.setMeraText(meraText);
         mera.setRedosled(pc.getChildren().size() + 1);
-
         try {
             meraService.save(mera);
             redirectAttributes.addFlashAttribute("successMessage", "Додали сте нову меру!");
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
         }
-
         return "redirect:/admin/clients/" + clientId + "/plan/" + pageId + "#newmera";
-
     }
 
     /**/
@@ -864,7 +763,6 @@ public class ClientsPlanController {
         model.addAttribute("client", client);
         model.addAttribute("page", page);
         model.addAttribute("meraId", meraId);
-
         return "admin/clients/plan/newRezultat";
     }
 
@@ -877,18 +775,14 @@ public class ClientsPlanController {
             final RedirectAttributes redirectAttributes,
             final Model model
     ) {
-
         Client client = clientService.findOne(clientId);
         Page page = pageService.findOne(pageId);
-
         model.addAttribute("client", client);
         model.addAttribute("page", page);
-
         Mera mera = meraService.findOne(meraId);
         Rezultat rezultat = rezultatFactory.empty(mera);
         rezultat.setRezultatText(rezultatText);
         rezultat.setRedosled(mera.getChildren().size() + 1);
-
         try {
             rezultatService.save(rezultat);
             redirectAttributes.addFlashAttribute("successMessage", "Додали сте нов резултат!");
@@ -912,7 +806,6 @@ public class ClientsPlanController {
         model.addAttribute("client", client);
         model.addAttribute("page", page);
         model.addAttribute("rezultatId", rezultatId);
-
         return "admin/clients/plan/newPodRezultat";
     }
 
@@ -926,9 +819,9 @@ public class ClientsPlanController {
             @RequestParam(name = "odgInstText") String odgInstText,
             //@RequestParam(name = "partInstText") String partInstText,
             @RequestParam(name = "periodText") String periodText,
-            @RequestParam(name = "budzetJLS") String budzetJLS,
-            @RequestParam(name = "budzetOstalo") String budzetOstalo,
-            @RequestParam(name = "budzetNeobezbedjeno") String budzetNeobezbedjeno,
+            @RequestParam(name = "budzetJLS") int budzetJLS,
+            @RequestParam(name = "budzetOstalo") int budzetOstalo,
+            @RequestParam(name = "budzetNeobezbedjeno") int budzetNeobezbedjeno,
             @RequestParam(name = "periodKompletiran") int periodKompletiran,
             @RequestParam(name = "kratkoObrazlozenje") String kratkoObrazlozenje,
             final RedirectAttributes redirectAttributes,
@@ -937,25 +830,21 @@ public class ClientsPlanController {
 
         Client client = clientService.findOne(clientId);
         Page page = pageService.findOne(pageId);
-
         model.addAttribute("client", client);
         model.addAttribute("page", page);
-
         Rezultat rezultat = rezultatService.findOne(rezultatId);
         PodRezultat podRezultat = podRezultatFactory.empty(rezultat);
         podRezultat.setAktivnostiText(aktivnostText);
         podRezultat.setIndikatoriText(indikatorText);
         podRezultat.setOdgovornaInstitucijaText(odgInstText);
-       // podRezultat.setPartnerInstitucijaText(partInstText);
-      
-           podRezultat.setKratkoObrazlozenje(kratkoObrazlozenje);
+        // podRezultat.setPartnerInstitucijaText(partInstText);
+        podRezultat.setKratkoObrazlozenje(kratkoObrazlozenje);
         podRezultat.setPeriodText(periodText);
         podRezultat.setPeriodKompletiran(periodKompletiran);
-        podRezultat.setBudzetJlsText(budzetJLS);
-        podRezultat.setBudzetOstaloText(budzetOstalo);
-        podRezultat.setBudzetNeobezbedjenoText(budzetNeobezbedjeno);
+        podRezultat.setBudzetJls(budzetJLS);
+        podRezultat.setBudzetOstalo(budzetOstalo);
+        podRezultat.setBudzetNeobezbedjeno(budzetNeobezbedjeno);
         podRezultat.setRedosled(rezultat.getChildren().size() + 1);
-
         try {
             podRezultatService.save(podRezultat);
             redirectAttributes.addFlashAttribute("successMessage", "Додали сте нов подрезултат!");
@@ -964,5 +853,54 @@ public class ClientsPlanController {
         }
         return "redirect:/admin/clients/" + clientId + "/plan/" + pageId + "#new-podrezultat";
     }
+
     /**/
+    @GetMapping(value = "/{clientId}/plan/{pageId}/NewPlan")
+    public String newPlan(
+            @PathVariable final ClientId clientId,
+            @PathVariable final PageId pageId,
+            final Model model
+    ) {
+        Client client = clientService.findOne(clientId);
+        Page page = pageService.findOne(pageId);
+        model.addAttribute("client", client);
+        model.addAttribute("page", page);
+        return "admin/clients/plan/newPlan";
+    }
+
+    @PostMapping(value = "/{clientId}/plan/{pageId}/saveNewPlan")
+    public String saveNewPlan(
+            @PathVariable final ClientId clientId,
+            @PathVariable final PageId pageId,
+            @RequestParam(name = "planText") String planText,
+            @RequestParam(name = "periodOd") String periodOd,
+            @RequestParam(name = "periodDo") String periodDo,
+            @RequestParam(name = "opstiCilj") String opstiCilj,
+            @RequestParam(name = "indikator") String indikator,
+            @RequestParam(name = "indikatorPV") String indikatorPV,
+            @RequestParam(name = "indikatorCV") String indikatorCV,
+            final RedirectAttributes redirectAttributes,
+            final Model model
+    ) {
+        Client client = clientService.findOne(clientId);
+        Page page = pageService.findOne(pageId);
+        Plan plan = planFactory.empty(client);
+        model.addAttribute("client", client);
+        model.addAttribute("page", page);
+        plan.setPlanText(planText);
+        plan.setPeriodOd(periodOd);
+        plan.setPeriodDo(periodDo);
+        plan.setOpstiCilj(opstiCilj);
+        plan.setIndikator(indikator);
+        plan.setIndikatorPv(indikatorPV);
+        plan.setIndikatorCv(indikatorCV);
+        try {
+            planService.save(plan);
+            redirectAttributes.addFlashAttribute("successMessage", "Успешно сте додали план!");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+        }
+        return "redirect:/admin/clients/" + clientId + "/plan/" + pageId + "#noviplan";
+
+    }
 }

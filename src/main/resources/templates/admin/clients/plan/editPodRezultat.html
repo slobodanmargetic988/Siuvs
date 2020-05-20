@@ -67,12 +67,12 @@
                                 <label  class="col-md-3 " >Статус реализације: </label>
                                 <div class="col-md-9" >
                                     <select class="col-md-9"  name="periodKompletiran"  >
-                                    <option value="1" th:selected="${podRezultat.periodKompletiran==1}" >У току</option>
-                                    <option value="2" th:selected="${podRezultat.periodKompletiran==2}" >Завршено</option>
-                                    <option value="3" th:selected="${podRezultat.periodKompletiran==3}">Одустало се</option>
-                                    <option value="4" th:selected="${podRezultat.periodKompletiran==4}">Није релевантно</option>
-                               
-                                </select>
+                                        <option value="1" th:selected="${podRezultat.periodKompletiran==1}" >У току</option>
+                                        <option value="2" th:selected="${podRezultat.periodKompletiran==2}" >Завршено</option>
+                                        <option value="3" th:selected="${podRezultat.periodKompletiran==3}">Одустало се</option>
+                                        <option value="4" th:selected="${podRezultat.periodKompletiran==4}">Није релевантно</option>
+
+                                    </select>
                                 </div>
                                 <br> </br>
                                 <label  class="col-md-3 " >Кратко образложење напретка: </label>
@@ -80,19 +80,19 @@
                                     <input type="text"   class="col-md-9"  name="kratkoObrazlozenje" th:value="${podRezultat.kratkoObrazlozenje}"> 
                                 </div>
                                 <br> </br>
-                                <label  class="col-md-3 " >Буџет ЈЛС текст: </label>
+                                <label  class="col-md-3 " >Буџет ЈЛС: </label>
                                 <div class="col-md-9" >
-                                    <input type="text"   class="col-md-9"  name="budzetJlsText" th:value="${podRezultat.budzetJlsText}"> 
+                                    <input type="number"   class="col-md-9"  name="budzetJls" th:value="${podRezultat.budzetJls}"> 
                                 </div>
                                 <br> </br>
-                                <label  class="col-md-3 " >Буџет остали извори текст: </label>
+                                <label  class="col-md-3 " >Буџет остали извори: </label>
                                 <div class="col-md-9" >
-                                    <input type="text"   class="col-md-9"  name="budzetOstaloText" th:value="${podRezultat.budzetOstaloText}"> 
+                                    <input type="number"   class="col-md-9"  name="budzetOstalo" th:value="${podRezultat.budzetOstalo}"> 
                                 </div>
                                 <br> </br>
-                                <label  class="col-md-3 " >Буџет необезбеђени ресурси текст: </label>
+                                <label  class="col-md-3 " >Буџет необезбеђени ресурси: </label>
                                 <div class="col-md-9" >
-                                    <input type="text"   class="col-md-9"  name="budzetNeobezbedjenoText" th:value="${podRezultat.budzetNeobezbedjenoText}"> 
+                                    <input type="number"   class="col-md-9"  name="budzetNeobezbedjeno" th:value="${podRezultat.budzetNeobezbedjeno}"> 
                                 </div>
                                 <br> </br>
 

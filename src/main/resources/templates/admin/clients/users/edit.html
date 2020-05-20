@@ -1,51 +1,51 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
-<head>
-    <th:block th:include="fragments/head :: head" />
-</head>
-<body>
+    <head>
+        <th:block th:include="fragments/head :: head" />
+    </head>
+    <body>
 
-<th:block th:insert="fragments/navigation :: nav-admin-root" />
+        <th:block th:insert="fragments/navigation :: nav-admin-root" />
 
-<!-- Content -->
-<div class="px-content">
+        <!-- Content -->
+        <div class="px-content">
 
-    <div class="page-header">
-        <div class="box m-y-0 bg-transparent">
-            <h1 class="box-cell">
-                <span class="text-muted font-weight-light">
-                    <i class="page-header-icon fa fa-institution"></i>
-                    <a th:href="@{/admin/clients}">Клијенти</a> /
-                    <a th:href="@{/admin/clients/{id}(id=${client.id})}" th:text="${client.name}"></a> /
-                    <a th:href="@{/admin/clients/{id}/users(id=${client.id})}">Корисници</a> /
-                </span>
-                <span th:text="${user.name + ' ' + user.lastName}"></span>
-            </h1>
+            <div class="page-header">
+                <div class="box m-y-0 bg-transparent">
+                    <h1 class="box-cell">
+                        <span class="text-muted font-weight-light">
+                            <i class="page-header-icon fa fa-institution"></i>
+                            <a th:href="@{/admin/clients}">Клијенти</a> /
+                            <a th:href="@{/admin/clients/{id}(id=${client.id})}" th:text="${client.name}"></a> /
+                            <a th:href="@{/admin/clients/{id}/users(id=${client.id})}">Корисници</a> /
+                        </span>
+                        <span th:text="${user.name + ' ' + user.lastName}"></span>
+                    </h1>
 
-            <!-- Spacer -->
-            <hr class="visible-xs visible-sm">
+                    <!-- Spacer -->
+                    <hr class="visible-xs visible-sm">
+                </div>
+            </div>
+
+            <div th:replace="fragments/alert :: error (${errorMessage})"></div>
+
+            <!-- New client user form -->
+            <div class="panel">
+                <div class="panel-heading">
+                    <span class="panel-title">Измена корисника</span>
+                </div>
+                <div class="panel-body">
+
+                    <th:block th:insert="fragments/forms/edit-user :: edit-user (action=@{/admin/clients/{clientId}/users/{userId}/edit(clientId=${client.id},userId=${user.id})},backLink=@{/admin/clients/{clientId}/users/{userId}(clientId=${client.id},userId=${user.id})})"></th:block>
+
+                </div>
+            </div>
+
         </div>
-    </div>
 
-    <div th:replace="fragments/alert :: error (${errorMessage})"></div>
+        <th:block th:insert="fragments/footer :: footer-standard" />
 
-    <!-- New client user form -->
-    <div class="panel">
-        <div class="panel-heading">
-            <span class="panel-title">Измена корисника</span>
-        </div>
-        <div class="panel-body">
-
-            <th:block th:insert="fragments/forms/edit-user :: edit-user (action=@{/admin/clients/{clientId}/users/{userId}/edit(clientId=${client.id},userId=${user.id})},backLink=@{/admin/clients/{clientId}/users/{userId}(clientId=${client.id},userId=${user.id})})"></th:block>
-
-        </div>
-    </div>
-
-</div>
-
-<th:block th:insert="fragments/footer :: footer-standard" />
-
-<th:block th:insert="fragments/scripts :: standard" />
-</body>
+        <th:block th:insert="fragments/scripts :: standard" />
+    </body>
 </html>

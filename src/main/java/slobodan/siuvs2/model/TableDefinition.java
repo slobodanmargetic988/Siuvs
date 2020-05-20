@@ -69,8 +69,6 @@ public class TableDefinition {
         return result;
     }
 
-
-
     public void setColumns(List<TableColumn> columns) {
         this.columns = columns;
     }

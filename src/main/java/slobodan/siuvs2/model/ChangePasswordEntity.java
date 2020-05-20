@@ -1,7 +1,5 @@
 package slobodan.siuvs2.model;
 
-import org.hibernate.validator.constraints.Length;
-
 public class ChangePasswordEntity {
 
     private User user;

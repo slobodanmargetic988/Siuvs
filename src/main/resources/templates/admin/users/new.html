@@ -1,35 +1,35 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
-<head>
-    <th:block th:include="fragments/head :: head" />
-</head>
-<body>
+    <head>
+        <th:block th:include="fragments/head :: head" />
+    </head>
+    <body>
 
-<th:block th:insert="fragments/navigation :: nav-admin-root" />
+        <th:block th:insert="fragments/navigation :: nav-admin-root" />
 
-<!-- Content -->
-<div class="px-content">
+        <!-- Content -->
+        <div class="px-content">
 
-    <div th:replace="fragments/page :: subtitle (icon='fa fa-users', title='РИС', subtitle='Нови')"></div>
+            <div th:replace="fragments/page :: subtitle (icon='fa fa-users', title='РИС', subtitle='Нови')"></div>
 
-    <div th:replace="fragments/alert :: error (${errorMessage})"></div>
+            <div th:replace="fragments/alert :: error (${errorMessage})"></div>
 
-    <div class="panel">
-        <div class="panel-heading">
-            <span class="panel-title">Нови корисник</span>
+            <div class="panel">
+                <div class="panel-heading">
+                    <span class="panel-title">Нови корисник</span>
+                </div>
+                <div class="panel-body">
+
+                    <th:block th:insert="fragments/forms/new-user :: new-userRIS(action=@{/admin/users/new},backLink=@{/admin/users})"></th:block>
+
+                </div>
+            </div>
+
         </div>
-        <div class="panel-body">
 
-            <th:block th:insert="fragments/forms/new-user :: new-userRIS(action=@{/admin/users/new},backLink=@{/admin/users})"></th:block>
+        <th:block th:insert="fragments/footer :: footer-standard" />
 
-        </div>
-    </div>
-
-</div>
-
-<th:block th:insert="fragments/footer :: footer-standard" />
-
-<th:block th:insert="fragments/scripts :: standard" />
-</body>
+        <th:block th:insert="fragments/scripts :: standard" />
+    </body>
 </html>

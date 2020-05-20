@@ -28,51 +28,38 @@ import slobodan.siuvs2.valueObject.TableDefinitionId;
 import slobodan.siuvs2.valueObject.TableColumnId;
 import slobodan.siuvs2.shared.SiuvsException;
 import org.springframework.ui.Model;
-
 import java.util.List;
 
 public class TableFacade {
 
     private User user;
-
     private Client client;
-
     private PageService pageService;
-
     private TableDefinitionService tableDefinitionService;
-
     private DynamicTableService dynamicTableService;
-
     private DynamicGroupRowService dynamicGroupRowService;
-
     private DynamicRowFactory dynamicRowFactory;
-
     private DynamicGroupRowFactory dynamicGroupRowFactory;
-
     private CustomTableDefinitionService customTableDefinitionService;
-
     private DynamicRowService dynamicRowService;
-
     private TableColumnFactory tableColumnFactory;
-
     private TableColumnService tableColumnService;
-
     private PhotoService photoService;
 
     public TableFacade(
-        User user,
-        Client client,
-        PageService pageService,
-        TableDefinitionService tableDefinitionService,
-        DynamicTableService dynamicTableService,
-        DynamicGroupRowService dynamicGroupRowService,
-        DynamicRowFactory dynamicRowFactory,
-        DynamicGroupRowFactory dynamicGroupRowFactory,
-        CustomTableDefinitionService customTableDefinitionService,
-        DynamicRowService dynamicRowService,
-        TableColumnFactory tableColumnFactory,
-        TableColumnService tableColumnService,
-        PhotoService photoService
+            User user,
+            Client client,
+            PageService pageService,
+            TableDefinitionService tableDefinitionService,
+            DynamicTableService dynamicTableService,
+            DynamicGroupRowService dynamicGroupRowService,
+            DynamicRowFactory dynamicRowFactory,
+            DynamicGroupRowFactory dynamicGroupRowFactory,
+            CustomTableDefinitionService customTableDefinitionService,
+            DynamicRowService dynamicRowService,
+            TableColumnFactory tableColumnFactory,
+            TableColumnService tableColumnService,
+            PhotoService photoService
     ) throws SiuvsException {
         this.user = user;
         this.client = client;
@@ -101,7 +88,6 @@ public class TableFacade {
     public void preparePageTableView(PageId pageId, TableDefinitionId tableDefinitionId, final Model model) throws SiuvsException {
         this.preparePageTableView(pageId, tableDefinitionId, null, model);
     }
-
 
     public void preparePageTableView(PageId pageId, TableDefinitionId tableDefinitionId, CustomTableDefinitionId customTableDefinitionId, final Model model) throws SiuvsException {
         Page page = pageService.findOne(pageId);
@@ -265,7 +251,7 @@ public class TableFacade {
 
     private void ensureDynamicDataNotEmpty(List<DynamicData> data) throws SiuvsException {
         boolean empty = true;
-        for (DynamicData entry: data) {
+        for (DynamicData entry : data) {
             if (!entry.isEmpty()) {
                 empty = false;
                 break;

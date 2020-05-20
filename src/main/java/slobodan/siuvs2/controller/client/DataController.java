@@ -10,7 +10,6 @@ import slobodan.siuvs2.service.TableColumnService;
 import slobodan.siuvs2.service.DynamicGroupRowFactory;
 import slobodan.siuvs2.service.PhotoService;
 import slobodan.siuvs2.service.DynamicTableService;
-import slobodan.siuvs2.service.ClientService;
 import slobodan.siuvs2.service.DynamicRowService;
 import slobodan.siuvs2.service.DynamicRowFactory;
 import slobodan.siuvs2.service.PageService;
@@ -53,44 +52,29 @@ import javax.validation.Valid;
 public class DataController {
 
     @Autowired
-    private ClientService clientService;
-
-    @Autowired
     private DynamicTableService dynamicTableService;
-
     @Autowired
     private DynamicRowService dynamicRowService;
-
     @Autowired
     private DynamicGroupRowService dynamicGroupRowService;
-
     @Autowired
     private DynamicRowFactory dynamicRowFactory;
-
     @Autowired
     private DynamicGroupRowFactory dynamicGroupRowFactory;
-
     @Autowired
     private PageService pageService;
-
     @Autowired
     private TableDefinitionService tableDefinitionService;
-
     @Autowired
     private CustomTableDefinitionService customTableDefinitionService;
-
     @Autowired
     private TableColumnFactory tableColumnFactory;
-
     @Autowired
     private TableColumnService tableColumnService;
-
     @Autowired
     private PhotoService photoService;
-
     @Autowired
     private StorageService storageService;
-
     @Autowired
     private UserService userService;
 
@@ -98,7 +82,7 @@ public class DataController {
 
     private User getCurrentUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return ((SiuvsUserPrincipal)authentication.getPrincipal()).getUser();
+        return ((SiuvsUserPrincipal) authentication.getPrincipal()).getUser();
     }
 
     private Client getCurrentUserClient() {
@@ -113,19 +97,19 @@ public class DataController {
     private TableFacade getTableFacade() throws SiuvsException {
         if (this.tableFacade == null) {
             this.tableFacade = new TableFacade(
-                this.getCurrentUser(),
-                this.getCurrentUserClient(),
-                this.pageService,
-                this.tableDefinitionService,
-                this.dynamicTableService,
-                this.dynamicGroupRowService,
-                this.dynamicRowFactory,
-                this.dynamicGroupRowFactory,
-                this.customTableDefinitionService,
-                this.dynamicRowService,
-                this.tableColumnFactory,
-                this.tableColumnService,
-                this.photoService
+                    this.getCurrentUser(),
+                    this.getCurrentUserClient(),
+                    this.pageService,
+                    this.tableDefinitionService,
+                    this.dynamicTableService,
+                    this.dynamicGroupRowService,
+                    this.dynamicRowFactory,
+                    this.dynamicGroupRowFactory,
+                    this.customTableDefinitionService,
+                    this.dynamicRowService,
+                    this.tableColumnFactory,
+                    this.tableColumnService,
+                    this.photoService
             );
         }
         return this.tableFacade;
@@ -149,7 +133,7 @@ public class DataController {
     @GetMapping(value = "/{pageId}/edit")
     public String save(@PathVariable final PageId pageId, final Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User user = ((SiuvsUserPrincipal)authentication.getPrincipal()).getUser();
+        User user = ((SiuvsUserPrincipal) authentication.getPrincipal()).getUser();
         Client client = user.getClient();
         Page page = pageService.findOne(pageId);
         model.addAttribute("client", client);
@@ -174,7 +158,7 @@ public class DataController {
             return "redirect:/client/" + pageId + "/edit";
         } else {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-            User user = ((SiuvsUserPrincipal)authentication.getPrincipal()).getUser();
+            User user = ((SiuvsUserPrincipal) authentication.getPrincipal()).getUser();
             Client client = user.getClient();
             if (!userService.hasRole(user, Roles.CLIENT)) {
                 redirectAttributes.addFlashAttribute("errorMessage", "Немате права за унос слике");
@@ -194,7 +178,7 @@ public class DataController {
             final RedirectAttributes redirectAttributes
     ) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User user = ((SiuvsUserPrincipal)authentication.getPrincipal()).getUser();
+        User user = ((SiuvsUserPrincipal) authentication.getPrincipal()).getUser();
         Client client = user.getClient();
         String filename = photoService.findFileNameById(photoId);
         photoService.delete(client, photoId);
@@ -232,7 +216,6 @@ public class DataController {
             @ModelAttribute("newRow") final DynamicRow dynamicRow,
             final BindingResult bindingResult,
             final RedirectAttributes redirectAttributes
-
     ) {
         try {
             this.getTableFacade().addRow(tableDefinitionId, dynamicRow);
@@ -250,7 +233,6 @@ public class DataController {
             @ModelAttribute("newGroup") final DynamicGroupRow groupRow,
             final BindingResult bindingResult,
             final RedirectAttributes redirectAttributes
-
     ) {
         try {
             this.getTableFacade().addGroupRow(tableDefinitionId, groupRow);
@@ -268,7 +250,6 @@ public class DataController {
             @ModelAttribute("dynamicTable") final DynamicTable dynamicTable,
             final BindingResult bindingResult,
             final RedirectAttributes redirectAttributes
-
     ) {
         try {
             this.getTableFacade().updateDescription(tableDefinitionId, dynamicTable.getDescription());
@@ -287,7 +268,6 @@ public class DataController {
             @ModelAttribute("dynamicTable") final DynamicTable dynamicTable,
             final BindingResult bindingResult,
             final RedirectAttributes redirectAttributes
-
     ) {
         try {
             this.getTableFacade().updateDescription(tableDefinitionId, customTableDefinitionId, dynamicTable.getDescription());
@@ -298,7 +278,6 @@ public class DataController {
         return "redirect:/client/" + pageId + "/" + tableDefinitionId + "/" + customTableDefinitionId;
     }
 
-
     @PostMapping(value = "/{pageId}/{tableDefinitionId}/column/{columnId}")
     public String addDynamicColumn(
             @PathVariable final PageId pageId,
@@ -307,7 +286,6 @@ public class DataController {
             @ModelAttribute("newColumn") final TableColumn newColumn,
             final BindingResult bindingResult,
             final RedirectAttributes redirectAttributes
-
     ) {
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("errorMessage", "Грешка приликом додавања колоне!");
@@ -368,7 +346,6 @@ public class DataController {
         }
         return "client/data/table-editrow";
     }
-
 
     @PostMapping(value = "/{pageId}/{tableDefinitionId}/edit/{dynamicRowId}")
     public String editGenericTableRowSave(
@@ -450,7 +427,6 @@ public class DataController {
             @ModelAttribute("newGroup") final DynamicGroupRow groupRow,
             final BindingResult bindingResult,
             final RedirectAttributes redirectAttributes
-
     ) {
         try {
             this.getTableFacade().addGroupRow(tableDefinitionId, customTableDefinitionId, groupRow);
@@ -470,7 +446,6 @@ public class DataController {
             @ModelAttribute("newColumn") final TableColumn newColumn,
             final BindingResult bindingResult,
             final RedirectAttributes redirectAttributes
-
     ) {
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("errorMessage", "Грешка приликом додавања колоне!");
@@ -495,7 +470,6 @@ public class DataController {
             @ModelAttribute("newRow") final DynamicRow dynamicRow,
             final BindingResult bindingResult,
             final RedirectAttributes redirectAttributes
-
     ) {
         try {
             this.getTableFacade().addRow(tableDefinitionId, customTableDefinitionId, dynamicRow);

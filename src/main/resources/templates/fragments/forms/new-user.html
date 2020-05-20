@@ -171,7 +171,7 @@
                             <small class="form-message" th:text="${roleErrorMessage}"></small>
                         </div>
                     </div>
-                    
+
                     <div class="form-group" th:if="${client == null}" id="selectprovincecontainer" >
                         <label class="col-md-3 control-label required">Супервизује</label>
                         <div th:classappend="${roleErrorMessage} ? 'has-error' : ''" class="col-md-9">
@@ -183,12 +183,12 @@
                             <small class="form-message" th:text="${roleErrorMessage}"></small>
                         </div>
                     </div>
-                    
+
                     <div class="form-group" th:if="${client == null}" id="selectdistriktcontainer" o>
                         <label class="col-md-3 control-label required">Супервизује</label>
                         <div th:classappend="${roleErrorMessage} ? 'has-error' : ''" class="col-md-9">
                             <select name="supervisingdistrikt" class="form-control">
-                               <option value="0">Одабери округ</option>
+                                <option value="0">Одабери округ</option>
 
                                 <option th:each="distrikt : ${distrikti}" th:value="${distrikt.id}" th:text="${distrikt.name}"></option>
                             </select>

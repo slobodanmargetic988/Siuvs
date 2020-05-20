@@ -58,89 +58,89 @@
                         <small class="form-message" th:text="${roleErrorMessage}"></small>
                     </div>
                 </div>
-<th:block th:if="*{getSupervising() == null}"> 
-                <!-- select form if user  was NOT province supervisor-->
-                <div class="form-group"  id="selectprovincecontainer" >
-                    <label class="col-md-3 control-label required">Супервизује</label>
-                    <div th:classappend="${roleErrorMessage} ? 'has-error' : ''" class="col-md-9">
+                <th:block th:if="*{getSupervising() == null}"> 
+                    <!-- select form if user  was NOT province supervisor-->
+                    <div class="form-group"  id="selectprovincecontainer" >
+                        <label class="col-md-3 control-label required">Супервизује</label>
+                        <div th:classappend="${roleErrorMessage} ? 'has-error' : ''" class="col-md-9">
 
-                        <select name="supervisingprovince" class="form-control">
-                            <option value="0">Одабери регион</option>
-                            <option th:each="provincija : ${provincije}" th:value="${provincija.id}" th:text="${provincija.name}"></option>
-                        </select>
-
-                        <small class="form-message" th:text="${roleErrorMessage}"></small>
-                    </div>
-                </div>
-                                <!-- select form if user  was NOT district supervisor-->
-                <div class="form-group"  id="selectdistriktcontainer" >
-                    <label class="col-md-3 control-label required">Супервизује</label>
-                    <div th:classappend="${roleErrorMessage} ? 'has-error' : ''" class="col-md-9">
-                        <select name="supervisingdistrikt" class="form-control">
-                            <option value="0">Одабери округ</option>
-                            <option th:each="distrikt : ${distrikti}"  th:value="${distrikt.id}" th:text="${distrikt.name}"></option>                          
-                        </select>  
-                        <small class="form-message" th:text="${roleErrorMessage}"></small>
-                    </div>
-                </div>
-</th:block>
-                                <th:block th:if="*{getSupervising() != null}"> 
-                <!-- select form if user already was district supervisor-->
-<th:block th:if="*{getSupervising().getDistrikt() != null}"> 
-                <div class="form-group"  id="selectdistriktcontainer" >
-                    <label class="col-md-3 control-label required">Супервизује</label>
-                    <div th:classappend="${roleErrorMessage} ? 'has-error' : ''" class="col-md-9">
-                        <th:block th:with="chosenId=*{getSupervising().getDistrikt().getId()}">
-                            <select name="supervisingdistrikt" class="form-control">
-                                <option value="0">Одабери округ</option>
-                                <option th:each="distrikt : ${distrikti}" th:selected="${chosenId == distrikt.id}" th:value="${distrikt.id}" th:text="${distrikt.name}"></option>                          
-                            </select>
-                        </th:block>
-                        <small class="form-message" th:text="${roleErrorMessage}"></small>
-                    </div>
-                </div>
-                 
-                 <div class="form-group"  id="selectprovincecontainer" >
-                    <label class="col-md-3 control-label required">Супервизује</label>
-                    <div th:classappend="${roleErrorMessage} ? 'has-error' : ''" class="col-md-9">
-
-                        <select name="supervisingprovince" class="form-control">
-                            <option value="0">Одабери регион</option>
-                            <option th:each="provincija : ${provincije}" th:value="${provincija.id}" th:text="${provincija.name}"></option>
-                        </select>
-
-                        <small class="form-message" th:text="${roleErrorMessage}"></small>
-                    </div>
-                </div>
-</th:block>
-                
-                <th:block th:if="*{getSupervising().getProvincija() != null}"> 
-                <!-- select form if user already was province supervisor-->
-                <div class="form-group"  id="selectprovincecontainer" >
-                    <label class="col-md-3 control-label required">Супервизује</label>
-                    <div th:classappend="${roleErrorMessage} ? 'has-error' : ''" class="col-md-9">
-                        <th:block th:with="chosenId=*{getSupervising().getProvincija().getId()}">
                             <select name="supervisingprovince" class="form-control">
                                 <option value="0">Одабери регион</option>
-                                <option th:each="provincija : ${provincije}" th:selected="${chosenId == provincija.id}" th:value="${provincija.id}" th:text="${provincija.name}"></option>
+                                <option th:each="provincija : ${provincije}" th:value="${provincija.id}" th:text="${provincija.name}"></option>
                             </select>
-                        </th:block>
-                        <small class="form-message" th:text="${roleErrorMessage}"></small>
+
+                            <small class="form-message" th:text="${roleErrorMessage}"></small>
+                        </div>
                     </div>
-                </div>
-                                                <!-- select form if user  was NOT district supervisor-->
-                <div class="form-group"  id="selectdistriktcontainer" >
-                    <label class="col-md-3 control-label required">Супервизује</label>
-                    <div th:classappend="${roleErrorMessage} ? 'has-error' : ''" class="col-md-9">
-                        <select name="supervisingdistrikt" class="form-control">
-                            <option value="0">Одабери округ</option>
-                            <option th:each="distrikt : ${distrikti}"  th:value="${distrikt.id}" th:text="${distrikt.name}"></option>                          
-                        </select>  
-                        <small class="form-message" th:text="${roleErrorMessage}"></small>
+                    <!-- select form if user  was NOT district supervisor-->
+                    <div class="form-group"  id="selectdistriktcontainer" >
+                        <label class="col-md-3 control-label required">Супервизује</label>
+                        <div th:classappend="${roleErrorMessage} ? 'has-error' : ''" class="col-md-9">
+                            <select name="supervisingdistrikt" class="form-control">
+                                <option value="0">Одабери округ</option>
+                                <option th:each="distrikt : ${distrikti}"  th:value="${distrikt.id}" th:text="${distrikt.name}"></option>                          
+                            </select>  
+                            <small class="form-message" th:text="${roleErrorMessage}"></small>
+                        </div>
                     </div>
-                </div>
-                
                 </th:block>
+                <th:block th:if="*{getSupervising() != null}"> 
+                    <!-- select form if user already was district supervisor-->
+                    <th:block th:if="*{getSupervising().getDistrikt() != null}"> 
+                        <div class="form-group"  id="selectdistriktcontainer" >
+                            <label class="col-md-3 control-label required">Супервизује</label>
+                            <div th:classappend="${roleErrorMessage} ? 'has-error' : ''" class="col-md-9">
+                                <th:block th:with="chosenId=*{getSupervising().getDistrikt().getId()}">
+                                    <select name="supervisingdistrikt" class="form-control">
+                                        <option value="0">Одабери округ</option>
+                                        <option th:each="distrikt : ${distrikti}" th:selected="${chosenId == distrikt.id}" th:value="${distrikt.id}" th:text="${distrikt.name}"></option>                          
+                                    </select>
+                                </th:block>
+                                <small class="form-message" th:text="${roleErrorMessage}"></small>
+                            </div>
+                        </div>
+
+                        <div class="form-group"  id="selectprovincecontainer" >
+                            <label class="col-md-3 control-label required">Супервизује</label>
+                            <div th:classappend="${roleErrorMessage} ? 'has-error' : ''" class="col-md-9">
+
+                                <select name="supervisingprovince" class="form-control">
+                                    <option value="0">Одабери регион</option>
+                                    <option th:each="provincija : ${provincije}" th:value="${provincija.id}" th:text="${provincija.name}"></option>
+                                </select>
+
+                                <small class="form-message" th:text="${roleErrorMessage}"></small>
+                            </div>
+                        </div>
+                    </th:block>
+
+                    <th:block th:if="*{getSupervising().getProvincija() != null}"> 
+                        <!-- select form if user already was province supervisor-->
+                        <div class="form-group"  id="selectprovincecontainer" >
+                            <label class="col-md-3 control-label required">Супервизује</label>
+                            <div th:classappend="${roleErrorMessage} ? 'has-error' : ''" class="col-md-9">
+                                <th:block th:with="chosenId=*{getSupervising().getProvincija().getId()}">
+                                    <select name="supervisingprovince" class="form-control">
+                                        <option value="0">Одабери регион</option>
+                                        <option th:each="provincija : ${provincije}" th:selected="${chosenId == provincija.id}" th:value="${provincija.id}" th:text="${provincija.name}"></option>
+                                    </select>
+                                </th:block>
+                                <small class="form-message" th:text="${roleErrorMessage}"></small>
+                            </div>
+                        </div>
+                        <!-- select form if user  was NOT district supervisor-->
+                        <div class="form-group"  id="selectdistriktcontainer" >
+                            <label class="col-md-3 control-label required">Супервизује</label>
+                            <div th:classappend="${roleErrorMessage} ? 'has-error' : ''" class="col-md-9">
+                                <select name="supervisingdistrikt" class="form-control">
+                                    <option value="0">Одабери округ</option>
+                                    <option th:each="distrikt : ${distrikti}"  th:value="${distrikt.id}" th:text="${distrikt.name}"></option>                          
+                                </select>  
+                                <small class="form-message" th:text="${roleErrorMessage}"></small>
+                            </div>
+                        </div>
+
+                    </th:block>
                 </th:block>
                 <div class="form-group">
                     <label class="col-md-3 control-label required">Активан</label>

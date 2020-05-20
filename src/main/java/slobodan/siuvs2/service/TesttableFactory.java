@@ -5,8 +5,8 @@ package slobodan.siuvs2.service;
 
 /**
  *
- * @author deca
+ * @author Slobodan Margetic slobodanmargetic988@gmail.com
  */
 public interface TesttableFactory {
-    
+
 }

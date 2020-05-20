@@ -173,8 +173,7 @@ public class DynamicTableServiceImpl implements DynamicTableService {
                         if (data.getColumn().equals(currentField.getColumn())) {
                             String valueToAdd = data.getValue();
                             if (data.getColumn().getType().equals(TableColumnTypes.SUM)
-                                || data.getColumn().getType().equals(TableColumnTypes.AUTOSUM)
-                            ) {
+                                    || data.getColumn().getType().equals(TableColumnTypes.AUTOSUM)) {
                                 valueToAdd = data.getVirtualValue();
                             }
                             currentField.addValue(valueToAdd);

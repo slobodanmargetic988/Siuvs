@@ -19,7 +19,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -30,7 +29,6 @@ import slobodan.siuvs2.model.Mera;
 import slobodan.siuvs2.model.Opstina;
 import slobodan.siuvs2.model.Page;
 import slobodan.siuvs2.model.Plan;
-import slobodan.siuvs2.model.PodRezultat;
 import slobodan.siuvs2.model.PosebanCilj;
 import slobodan.siuvs2.model.Provincija;
 import slobodan.siuvs2.model.Rezultat;
@@ -38,40 +36,23 @@ import slobodan.siuvs2.model.Roles;
 import slobodan.siuvs2.model.SiuvsUserPrincipal;
 import slobodan.siuvs2.model.TableDefinition;
 import slobodan.siuvs2.model.User;
-import slobodan.siuvs2.repository.MeraRepository;
-import slobodan.siuvs2.repository.PlanRepository;
-import slobodan.siuvs2.repository.PodRezultatRepository;
-import slobodan.siuvs2.repository.PosebanCiljRepository;
-import slobodan.siuvs2.repository.RezultatRepository;
 import slobodan.siuvs2.service.AssessmentFactory;
 import slobodan.siuvs2.service.AssessmentService;
 import slobodan.siuvs2.service.CustomTableDefinitionService;
-
-import slobodan.siuvs2.service.DistriktService;
 import slobodan.siuvs2.service.DynamicGroupRowFactory;
 import slobodan.siuvs2.service.DynamicGroupRowService;
 import slobodan.siuvs2.service.DynamicRowFactory;
 import slobodan.siuvs2.service.DynamicRowService;
 import slobodan.siuvs2.service.DynamicTableService;
-import slobodan.siuvs2.service.MeraFactory;
-import slobodan.siuvs2.service.MeraService;
 import slobodan.siuvs2.service.OpstinaService;
 import slobodan.siuvs2.service.PageService;
 import slobodan.siuvs2.service.PhotoService;
-import slobodan.siuvs2.service.PlanFactory;
 import slobodan.siuvs2.service.PlanService;
-import slobodan.siuvs2.service.PodRezultatFactory;
-import slobodan.siuvs2.service.PodRezultatService;
-import slobodan.siuvs2.service.PosebanCiljFactory;
 import slobodan.siuvs2.service.PosebanCiljService;
-import slobodan.siuvs2.service.ProvincijaService;
-import slobodan.siuvs2.service.RezultatFactory;
-import slobodan.siuvs2.service.RezultatService;
 import slobodan.siuvs2.service.StorageService;
 import slobodan.siuvs2.service.TableColumnFactory;
 import slobodan.siuvs2.service.TableColumnService;
 import slobodan.siuvs2.service.TableDefinitionService;
-import slobodan.siuvs2.service.TasksService;
 import slobodan.siuvs2.shared.AssesmentHelper1;
 import slobodan.siuvs2.shared.SiuvsException;
 import slobodan.siuvs2.valueObject.CustomTableDefinitionId;
@@ -86,82 +67,40 @@ public class SupervisorClientsController {
 
     @Autowired
     private ClientService clientService;
-
     @Autowired
     private UserService userService;
-
     @Autowired
     private OpstinaService opstinaService;
-    @Autowired
-    private ProvincijaService provincijaService;
-    @Autowired
-    private DistriktService distriktService;
-
-    @Autowired
-    private TasksService TasksService;
     @Autowired
     private PageService pageService;
     @Autowired
     private AssessmentService assessmentService;
     @Autowired
     private AssessmentFactory assessmentFactory;
-
     @Autowired
     private PhotoService photoService;
-
     @Autowired
     private DynamicTableService dynamicTableService;
-
     @Autowired
     private DynamicRowService dynamicRowService;
-
     @Autowired
     private DynamicGroupRowService dynamicGroupRowService;
-
     @Autowired
     private DynamicRowFactory dynamicRowFactory;
-
     @Autowired
     private DynamicGroupRowFactory dynamicGroupRowFactory;
-
     @Autowired
     private TableDefinitionService tableDefinitionService;
-
     @Autowired
     private CustomTableDefinitionService customTableDefinitionService;
-
     @Autowired
     private TableColumnFactory tableColumnFactory;
-
     @Autowired
     private TableColumnService tableColumnService;
-
-    @Autowired
-    private PlanRepository planRepository;
     @Autowired
     private PlanService planService;
     @Autowired
-    private MeraService meraService;
-    @Autowired
     private PosebanCiljService posebanCiljService;
-    @Autowired
-    private PodRezultatService podRezultatService;
-    @Autowired
-    private RezultatService rezultatService;
-    @Autowired
-    private PlanFactory planFactory;
-
-    @Autowired
-    private PosebanCiljFactory posebanCiljFactory;
-
-    @Autowired
-    private MeraFactory meraFactory;
-
-    @Autowired
-    private RezultatFactory rezultatFactory;
-
-    @Autowired
-    private PodRezultatFactory podRezultatFactory;
 
     public List<Mera> makeMeraList(Plan plan) {
         List<Mera> meralist = new ArrayList();
@@ -169,9 +108,7 @@ public class SupervisorClientsController {
             for (Mera mera : pc.getChildren()) {
                 meralist.add(mera);
             }
-
         }
-
         return meralist;
     }
 
@@ -183,9 +120,7 @@ public class SupervisorClientsController {
                     rezultatlist.add(rezultat);
                 }
             }
-
         }
-
         return rezultatlist;
     }
 
@@ -205,7 +140,7 @@ public class SupervisorClientsController {
                 opstina = opstinaService.findAllByProvincijaOrderByNameAsc(provincija);
                 model.addAttribute("clients", clientService.findAllByOpstinaInOrderByNameAsc(opstina, pageable));
             } else {
-                model.addAttribute("clients", clientService.findAllOrderByActiveDescNameAsc(pageable)) ;
+                model.addAttribute("clients", clientService.findAllOrderByActiveDescNameAsc(pageable));
             }
         }
         return "supervisor/clients";
@@ -238,7 +173,6 @@ public class SupervisorClientsController {
         model.addAttribute("vrsta_opasnosti", AssesmentHelper1.getOpasnost(pageId.getValue()));
         return "supervisor/assessmentview";
     }
-
     //tables list controller
     private Map<Integer, TableFacade> tableFacadeCache = new HashMap<>();
 
@@ -338,8 +272,8 @@ public class SupervisorClientsController {
     ) {
         Client client = clientService.findOne(clientId);
         Page page = pageService.findOne(pageId);
-        Plan plan = planRepository.findFirstByClient(client);
-List<PosebanCilj> PClist = posebanCiljService.findAllByClientAndPage(client, page);
+        Plan plan = planService.findFirstByClient(client);
+        List<PosebanCilj> PClist = posebanCiljService.findAllByClientAndPage(client, page);
         String viewurl = "/supervisor/clients/" + clientId + "/plan/" + pageId;
         model.addAttribute("client", client);
         model.addAttribute("page", page);
@@ -348,7 +282,8 @@ List<PosebanCilj> PClist = posebanCiljService.findAllByClientAndPage(client, pag
         model.addAttribute("planurl", viewurl);
         return "supervisor/planview";
     }
-        @GetMapping(value = "clients/{clientId}/plan/opstideo/{pageId}")
+
+    @GetMapping(value = "clients/{clientId}/plan/opstideo/{pageId}")
     public String planOpsti(
             @PathVariable final ClientId clientId,
             @PathVariable final PageId pageId,
@@ -356,8 +291,8 @@ List<PosebanCilj> PClist = posebanCiljService.findAllByClientAndPage(client, pag
     ) {
         Client client = clientService.findOne(clientId);
         Page page = pageService.findOne(pageId);
-        Plan plan = planRepository.findFirstByClient(client);
-List<PosebanCilj> PClist = posebanCiljService.findAllByClientAndPage(client, page);
+        Plan plan = planService.findFirstByClient(client);
+        List<PosebanCilj> PClist = posebanCiljService.findAllByClientAndPage(client, page);
         String viewurl = "/supervisor/clients/" + clientId + "/plan/" + pageId;
         model.addAttribute("client", client);
         model.addAttribute("page", page);
@@ -366,6 +301,7 @@ List<PosebanCilj> PClist = posebanCiljService.findAllByClientAndPage(client, pag
         model.addAttribute("planurl", viewurl);
         return "supervisor/planopsti";
     }
+
     @GetMapping(value = "clients/{clientId}/plan/ceo/{pageId}")
     public String planCeo(
             @PathVariable final ClientId clientId,
@@ -374,8 +310,8 @@ List<PosebanCilj> PClist = posebanCiljService.findAllByClientAndPage(client, pag
     ) {
         Client client = clientService.findOne(clientId);
         Page page = pageService.findOne(pageId);
-        Plan plan = planRepository.findFirstByClient(client);
-List<PosebanCilj> PClist = posebanCiljService.findAllByPlanOrderByPagePageIdAsc(plan);
+        Plan plan = planService.findFirstByClient(client);
+        List<PosebanCilj> PClist = posebanCiljService.findAllByPlanOrderByPagePageIdAsc(plan);
         String viewurl = "/supervisor/clients/" + clientId + "/plan/" + pageId;
         model.addAttribute("client", client);
         model.addAttribute("page", page);
@@ -384,7 +320,7 @@ List<PosebanCilj> PClist = posebanCiljService.findAllByPlanOrderByPagePageIdAsc(
         model.addAttribute("planurl", viewurl);
         return "supervisor/planopsti";
     }
-    
+
     //serve photo controller
     @Autowired
     private StorageService storageService;

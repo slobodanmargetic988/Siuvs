@@ -148,7 +148,6 @@ public class SupervisorsController {
                 redirectAttributes.addFlashAttribute("roleErrorMessage", "Морате одабрати округ");
                 bindingResult.reject("supervisingdistrikt");
             }
-
         }
         if (Roles.PROVINCE.toString().equals(roleName)) {
             if (provincija.equals("0")) {
@@ -164,27 +163,23 @@ public class SupervisorsController {
             return "redirect:/admin/supervisors/new";
         } else {
 //set role based on selection
-
             if (Roles.MUP.toString().equals(roleName)) {
                 userService.addRole(user, Roles.MUP);
             }
-
             if (Roles.RIS.toString().equals(roleName)) {
                 userService.addRole(user, Roles.RIS);
             }
 //if distrikt or province are selected roles, set role and set selected province/distrikt
             Supervising supervising;
             if (Roles.DISTRIKT.toString().equals(roleName)) {
-                DistriktID distriktID= new DistriktID(distrikt);
-                
+                DistriktID distriktID = new DistriktID(distrikt);
                 supervising = supervisingService.findFirstByDistrikt(distriktService.findOne(distriktID));//.findFirstById(distrikt));
                 userService.setSupervising(user, supervising);
                 userService.addRole(user, Roles.DISTRIKT);
             }
-
             if (Roles.PROVINCE.toString().equals(roleName)) {
-                ProvincijaID provincijaID= new ProvincijaID(provincija);
-                
+                ProvincijaID provincijaID = new ProvincijaID(provincija);
+
                 supervising = supervisingService.findFirstByProvincija(provincijaService.findOne(provincijaID));//.findFirstById(provincija));
                 userService.setSupervising(user, supervising);
                 userService.addRole(user, Roles.PROVINCE);
@@ -227,7 +222,7 @@ public class SupervisorsController {
             @PathVariable final Integer userId,
             @Valid @ModelAttribute("user") final User editUser,
             @RequestParam(name = "role", defaultValue = "MUP") String roleName,
-             @RequestParam(name = "supervisingprovince", defaultValue = "0") String provincija,
+            @RequestParam(name = "supervisingprovince", defaultValue = "0") String provincija,
             @RequestParam(name = "supervisingdistrikt", defaultValue = "0") String distrikt,
             final BindingResult bindingResult,
             final RedirectAttributes redirectAttributes,
@@ -246,7 +241,7 @@ public class SupervisorsController {
             redirectAttributes.addFlashAttribute("errorMessage", "Задата имејл адреса већ постоји у систему");
             return "redirect:/admin/supervisors/" + userId;
         }
-                if (roleName.equals("UNSELECTED")) {
+        if (roleName.equals("UNSELECTED")) {
             redirectAttributes.addFlashAttribute("roleErrorMessage", "Морате одабрати ниво приступа");
             bindingResult.reject("role");
         }
@@ -261,48 +256,45 @@ public class SupervisorsController {
             if (provincija.equals("0")) {
                 redirectAttributes.addFlashAttribute("roleErrorMessage", "Морате одабрати регион");
                 bindingResult.reject("supervisingprovince");
-            }}
-                if (bindingResult.hasErrors()) {
+            }
+        }
+        if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("errorMessage", "Грешка приликом креирања корисника!");
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.newUser", bindingResult);
             redirectAttributes.addFlashAttribute("newUser", user);
             return "redirect:/admin/supervisors/{userId}/edit";
         } else {
-         try {
-         Supervising supervising=new Supervising();
-        if (Roles.MUP.toString().equals(roleName)) {
-            //user.setSupervising(null);
-userService.setSupervising(user, null);
-            userService.addRole(editUser, Roles.MUP);
-        }
+            try {
+                Supervising supervising = new Supervising();
+                if (Roles.MUP.toString().equals(roleName)) {
+                    //user.setSupervising(null);
+                    userService.setSupervising(user, null);
+                    userService.addRole(editUser, Roles.MUP);
+                }
+                if (Roles.RIS.toString().equals(roleName)) {
+                    userService.addRole(editUser, Roles.RIS);
+                }
+                if (Roles.DISTRIKT.toString().equals(roleName)) {
+                    DistriktID distriktID = new DistriktID(distrikt);
+                    supervising = supervisingService.findFirstByDistrikt(distriktService.findOne(distriktID));//.findFirstById(distrikt));
+                    userService.setSupervising(user, supervising);
+                    userService.addRole(editUser, Roles.DISTRIKT);
+                }
+                if (Roles.PROVINCE.toString().equals(roleName)) {
+                    ProvincijaID provincijaID = new ProvincijaID(provincija);
 
-        if (Roles.RIS.toString().equals(roleName)) {
-            userService.addRole(editUser, Roles.RIS);
+                    supervising = supervisingService.findFirstByProvincija(provincijaService.findOne(provincijaID));//.findFirstById(provincija));
+                    userService.setSupervising(user, supervising);
+                    userService.addRole(editUser, Roles.PROVINCE);
+                }
+                // userService.addRole(editUser, Roles.RIS);
+                userService.updateUser(userId, editUser);
+                redirectAttributes.addFlashAttribute("successMessage", "Корисник успешно измењен!");
+            } catch (Exception e) {
+                redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+                return "redirect:/admin/supervisors/" + userId + "/edit";
+            }
+            return "redirect:/admin/supervisors/" + userId;
         }
-
-         
-            if (Roles.DISTRIKT.toString().equals(roleName)) {
-                DistriktID distriktID= new DistriktID(distrikt);
-                supervising = supervisingService.findFirstByDistrikt(distriktService.findOne(distriktID));//.findFirstById(distrikt));
-                userService.setSupervising(user, supervising);
-            userService.addRole(editUser, Roles.DISTRIKT);
-        }
-
-        if (Roles.PROVINCE.toString().equals(roleName)) {
-            ProvincijaID provincijaID= new ProvincijaID(provincija);
-                
-                supervising = supervisingService.findFirstByProvincija(provincijaService.findOne(provincijaID));//.findFirstById(provincija));
-                userService.setSupervising(user, supervising);
-            userService.addRole(editUser, Roles.PROVINCE);
-        }
-        // userService.addRole(editUser, Roles.RIS);
-        userService.updateUser(userId, editUser);
-           redirectAttributes.addFlashAttribute("successMessage", "Корисник успешно измењен!");
-           } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
-            return "redirect:/admin/supervisors/" + userId + "/edit";
-        } 
-        return "redirect:/admin/supervisors/" + userId;
     }
-        }
 }

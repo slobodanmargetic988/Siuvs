@@ -127,7 +127,7 @@ public class DynamicRowServiceImpl implements DynamicRowService {
         Iterator rowIterator = rows.iterator();
         DynamicRow previous = null;
         while (rowIterator.hasNext()) {
-            DynamicRow current = (DynamicRow)rowIterator.next();
+            DynamicRow current = (DynamicRow) rowIterator.next();
             boolean shouldPerformSwitch = direction < 0
                     ? (current.getId() == rowToMove.getId() && previous != null)
                     : (previous != null && previous.getId() == rowToMove.getId());
@@ -153,7 +153,7 @@ public class DynamicRowServiceImpl implements DynamicRowService {
         dynamicRowRepository.save(row2);
     }
 
-    private void exchangeGroupPositions(DynamicGroupRow groupRow1,DynamicGroupRow groupRow2) {
+    private void exchangeGroupPositions(DynamicGroupRow groupRow1, DynamicGroupRow groupRow2) {
         int groupRow1Order = groupRow1.getOrder();
         groupRow1.setOrder(groupRow2.getOrder());
         groupRow2.setOrder(groupRow1Order);

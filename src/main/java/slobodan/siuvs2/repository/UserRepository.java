@@ -3,7 +3,6 @@ package slobodan.siuvs2.repository;
 import java.util.List;
 import slobodan.siuvs2.model.Client;
 import slobodan.siuvs2.model.Role;
-import slobodan.siuvs2.model.Roles;
 import slobodan.siuvs2.model.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -25,15 +24,10 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     @Transactional(readOnly = true)
     Page<User> findAllByRoles(Role role, Pageable pageable);
-        
+
     @Transactional(readOnly = true)
     Page<User> findByRolesIdIn(List<Integer> id, Pageable pageable);
-    
-    
-    
-    
-    
-    
+
     Page<User> findAllByClientOrderByIdAsc(Client client, Pageable pageable);
 
     @Modifying

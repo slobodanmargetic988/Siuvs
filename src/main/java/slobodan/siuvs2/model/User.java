@@ -5,7 +5,6 @@ import java.util.Set;
 
 import slobodan.siuvs2.shared.role.RoleToString;
 import org.hibernate.validator.constraints.Email;
-import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.data.annotation.*;
 import org.springframework.data.annotation.Transient;
@@ -44,10 +43,10 @@ public class User {
     @Column(name = "active")
     private boolean active;
 
-    @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE }, fetch = FetchType.EAGER)
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
     @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
-    
+
     @ManyToOne
     @JoinColumn(name = "supervising_id")
     private Supervising supervising;
@@ -82,7 +81,6 @@ public class User {
         this.supervising = supervising;
     }
 
-      
     public int getId() {
         return id;
     }

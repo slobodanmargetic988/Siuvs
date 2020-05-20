@@ -1,40 +1,40 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 
-<head>
-    <title>СИУВС 1.0</title>
-</head>
+    <head>
+        <title>СИУВС 1.0</title>
+    </head>
 
-<body>
+    <body>
 
-    <div th:fragment="title (icon, title)" class="page-header">
-        <h1><i class="page-header-icon" th:classappend="${icon}"></i> <th:block th:text="${title}"></th:block></h1>
-    </div>
-
-    <div th:fragment="subtitle (icon, title, subtitle)" class="page-header">
-        <h1>
-            <span class="text-muted font-weight-light">
-                <i class="page-header-icon" th:classappend="${icon}"></i>
-                <th:block th:text="${title}"></th:block> /
-            </span>
-            <th:block th:text="${subtitle}"></th:block>
-        </h1>
-    </div>
-
-    <th:block th:fragment="contact">
-        <!-- Contact Info -->
-        <div class="contact-info-container">
-            <ul class="contact-info">
-                <a href="https://goo.gl/maps/ExARxzNBcUk" target="_blank"><li><span class="contact-info-li"><i class="fa fa-map-marker"></i></span>Карађорђева 5, 11000 Београд (Стари град)</li></a>
-                <li><span class="contact-info-li"><i class="fa fa-phone"></i></span>+381 11 436 0505</li>
-                <a href="mailto:ris@razvojnoinovacionisistem.rs"><li><span class="contact-info-li"><i class="fa fa-envelope"></i></span>ris@razvojnoinovacionisistem.rs</li></a>
-                <a href="mailto:technicalsupport@razvojnoinovacionisistem.rs"><li><span class="contact-info-li"><i class="fa fa-envelope"></i></span>technicalsupport@razvojnoinovacionisistem.rs</li></a>               
-                <a href="http://razvojnoinovacionisistem.rs/" target="_blank"><li><span class="contact-info-li"><i class="fa fa-globe"></i></span>www.razvojnoinovacionisistem.rs</li></a>
-            </ul>
+        <div th:fragment="title (icon, title)" class="page-header">
+            <h1><i class="page-header-icon" th:classappend="${icon}"></i> <th:block th:text="${title}"></th:block></h1>
         </div>
-    </th:block>
 
-</body>
+        <div th:fragment="subtitle (icon, title, subtitle)" class="page-header">
+            <h1>
+                <span class="text-muted font-weight-light">
+                    <i class="page-header-icon" th:classappend="${icon}"></i>
+                    <th:block th:text="${title}"></th:block> /
+                </span>
+                <th:block th:text="${subtitle}"></th:block>
+            </h1>
+        </div>
+
+        <th:block th:fragment="contact">
+            <!-- Contact Info -->
+            <div class="contact-info-container">
+                <ul class="contact-info">
+                    <a href="https://goo.gl/maps/ExARxzNBcUk" target="_blank"><li><span class="contact-info-li"><i class="fa fa-map-marker"></i></span>Карађорђева 5, 11000 Београд (Стари град)</li></a>
+                    <li><span class="contact-info-li"><i class="fa fa-phone"></i></span>+381 11 436 0505</li>
+                    <a href="mailto:ris@razvojnoinovacionisistem.rs"><li><span class="contact-info-li"><i class="fa fa-envelope"></i></span>ris@razvojnoinovacionisistem.rs</li></a>
+                    <a href="mailto:technicalsupport@razvojnoinovacionisistem.rs"><li><span class="contact-info-li"><i class="fa fa-envelope"></i></span>technicalsupport@razvojnoinovacionisistem.rs</li></a>               
+                    <a href="http://razvojnoinovacionisistem.rs/" target="_blank"><li><span class="contact-info-li"><i class="fa fa-globe"></i></span>www.razvojnoinovacionisistem.rs</li></a>
+                </ul>
+            </div>
+        </th:block>
+
+    </body>
 </html>
 
 

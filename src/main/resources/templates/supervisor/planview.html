@@ -6,9 +6,9 @@
     </head>
     <body>
 
-     
-<!-- Nav -->
-    <th:block th:insert="fragments/navigation :: navigation-supervisor-client"></th:block>
+
+        <!-- Nav -->
+        <th:block th:insert="fragments/navigation :: navigation-supervisor-client"></th:block>
 
         <!-- Content -->
         <div class="px-content">
@@ -26,25 +26,25 @@
             <div class="panel" >
                 <div class="panel-heading">
                     <th:block th:if="${plan != null}">
-                    <span class="panel-title" th:text="${plan.planText}"></span>
+                        <span class="panel-title" th:text="${plan.planText}"></span>
                     </th:block>
-                    
-                   <th:block th:if="${plan == null}">
-                    <span class="panel-title" >План још није унет</span>
+
+                    <th:block th:if="${plan == null}">
+                        <span class="panel-title" >План још није унет</span>
                     </th:block>
                 </div>
 
                 <div class="panel-body data-panel-body">
                     <th:block th:if="${plan != null}">
-                    <th:block th:insert="fragments/forms/plan ::data_view(${plan}, ${planurl})" />
-</th:block>
-                        <th:block th:if="${plan == null}">
-                            План za изабраног клијента тренутно не постоји у бази.
-                        </th:block>
+                        <th:block th:insert="fragments/forms/plan ::data_view(${plan}, ${planurl})" />
+                    </th:block>
+                    <th:block th:if="${plan == null}">
+                        План za изабраног клијента тренутно не постоји у бази.
+                    </th:block>
                 </div> 
 
             </div>
-            
+
         </div>
 
         <th:block th:insert="fragments/footer :: footer-standard" />

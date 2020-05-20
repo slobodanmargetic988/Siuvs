@@ -5,9 +5,9 @@
  */
 package slobodan.siuvs2.model;
 
-
 import javax.persistence.*;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
 /**
  *
  * @author Sloba
@@ -17,14 +17,11 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @EntityListeners(AuditingEntityListener.class)
 public class Provincija {
 
-      
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "provincija_id")
     private int id;
-    
 
-    
     @Column(name = "provincija_name")
     private String name;
 
@@ -43,7 +40,5 @@ public class Provincija {
     public void setName(String name) {
         this.name = name;
     }
-    
-     
-}
 
+}

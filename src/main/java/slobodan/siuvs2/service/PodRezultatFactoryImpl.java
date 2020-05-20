@@ -5,23 +5,23 @@ package slobodan.siuvs2.service;
 
 /**
  *
- * @author deca
+ * @author Slobodan Margetic slobodanmargetic988@gmail.com
  */
 import slobodan.siuvs2.model.Rezultat;
 import slobodan.siuvs2.model.PodRezultat;
 import org.springframework.stereotype.Service;
 
 @Service
-public class PodRezultatFactoryImpl implements PodRezultatFactory{
-    
-      @Override
+public class PodRezultatFactoryImpl implements PodRezultatFactory {
+
+    @Override
     public PodRezultat empty(Rezultat rezultat) {
         PodRezultat podRezultat = new PodRezultat();
         podRezultat.setRezultat(rezultat);
         podRezultat.setAktivnostiText("Нова активност");
-        podRezultat.setBudzetJlsText("/");
-        podRezultat.setBudzetNeobezbedjenoText("/");
-        podRezultat.setBudzetOstaloText("/");
+        podRezultat.setBudzetJls(0);
+        podRezultat.setBudzetNeobezbedjeno(0);
+        podRezultat.setBudzetOstalo(0);
         podRezultat.setIndikatoriText("/");
         podRezultat.setOdgovornaInstitucijaText("/");
         podRezultat.setPartnerInstitucijaText("/");
@@ -31,5 +31,5 @@ public class PodRezultatFactoryImpl implements PodRezultatFactory{
         podRezultat.setPeriodText("/");
         return podRezultat;
     }
-    
+
 }

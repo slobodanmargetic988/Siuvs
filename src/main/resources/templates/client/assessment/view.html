@@ -1,79 +1,79 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
-<head>
-    <th:block th:include="fragments/head :: head" />
-</head>
-<body>
+    <head>
+        <th:block th:include="fragments/head :: head" />
+    </head>
+    <body>
 
-<!-- Nav -->
-<th:block th:insert="fragments/navigation :: navigation-end-user"></th:block>
+        <!-- Nav -->
+        <th:block th:insert="fragments/navigation :: navigation-end-user"></th:block>
 
-<!-- Content -->
-<div class="px-content">
+        <!-- Content -->
+        <div class="px-content">
 
-    <div class="page-header">
-        <h1>
-            <th:block th:insert="fragments/navigation :: nav-breadcrumbs-client(${client}, true)" />
-        </h1>
-    </div>
+            <div class="page-header">
+                <h1>
+                    <th:block th:insert="fragments/navigation :: nav-breadcrumbs-client(${client}, true)" />
+                </h1>
+            </div>
 
-    <div th:replace="fragments/alert :: success (${successMessage})"></div>
+            <div th:replace="fragments/alert :: success (${successMessage})"></div>
 
-    <div class="panel">
-        <div class="panel-body">
+            <div class="panel">
+                <div class="panel-body">
 
-            <p class="assessment-text-label">Појављивање</p>
-            <th:block th:utext="${assessment.textPojavljivanje}" />
-            <p class="assessment-text-label">Просторна димензија</p>
-            <th:block th:utext="${assessment.textProstornaDimenzija}" />
-            <p class="assessment-text-label">Интензитет</p>
-            <th:block th:utext="${assessment.textIntenzitet}" />
-            <p class="assessment-text-label">Време</p>
-            <th:block th:utext="${assessment.textVreme}" />
-            <p class="assessment-text-label">Ток</p>
-            <th:block th:utext="${assessment.textTok}" />
-            <p class="assessment-text-label">Трајање</p>
-            <th:block th:utext="${assessment.textTrajanje}" />
-            <p class="assessment-text-label">Рана најава</p>
-            <th:block th:utext="${assessment.textRanaNajava}" />
-            <p class="assessment-text-label">Припремљеност</p>
-            <th:block th:utext="${assessment.textPripremljenost}" />
-            <p class="assessment-text-label">Утицај</p>
-            <th:block th:utext="${assessment.textUticaj}" />
-            <p class="assessment-text-label">Генерисање других опасности</p>
-            <th:block th:utext="${assessment.textGenerisanjeDrugihOpasnosti}" />
-            <p class="assessment-text-label">Референтни инциденти</p>
-            <th:block th:utext="${assessment.textReferentniIncidenti}" />
-            <p class="assessment-text-label">Информисање јавности</p>
-            <th:block th:utext="${assessment.textInformisanjeJavnosti}" />
-            <p class="assessment-text-label">Будуће информације</p>
-            <th:block th:utext="${assessment.textBuduceInformacije}" />
+                    <p class="assessment-text-label">Појављивање</p>
+                    <th:block th:utext="${assessment.textPojavljivanje}" />
+                    <p class="assessment-text-label">Просторна димензија</p>
+                    <th:block th:utext="${assessment.textProstornaDimenzija}" />
+                    <p class="assessment-text-label">Интензитет</p>
+                    <th:block th:utext="${assessment.textIntenzitet}" />
+                    <p class="assessment-text-label">Време</p>
+                    <th:block th:utext="${assessment.textVreme}" />
+                    <p class="assessment-text-label">Ток</p>
+                    <th:block th:utext="${assessment.textTok}" />
+                    <p class="assessment-text-label">Трајање</p>
+                    <th:block th:utext="${assessment.textTrajanje}" />
+                    <p class="assessment-text-label">Рана најава</p>
+                    <th:block th:utext="${assessment.textRanaNajava}" />
+                    <p class="assessment-text-label">Припремљеност</p>
+                    <th:block th:utext="${assessment.textPripremljenost}" />
+                    <p class="assessment-text-label">Утицај</p>
+                    <th:block th:utext="${assessment.textUticaj}" />
+                    <p class="assessment-text-label">Генерисање других опасности</p>
+                    <th:block th:utext="${assessment.textGenerisanjeDrugihOpasnosti}" />
+                    <p class="assessment-text-label">Референтни инциденти</p>
+                    <th:block th:utext="${assessment.textReferentniIncidenti}" />
+                    <p class="assessment-text-label">Информисање јавности</p>
+                    <th:block th:utext="${assessment.textInformisanjeJavnosti}" />
+                    <p class="assessment-text-label">Будуће информације</p>
+                    <th:block th:utext="${assessment.textBuduceInformacije}" />
 
-            <form th:object="${assessment}" method="post" class="form-horizontal" autocomplete="off">
-                <input type="hidden" th:field="*{consequences}" />
-                <input type="hidden" th:field="*{probability}" />
-                <input type="hidden" name="risk_type_icon" th:value="${page.getRiskTypeIconRelativePath()}" />
-                <h1></h1>
-                <th:block th:insert="fragments/forms/matrix :: matrix(matrixId='assessment_preview')" />
+                    <form th:object="${assessment}" method="post" class="form-horizontal" autocomplete="off">
+                        <input type="hidden" th:field="*{consequences}" />
+                        <input type="hidden" th:field="*{probability}" />
+                        <input type="hidden" name="risk_type_icon" th:value="${page.getRiskTypeIconRelativePath()}" />
+                        <h1></h1>
+                        <th:block th:insert="fragments/forms/matrix :: matrix(matrixId='assessment_preview')" />
+                    </form>
+                    <p>На основу анализе сценарија и процене ризика можемо констатовати да је ниво ризика од <span th:text="${vrsta_opasnosti}"></span> <span id="risk_level"></span>, што значи да је ризик <span id="risk_adequacy"></span>.</p>
+                </div>
+            </div>
+
+            <th:block th:with="photoUrl=@{/client/photo/}">
+                <th:block th:insert="fragments/forms/photo :: view_photos(${photoUrl})" />
+            </th:block>
+
+            <form sec:authorize="hasAnyAuthority('CLIENT')" th:if="${page.attachablePhotos}" th:action="@{/client/assessment/{pageId}/edit(pageId=${page.id})}" method="get" class="form-horizontal" autocomplete="off" style="margin-bottom: 20px;">
+                <button type="submit" class="btn btn-primary">Измена</button>
             </form>
-             <p>На основу анализе сценарија и процене ризика можемо констатовати да је ниво ризика од <span th:text="${vrsta_opasnosti}"></span> <span id="risk_level"></span>, што значи да је ризик <span id="risk_adequacy"></span>.</p>
+
         </div>
-    </div>
 
-    <th:block th:with="photoUrl=@{/client/photo/}">
-        <th:block th:insert="fragments/forms/photo :: view_photos(${photoUrl})" />
-    </th:block>
+        <th:block th:insert="fragments/footer :: footer-standard" />
 
-    <form sec:authorize="hasAnyAuthority('CLIENT')" th:if="${page.attachablePhotos}" th:action="@{/client/assessment/{pageId}/edit(pageId=${page.id})}" method="get" class="form-horizontal" autocomplete="off" style="margin-bottom: 20px;">
-        <button type="submit" class="btn btn-primary">Измена</button>
-    </form>
-
-</div>
-
-<th:block th:insert="fragments/footer :: footer-standard" />
-
-<th:block th:insert="fragments/scripts :: standard" />
-<script th:src="@{/js/matrix.js}"></script>
-</body>
+        <th:block th:insert="fragments/scripts :: standard" />
+        <script th:src="@{/js/matrix.js}"></script>
+    </body>
 </html>

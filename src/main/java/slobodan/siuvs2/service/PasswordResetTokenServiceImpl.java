@@ -30,7 +30,6 @@ public class PasswordResetTokenServiceImpl implements PasswordResetTokenService 
         return tokenObject;
     }
 
-
     @Override
     public void invalidateToken(PasswordResetToken passwordResetToken) {
         this.passwordResetTokenRepository.delete(passwordResetToken);

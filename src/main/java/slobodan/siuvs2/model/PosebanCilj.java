@@ -7,7 +7,7 @@ package slobodan.siuvs2.model;
 
 /**
  *
- * @author sloba
+ * @author Slobodan Margetic slobodanmargetic988@gmail.comba
  */
 import java.util.List;
 import javax.persistence.*;
@@ -15,39 +15,39 @@ import javax.persistence.*;
 @Entity
 @Table(name = "poseban_cilj")
 public class PosebanCilj {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "poseban_cilj_id")
     private int id;
-    
+
     @ManyToOne
     @JoinColumn(name = "plan_id")
     private Plan plan;
-    
+
     @ManyToOne
     @JoinColumn(name = "page_id")
     private Page page;
-        
+
     @ManyToOne
     @JoinColumn(name = "client_id")
     private Client client;
 
     @Column(name = "poseban_cilj_text")
     private String posebanCiljText;
-    
+
     @Column(name = "redosled")
     private int redosled;
-    
+
     @Column(name = "indikator")
     private String indikator;
-    
+
     @Column(name = "indikator_pv")
     private String indikatorPv;
-     
+
     @Column(name = "indikator_cv")
     private String indikatorCv;
-   
+
     @OneToMany(mappedBy = "posebanCilj")
     @OrderBy("redosled ASC")
     private List<Mera> children;
@@ -76,7 +76,6 @@ public class PosebanCilj {
         this.client = client;
     }
 
-    
     public int getId() {
         return id;
     }
@@ -133,6 +132,4 @@ public class PosebanCilj {
         this.indikator = indikator;
     }
 
-   
-    
 }

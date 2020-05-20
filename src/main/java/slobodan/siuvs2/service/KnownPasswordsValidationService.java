@@ -18,7 +18,7 @@ public class KnownPasswordsValidationService {
         if (passwordDbFilePath == null) {
             throw new Exception("Password DB file location not configured siuvs.invalidPasswordDbFilePath");
         }
-        db  = new ArrayList<>();
+        db = new ArrayList<>();
         FileInputStream fileInputStream;
         try {
             fileInputStream = new FileInputStream(new File(passwordDbFilePath));
@@ -38,7 +38,7 @@ public class KnownPasswordsValidationService {
     }
 
     public boolean contains(String password) {
-        for (String line: db) {
+        for (String line : db) {
             if (line.contains(password)) {
                 return true;
             }

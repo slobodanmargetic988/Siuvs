@@ -14,7 +14,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -48,8 +47,9 @@ public class UserServiceImpl implements UserService {
         user.setActive(true);
         userRepository.save(user);
     }
- @Override
-    public void setSupervising(User user, Supervising supervising){
+
+    @Override
+    public void setSupervising(User user, Supervising supervising) {
         user.setSupervising(supervising);
     }
 
@@ -94,12 +94,13 @@ public class UserServiceImpl implements UserService {
         }
         return false;
     }
-  @Override
-    public Page<User> findByRolesId(List<Integer> id, Pageable pageable){
-       
-    return userRepository.findByRolesIdIn(id, pageable);
-}
-    
+
+    @Override
+    public Page<User> findByRolesId(List<Integer> id, Pageable pageable) {
+
+        return userRepository.findByRolesIdIn(id, pageable);
+    }
+
     @Override
     public Page<User> findAllClientIsNullOrderByNameAscLastNameAsc(Pageable pageable) {
         return userRepository.findAllByClientIsNullOrderByIdAsc(pageable);

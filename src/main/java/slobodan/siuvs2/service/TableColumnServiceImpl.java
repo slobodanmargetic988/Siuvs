@@ -36,7 +36,7 @@ public class TableColumnServiceImpl implements TableColumnService {
 
     private void makeNewColumn(TableColumn parentColumn, TableColumn column, Integer lastOrder, Client client) {
         List<TableColumn> columnsToFixOrder = tableColumnRepository.findAllByTableAndOrderGreaterThanOrderByOrder(parentColumn.getTable(), lastOrder);
-        for (TableColumn columnToFixOrder: columnsToFixOrder) {
+        for (TableColumn columnToFixOrder : columnsToFixOrder) {
             columnToFixOrder.setOrder(columnToFixOrder.getOrder() + 1);
             tableColumnRepository.save(columnToFixOrder);
         }

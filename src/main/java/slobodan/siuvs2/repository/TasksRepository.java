@@ -7,15 +7,14 @@ package slobodan.siuvs2.repository;
 
 /**
  *
- * @author sloba
+ * @author Slobodan Margetic slobodanmargetic988@gmail.comba
  */
-
-
 import slobodan.siuvs2.model.Tasks;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface TasksRepository extends JpaRepository<Tasks, Integer>{
+public interface TasksRepository extends JpaRepository<Tasks, Integer> {
+
     Tasks findFirstByName(String name);
-    
+
 }

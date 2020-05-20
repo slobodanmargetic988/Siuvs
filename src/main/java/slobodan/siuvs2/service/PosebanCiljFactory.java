@@ -5,15 +5,13 @@ package slobodan.siuvs2.service;
 
 /**
  *
- * @author deca
+ * @author Slobodan Margetic slobodanmargetic988@gmail.com
  */
 import slobodan.siuvs2.model.Page;
 import slobodan.siuvs2.model.PosebanCilj;
 import slobodan.siuvs2.model.Plan;
 
 public interface PosebanCiljFactory {
-    PosebanCilj empty(Plan plan,Page page);
+
+    PosebanCilj empty(Plan plan, Page page);
 }
-
-
-

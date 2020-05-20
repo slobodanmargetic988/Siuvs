@@ -54,12 +54,18 @@ public class DynamicData {
 
         @Override
         public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
+            if (this == o) {
+                return true;
+            }
+            if (o == null || getClass() != o.getClass()) {
+                return false;
+            }
 
             PK pk = (PK) o;
 
-            if (!row.equals(pk.row)) return false;
+            if (!row.equals(pk.row)) {
+                return false;
+            }
             return column.equals(pk.column);
         }
 

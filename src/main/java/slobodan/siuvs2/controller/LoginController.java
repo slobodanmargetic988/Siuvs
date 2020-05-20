@@ -35,7 +35,7 @@ public class LoginController {
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String login(final Model model, final HttpServletRequest request) {
         if (request.getSession().getAttribute("errorMessage") != null) {
-            String errorMessage = (String)request.getSession().getAttribute("errorMessage");
+            String errorMessage = (String) request.getSession().getAttribute("errorMessage");
             model.addAttribute("errorMessage", errorMessage);
             request.getSession().setAttribute("errorMessage", null);
         } else {
@@ -46,8 +46,8 @@ public class LoginController {
 
     @PostMapping(value = "/forgotpassword")
     public String forgotPassword(
-        final RedirectAttributes redirectAttributes,
-        @RequestParam(name = "email") String email
+            final RedirectAttributes redirectAttributes,
+            @RequestParam(name = "email") String email
     ) {
         try {
             User user = userService.findUserByEmail(email);
@@ -65,9 +65,9 @@ public class LoginController {
 
     @GetMapping(value = "/forgotpassword/{tokenString}")
     public String forgotPasswordResetPage(
-        @PathVariable final String tokenString,
-        final RedirectAttributes redirectAttributes,
-        final Model model
+            @PathVariable final String tokenString,
+            final RedirectAttributes redirectAttributes,
+            final Model model
     ) {
         PasswordResetToken token = passwordResetTokenService.findValidToken(tokenString);
         if (token != null) {
@@ -78,7 +78,6 @@ public class LoginController {
             return "redirect:/";
         }
     }
-
 
     @Transactional
     @PostMapping(value = "/forgotpassword/{tokenString}")

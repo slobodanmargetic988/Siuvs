@@ -55,24 +55,26 @@ public class ClientServiceImpl implements ClientService {
         }
         return result;
     }
-        @Override
-    public Boolean isNameUsed(ClientId clientId,String name) {
+
+    @Override
+    public Boolean isNameUsed(ClientId clientId, String name) {
         Boolean result = false;
         List<Client> clients = clientRepository.findByName(name);
-        for (Client client : clients){
-            if (client.getId()!=clientId.getValue()){result = true;}
-        }   
+        for (Client client : clients) {
+            if (client.getId() != clientId.getValue()) {
+                result = true;
+            }
+        }
         return result;
     }
-    
-    
-@Override
-    public Page<Client> findAllByOpstinaIdOrderByNameAsc(List<Integer> opstinaId, Pageable pageable){
-    return clientRepository.findByOpstinaIdInOrderByNameAsc(opstinaId,pageable);
-    }
-    
+
     @Override
-    public Page<Client> findAllByOpstinaInOrderByNameAsc(List<Opstina> opstina, Pageable pageable){
-    return clientRepository.findByOpstinaInOrderByNameAsc(opstina,pageable);
+    public Page<Client> findAllByOpstinaIdOrderByNameAsc(List<Integer> opstinaId, Pageable pageable) {
+        return clientRepository.findByOpstinaIdInOrderByNameAsc(opstinaId, pageable);
+    }
+
+    @Override
+    public Page<Client> findAllByOpstinaInOrderByNameAsc(List<Opstina> opstina, Pageable pageable) {
+        return clientRepository.findByOpstinaInOrderByNameAsc(opstina, pageable);
     }
 }

@@ -22,15 +22,15 @@ public interface UserService {
     void updateUser(int userId, User user);
 
     void addRole(User user, Roles newRole);
-    
+
     void setSupervising(User user, Supervising supervising);
-    
+
     void clearRoles(User user);
 
     boolean hasRole(User user, Roles role);
-    
+
     Page<User> findByRolesId(List<Integer> id, Pageable pageable);
-    
+
     Page<User> findAllClientIsNullOrderByNameAscLastNameAsc(Pageable pageable);
 
     Page<User> findAllByClientOrderByNameAscLastNameAsc(Client client, Pageable pageable);
@@ -40,6 +40,5 @@ public interface UserService {
     boolean forceChangePassword(User user, String newPassword);
 
     boolean performChangeEmail(ChangeEmailEntity changeEmailEntity) throws SiuvsException;
-
 
 }

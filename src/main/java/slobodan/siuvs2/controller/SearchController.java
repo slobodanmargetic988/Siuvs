@@ -17,21 +17,18 @@ import slobodan.siuvs2.model.SiuvsUserPrincipal;
 import slobodan.siuvs2.model.TableColumn;
 import slobodan.siuvs2.model.TableDefinition;
 import slobodan.siuvs2.model.User;
-import slobodan.siuvs2.repository.DynamicDataRepository;
 import slobodan.siuvs2.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import slobodan.siuvs2.service.DynamicDataService;
 
 /**
  *
@@ -42,13 +39,11 @@ public class SearchController {
 
     @Autowired
     private UserService userService;
-
     @Autowired
-    private DynamicDataRepository dynamicDataRepository;
+    private DynamicDataService dynamicDataService;
 
     private Map<Integer, TableFacade> tableFacadeCache = new HashMap<>();
 
-    
     @PostMapping("/search-results")
     public String performSearch(final Model model, @RequestParam(name = "upit") String upit, @PageableDefault final Pageable pageable, final RedirectAttributes redir) {
         User user = getCurrentUser();
@@ -59,7 +54,7 @@ public class SearchController {
             navigation += "-end-user";
         }
 
-        List<DynamicData> dynd = dynamicDataRepository.findByValue(upit);
+        List<DynamicData> dynd = dynamicDataService.findByValue(upit);
         List<DynamicData> dyndshort = new ArrayList<>();
         List<DynamicData> dataseach = new ArrayList<>();
         List<String> links = new ArrayList<>();
@@ -74,29 +69,24 @@ public class SearchController {
                     dyndshort.add(member);
                     links.add("/admin/clients/" + member.getRow().getDynamicTable().getClient().getClientId() + "/" + member.getRow().getDynamicTable().getTableDefinition().getPage().getId() + "/" + member.getRow().getDynamicTable().getTableDefinition().getId());
                     tableheaders.add(getHeader(member.getRow().getDynamicTable().getTableDefinition(), cli, user));
-                   // clients.add(cli);
-                    dataseach = dynamicDataRepository.findById(member.getRow().getId());
+                    // clients.add(cli);
+                    dataseach = dynamicDataService.findByRowId(member.getRow().getId());
                     datas.add(dataseach);
-
                 } else if (user.getClient().getId() == cli.getId()) {
                     dyndshort.add(member);
                     links.add("/client/" + member.getRow().getDynamicTable().getTableDefinition().getPage().getId() + "/" + member.getRow().getDynamicTable().getTableDefinition().getId());
-
                     tableheaders.add(getHeader(member.getRow().getDynamicTable().getTableDefinition(), cli, user));
-                   // clients.add(cli);
-                    dataseach = dynamicDataRepository.findById(member.getRow().getId());
+                    // clients.add(cli);
+                    dataseach = dynamicDataService.findByRowId(member.getRow().getId());
                     datas.add(dataseach);
                 }
-
             }
-int numberofPages=(int) Math.ceil((double)dyndshort.size()/20);
+            int numberofPages = (int) Math.ceil((double) dyndshort.size() / 20);
             model.addAttribute("links", links);
-          
             model.addAttribute("PagesNo", numberofPages);
             model.addAttribute("dynamicDataList", dyndshort);
             model.addAttribute("tableheaders", tableheaders);
-            
-          //  model.addAttribute("clients", clients);
+            //  model.addAttribute("clients", clients);
             model.addAttribute("datas", datas);
         }
         model.addAttribute("query", upit);//this one is outside the loop so that the user can see the query string even if result set is empty
@@ -125,9 +115,7 @@ int numberofPages=(int) Math.ceil((double)dyndshort.size()/20);
     class HeaderColumn {
 
         private String title;
-
         private int rowSpan;
-
         private int colSpan;
 
         HeaderColumn(int rowSpan, int colSpan, String title) {

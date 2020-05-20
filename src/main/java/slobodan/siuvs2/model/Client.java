@@ -22,11 +22,11 @@ public class Client {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "client_id")
     private int id;
-    
+
     @ManyToOne
     @JoinColumn(name = "opstina_id")
     private Opstina opstina;
-    
+
     @Column(name = "name", unique = true)
     @NotEmpty(message = "* Молимо унесите назив клијента")
     private String name;
@@ -122,8 +122,6 @@ public class Client {
     public void setModifiedOn(LocalDateTime modifiedOn) {
         this.modifiedOn = modifiedOn;
     }
-
-    
 
     public boolean isActive() {
         return active;

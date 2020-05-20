@@ -11,8 +11,8 @@ package slobodan.siuvs2.service;
  */
 import slobodan.siuvs2.model.Plan;
 import slobodan.siuvs2.model.Client;
-import slobodan.siuvs2.model.Page;
 
 public interface PlanFactory {
-       Plan empty(Client client);
+
+    Plan empty(Client client);
 }

@@ -4,7 +4,6 @@ import slobodan.siuvs2.model.ChangeEmailEntity;
 import slobodan.siuvs2.model.ChangePasswordEntity;
 import slobodan.siuvs2.model.SiuvsUserPrincipal;
 import slobodan.siuvs2.model.User;
-import slobodan.siuvs2.service.KnownPasswordsValidationService;
 import slobodan.siuvs2.service.PasswordValidationService;
 import slobodan.siuvs2.service.UserService;
 import slobodan.siuvs2.shared.PasswordException;
@@ -35,7 +34,7 @@ public class ProfileController {
 
     private User getCurrentUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return ((SiuvsUserPrincipal)authentication.getPrincipal()).getUser();
+        return ((SiuvsUserPrincipal) authentication.getPrincipal()).getUser();
     }
 
     @GetMapping(value = "/profile")
@@ -58,7 +57,6 @@ public class ProfileController {
     ) {
         return "profile/changeemail";
     }
-
 
     @PostMapping(value = "/profile/changepassword")
     public String changepassword(
@@ -97,7 +95,6 @@ public class ProfileController {
         }
         return "redirect:/profile/changepassword";
     }
-
 
     @PostMapping(value = "/profile/changeemail")
     public String changeemail(

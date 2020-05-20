@@ -36,19 +36,14 @@ public class AssessmentController {
 
     @Autowired
     private PageService pageService;
-
     @Autowired
     private AssessmentService assessmentService;
-
     @Autowired
     private AssessmentFactory assessmentFactory;
-
     @Autowired
     private StorageService storageService;
-
     @Autowired
     private PhotoService photoService;
-
     @Autowired
     private UserService userService;
 
@@ -58,7 +53,7 @@ public class AssessmentController {
             final Model model
     ) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User user = ((SiuvsUserPrincipal)authentication.getPrincipal()).getUser();
+        User user = ((SiuvsUserPrincipal) authentication.getPrincipal()).getUser();
         Client client = user.getClient();
         Page page = pageService.findOne(pageId);
         Assessment assessment = assessmentService.findOne(client, page);
@@ -78,7 +73,7 @@ public class AssessmentController {
             final Model model
     ) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User user = ((SiuvsUserPrincipal)authentication.getPrincipal()).getUser();
+        User user = ((SiuvsUserPrincipal) authentication.getPrincipal()).getUser();
         Client client = user.getClient();
         Page page = pageService.findOne(pageId);
         Assessment newAssessment = assessmentService.findOne(client, page);
@@ -104,7 +99,7 @@ public class AssessmentController {
             return "redirect:/client/assessment/" + pageId + "/edit";
         } else {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-            User user = ((SiuvsUserPrincipal)authentication.getPrincipal()).getUser();
+            User user = ((SiuvsUserPrincipal) authentication.getPrincipal()).getUser();
             Client client = user.getClient();
             Page page = pageService.findOne(pageId);
             Assessment currentAssessment = assessmentService.findOne(client, page);
@@ -137,7 +132,7 @@ public class AssessmentController {
             return "redirect:/client/assessment/" + pageId + "/edit";
         } else {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-            User user = ((SiuvsUserPrincipal)authentication.getPrincipal()).getUser();
+            User user = ((SiuvsUserPrincipal) authentication.getPrincipal()).getUser();
             Client client = user.getClient();
             if (!userService.hasRole(user, Roles.CLIENT)) {
                 redirectAttributes.addFlashAttribute("errorMessage", "Немате права за унос слике");
@@ -153,7 +148,7 @@ public class AssessmentController {
     @GetMapping(value = "/photo/{photoId}")
     public ResponseEntity<Resource> servePhoto(@PathVariable final OpstinaID photoId) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User user = ((SiuvsUserPrincipal)authentication.getPrincipal()).getUser();
+        User user = ((SiuvsUserPrincipal) authentication.getPrincipal()).getUser();
         Client client = user.getClient();
         String filename = photoService.findFileNameById(photoId);
         Resource file = storageService.loadAsResource(client.getClientId(), filename);
@@ -170,7 +165,7 @@ public class AssessmentController {
             final RedirectAttributes redirectAttributes
     ) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User user = ((SiuvsUserPrincipal)authentication.getPrincipal()).getUser();
+        User user = ((SiuvsUserPrincipal) authentication.getPrincipal()).getUser();
         Client client = user.getClient();
         String filename = photoService.findFileNameById(photoId);
         photoService.delete(client, photoId);

@@ -5,12 +5,11 @@ package slobodan.siuvs2.service;
 
 /**
  *
- * @author deca
+ * @author Slobodan Margetic slobodanmargetic988@gmail.com
  */
 import slobodan.siuvs2.model.Distrikt;
 
-
-
 public interface DistriktFactory {
-       Distrikt empty(String name);
+
+    Distrikt empty(String name);
 }

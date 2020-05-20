@@ -19,107 +19,107 @@
 
             <div th:if="${#lists.isEmpty(dynamicDataList)}">
                 <p>Приказује се резултат претраге табела за : <span th:text="${query}"> </span> 
-               <br>  Није пронађен ниједан резултат.
-               <br> Уколико очекујете да постоји резултат за тражени појам, пробајте нешто од следећег:
-               <br> Унесите појам на ћирилици. 
-               <br> Смањите број речи у претрази.
-               <br> Унесите само део речи нпр "ситуац" уместо "ситуацијама".
-            </div> 
-            <div  th:if="!${#lists.isEmpty(dynamicDataList)}">
+                    <br>  Није пронађен ниједан резултат.
+                        <br> Уколико очекујете да постоји резултат за тражени појам, пробајте нешто од следећег:
+                            <br> Унесите појам на ћирилици. 
+                                <br> Смањите број речи у претрази.
+                                    <br> Унесите само део речи нпр "ситуац" уместо "ситуацијама".
+                                        </div> 
+                                        <div  th:if="!${#lists.isEmpty(dynamicDataList)}">
 
 
-<div class="panel" style='background:none;background-color:transparent'>
-                <p>Приказује се резултат претраге табела за : <span th:text="${query}"> </span> 
-            <br> Укупно је пронађено <span th:text="${dynamicDataList.size()}"> </span> резултата.
-            </p>
- 
-                <table style='background:none;background-color:transparent'>
-                    <tbody style='background:none;background-color:transparent'>
-                       <!-- treba dodati paginaciju
-                       <tr >
-                          <a  ><<</a>
-                          <a th:href="@{/search-results(page=${PagesNo})}" th:text="${PagesNo}">«link</a>
-                           <a  th:text="${PagesNo}">PagesNo</a>
-                            <a  >>></a>
-                        </tr> 
-                       -->
-                        <tr th:each="dataItem, iStat: ${dynamicDataList}"style='background:none;background-color:transparent'>
+                                            <div class="panel" style='background:none;background-color:transparent'>
+                                                <p>Приказује се резултат претраге табела за : <span th:text="${query}"> </span> 
+                                                    <br> Укупно је пронађено <span th:text="${dynamicDataList.size()}"> </span> резултата.
+                                                </p>
 
-                            <td>
-                                <div class="panel" >
-                                    <div class="panel-heading">
-                                        <span class="panel-title" th:text="${dataItem.getRow().getDynamicTable().getTableDefinition().getTitle()}"></span>
-                                        <br><a th:href="@{__(${links.get(iStat.index)})__}"><i class="px-nav-icon fa fa-window-restore"></i><span class="px-nav-label"> Прикажи целу табелу</span></a>
-                                    </div>
-                                    <div class="panel-body data-panel-body"  style="overflow: auto;max-width:80vw">
-                                    <table class="table table-striped"  >
-                                        <thead >
-                                            <tr th:each="headerRow : ${tableheaders.get(__(${iStat.index})__)}"  >
-                                                
-                                                <th th:each="column : ${headerRow.columns}"
-                                                    th:utext="${column.title}"
-                                                    th:attr="rowspan=${column.rowSpan}, colspan=${column.colSpan}"
-                                                    th:classappend="${column.colSpan} > 1 ? 'text-xs-center' : ''" >
-                                                </th> 
-                                                    
-                                            </tr>
-                                        </thead>
-                                        
-                                         <tbody>
-                                             
-                                            <tr >
-                                         
-                                                 <th scope="row">
-                                                     <div th:text="1"></div>
-                                                 </th>
-                                                 <th:block th:each="data: ${datas.get(__(${iStat.index})__)}">
-                                                           
-                                                          
-                                                     <th:block th:switch="${data.rowSpan}">
-                                                         <th:block th:case="-1"/>
-                                                         <th:block th:case="*">
-                                                             <th:block th:with="value=(${data.column.type.toString()} eq 'AGGREGATE'
-                                                                     or ${data.column.type.toString()} eq 'PART'
-                                                                     or ${data.column.type.toString()} eq 'ENUM'
-                                                                     or ${data.column.type.toString()} eq 'SUM'
-                                                                     or ${data.column.type.toString()} eq 'AUTOSUM'
-                                                                     )
-                                                                     ? ${data.getVirtualValue()} : ${data.value}">
-                                                                 <th:block th:with="value=(${data.column.type.toString()} eq 'NUMBER'
-                                                                     or ${data.column.type.toString()} eq 'SUM'
-                                                                     or ${data.column.type.toString()} eq 'AUTOSUM'
-                                                                     )
-                                                                     ? ${#siuvs.formatNumber(value)} : ${value}">
-                                                                     <td th:text="${value == '' ? '/' : value}"
-                                                                         th:rowspan="${data.rowSpan} > 1 ? ${data.rowSpan} : '1'"
-                                                                         th:classappend="${data.rowSpan} > 1 ? 'align-middle' : ''"
-                                                                     >
-                                                                     </td>
-                                                                 </th:block>
-                                                             </th:block>
-                                                         </th:block>
-                                                     </th:block>
-                                                 </th:block>
-                                             </tr>
-                                                 
-                                         </tbody>
-                                    </table>
+                                                <table style='background:none;background-color:transparent'>
+                                                    <tbody style='background:none;background-color:transparent'>
+                                                        <!-- treba dodati paginaciju
+                                                        <tr >
+                                                           <a  ><<</a>
+                                                           <a th:href="@{/search-results(page=${PagesNo})}" th:text="${PagesNo}">«link</a>
+                                                            <a  th:text="${PagesNo}">PagesNo</a>
+                                                             <a  >>></a>
+                                                         </tr> 
+                                                        -->
+                                                        <tr th:each="dataItem, iStat: ${dynamicDataList}"style='background:none;background-color:transparent'>
+
+                                                            <td>
+                                                                <div class="panel" >
+                                                                    <div class="panel-heading">
+                                                                        <span class="panel-title" th:text="${dataItem.getRow().getDynamicTable().getTableDefinition().getTitle()}"></span>
+                                                                        <br><a th:href="@{__(${links.get(iStat.index)})__}"><i class="px-nav-icon fa fa-window-restore"></i><span class="px-nav-label"> Прикажи целу табелу</span></a>
+                                                                    </div>
+                                                                    <div class="panel-body data-panel-body"  style="overflow: auto;max-width:80vw">
+                                                                        <table class="table table-striped"  >
+                                                                            <thead >
+                                                                                <tr th:each="headerRow : ${tableheaders.get(__(${iStat.index})__)}"  >
+
+                                                                                    <th th:each="column : ${headerRow.columns}"
+                                                                                        th:utext="${column.title}"
+                                                                                        th:attr="rowspan=${column.rowSpan}, colspan=${column.colSpan}"
+                                                                                        th:classappend="${column.colSpan} > 1 ? 'text-xs-center' : ''" >
+                                                                                    </th> 
+
+                                                                                </tr>
+                                                                            </thead>
+
+                                                                            <tbody>
+
+                                                                                <tr >
+
+                                                                                    <th scope="row">
+                                                                                        <div th:text="1"></div>
+                                                                                    </th>
+                                                                                    <th:block th:each="data: ${datas.get(__(${iStat.index})__)}">
+
+
+                                                                                        <th:block th:switch="${data.rowSpan}">
+                                                                                            <th:block th:case="-1"/>
+                                                                                            <th:block th:case="*">
+                                                                                                <th:block th:with="value=(${data.column.type.toString()} eq 'AGGREGATE'
+                                                                                                          or ${data.column.type.toString()} eq 'PART'
+                                                                                                          or ${data.column.type.toString()} eq 'ENUM'
+                                                                                                          or ${data.column.type.toString()} eq 'SUM'
+                                                                                                          or ${data.column.type.toString()} eq 'AUTOSUM'
+                                                                                                          )
+                                                                                                          ? ${data.getVirtualValue()} : ${data.value}">
+                                                                                                    <th:block th:with="value=(${data.column.type.toString()} eq 'NUMBER'
+                                                                                                              or ${data.column.type.toString()} eq 'SUM'
+                                                                                                              or ${data.column.type.toString()} eq 'AUTOSUM'
+                                                                                                              )
+                                                                                                              ? ${#siuvs.formatNumber(value)} : ${value}">
+                                                                                                        <td th:text="${value == '' ? '/' : value}"
+                                                                                                            th:rowspan="${data.rowSpan} > 1 ? ${data.rowSpan} : '1'"
+                                                                                                            th:classappend="${data.rowSpan} > 1 ? 'align-middle' : ''"
+                                                                                                            >
+                                                                                                        </td>
+                                                                                                    </th:block>
+                                                                                                </th:block>
+                                                                                            </th:block>
+                                                                                        </th:block>
+                                                                                    </th:block>
+                                                                                </tr>
+
+                                                                            </tbody>
+                                                                        </table>
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+
+                                            </div>
                                         </div>
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-         
-    </div>
-            </div>
 
-        </div>
+                                        </div>
 
 
-        <th:block th:insert="fragments/footer :: footer-standard" />
+                                        <th:block th:insert="fragments/footer :: footer-standard" />
 
-        <th:block th:insert="fragments/scripts :: standard" />
+                                        <th:block th:insert="fragments/scripts :: standard" />
 
-    </body>
-</html>
+                                        </body>
+                                        </html>

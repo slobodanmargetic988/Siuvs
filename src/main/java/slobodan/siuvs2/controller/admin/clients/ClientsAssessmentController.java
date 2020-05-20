@@ -33,19 +33,14 @@ public class ClientsAssessmentController {
 
     @Autowired
     private ClientService clientService;
-
     @Autowired
     private PageService pageService;
-
     @Autowired
     private AssessmentService assessmentService;
-
     @Autowired
     private AssessmentFactory assessmentFactory;
-
     @Autowired
     private StorageService storageService;
-
     @Autowired
     private PhotoService photoService;
 
@@ -65,7 +60,7 @@ public class ClientsAssessmentController {
         model.addAttribute("page", page);
         model.addAttribute("assessment", assessment);
         model.addAttribute("photos", photoService.findByClientAndPage(client, page));
-        model.addAttribute("vrsta_opasnosti", AssesmentHelper1.getOpasnost(pageId.getValue()));  
+        model.addAttribute("vrsta_opasnosti", AssesmentHelper1.getOpasnost(pageId.getValue()));
         return "admin/clients/assessment/view";
     }
 

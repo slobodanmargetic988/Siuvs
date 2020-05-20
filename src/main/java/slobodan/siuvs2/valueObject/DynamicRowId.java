@@ -21,5 +21,5 @@ public class DynamicRowId implements IdValueObjectInterface {
     public DynamicRowId(Integer value) {
         this.value = value;
     }
-    
+
 }

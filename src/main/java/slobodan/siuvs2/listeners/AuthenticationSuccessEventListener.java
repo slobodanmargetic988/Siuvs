@@ -18,7 +18,7 @@ public class AuthenticationSuccessEventListener implements ApplicationListener<A
     @Override
     public void onApplicationEvent(AuthenticationSuccessEvent event) {
         Authentication authentication = event.getAuthentication();
-        User user = ((SiuvsUserPrincipal)authentication.getPrincipal()).getUser();
+        User user = ((SiuvsUserPrincipal) authentication.getPrincipal()).getUser();
         loginMonitorService.logSuccessfulLogin(user);
     }
 }

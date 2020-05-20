@@ -8,6 +8,7 @@ package slobodan.siuvs2.model;
 import java.util.List;
 import javax.persistence.*;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
 /**
  *
  * @author Sloba
@@ -16,49 +17,45 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @Table(name = "plan")
 @EntityListeners(AuditingEntityListener.class)
 public class Plan {
+
     /*
     public void copyDataFieldsFromPlan(Plan plan) {
     }
-      */
-      
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "plan_id")
     private int id;
-    
-   
-        
+
     @ManyToOne
     @JoinColumn(name = "client_id")
     private Client client;
-    
-    
+
     @Column(name = "plan_text")
     private String planText;
-    
+
     @Column(name = "period_od")
     private String periodOd;
-    
+
     @Column(name = "period_do")
     private String periodDo;
-    
+
     @Column(name = "opsti_cilj")
     private String opstiCilj;
-    
+
     @Column(name = "indikator")
     private String indikator;
-    
+
     @Column(name = "indikator_pv")
     private String indikatorPv;
-    
+
     @Column(name = "indikator_cv")
     private String indikatorCv;
-    
+
     @OneToMany(mappedBy = "plan")
     @OrderBy("redosled ASC")
     private List<PosebanCilj> children;
-    
-   
+
     public void copyDataFieldsFromPlan(Plan plan) {
         this.setPlanText(plan.getPlanText());
         this.setPeriodOd(plan.getPeriodOd());
@@ -67,7 +64,7 @@ public class Plan {
         this.setIndikator(plan.getIndikator());
         this.setIndikatorPv(plan.getIndikatorPv());
         this.setIndikatorCv(plan.getIndikatorCv());
-     }
+    }
 
     public List<PosebanCilj> getChildren() {
         return children;
@@ -92,8 +89,6 @@ public class Plan {
     public void setId(int id) {
         this.id = id;
     }
-
-
 
     public Client getClient() {
         return client;
@@ -150,7 +145,5 @@ public class Plan {
     public void setIndikatorCv(String indikatorCv) {
         this.indikatorCv = indikatorCv;
     }
-    
-     
-}
 
+}

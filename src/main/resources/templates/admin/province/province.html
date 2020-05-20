@@ -1,104 +1,104 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
-<head>
-    <th:block th:include="fragments/head :: head" />
-</head>
-<body>
+    <head>
+        <th:block th:include="fragments/head :: head" />
+    </head>
+    <body>
 
-<th:block th:insert="fragments/navigation :: nav-admin-root" />
+        <th:block th:insert="fragments/navigation :: nav-admin-root" />
 
-<!-- Content -->
-<div class="px-content">
+        <!-- Content -->
+        <div class="px-content">
 
-    <div class="page-header">
-        <div class="box m-y-0 bg-transparent">
-            <h1 class="box-cell col-md-7 col-lg-8 col-xl-9"><i class="page-header-icon fa fa-institution"></i>Аутономне покрајине</h1>
+            <div class="page-header">
+                <div class="box m-y-0 bg-transparent">
+                    <h1 class="box-cell col-md-7 col-lg-8 col-xl-9"><i class="page-header-icon fa fa-institution"></i>Аутономне покрајине</h1>
 
-            <!-- Spacer -->
-            <hr class="visible-xs visible-sm">
+                    <!-- Spacer -->
+                    <hr class="visible-xs visible-sm">
 
-            <div class="box-cell col-md-5 col-lg-4 col-xl-3" sec:authorize="hasAnyAuthority('ADMIN','RIS')">
-                <form th:action="@{/admin/province/new}" method="get" class="form-horizontal" autocomplete="off">
-                    <button type="submit" class="btn btn-primary pull-right">Нова аутономна покрајина</button>
-                </form>
+                        <div class="box-cell col-md-5 col-lg-4 col-xl-3" sec:authorize="hasAnyAuthority('ADMIN','RIS')">
+                            <form th:action="@{/admin/province/new}" method="get" class="form-horizontal" autocomplete="off">
+                                <button type="submit" class="btn btn-primary pull-right">Нова аутономна покрајина</button>
+                            </form>
+                        </div>
+
+                </div>
             </div>
 
-        </div>
-    </div>
+            <div th:replace="fragments/alert :: success (${successMessage})"></div>
 
-    <div th:replace="fragments/alert :: success (${successMessage})"></div>
-
-    <!-- Clients list  -->
-    <div class="panel">
-        <div class="panel-heading">
-            <span class="panel-title">Списак аутономних покрајина</span>
-            <div class="panel-heading-controls">
-                <ul class="pagination pagination-xs">
-                    <li th:class="${provincije.isFirst()} ? 'disabled' : ''">
-                        <a th:if="${provincije.isFirst()}" href="#">«</a>
-                        <a th:if="${provincije.getNumber() == 1}" th:href="@{/admin/province}">«</a>
-                        <a th:if="${provincije.getNumber() > 1}" th:href="@{/admin/province(page=${provincije.getNumber()-1})}">«</a>
-                    </li>
-                    <th:block th:with="startPage = ${provincije.getNumber() - 2}">
-                        <th:block th:with="startPage = ${startPage < 0} ? 0 : ${startPage}">
-                            <th:block th:with="endPage = ${startPage} + 4">
-                                <th:block th:with="lastPage = (${provincije.getTotalPages() - 1})">
-                                    <th:block th:with="endPage = ${endPage > lastPage} ? ${lastPage} : ${endPage}">
-                                        <th:block th:with="startPage = ${startPage > 0 and endPage == lastPage} ? ${endPage - 3} : ${startPage}">
-                                            <th:block th:with="startPage = ${startPage > 0 and endPage == lastPage} ? ${startPage - 1} : ${startPage}">
-                                                <th:block th:each="pageNo : ${#numbers.sequence(startPage, endPage)}">
-                                                    <li th:if="${pageNo == provincije.getNumber()}" class="active">
-                                                        <a th:text="${pageNo + 1}" href="#"></a>
-                                                    </li>
-                                                    <li th:if="${pageNo != provincije.getNumber()}">
-                                                        <a th:if="${pageNo > 0}" th:text="${pageNo + 1}" th:href="@{/admin/province(page=${pageNo})}"></a>
-                                                        <a th:if="${pageNo == 0}" th:text="${pageNo + 1}" th:href="@{/admin/province}"></a>
-                                                    </li>
+            <!-- Clients list  -->
+            <div class="panel">
+                <div class="panel-heading">
+                    <span class="panel-title">Списак аутономних покрајина</span>
+                    <div class="panel-heading-controls">
+                        <ul class="pagination pagination-xs">
+                            <li th:class="${provincije.isFirst()} ? 'disabled' : ''">
+                                <a th:if="${provincije.isFirst()}" href="#">«</a>
+                                <a th:if="${provincije.getNumber() == 1}" th:href="@{/admin/province}">«</a>
+                                <a th:if="${provincije.getNumber() > 1}" th:href="@{/admin/province(page=${provincije.getNumber()-1})}">«</a>
+                            </li>
+                            <th:block th:with="startPage = ${provincije.getNumber() - 2}">
+                                <th:block th:with="startPage = ${startPage < 0} ? 0 : ${startPage}">
+                                    <th:block th:with="endPage = ${startPage} + 4">
+                                        <th:block th:with="lastPage = (${provincije.getTotalPages() - 1})">
+                                            <th:block th:with="endPage = ${endPage > lastPage} ? ${lastPage} : ${endPage}">
+                                                <th:block th:with="startPage = ${startPage > 0 and endPage == lastPage} ? ${endPage - 3} : ${startPage}">
+                                                    <th:block th:with="startPage = ${startPage > 0 and endPage == lastPage} ? ${startPage - 1} : ${startPage}">
+                                                        <th:block th:each="pageNo : ${#numbers.sequence(startPage, endPage)}">
+                                                            <li th:if="${pageNo == provincije.getNumber()}" class="active">
+                                                                <a th:text="${pageNo + 1}" href="#"></a>
+                                                            </li>
+                                                            <li th:if="${pageNo != provincije.getNumber()}">
+                                                                <a th:if="${pageNo > 0}" th:text="${pageNo + 1}" th:href="@{/admin/province(page=${pageNo})}"></a>
+                                                                <a th:if="${pageNo == 0}" th:text="${pageNo + 1}" th:href="@{/admin/province}"></a>
+                                                            </li>
+                                                        </th:block>
+                                                    </th:block>
                                                 </th:block>
                                             </th:block>
                                         </th:block>
                                     </th:block>
                                 </th:block>
                             </th:block>
-                        </th:block>
-                    </th:block>
-                    <li th:class="${provincije.isLast()} ? 'disabled' : ''">
-                        <a th:if="${provincije.isLast()}" href="#">»</a>
-                        <a th:if="${not provincije.isLast()}" th:href="@{/admin/province(page=${provincije.getNumber()+1})}">»</a>
-                    </li>
-                </ul>
+                            <li th:class="${provincije.isLast()} ? 'disabled' : ''">
+                                <a th:if="${provincije.isLast()}" href="#">»</a>
+                                <a th:if="${not provincije.isLast()}" th:href="@{/admin/province(page=${provincije.getNumber()+1})}">»</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="panel-body">
+
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Назив аутономне покрајине</th>
+
+                            </tr>
+                        </thead>   
+                        <tbody>
+
+                            <tr th:each="provincija: ${provincije}" th:attr="data-href=@{/admin/province/{id}(id=${provincija.id})}">
+                                <th scope="row" th:text="${provincija.id}"></th>
+                                <td th:text="${provincija.name}"></td>
+
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+
             </div>
-        </div>
-       
-        <div class="panel-body">
-
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Назив аутономне покрајине</th>
-                      
-                    </tr>
-                </thead>   
-                <tbody>
-                                                         
-                    <tr th:each="provincija: ${provincije}" th:attr="data-href=@{/admin/province/{id}(id=${provincija.id})}">
-                        <th scope="row" th:text="${provincija.id}"></th>
-                        <td th:text="${provincija.name}"></td>
-                     
-                    </tr>
-                </tbody>
-            </table>
 
         </div>
-     
-    </div>
 
-</div>
+        <th:block th:insert="fragments/footer :: footer-standard" />
 
-<th:block th:insert="fragments/footer :: footer-standard" />
-
-<th:block th:insert="fragments/scripts :: standard" />
-</body>
+        <th:block th:insert="fragments/scripts :: standard" />
+    </body>
 </html>

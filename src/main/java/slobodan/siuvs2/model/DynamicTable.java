@@ -87,7 +87,7 @@ public class DynamicTable {
 
     public int getMaxRowOrder() {
         int order = 0;
-        for (DynamicRow row: getRows()) {
+        for (DynamicRow row : getRows()) {
             if (row.getOrder() > order) {
                 order = row.getOrder();
             }
@@ -114,7 +114,7 @@ public class DynamicTable {
 
     private TableColumnValue findValueById(List<TableColumnValue> values, int id) {
         TableColumnValue found = null;
-        for (TableColumnValue value: values) {
+        for (TableColumnValue value : values) {
             if (value.getId() == id) {
                 found = value;
                 break;
@@ -245,8 +245,7 @@ public class DynamicTable {
         int index = 0;
         for (DynamicData data : row.getData()) {
             if (data.getColumn().getType().equals(TableColumnTypes.AGGREGATE)
-                || data.getColumn().getType().equals(TableColumnTypes.PART)
-            ) {
+                    || data.getColumn().getType().equals(TableColumnTypes.PART)) {
                 data.setRowSpan(rowSpan);
                 if (rowSpan > 0) {
                     data.setVirtualValue(row.getGroupRow().getData().get(index).getValue());

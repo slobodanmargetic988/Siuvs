@@ -7,24 +7,30 @@ function getPDF() {
     var content = document.getElementsByClassName(downloadwhat);
     if (typeof content[0] != "undefined") {
         content[0].style.width = "1200px";
-       content[0].style.backgroundColor = "white";
+        content[0].style.backgroundColor = "white";
 
     }
-    var table= document.getElementsByTagName("tbody");
-    if (typeof table[0] != "undefined") {table[0].style.backgroundColor = "white";}
+    var table = document.getElementsByTagName("tbody");
+    if (typeof table[0] != "undefined") {
+        table[0].style.backgroundColor = "white";
+    }
 
 
     // second make a list of all obcets with "panel" and panel-body class and make them a little bit narower 
     // than px-content so they dont look bad inside the PDF
     var panel = document.getElementsByClassName("panel");
     var panelb = document.getElementsByClassName("panel-body");
-     for (var i = 0; i <6; i++) {
-    if (typeof panel[i] != "undefined") {panel[i].style.width = "1150px";
-        panel[i].style.backgroundColor = "white";}
-      if (typeof panelb[i] != "undefined") {panelb[i].style.width = "1150px";
-        panelb[i].style.backgroundColor = "white";}  
-     }
-       
+    for (var i = 0; i < 6; i++) {
+        if (typeof panel[i] != "undefined") {
+            panel[i].style.width = "1150px";
+            panel[i].style.backgroundColor = "white";
+        }
+        if (typeof panelb[i] != "undefined") {
+            panelb[i].style.width = "1150px";
+            panelb[i].style.backgroundColor = "white";
+        }
+    }
+
 
 
 
@@ -53,7 +59,7 @@ function getPDF() {
         }
 
         pdf.save("HTML-Document.pdf");
-      
+
 
     });
 

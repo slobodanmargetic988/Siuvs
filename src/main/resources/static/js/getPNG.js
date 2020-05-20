@@ -2,26 +2,26 @@
 function getPNG() {
     //sometimes canvas cant work because the file is too big so we need to conver url to blob
     function dataURLtoBlob(dataurl) {
-    var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
-        bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
-    while(n--){
-        u8arr[n] = bstr.charCodeAt(n);
+        var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
+                bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
+        while (n--) {
+            u8arr[n] = bstr.charCodeAt(n);
+        }
+        return new Blob([u8arr], {type: mime});
     }
-    return new Blob([u8arr], {type:mime});
-}
-    
-    
-    
-    
+
+
+
+
 //html2canvas does not have a save file function like jsPDF so we have to make one
     function saveAs(uri, filename) {
         var link = document.createElement('a');
         if (typeof link.download === 'string') {
-           // link.href = uri;
+            // link.href = uri;
             link.download = filename;
-            var blob=dataURLtoBlob(uri);
+            var blob = dataURLtoBlob(uri);
             var objurl = URL.createObjectURL(blob);
-      link.href = objurl;
+            link.href = objurl;
 
             //Firefox requires the link to be in the body
             document.body.appendChild(link);
@@ -42,27 +42,34 @@ function getPNG() {
     var content = document.getElementsByClassName(downloadwhat);
     if (typeof content[0] != "undefined") {
         content[0].style.width = "1200px";
-       content[0].style.backgroundColor = "white";}
+        content[0].style.backgroundColor = "white";
+    }
 
-    var table= document.getElementsByTagName("tbody");
-    if (typeof table[0] != "undefined") {table[0].style.backgroundColor = "white";}
+    var table = document.getElementsByTagName("tbody");
+    if (typeof table[0] != "undefined") {
+        table[0].style.backgroundColor = "white";
+    }
 
     // second make a list of all obcets with "panel" and panel-body class and make them a little bit narower 
     // than px-content so they dont look bad inside the PDF
     var panel = document.getElementsByClassName("panel");
     var panelb = document.getElementsByClassName("panel-body");
-     for (var i = 0; i < 6; i++) {
-    if (typeof panel[i] != "undefined") {panel[i].style.width = "1150px";
-        panel[i].style.backgroundColor = "white";}
-      if (typeof panelb[i] != "undefined") {panelb[i].style.width = "1150px";
-        panelb[i].style.backgroundColor = "white";}  
-     }
+    for (var i = 0; i < 6; i++) {
+        if (typeof panel[i] != "undefined") {
+            panel[i].style.width = "1150px";
+            panel[i].style.backgroundColor = "white";
+        }
+        if (typeof panelb[i] != "undefined") {
+            panelb[i].style.width = "1150px";
+            panelb[i].style.backgroundColor = "white";
+        }
+    }
 
 
 
     //set Canvas_height to 1400 because pxcontent is now 1200 so it will definitly fit. 
     var Canvas_Width = 1200;// $("#"+downloadwhat).width();
-    var Canvas_Height = $("." + downloadwhat).height()+20;
+    var Canvas_Height = $("." + downloadwhat).height() + 20;
 
 
     //make PDF a little bigger than canvas so it all fits

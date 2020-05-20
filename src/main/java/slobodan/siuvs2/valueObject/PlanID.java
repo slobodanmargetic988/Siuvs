@@ -5,7 +5,7 @@ package slobodan.siuvs2.valueObject;
 
 /**
  *
- * @author deca
+ * @author Slobodan Margetic slobodanmargetic988@gmail.com
  */
 public class PlanID implements IdValueObjectInterface {
 

@@ -35,7 +35,7 @@ public class Page {
     @OrderBy("order ASC")
     private List<Page> children;
 
-    private static Map<Integer,List<Page>> childrenCache = new HashMap<>();
+    private static Map<Integer, List<Page>> childrenCache = new HashMap<>();
 
     @Column(name = "order")
     private int order;
@@ -106,21 +106,51 @@ public class Page {
     public String getRiskTypeIconRelativePath() {
         String result;
         switch (getRiskType()) {
-            default: result = "default.png"; break;
-            case 1: result = "zemljotresi.png"; break;
-            case 2: result = "odroni_klizista_erozije.png"; break;
-            case 3: result = "poplave.png"; break;
-            case 4: result = "grad.png"; break;
-            case 5: result = "olujni_vetar.png"; break;
-            case 6: result = "topli_talas.png"; break;
-            case 7: result = "susa.png"; break;
-            case 8: result = "hladni_talas.png"; break;
-            case 9: result = "nedostatak_vode.png"; break;
-            case 10: result = "epidemije_pandemije.png"; break;
-            case 11: result = "bolesti_zivotinja.png"; break;
-            case 12: result = "pozari.png"; break;
-            case 13: result = "tehnoloske_nesrece.png"; break;
-            case 14: result = "bolesti_biljaka.png"; break;
+            default:
+                result = "default.png";
+                break;
+            case 1:
+                result = "zemljotresi.png";
+                break;
+            case 2:
+                result = "odroni_klizista_erozije.png";
+                break;
+            case 3:
+                result = "poplave.png";
+                break;
+            case 4:
+                result = "grad.png";
+                break;
+            case 5:
+                result = "olujni_vetar.png";
+                break;
+            case 6:
+                result = "topli_talas.png";
+                break;
+            case 7:
+                result = "susa.png";
+                break;
+            case 8:
+                result = "hladni_talas.png";
+                break;
+            case 9:
+                result = "nedostatak_vode.png";
+                break;
+            case 10:
+                result = "epidemije_pandemije.png";
+                break;
+            case 11:
+                result = "bolesti_zivotinja.png";
+                break;
+            case 12:
+                result = "pozari.png";
+                break;
+            case 13:
+                result = "tehnoloske_nesrece.png";
+                break;
+            case 14:
+                result = "bolesti_biljaka.png";
+                break;
         }
         return result;
     }

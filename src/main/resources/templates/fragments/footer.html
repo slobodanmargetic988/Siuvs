@@ -1,23 +1,23 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 
-<head>
-    <title>СИУВС 1.0</title>
-</head>
+    <head>
+        <title>СИУВС 1.0</title>
+    </head>
 
-<body>
+    <body>
 
-    <th:block th:fragment="copyright">Copyright © 2019 Развојно иновациони систем д.о.о. Сва права су задржана.</th:block>
+        <th:block th:fragment="copyright">Copyright © 2019 Развојно иновациони систем д.о.о. Сва права су задржана.</th:block>
 
-    <th:block th:fragment="footer-login">
-        <!-- Footer -->
-        <footer class="px-footer px-footer-bottom text-sm-center" th:include="fragments/footer :: copyright"></footer>
-    </th:block>
+        <th:block th:fragment="footer-login">
+            <!-- Footer -->
+            <footer class="px-footer px-footer-bottom text-sm-center" th:include="fragments/footer :: copyright"></footer>
+        </th:block>
 
-    <th:block th:fragment="footer-standard">
-        <!-- Footer -->
-        <footer class="px-footer px-footer-bottom" th:include="fragments/footer :: copyright"></footer>
-    </th:block>
+        <th:block th:fragment="footer-standard">
+            <!-- Footer -->
+            <footer class="px-footer px-footer-bottom" th:include="fragments/footer :: copyright"></footer>
+        </th:block>
 
-</body>
+    </body>
 </html>

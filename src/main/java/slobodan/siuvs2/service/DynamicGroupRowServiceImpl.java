@@ -34,7 +34,7 @@ public class DynamicGroupRowServiceImpl implements DynamicGroupRowService {
         groupRow.setClient(client);
         List<DynamicGroupRow> existingRows = findAll(tableDefinition, customTableDefinition, client);
         int order = 0;
-        for (DynamicGroupRow existingRow: existingRows) {
+        for (DynamicGroupRow existingRow : existingRows) {
             if (existingRow.getOrder() > order) {
                 order = existingRow.getOrder();
             }

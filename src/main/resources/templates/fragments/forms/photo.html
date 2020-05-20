@@ -1,92 +1,92 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
-<head>
-    <title>СИУВС 1.0</title>
-</head>
+    <head>
+        <title>СИУВС 1.0</title>
+    </head>
 
-<body>
+    <body>
 
-<th:block th:fragment="edit_photo (deleteActionUrl, uploadActionUrl)">
+        <th:block th:fragment="edit_photo (deleteActionUrl, uploadActionUrl)">
 
-    <div class="panel" th:if="${!photos.isEmpty()}">
-        <div class="panel-heading">
-            <span class="panel-title">Карте ризика</span>
-        </div>
-        <div class="panel-body">
-
-            <table class="table table-striped">
-                <thead>
-                <tr>
-                    <th>Назив</th>
-                    <th>Акције</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="photo : ${photos}">
-                    <td th:text="${photo.title}"></td>
-                    <td>
-                        <form method="post" th:action="${deleteActionUrl + photo.id}" class="form-horizontal">
-                            <button type="submit" class="btn btn-primary">Обриши</button>
-                        </form>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-
-        </div>
-    </div>
-
-    <div class="panel">
-        <div class="panel-heading">
-            <span class="panel-title">Нова карта ризика</span>
-        </div>
-        <div class="panel-body">
-
-            <form method="post" enctype="multipart/form-data" th:action="${uploadActionUrl}" class="form-horizontal">
-                <div class="form-group">
-                    <label class="col-md-3 control-label">Назив слике</label>
-                    <div class="col-md-9">
-                        <input type="text" name="title" class="form-control">
-                    </div>
+            <div class="panel" th:if="${!photos.isEmpty()}">
+                <div class="panel-heading">
+                    <span class="panel-title">Карте ризика</span>
                 </div>
-                <div class="form-group">
-                    <label class="col-md-3 control-label">(*.jpg, макс. 10 MB)</label>
-                    <div class="col-md-9">
-                        <input type="file" name="file">
-                    </div>
+                <div class="panel-body">
+
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Назив</th>
+                                <th>Акције</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="photo : ${photos}">
+                                <td th:text="${photo.title}"></td>
+                                <td>
+                                    <form method="post" th:action="${deleteActionUrl + photo.id}" class="form-horizontal">
+                                        <button type="submit" class="btn btn-primary">Обриши</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
                 </div>
-                <div class="form-group">
-                    <div class="col-md-offset-3 col-md-9">
-                        <button type="submit" class="btn btn-primary">Додај слику</button>
-                    </div>
+            </div>
+
+            <div class="panel">
+                <div class="panel-heading">
+                    <span class="panel-title">Нова карта ризика</span>
                 </div>
-            </form>
+                <div class="panel-body">
 
-        </div>
-    </div>
+                    <form method="post" enctype="multipart/form-data" th:action="${uploadActionUrl}" class="form-horizontal">
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">Назив слике</label>
+                            <div class="col-md-9">
+                                <input type="text" name="title" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">(*.jpg, макс. 20 MB)</label>
+                            <div class="col-md-9">
+                                <input type="file" name="file">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-offset-3 col-md-9">
+                                <button type="submit" class="btn btn-primary">Додај слику</button>
+                            </div>
+                        </div>
+                    </form>
 
-</th:block>
+                </div>
+            </div>
+
+        </th:block>
 
 
 
-<th:block th:fragment="view_photos (photoUrl)">
-    <div class="panel" th:if="${!photos.isEmpty()}">
-        <div class="panel-heading">
-            <span class="panel-title">Карта ризика</span>
-        </div>
-        <div class="panel-body">
+        <th:block th:fragment="view_photos (photoUrl)">
+            <div class="panel" th:if="${!photos.isEmpty()}">
+                <div class="panel-heading">
+                    <span class="panel-title">Карта ризика</span>
+                </div>
+                <div class="panel-body">
 
-            <th:block th:each="photo : ${photos}">
-                <p th:text="${photo.title}"></p>
-                <img th:src="${photoUrl + photo.id}" style="max-width: 100%" />
-            </th:block>
+                    <th:block th:each="photo : ${photos}">
+                        <p th:text="${photo.title}"></p>
+                        <img th:src="${photoUrl + photo.id}" style="max-width: 100%" />
+                    </th:block>
 
-        </div>
-    </div>
-</th:block>
+                </div>
+            </div>
+        </th:block>
 
-</body>
+    </body>
 </html>
 
 

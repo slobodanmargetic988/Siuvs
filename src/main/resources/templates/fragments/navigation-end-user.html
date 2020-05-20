@@ -1,26 +1,26 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
-<head th:replace="fragments/head :: head"></head>
-<body>
+    <head th:replace="fragments/head :: head"></head>
+    <body>
 
-<th:block th:fragment="nav-client">
-    <nav class="px-nav px-nav-left" id="px-nav-dropdowns-left">
-        <th:block th:insert="fragments/navigation :: toggle-menu-button" />
+        <th:block th:fragment="nav-client">
+            <nav class="px-nav px-nav-left" id="px-nav-dropdowns-left">
+                <th:block th:insert="fragments/navigation :: toggle-menu-button" />
 
-        <ul class="px-nav-content">
-            <li th:each="topMenuItem: ${globalMenuItems}" class="px-nav-item"
-                th:classappend="${
-                (topMenuItem.hasChildren() ? 'px-nav-dropdown' : '') + ' '
-                + (#lists.contains(globalMenuSelectedPages, topMenuItem.getId()) ? 'px-open active' : '')
-                }"
-            >
-                <th:block th:insert="fragments/navigation :: nav-item(${topMenuItem},${'/client'})" />
-            </li>
-        </ul>
+                <ul class="px-nav-content">
+                    <li th:each="topMenuItem: ${globalMenuItems}" class="px-nav-item"
+                        th:classappend="${
+                        (topMenuItem.hasChildren() ? 'px-nav-dropdown' : '') + ' '
+                        + (#lists.contains(globalMenuSelectedPages, topMenuItem.getId()) ? 'px-open active' : '')
+                        }"
+                        >
+                        <th:block th:insert="fragments/navigation :: nav-item(${topMenuItem},${'/client'})" />
+                    </li>
+                </ul>
 
-    </nav>
-</th:block>
+            </nav>
+        </th:block>
 
-</body>
+    </body>
 </html>

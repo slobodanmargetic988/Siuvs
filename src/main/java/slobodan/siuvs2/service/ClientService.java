@@ -20,9 +20,10 @@ public interface ClientService {
     Client findOne(ClientId clientId);
 
     Boolean isNameUsed(String name);
-    
-    Boolean isNameUsed(ClientId clientId,String name);
 
-Page<Client> findAllByOpstinaIdOrderByNameAsc(List<Integer> opstinaId, Pageable pageable);
-Page<Client> findAllByOpstinaInOrderByNameAsc(List<Opstina> opstina, Pageable pageable);
+    Boolean isNameUsed(ClientId clientId, String name);
+
+    Page<Client> findAllByOpstinaIdOrderByNameAsc(List<Integer> opstinaId, Pageable pageable);
+
+    Page<Client> findAllByOpstinaInOrderByNameAsc(List<Opstina> opstina, Pageable pageable);
 }

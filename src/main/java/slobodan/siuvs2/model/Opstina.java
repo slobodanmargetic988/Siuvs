@@ -5,10 +5,10 @@
  */
 package slobodan.siuvs2.model;
 
-
 import java.util.Set;
 import javax.persistence.*;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
 /**
  *
  * @author Sloba
@@ -18,46 +18,49 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @EntityListeners(AuditingEntityListener.class)
 public class Opstina {
 
-      
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "opstina_id")
     private int id;
-    
+
     @ManyToOne
     @JoinColumn(name = "distrikt_id")
     private Distrikt distrikt;
-    
+
     @ManyToOne
     @JoinColumn(name = "provincija_id")
     private Provincija provincija;
-    
-   @ManyToMany(cascade = { CascadeType.ALL })
+
+    @ManyToMany(cascade = {CascadeType.ALL})
     @JoinTable(
-        name = "opstina_tasks", 
-        joinColumns = { @JoinColumn(name = "opstina_id") }, 
-        inverseJoinColumns = { @JoinColumn(name = "tasks_id") }
+            name = "opstina_tasks",
+            joinColumns = {
+                @JoinColumn(name = "opstina_id")},
+            inverseJoinColumns = {
+                @JoinColumn(name = "tasks_id")}
     )
-   private Set<Tasks> tasks ;
-    
-   @ManyToMany(cascade = { CascadeType.ALL })
+    private Set<Tasks> tasks;
+
+    @ManyToMany(cascade = {CascadeType.ALL})
     @JoinTable(
-        name = "opstina_ppd", 
-        joinColumns = { @JoinColumn(name = "opstina_id") }, 
-        inverseJoinColumns = { @JoinColumn(name = "ppd_id") }
+            name = "opstina_ppd",
+            joinColumns = {
+                @JoinColumn(name = "opstina_id")},
+            inverseJoinColumns = {
+                @JoinColumn(name = "ppd_id")}
     )
-   private Set<PublicPolicyDocuments> publicPolicyDocuments ;
-   
-    @ManyToMany(cascade = { CascadeType.ALL })
+    private Set<PublicPolicyDocuments> publicPolicyDocuments;
+
+    @ManyToMany(cascade = {CascadeType.ALL})
     @JoinTable(
-        name = "opstina_ia", 
-        joinColumns = { @JoinColumn(name = "opstina_id") }, 
-        inverseJoinColumns = { @JoinColumn(name = "ia_id") }
+            name = "opstina_ia",
+            joinColumns = {
+                @JoinColumn(name = "opstina_id")},
+            inverseJoinColumns = {
+                @JoinColumn(name = "ia_id")}
     )
-   private Set<InternationalAgreements> internationalAgreements ;
-   
-   
-   
+    private Set<InternationalAgreements> internationalAgreements;
+
     @Column(name = "opstina_name")
     private String name;
 
@@ -116,7 +119,5 @@ public class Opstina {
     public void setInternationalAgreements(Set<InternationalAgreements> internationalAgreements) {
         this.internationalAgreements = internationalAgreements;
     }
-    
-     
-}
 
+}

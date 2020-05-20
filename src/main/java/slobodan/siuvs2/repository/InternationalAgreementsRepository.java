@@ -7,14 +7,13 @@ package slobodan.siuvs2.repository;
 
 /**
  *
- * @author sloba
+ * @author Slobodan Margetic slobodanmargetic988@gmail.comba
  */
-
-
 import slobodan.siuvs2.model.InternationalAgreements;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface InternationalAgreementsRepository extends JpaRepository<InternationalAgreements, Integer>{
+public interface InternationalAgreementsRepository extends JpaRepository<InternationalAgreements, Integer> {
+
     InternationalAgreements findFirstByName(String name);
-    
+
 }

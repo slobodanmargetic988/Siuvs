@@ -2,9 +2,6 @@ package slobodan.siuvs2.model;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 @Entity
 @Table(name = "password_reset_token")

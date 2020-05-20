@@ -19,6 +19,7 @@ public class TableColumnSum {
     private TableColumn sumColumn;
 
     public static class PK implements Serializable {
+
         private TableColumn column;
         private TableColumn sumColumn;
 
@@ -40,12 +41,18 @@ public class TableColumnSum {
 
         @Override
         public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
+            if (this == o) {
+                return true;
+            }
+            if (o == null || getClass() != o.getClass()) {
+                return false;
+            }
 
             PK pk = (PK) o;
 
-            if (!column.equals(pk.column)) return false;
+            if (!column.equals(pk.column)) {
+                return false;
+            }
             return sumColumn.equals(pk.sumColumn);
         }
 

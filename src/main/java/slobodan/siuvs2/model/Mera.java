@@ -7,7 +7,7 @@ package slobodan.siuvs2.model;
 
 /**
  *
- * @author sloba
+ * @author Slobodan Margetic slobodanmargetic988@gmail.com
  */
 import java.util.List;
 import javax.persistence.*;
@@ -17,22 +17,22 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @Table(name = "mera")
 @EntityListeners(AuditingEntityListener.class)
 public class Mera {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "mera_id")
     private int id;
-    
+
     @ManyToOne
     @JoinColumn(name = "poseban_cilj_id")
     private PosebanCilj posebanCilj;
-    
+
     @Column(name = "mera_text")
     private String meraText;
-    
+
     @Column(name = "redosled")
     private int redosled;
-    
+
     @OneToMany(mappedBy = "mera")
     @OrderBy("redosled ASC")
     private List<Rezultat> children;
@@ -45,7 +45,6 @@ public class Mera {
         this.children = children;
     }
 
-    
     public int getId() {
         return id;
     }
@@ -62,9 +61,6 @@ public class Mera {
         this.redosled = redosled;
     }
 
-
-
-
     public PosebanCilj getPosebanCilj() {
         return posebanCilj;
     }
@@ -80,5 +76,5 @@ public class Mera {
     public void setMeraText(String meraText) {
         this.meraText = meraText;
     }
-    
+
 }

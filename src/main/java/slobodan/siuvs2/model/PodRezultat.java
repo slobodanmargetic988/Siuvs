@@ -7,7 +7,7 @@ package slobodan.siuvs2.model;
 
 /**
  *
- * @author sloba
+ * @author Slobodan Margetic slobodanmargetic988@gmail.comba
  */
 import javax.persistence.*;
 import slobodan.siuvs2.valueObject.PodRezultatID;
@@ -17,55 +17,56 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @Table(name = "pod_rezultat")
 @EntityListeners(AuditingEntityListener.class)
 public class PodRezultat {
-    
-       @Id
+
+    @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "pod_rezultat_id")
     private int id;
-    
+
     @ManyToOne
     @JoinColumn(name = "rezultat_id")
     private Rezultat rezultat;
-    
+
     @Column(name = "aktivnosti_text")
     private String aktivnostiText;
-    
+
     @Column(name = "redosled")
     private int redosled;
-    
+
     @Column(name = "indikatori_text")
     private String indikatoriText;
-    
+
     @Column(name = "odgovorna_institucija_text")
     private String odgovornaInstitucijaText;
-    
+
     @Column(name = "partner_institucija_text")
     private String partnerInstitucijaText;
-    
-     @Column(name = "period_text")
-    private String periodText; 
-     
-     @Column(name = "period_kompletiran")
+
+    @Column(name = "period_text")
+    private String periodText;
+
+    @Column(name = "period_kompletiran")
     private int periodKompletiran;
-     @Column(name = "kratko_obrazlozenje")
+    @Column(name = "kratko_obrazlozenje")
     private String kratkoObrazlozenje;
-     
-     @Column(name = "budzet_jls_text")
-    private String budzetJlsText;
-     
-     @Column(name = "budzet_ostalo_text")
-    private String budzetOstaloText;
-     
-     @Column(name = "budzet_neobezbedjeno_text")
-    private String budzetNeobezbedjenoText;
+
+    @Column(name = "budzet_jls")
+    private int budzetJls;
+
+    @Column(name = "budzet_ostalo")
+    private int budzetOstalo;
+
+    @Column(name = "budzet_neobezbedjeno")
+    private int budzetNeobezbedjeno;
 
     public int getId() {
         return id;
     }
- public PodRezultatID getPodRezultatId() {
+
+    public PodRezultatID getPodRezultatId() {
         return new PodRezultatID(getId());
     }
- 
+
     public void setId(int id) {
         this.id = id;
     }
@@ -110,8 +111,6 @@ public class PodRezultat {
         this.redosled = redosled;
     }
 
-
-
     public String getIndikatoriText() {
         return indikatoriText;
     }
@@ -144,30 +143,30 @@ public class PodRezultat {
         this.periodKompletiran = periodKompletiran;
     }
 
-    public String getBudzetJlsText() {
-        return budzetJlsText;
+    public int getBudzetJls() {
+        return budzetJls;
     }
 
-    public void setBudzetJlsText(String budzetJlsText) {
-        this.budzetJlsText = budzetJlsText;
+    public void setBudzetJls(int budzetJls) {
+        this.budzetJls = budzetJls;
     }
 
-    public String getBudzetOstaloText() {
-        return budzetOstaloText;
+    public int getBudzetOstalo() {
+        return budzetOstalo;
     }
 
-    public void setBudzetOstaloText(String budzetOstaloText) {
-        this.budzetOstaloText = budzetOstaloText;
+    public void setBudzetOstalo(int budzetOstalo) {
+        this.budzetOstalo = budzetOstalo;
     }
 
-    public String getBudzetNeobezbedjenoText() {
-        return budzetNeobezbedjenoText;
+    public int getBudzetNeobezbedjeno() {
+        return budzetNeobezbedjeno;
     }
 
-    public void setBudzetNeobezbedjenoText(String budzetNeobezbedjenoText) {
-        this.budzetNeobezbedjenoText = budzetNeobezbedjenoText;
+    public void setBudzetNeobezbedjeno(int budzetNeobezbedjeno) {
+        this.budzetNeobezbedjeno = budzetNeobezbedjeno;
     }
 
-     
-     
+
+
 }

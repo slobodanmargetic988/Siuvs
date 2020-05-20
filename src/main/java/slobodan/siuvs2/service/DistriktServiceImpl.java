@@ -5,9 +5,8 @@ package slobodan.siuvs2.service;
 
 /**
  *
- * @author deca
+ * @author Slobodan Margetic slobodanmargetic988@gmail.com
  */
-
 import java.util.List;
 import slobodan.siuvs2.model.Distrikt;
 import slobodan.siuvs2.repository.DistriktRepository;
@@ -18,52 +17,62 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
-public class DistriktServiceImpl implements DistriktService{
-@Autowired
-DistriktRepository distriktRepository;
+public class DistriktServiceImpl implements DistriktService {
 
-        @Override
+    @Autowired
+    DistriktRepository distriktRepository;
+
+    @Override
     public Distrikt findOne(DistriktID distriktID) {
         return distriktRepository.findOne(distriktID.getValue());
     }
 
     @Override
     public void save(Distrikt distrikt) {
-      
+
         distriktRepository.save(distrikt);
     }
+
     @Override
-    public List<Distrikt> findAllOrderByNameAsc(){
-    return distriktRepository.findAllByOrderByNameAsc();
+    public List<Distrikt> findAllOrderByNameAsc() {
+        return distriktRepository.findAllByOrderByNameAsc();
     }
-    
-            @Override
-    public void delete(DistriktID distriktID){
-   distriktRepository.delete(distriktID.getValue());
-    };
+
+    @Override
+    public void delete(DistriktID distriktID) {
+        distriktRepository.delete(distriktID.getValue());
+    }
+
+    ;
  @Override
-    public Distrikt findFirstByName(String name){
-    return distriktRepository.findFirstByName(name);
+    public Distrikt findFirstByName(String name) {
+        return distriktRepository.findFirstByName(name);
     }
-   @Override
-    public Page<Distrikt> findAllOrderByNameAsc(Pageable pageable){
-    return distriktRepository.findAllByOrderByNameAsc(pageable);
+
+    @Override
+    public Page<Distrikt> findAllOrderByNameAsc(Pageable pageable) {
+        return distriktRepository.findAllByOrderByNameAsc(pageable);
     }
-            @Override
+
+    @Override
     public Boolean isNameUsed(String name) {
         Boolean result = false;
         List<Distrikt> distrikt = distriktRepository.findByName(name);
         if (distrikt.size() > 0) {
             result = true;
         }
-        return result;}
-    
-                @Override
-    public Boolean isNameUsed(DistriktID distriktID,String name) {
+        return result;
+    }
+
+    @Override
+    public Boolean isNameUsed(DistriktID distriktID, String name) {
         Boolean result = false;
         List<Distrikt> distrikti = distriktRepository.findByName(name);
-      for (Distrikt distrikt : distrikti){
-            if (distrikt.getId()!=distriktID.getValue()){result = true;}
-        } 
-        return result;}
+        for (Distrikt distrikt : distrikti) {
+            if (distrikt.getId() != distriktID.getValue()) {
+                result = true;
+            }
+        }
+        return result;
+    }
 }

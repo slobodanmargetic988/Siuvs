@@ -7,14 +7,13 @@ package slobodan.siuvs2.repository;
 
 /**
  *
- * @author sloba
+ * @author Slobodan Margetic slobodanmargetic988@gmail.comba
  */
-
-
 import slobodan.siuvs2.model.PublicPolicyDocuments;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface PublicPolicyDocumentsRepository extends JpaRepository<PublicPolicyDocuments, Integer>{
+public interface PublicPolicyDocumentsRepository extends JpaRepository<PublicPolicyDocuments, Integer> {
+
     PublicPolicyDocuments findFirstByName(String name);
-    
+
 }

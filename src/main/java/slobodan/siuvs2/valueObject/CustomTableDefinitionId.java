@@ -21,5 +21,5 @@ public class CustomTableDefinitionId implements IdValueObjectInterface {
     public CustomTableDefinitionId(Integer value) {
         this.value = value;
     }
-    
+
 }

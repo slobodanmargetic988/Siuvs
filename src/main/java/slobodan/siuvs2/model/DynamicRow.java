@@ -127,9 +127,9 @@ public class DynamicRow {
 
     public List<DynamicData> getDataForColumns(List<TableColumn> columns) {
         List<DynamicData> resultData = new ArrayList<>();
-        for (TableColumn column: columns) {
+        for (TableColumn column : columns) {
             DynamicData foundDataRow = null;
-            for (DynamicData dataRow: this.getData()) {
+            for (DynamicData dataRow : this.getData()) {
                 if (dataRow.getColumn() == column) {
                     foundDataRow = dataRow;
                     break;

@@ -28,13 +28,10 @@ public class ClientsUsersController {
 
     @Autowired
     private ClientService clientService;
-
     @Autowired
     private UserService userService;
-
     @Autowired
     private LoginMonitorService loginMonitorService;
-
     @Autowired
     private PasswordValidationService passwordValidationService;
 

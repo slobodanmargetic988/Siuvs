@@ -7,14 +7,13 @@ package slobodan.siuvs2.repository;
 
 /**
  *
- * @author sloba
+ * @author Slobodan Margetic slobodanmargetic988@gmail.comba
  */
 import slobodan.siuvs2.model.Plan;
 import slobodan.siuvs2.model.Client;
-import slobodan.siuvs2.model.Page;
 import org.springframework.data.jpa.repository.JpaRepository;
-import slobodan.siuvs2.valueObject.ClientId;
 
-public interface PlanRepository extends JpaRepository<Plan, Integer>{
+public interface PlanRepository extends JpaRepository<Plan, Integer> {
+
     Plan findFirstByClient(Client client);
 }

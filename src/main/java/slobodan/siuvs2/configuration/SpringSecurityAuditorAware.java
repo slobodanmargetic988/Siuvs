@@ -2,7 +2,6 @@ package slobodan.siuvs2.configuration;
 
 import slobodan.siuvs2.model.SiuvsUserPrincipal;
 import slobodan.siuvs2.model.User;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
@@ -19,7 +18,7 @@ public class SpringSecurityAuditorAware implements AuditorAware<User> {
         if (authentication == null || !authentication.isAuthenticated()) {
             return null;
         }
-        return ((SiuvsUserPrincipal)authentication.getPrincipal()).getUser();
+        return ((SiuvsUserPrincipal) authentication.getPrincipal()).getUser();
     }
 
 }

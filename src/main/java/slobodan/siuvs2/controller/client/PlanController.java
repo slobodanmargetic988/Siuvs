@@ -5,7 +5,7 @@ package slobodan.siuvs2.controller.client;
 
 /**
  *
- * @author slobaodanmargetic988@gmail.com
+ * @author Slobodan Margetic slobodanmargetic988@gmail.com
  */
 import slobodan.siuvs2.service.PosebanCiljFactory;
 import slobodan.siuvs2.service.RezultatFactory;
@@ -46,7 +46,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import slobodan.siuvs2.model.PageType;
 
 @Scope(WebApplicationContext.SCOPE_REQUEST)
 @Controller
@@ -87,20 +86,17 @@ public class PlanController {
         Client client = user.getClient();
 
         Page page = pageService.findOne(pageId);
-          switch (page.getType()){//switch for when users edit something via ceoplan page or opsti plan page
-          case CEOPLAN:
-         return "redirect:/client/plan/ceo/" + pageId;
-        
-         case OPSTIPLAN:
-         return "redirect:/client/plan/opstideo/" + pageId;
-        
-         }
+        switch (page.getType()) {//switch for when users edit something via ceoplan page or opsti plan page
+            case CEOPLAN:
+                return "redirect:/client/plan/ceo/" + pageId;
+            case OPSTIPLAN:
+                return "redirect:/client/plan/opstideo/" + pageId;
+        }
         Plan plan = planService.findFirstByClient(client);
         List<PosebanCilj> PClist = posebanCiljService.findAllByClientAndPage(client, page);
         List<Mera> meralist = new ArrayList();
         List<Rezultat> rezultatlist = new ArrayList();
         String viewurl = "/client/plan/" + pageId;
-
         if (plan == null) {
             plan = planFactory.empty(client);
             model.addAttribute("planempty", true);
@@ -109,12 +105,10 @@ public class PlanController {
         }
         if (PClist == null) {
             PClist = new ArrayList();
-            // posebanCiljFactory.empty(plan, page);
         } else {
             makeRezultatList(PClist, rezultatlist);
             makeMeraList(PClist, meralist);
         }
-
         model.addAttribute("client", client);
         model.addAttribute("page", page);
         model.addAttribute("plan", plan);
@@ -124,7 +118,8 @@ public class PlanController {
         model.addAttribute("planurl", viewurl);
         return "client/plan/view";
     }
- @GetMapping(value = "/plan/opstideo/{pageId}")
+
+    @GetMapping(value = "/plan/opstideo/{pageId}")
     public String planOpsti(
             @PathVariable final PageId pageId,
             final Model model
@@ -132,14 +127,12 @@ public class PlanController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = ((SiuvsUserPrincipal) authentication.getPrincipal()).getUser();
         Client client = user.getClient();
-
         Page page = pageService.findOne(pageId);
         Plan plan = planService.findFirstByClient(client);
         List<PosebanCilj> PClist = posebanCiljService.findAllByClientAndPage(client, page);
         List<Mera> meralist = new ArrayList();
         List<Rezultat> rezultatlist = new ArrayList();
         String viewurl = "/client/plan/" + pageId;
-
         if (plan == null) {
             plan = planFactory.empty(client);
             model.addAttribute("planempty", true);
@@ -148,7 +141,6 @@ public class PlanController {
         }
         if (PClist == null) {
             PClist = new ArrayList();
-            // posebanCiljFactory.empty(plan, page);
         } else {
             makeRezultatList(PClist, rezultatlist);
             makeMeraList(PClist, meralist);
@@ -161,8 +153,11 @@ public class PlanController {
         model.addAttribute("meralist", meralist);
         model.addAttribute("rezultatlist", rezultatlist);
         model.addAttribute("planurl", viewurl);
+        model.addAttribute("ceoplan", false);
+
         return "client/plan/opstiplan";
     }
+
     @GetMapping(value = "/plan/ceo/{pageId}")
     public String planCeo(
             @PathVariable final PageId pageId,
@@ -171,14 +166,12 @@ public class PlanController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = ((SiuvsUserPrincipal) authentication.getPrincipal()).getUser();
         Client client = user.getClient();
-
         Page page = pageService.findOne(pageId);
         Plan plan = planService.findFirstByClient(client);
-       List<PosebanCilj> PClist = posebanCiljService.findAllByPlanOrderByPagePageIdAsc(plan);
+        List<PosebanCilj> PClist = posebanCiljService.findAllByPlanOrderByPagePageIdAsc(plan);
         List<Mera> meralist = new ArrayList();
         List<Rezultat> rezultatlist = new ArrayList();
         String viewurl = "/client/plan/" + pageId;
-
         if (plan == null) {
             plan = planFactory.empty(client);
             model.addAttribute("planempty", true);
@@ -187,12 +180,10 @@ public class PlanController {
         }
         if (PClist == null) {
             PClist = new ArrayList();
-            // posebanCiljFactory.empty(plan, page);
         } else {
             makeRezultatList(PClist, rezultatlist);
             makeMeraList(PClist, meralist);
         }
-
         model.addAttribute("client", client);
         model.addAttribute("page", page);
         model.addAttribute("plan", plan);
@@ -200,15 +191,17 @@ public class PlanController {
         model.addAttribute("meralist", meralist);
         model.addAttribute("rezultatlist", rezultatlist);
         model.addAttribute("planurl", viewurl);
+
+        model.addAttribute("ceoplan", true);
         return "client/plan/opstiplan";
     }
+
     public List<Mera> makeMeraList(List<PosebanCilj> PClist, List<Mera> meralist) {
         for (PosebanCilj pc : PClist) {
             for (Mera mera : pc.getChildren()) {
                 meralist.add(mera);
             }
         }
-
         return meralist;
     }
 
@@ -220,7 +213,6 @@ public class PlanController {
                 }
             }
         }
-
         return rezultatlist;
     }
 
@@ -240,21 +232,18 @@ public class PlanController {
         Client client = user.getClient();
         Plan plan = planService.findFirstByClient(client);
         List<PosebanCilj> PClist = posebanCiljService.findAllByClientAndPage(client, page);
-
         PosebanCilj pc = posebanCiljFactory.empty(plan, page);
         pc.setRedosled(PClist.size() + 1);
         pc.setPosebanCiljText(posebanCiljText);
         pc.setIndikator(indikator);
         pc.setIndikatorPv(indikatorPV);
         pc.setIndikatorCv(indikatorCV);
-
         try {
             posebanCiljService.save(pc);
             redirectAttributes.addFlashAttribute("successMessage", "Додали сте нови посебан циљ!");
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
         }
-
         return "redirect:/client/plan/" + pageId + "#new-pc";
     }
 
@@ -314,11 +303,10 @@ public class PlanController {
             @RequestParam(name = "odgInstText") String odgInstText,
             //@RequestParam(name = "partInstText") String partInstText,
             @RequestParam(name = "kratkoObrazlozenje") String kratkoObrazlozenje,
-        
             @RequestParam(name = "periodText") String periodText,
-            @RequestParam(name = "budzetJLS") String budzetJLS,
-            @RequestParam(name = "budzetOstalo") String budzetOstalo,
-            @RequestParam(name = "budzetNeobezbedjeno") String budzetNeobezbedjeno,
+            @RequestParam(name = "budzetJLS") int budzetJLS,
+            @RequestParam(name = "budzetOstalo") int budzetOstalo,
+            @RequestParam(name = "budzetNeobezbedjeno") int budzetNeobezbedjeno,
             @RequestParam(name = "periodKompletiran") int periodKompletiran,
             @RequestParam(name = "rezultatID") RezultatID rezultatID,
             @ModelAttribute("plan") Plan plan,
@@ -330,14 +318,14 @@ public class PlanController {
         podRezultat.setAktivnostiText(aktivnostText);
         podRezultat.setIndikatoriText(indikatorText);
         podRezultat.setOdgovornaInstitucijaText(odgInstText);
-       // podRezultat.setPartnerInstitucijaText(partInstText);
-   
-           podRezultat.setKratkoObrazlozenje(kratkoObrazlozenje);
+        // podRezultat.setPartnerInstitucijaText(partInstText);
+
+        podRezultat.setKratkoObrazlozenje(kratkoObrazlozenje);
         podRezultat.setPeriodText(periodText);
         podRezultat.setPeriodKompletiran(periodKompletiran);
-        podRezultat.setBudzetJlsText(budzetJLS);
-        podRezultat.setBudzetOstaloText(budzetOstalo);
-        podRezultat.setBudzetNeobezbedjenoText(budzetNeobezbedjeno);
+        podRezultat.setBudzetJls(budzetJLS);
+        podRezultat.setBudzetOstalo(budzetOstalo);
+        podRezultat.setBudzetNeobezbedjeno(budzetNeobezbedjeno);
         podRezultat.setRedosled(rezultat.getChildren().size() + 1);
 
         try {
@@ -405,7 +393,6 @@ public class PlanController {
     }
 
     /*  poseban cilj*/
-
     @GetMapping(value = "/plan/{pageId}/deletePosebanCilj/{posebanCiljId}")
     public String deletePosebanCilj(
             @PathVariable final PageId pageId,
@@ -663,14 +650,13 @@ public class PlanController {
             @RequestParam(name = "aktivnostiText") String aktivnostiText,
             @RequestParam(name = "indikatoriText") String indikatoriText,
             @RequestParam(name = "odgovornaInstitucijaText") String odgovornaInstitucijaText,
-           // @RequestParam(name = "partnerInstitucijaText") String partnerInstitucijaText,
+            // @RequestParam(name = "partnerInstitucijaText") String partnerInstitucijaText,
             @RequestParam(name = "kratkoObrazlozenje") String kratkoObrazlozenje,
-      
             @RequestParam(name = "periodText") String periodText,
             @RequestParam(name = "periodKompletiran") int periodKompletiran,
-            @RequestParam(name = "budzetJlsText") String budzetJlsText,
-            @RequestParam(name = "budzetOstaloText") String budzetOstaloText,
-            @RequestParam(name = "budzetNeobezbedjenoText") String budzetNeobezbedjenoText,
+            @RequestParam(name = "budzetJls") int budzetJls,
+            @RequestParam(name = "budzetOstalo") int budzetOstalo,
+            @RequestParam(name = "budzetNeobezbedjeno") int budzetNeobezbedjeno,
             final RedirectAttributes redirectAttributes,
             final Model model
     ) {
@@ -684,13 +670,13 @@ public class PlanController {
         podRezultat.setAktivnostiText(aktivnostiText);
         podRezultat.setIndikatoriText(indikatoriText);
         podRezultat.setOdgovornaInstitucijaText(odgovornaInstitucijaText);
-      //  podRezultat.setPartnerInstitucijaText(partnerInstitucijaText);
-       podRezultat.setKratkoObrazlozenje(kratkoObrazlozenje);
+        //  podRezultat.setPartnerInstitucijaText(partnerInstitucijaText);
+        podRezultat.setKratkoObrazlozenje(kratkoObrazlozenje);
         podRezultat.setPeriodText(periodText);
         podRezultat.setPeriodKompletiran(periodKompletiran);
-        podRezultat.setBudzetJlsText(budzetJlsText);
-        podRezultat.setBudzetOstaloText(budzetOstaloText);
-        podRezultat.setBudzetNeobezbedjenoText(budzetNeobezbedjenoText);
+        podRezultat.setBudzetJls(budzetJls);
+        podRezultat.setBudzetOstalo(budzetOstalo);
+        podRezultat.setBudzetNeobezbedjeno(budzetNeobezbedjeno);
         try {
             podRezultatService.save(podRezultat);
             redirectAttributes.addFlashAttribute("successMessage", "Успешно сте изменили подрезултат!");
@@ -871,13 +857,12 @@ public class PlanController {
             @RequestParam(name = "aktivnostText") String aktivnostText,
             @RequestParam(name = "indikatorText") String indikatorText,
             @RequestParam(name = "odgInstText") String odgInstText,
-           // @RequestParam(name = "partInstText") String partInstText,
+            // @RequestParam(name = "partInstText") String partInstText,
             @RequestParam(name = "kratkoObrazlozenje") String kratkoObrazlozenje,
-       
             @RequestParam(name = "periodText") String periodText,
-            @RequestParam(name = "budzetJLS") String budzetJLS,
-            @RequestParam(name = "budzetOstalo") String budzetOstalo,
-            @RequestParam(name = "budzetNeobezbedjeno") String budzetNeobezbedjeno,
+            @RequestParam(name = "budzetJLS") int budzetJLS,
+            @RequestParam(name = "budzetOstalo") int budzetOstalo,
+            @RequestParam(name = "budzetNeobezbedjeno") int budzetNeobezbedjeno,
             @RequestParam(name = "periodKompletiran") int periodKompletiran,
             final RedirectAttributes redirectAttributes,
             final Model model
@@ -893,14 +878,14 @@ public class PlanController {
         podRezultat.setAktivnostiText(aktivnostText);
         podRezultat.setIndikatoriText(indikatorText);
         podRezultat.setOdgovornaInstitucijaText(odgInstText);
-       // podRezultat.setPartnerInstitucijaText(partInstText);
+        // podRezultat.setPartnerInstitucijaText(partInstText);
 
-           podRezultat.setKratkoObrazlozenje(kratkoObrazlozenje);
+        podRezultat.setKratkoObrazlozenje(kratkoObrazlozenje);
         podRezultat.setPeriodText(periodText);
         podRezultat.setPeriodKompletiran(periodKompletiran);
-        podRezultat.setBudzetJlsText(budzetJLS);
-        podRezultat.setBudzetOstaloText(budzetOstalo);
-        podRezultat.setBudzetNeobezbedjenoText(budzetNeobezbedjeno);
+        podRezultat.setBudzetJls(budzetJLS);
+        podRezultat.setBudzetOstalo(budzetOstalo);
+        podRezultat.setBudzetNeobezbedjeno(budzetNeobezbedjeno);
         podRezultat.setRedosled(rezultat.getChildren().size() + 1);
         try {
             podRezultatService.save(podRezultat);
@@ -910,5 +895,60 @@ public class PlanController {
         }
         return "redirect:/client/plan/" + pageId + "#new-podrezultat";
     }
+
     /**/
+    @GetMapping(value = "/plan/{pageId}/newPlan")
+    public String newPlan(
+            @PathVariable final PageId pageId,
+            final Model model
+    ) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = ((SiuvsUserPrincipal) authentication.getPrincipal()).getUser();
+        Client client = user.getClient();
+
+        Page page = pageService.findOne(pageId);
+        //  Plan plan = planService.findFirstByClient(client);
+        model.addAttribute("client", client);
+        model.addAttribute("page", page);
+        //model.addAttribute("plan", plan);
+
+        return "/client/plan/newPlan";
+    }
+
+    @PostMapping(value = "/plan/{pageId}/saveNewPlan")
+    public String saveNewPlan(
+            @PathVariable final PageId pageId,
+            @RequestParam(name = "planText") String planText,
+            @RequestParam(name = "periodOd") String periodOd,
+            @RequestParam(name = "periodDo") String periodDo,
+            @RequestParam(name = "opstiCilj") String opstiCilj,
+            @RequestParam(name = "indikator") String indikator,
+            @RequestParam(name = "indikatorPV") String indikatorPV,
+            @RequestParam(name = "indikatorCV") String indikatorCV,
+            final RedirectAttributes redirectAttributes,
+            final Model model
+    ) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = ((SiuvsUserPrincipal) authentication.getPrincipal()).getUser();
+        Client client = user.getClient();
+        Page page = pageService.findOne(pageId);
+        Plan plan = planFactory.empty(client);
+        model.addAttribute("client", client);
+        model.addAttribute("page", page);
+        plan.setPlanText(planText);
+        plan.setPeriodOd(periodOd);
+        plan.setPeriodDo(periodDo);
+        plan.setOpstiCilj(opstiCilj);
+        plan.setIndikator(indikator);
+        plan.setIndikatorPv(indikatorPV);
+        plan.setIndikatorCv(indikatorCV);
+        try {
+            planService.save(plan);
+            redirectAttributes.addFlashAttribute("successMessage", "Успешно сте додали план!");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+        }
+        return "redirect:/client/plan/" + pageId + "#noviplan";
+
+    }
 }

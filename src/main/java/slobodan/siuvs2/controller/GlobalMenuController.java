@@ -8,8 +8,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ModelAttribute;
-
-import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
@@ -19,9 +17,6 @@ public class GlobalMenuController {
 
     @Autowired
     private PageService pageService;
-
-    @Autowired
-    private ServletContext servletContext;
 
     @ModelAttribute
     public void generateMenu(Model model) {
@@ -39,7 +34,7 @@ public class GlobalMenuController {
         PageId pageId = this.guessCurrentPageId(request);
         if (pageId != null) {
             Page page = pageService.findOne(pageId);
-            while(page != null) {
+            while (page != null) {
                 breadCrumbs.add(page);
                 selectedPages.add(page.getId());
                 page = page.getParent();
@@ -53,8 +48,8 @@ public class GlobalMenuController {
     private PageId guessCurrentPageId(HttpServletRequest request) {
         PageId pageId = null;
         String requestAttributesParam = "org.springframework.web.servlet.HandlerMapping.uriTemplateVariables";
-        HashMap<String,String> pathAttributes = (HashMap<String, String>)request.getAttribute(requestAttributesParam);
-        for(Map.Entry<String,String> entry : pathAttributes.entrySet()) {
+        HashMap<String, String> pathAttributes = (HashMap<String, String>) request.getAttribute(requestAttributesParam);
+        for (Map.Entry<String, String> entry : pathAttributes.entrySet()) {
             if (entry.getKey().equals("pageId")) {
                 pageId = new PageId(entry.getValue());
                 break;

@@ -29,10 +29,8 @@ public class EndUsersController {
 
     @Autowired
     private UserService userService;
-
     @Autowired
     private LoginMonitorService loginMonitorService;
-
     @Autowired
     private PasswordValidationService passwordValidationService;
 
@@ -44,7 +42,7 @@ public class EndUsersController {
     @GetMapping(value = "/users")
     public String users(final Model model, final Pageable pageable) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User currentUser = ((SiuvsUserPrincipal)authentication.getPrincipal()).getUser();
+        User currentUser = ((SiuvsUserPrincipal) authentication.getPrincipal()).getUser();
         Client client = currentUser.getClient();
         model.addAttribute("users", userService.findAllByClientOrderByNameAscLastNameAsc(client, pageable));
         return "client/users/users";
@@ -64,7 +62,7 @@ public class EndUsersController {
             @RequestParam(name = "passwordRepeat") String passwordRepeat
     ) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User currentUser = ((SiuvsUserPrincipal)authentication.getPrincipal()).getUser();
+        User currentUser = ((SiuvsUserPrincipal) authentication.getPrincipal()).getUser();
         User userExists = userService.findUserByEmail(newUser.getEmail());
         if (userExists != null) {
             bindingResult.rejectValue("email", "error.newUser", "Већ постоји корисник са датом имејл адресом");
@@ -104,7 +102,7 @@ public class EndUsersController {
             final RedirectAttributes redirectAttributes
     ) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User currentUser = ((SiuvsUserPrincipal)authentication.getPrincipal()).getUser();
+        User currentUser = ((SiuvsUserPrincipal) authentication.getPrincipal()).getUser();
         Client client = currentUser.getClient();
         User user = userService.findUserById(userId);
         if (user == null || user.getClient() == null || user.getClient().getId() != client.getId()) {

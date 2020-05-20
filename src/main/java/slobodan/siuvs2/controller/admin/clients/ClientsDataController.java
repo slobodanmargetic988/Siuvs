@@ -55,48 +55,36 @@ public class ClientsDataController {
 
     @Autowired
     private ClientService clientService;
-
     @Autowired
     private DynamicTableService dynamicTableService;
-
     @Autowired
     private DynamicRowService dynamicRowService;
-
     @Autowired
     private DynamicGroupRowService dynamicGroupRowService;
-
     @Autowired
     private DynamicRowFactory dynamicRowFactory;
-
     @Autowired
     private DynamicGroupRowFactory dynamicGroupRowFactory;
-
     @Autowired
     private PageService pageService;
-
     @Autowired
     private TableDefinitionService tableDefinitionService;
-
     @Autowired
     private CustomTableDefinitionService customTableDefinitionService;
-
     @Autowired
     private TableColumnFactory tableColumnFactory;
-
     @Autowired
     private TableColumnService tableColumnService;
-
     @Autowired
     private PhotoService photoService;
-
     @Autowired
     private StorageService storageService;
 
-    private Map<Integer,TableFacade> tableFacadeCache = new HashMap<>();
+    private Map<Integer, TableFacade> tableFacadeCache = new HashMap<>();
 
     private User getCurrentUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return ((SiuvsUserPrincipal)authentication.getPrincipal()).getUser();
+        return ((SiuvsUserPrincipal) authentication.getPrincipal()).getUser();
     }
 
     private TableFacade getTableFacade(ClientId clientId) throws SiuvsException {
@@ -227,7 +215,6 @@ public class ClientsDataController {
             @ModelAttribute("newRow") final DynamicRow dynamicRow,
             final BindingResult bindingResult,
             final RedirectAttributes redirectAttributes
-
     ) {
         try {
             this.getTableFacade(clientId).addRow(tableDefinitionId, dynamicRow);
@@ -246,7 +233,6 @@ public class ClientsDataController {
             @ModelAttribute("newGroup") final DynamicGroupRow groupRow,
             final BindingResult bindingResult,
             final RedirectAttributes redirectAttributes
-
     ) {
         try {
             this.getTableFacade(clientId).addGroupRow(tableDefinitionId, groupRow);
@@ -257,7 +243,6 @@ public class ClientsDataController {
         return "redirect:/admin/clients/" + clientId + "/" + pageId + "/" + tableDefinitionId;
     }
 
-
     @PostMapping(value = "/{clientId}/{pageId}/{tableDefinitionId}/description")
     public String updateDescription(
             @PathVariable final ClientId clientId,
@@ -266,7 +251,6 @@ public class ClientsDataController {
             @ModelAttribute("dynamicTable") final DynamicTable dynamicTable,
             final BindingResult bindingResult,
             final RedirectAttributes redirectAttributes
-
     ) {
         try {
             this.getTableFacade(clientId).updateDescription(tableDefinitionId, dynamicTable.getDescription());
@@ -286,7 +270,6 @@ public class ClientsDataController {
             @ModelAttribute("dynamicTable") final DynamicTable dynamicTable,
             final BindingResult bindingResult,
             final RedirectAttributes redirectAttributes
-
     ) {
         try {
             this.getTableFacade(clientId).updateDescription(tableDefinitionId, customTableDefinitionId, dynamicTable.getDescription());
@@ -306,7 +289,6 @@ public class ClientsDataController {
             @ModelAttribute("newColumn") final TableColumn newColumn,
             final BindingResult bindingResult,
             final RedirectAttributes redirectAttributes
-
     ) {
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("errorMessage", "Грешка приликом додавања колоне!");
@@ -370,7 +352,6 @@ public class ClientsDataController {
         return "admin/clients/data/table-editrow";
     }
 
-
     @PostMapping(value = "/{clientId}/{pageId}/{tableDefinitionId}/edit/{dynamicRowId}")
     public String editGenericTableRowSave(
             @PathVariable final ClientId clientId,
@@ -414,12 +395,12 @@ public class ClientsDataController {
 
     @GetMapping(value = "/{clientId}/{pageId}/{tableDefinitionId}/moverow/{dynamicRowId}/{direction}")
     public String moveRow(
-        @PathVariable final ClientId clientId,
-        @PathVariable final PageId pageId,
-        @PathVariable final TableDefinitionId tableDefinitionId,
-        @PathVariable final DynamicRowId dynamicRowId,
-        @PathVariable final String direction,
-        final RedirectAttributes redirectAttributes
+            @PathVariable final ClientId clientId,
+            @PathVariable final PageId pageId,
+            @PathVariable final TableDefinitionId tableDefinitionId,
+            @PathVariable final DynamicRowId dynamicRowId,
+            @PathVariable final String direction,
+            final RedirectAttributes redirectAttributes
     ) {
         try {
             this.getTableFacade(clientId).moveRow(dynamicRowId, direction.equals("up") ? -1 : 1);
@@ -456,7 +437,6 @@ public class ClientsDataController {
             @ModelAttribute("newGroup") final DynamicGroupRow groupRow,
             final BindingResult bindingResult,
             final RedirectAttributes redirectAttributes
-
     ) {
         try {
             this.getTableFacade(clientId).addGroupRow(tableDefinitionId, customTableDefinitionId, groupRow);
@@ -477,7 +457,6 @@ public class ClientsDataController {
             @ModelAttribute("newColumn") final TableColumn newColumn,
             final BindingResult bindingResult,
             final RedirectAttributes redirectAttributes
-
     ) {
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("errorMessage", "Грешка приликом додавања колоне!");
@@ -503,7 +482,6 @@ public class ClientsDataController {
             @ModelAttribute("newRow") final DynamicRow dynamicRow,
             final BindingResult bindingResult,
             final RedirectAttributes redirectAttributes
-
     ) {
         try {
             this.getTableFacade(clientId).addRow(tableDefinitionId, customTableDefinitionId, dynamicRow);
@@ -593,6 +571,5 @@ public class ClientsDataController {
         }
         return "redirect:/admin/clients/" + clientId + "/" + pageId + "/" + tableDefinitionId + "/" + customTableDefinitionId;
     }
-
 
 }

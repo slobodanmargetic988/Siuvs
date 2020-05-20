@@ -1,72 +1,72 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
-<head>
-    <th:block th:include="fragments/head :: head" />
-</head>
-<body>
+    <head>
+        <th:block th:include="fragments/head :: head" />
+    </head>
+    <body>
 
-<!-- Nav -->
-<th:block th:insert="fragments/navigation :: navigation-end-user"></th:block>
+        <!-- Nav -->
+        <th:block th:insert="fragments/navigation :: navigation-end-user"></th:block>
 
-<!-- Content -->
-<div class="px-content">
+        <!-- Content -->
+        <div class="px-content">
 
-    <div class="page-header">
-        <div class="box m-y-0 bg-transparent">
-            <h1 class="box-cell col-md-7 col-lg-8 col-xl-9">
-                <span class="text-muted font-weight-light">
-                    <i class="page-header-icon fa fa-users"></i>
-                </span>
-                Корисници
-            </h1>
+            <div class="page-header">
+                <div class="box m-y-0 bg-transparent">
+                    <h1 class="box-cell col-md-7 col-lg-8 col-xl-9">
+                        <span class="text-muted font-weight-light">
+                            <i class="page-header-icon fa fa-users"></i>
+                        </span>
+                        Корисници
+                    </h1>
 
-            <!-- Spacer -->
-            <hr class="visible-xs visible-sm">
+                    <!-- Spacer -->
+                    <hr class="visible-xs visible-sm">
 
-            <div class="box-cell col-md-5 col-lg-4 col-xl-3" sec:authorize="hasAnyAuthority('CLIENT')">
-                <form th:action="@{/client/users/new}" method="get" class="form-horizontal" autocomplete="off">
-                    <button type="submit" class="btn btn-primary pull-right">Нови корисник</button>
-                </form>
+                        <div class="box-cell col-md-5 col-lg-4 col-xl-3" sec:authorize="hasAnyAuthority('CLIENT')">
+                            <form th:action="@{/client/users/new}" method="get" class="form-horizontal" autocomplete="off">
+                                <button type="submit" class="btn btn-primary pull-right">Нови корисник</button>
+                            </form>
+                        </div>
+                </div>
             </div>
+
+            <div th:replace="fragments/alert :: error (${errorMessage})"></div>
+            <div th:replace="fragments/alert :: success (${successMessage})"></div>
+
+            <div class="panel">
+                <div class="panel-heading">
+                    <span class="panel-title">Списак корисника</span>
+                </div>
+                <div class="panel-body">
+
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Име</th>
+                                <th>Презиме</th>
+                                <th>Имејл адреса</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="user: ${users}" th:attr="data-href=@{/client/users/{userId}(userId=${user.id})}">
+                                <th scope="row" th:text="${user.id}"></th>
+                                <td th:text="${user.name}"></td>
+                                <td th:text="${user.lastName}"></td>
+                                <td th:text="${user.email}"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+
         </div>
-    </div>
 
-    <div th:replace="fragments/alert :: error (${errorMessage})"></div>
-    <div th:replace="fragments/alert :: success (${successMessage})"></div>
+        <th:block th:insert="fragments/footer :: footer-standard" />
 
-    <div class="panel">
-        <div class="panel-heading">
-            <span class="panel-title">Списак корисника</span>
-        </div>
-        <div class="panel-body">
-
-            <table class="table table-striped">
-                <thead>
-                <tr>
-                    <th>#</th>
-                    <th>Име</th>
-                    <th>Презиме</th>
-                    <th>Имејл адреса</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="user: ${users}" th:attr="data-href=@{/client/users/{userId}(userId=${user.id})}">
-                    <th scope="row" th:text="${user.id}"></th>
-                    <td th:text="${user.name}"></td>
-                    <td th:text="${user.lastName}"></td>
-                    <td th:text="${user.email}"></td>
-                </tr>
-                </tbody>
-            </table>
-
-        </div>
-    </div>
-
-</div>
-
-<th:block th:insert="fragments/footer :: footer-standard" />
-
-<th:block th:insert="fragments/scripts :: standard" />
-</body>
+        <th:block th:insert="fragments/scripts :: standard" />
+    </body>
 </html>

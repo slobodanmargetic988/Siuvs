@@ -7,13 +7,14 @@ package slobodan.siuvs2.repository;
 
 /**
  *
- * @author sloba
+ * @author Slobodan Margetic slobodanmargetic988@gmail.comba
  */
 import slobodan.siuvs2.model.Rezultat;
 import slobodan.siuvs2.model.Mera;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface RezultatRepository extends JpaRepository<Rezultat, Integer>{
+public interface RezultatRepository extends JpaRepository<Rezultat, Integer> {
+
     Rezultat findFirstByMera(Mera mera);
-    
+
 }

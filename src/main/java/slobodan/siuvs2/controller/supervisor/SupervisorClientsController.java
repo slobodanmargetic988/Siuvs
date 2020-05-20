@@ -29,6 +29,7 @@ import slobodan.siuvs2.model.Mera;
 import slobodan.siuvs2.model.Opstina;
 import slobodan.siuvs2.model.Page;
 import slobodan.siuvs2.model.Plan;
+import slobodan.siuvs2.model.PodRezultat;
 import slobodan.siuvs2.model.PosebanCilj;
 import slobodan.siuvs2.model.Provincija;
 import slobodan.siuvs2.model.Rezultat;
@@ -280,6 +281,24 @@ public class SupervisorClientsController {
         model.addAttribute("plan", plan);
         model.addAttribute("PClist", PClist);
         model.addAttribute("planurl", viewurl);
+        //sume
+        List<Long> PCbudzetJls= new ArrayList();;
+        List<Long>PCbudzetOstalo= new ArrayList();;
+        List<Long>PCbudzetNeobezbedjeno= new ArrayList();;
+        
+        calculateSUMList(PClist,PCbudzetJls,PCbudzetOstalo,PCbudzetNeobezbedjeno);
+        
+        Long TotalbudzetJls=calculateTotals(PCbudzetJls);
+        Long TotalbudzetOstalo=calculateTotals(PCbudzetOstalo);
+        Long TotalbudzetNeobezbedjeno=calculateTotals(PCbudzetNeobezbedjeno);
+        model.addAttribute("PCbudzetJls", PCbudzetJls);
+        model.addAttribute("PCbudzetOstalo", PCbudzetOstalo);
+        model.addAttribute("PCbudzetNeobezbedjeno", PCbudzetNeobezbedjeno);
+        model.addAttribute("TotalbudzetJls", TotalbudzetJls);
+        model.addAttribute("TotalbudzetOstalo", TotalbudzetOstalo);
+        model.addAttribute("TotalbudzetNeobezbedjeno", TotalbudzetNeobezbedjeno);
+        model.addAttribute("SumaLabel", "Укупно финансијска средства за изабрану опасност");
+        //sume
         return "supervisor/planview";
     }
 
@@ -299,6 +318,25 @@ public class SupervisorClientsController {
         model.addAttribute("plan", plan);
         model.addAttribute("PClist", PClist);
         model.addAttribute("planurl", viewurl);
+        model.addAttribute("ceoplan", false);
+        //sume
+        List<Long> PCbudzetJls= new ArrayList();;
+        List<Long>PCbudzetOstalo= new ArrayList();;
+        List<Long>PCbudzetNeobezbedjeno= new ArrayList();;
+        
+        calculateSUMList(PClist,PCbudzetJls,PCbudzetOstalo,PCbudzetNeobezbedjeno);
+        
+        Long TotalbudzetJls=calculateTotals(PCbudzetJls);
+        Long TotalbudzetOstalo=calculateTotals(PCbudzetOstalo);
+        Long TotalbudzetNeobezbedjeno=calculateTotals(PCbudzetNeobezbedjeno);
+        model.addAttribute("PCbudzetJls", PCbudzetJls);
+        model.addAttribute("PCbudzetOstalo", PCbudzetOstalo);
+        model.addAttribute("PCbudzetNeobezbedjeno", PCbudzetNeobezbedjeno);
+        model.addAttribute("TotalbudzetJls", TotalbudzetJls);
+        model.addAttribute("TotalbudzetOstalo", TotalbudzetOstalo);
+        model.addAttribute("TotalbudzetNeobezbedjeno", TotalbudzetNeobezbedjeno);
+        model.addAttribute("SumaLabel", "Укупно финансијска средства за општи део плана");
+        //sume
         return "supervisor/planopsti";
     }
 
@@ -318,9 +356,56 @@ public class SupervisorClientsController {
         model.addAttribute("plan", plan);
         model.addAttribute("PClist", PClist);
         model.addAttribute("planurl", viewurl);
+        model.addAttribute("ceoplan", true);
+        //sume
+        List<Long> PCbudzetJls= new ArrayList();;
+        List<Long>PCbudzetOstalo= new ArrayList();;
+        List<Long>PCbudzetNeobezbedjeno= new ArrayList();;
+        
+        calculateSUMList(PClist,PCbudzetJls,PCbudzetOstalo,PCbudzetNeobezbedjeno);
+        
+        Long TotalbudzetJls=calculateTotals(PCbudzetJls);
+        Long TotalbudzetOstalo=calculateTotals(PCbudzetOstalo);
+        Long TotalbudzetNeobezbedjeno=calculateTotals(PCbudzetNeobezbedjeno);
+        model.addAttribute("PCbudzetJls", PCbudzetJls);
+        model.addAttribute("PCbudzetOstalo", PCbudzetOstalo);
+        model.addAttribute("PCbudzetNeobezbedjeno", PCbudzetNeobezbedjeno);
+        model.addAttribute("TotalbudzetJls", TotalbudzetJls);
+        model.addAttribute("TotalbudzetOstalo", TotalbudzetOstalo);
+        model.addAttribute("TotalbudzetNeobezbedjeno", TotalbudzetNeobezbedjeno);
+        model.addAttribute("SumaLabel", "Укупно финансијска средства за цео план");
+        //sume
         return "supervisor/planopsti";
     }
-
+private void calculateSUMList(List<PosebanCilj> PClist, List<Long> PCbudzetJls, List<Long> PCbudzetOstalo, List<Long> PCbudzetNeobezbedjeno) {
+        int i = 0;
+        Long middleStep;
+        for (PosebanCilj pc : PClist) {
+            PCbudzetJls.add(0L);
+            PCbudzetOstalo.add(0L);
+            PCbudzetNeobezbedjeno.add(0L);
+            for (Mera mera : pc.getChildren()) {
+                for (Rezultat rezultat : mera.getChildren()) {
+                    for (PodRezultat podRezultat : rezultat.getChildren()) {
+                        middleStep = PCbudzetJls.get(i) + podRezultat.getBudzetJls();
+                        PCbudzetJls.set(i, middleStep);
+                        middleStep = PCbudzetOstalo.get(i) + podRezultat.getBudzetOstalo();
+                        PCbudzetOstalo.set(i, middleStep);
+                        middleStep = PCbudzetNeobezbedjeno.get(i) + podRezultat.getBudzetNeobezbedjeno();
+                        PCbudzetNeobezbedjeno.set(i, middleStep);
+                    }
+                }
+            }
+            i++;
+        }
+    }
+        private Long calculateTotals(List<Long> longList) {
+            Long total=0L;
+for (Long longItem : longList) {
+total+=longItem;
+    }
+return total;
+        }
     //serve photo controller
     @Autowired
     private StorageService storageService;

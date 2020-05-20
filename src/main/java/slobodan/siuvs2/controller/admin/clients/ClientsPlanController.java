@@ -107,6 +107,7 @@ public class ClientsPlanController {
             makeRezultatList(PClist, rezultatlist);
             makeMeraList(PClist, meralist);
         }
+
         model.addAttribute("client", client);
         model.addAttribute("page", page);
         model.addAttribute("plan", plan);
@@ -114,8 +115,56 @@ public class ClientsPlanController {
         model.addAttribute("meralist", meralist);
         model.addAttribute("rezultatlist", rezultatlist);
         model.addAttribute("planurl", viewurl);
+       //sume
+        List<Long> PCbudzetJls= new ArrayList();;
+        List<Long>PCbudzetOstalo= new ArrayList();;
+        List<Long>PCbudzetNeobezbedjeno= new ArrayList();;
+        
+        calculateSUMList(PClist,PCbudzetJls,PCbudzetOstalo,PCbudzetNeobezbedjeno);
+        
+        Long TotalbudzetJls=calculateTotals(PCbudzetJls);
+        Long TotalbudzetOstalo=calculateTotals(PCbudzetOstalo);
+        Long TotalbudzetNeobezbedjeno=calculateTotals(PCbudzetNeobezbedjeno);
+        model.addAttribute("PCbudzetJls", PCbudzetJls);
+        model.addAttribute("PCbudzetOstalo", PCbudzetOstalo);
+        model.addAttribute("PCbudzetNeobezbedjeno", PCbudzetNeobezbedjeno);
+        model.addAttribute("TotalbudzetJls", TotalbudzetJls);
+        model.addAttribute("TotalbudzetOstalo", TotalbudzetOstalo);
+        model.addAttribute("TotalbudzetNeobezbedjeno", TotalbudzetNeobezbedjeno);
+        model.addAttribute("SumaLabel", "Укупно финансијска средства за изабрану опасност");
+        //sume
         return "admin/clients/plan/view";
     }
+
+    private void calculateSUMList(List<PosebanCilj> PClist, List<Long> PCbudzetJls, List<Long> PCbudzetOstalo, List<Long> PCbudzetNeobezbedjeno) {
+        int i = 0;
+        Long middleStep;
+        for (PosebanCilj pc : PClist) {
+            PCbudzetJls.add(0L);
+            PCbudzetOstalo.add(0L);
+            PCbudzetNeobezbedjeno.add(0L);
+            for (Mera mera : pc.getChildren()) {
+                for (Rezultat rezultat : mera.getChildren()) {
+                    for (PodRezultat podRezultat : rezultat.getChildren()) {
+                        middleStep = PCbudzetJls.get(i) + podRezultat.getBudzetJls();
+                        PCbudzetJls.set(i, middleStep);
+                        middleStep = PCbudzetOstalo.get(i) + podRezultat.getBudzetOstalo();
+                        PCbudzetOstalo.set(i, middleStep);
+                        middleStep = PCbudzetNeobezbedjeno.get(i) + podRezultat.getBudzetNeobezbedjeno();
+                        PCbudzetNeobezbedjeno.set(i, middleStep);
+                    }
+                }
+            }
+            i++;
+        }
+    }
+        private Long calculateTotals(List<Long> longList) {
+            Long total=0L;
+for (Long longItem : longList) {
+total+=longItem;
+    }
+return total;
+        }
 
     @GetMapping(value = "/{clientId}/plan/opstideo/{pageId}")
     public String planOpsti(
@@ -151,6 +200,24 @@ public class ClientsPlanController {
         model.addAttribute("rezultatlist", rezultatlist);
         model.addAttribute("planurl", viewurl);
         model.addAttribute("ceoplan", false);
+        //sume
+        List<Long> PCbudzetJls= new ArrayList();;
+        List<Long>PCbudzetOstalo= new ArrayList();;
+        List<Long>PCbudzetNeobezbedjeno= new ArrayList();;
+        
+        calculateSUMList(PClist,PCbudzetJls,PCbudzetOstalo,PCbudzetNeobezbedjeno);
+        
+        Long TotalbudzetJls=calculateTotals(PCbudzetJls);
+        Long TotalbudzetOstalo=calculateTotals(PCbudzetOstalo);
+        Long TotalbudzetNeobezbedjeno=calculateTotals(PCbudzetNeobezbedjeno);
+        model.addAttribute("PCbudzetJls", PCbudzetJls);
+        model.addAttribute("PCbudzetOstalo", PCbudzetOstalo);
+        model.addAttribute("PCbudzetNeobezbedjeno", PCbudzetNeobezbedjeno);
+        model.addAttribute("TotalbudzetJls", TotalbudzetJls);
+        model.addAttribute("TotalbudzetOstalo", TotalbudzetOstalo);
+        model.addAttribute("TotalbudzetNeobezbedjeno", TotalbudzetNeobezbedjeno);
+        model.addAttribute("SumaLabel", "Укупно финансијска средства за општи део плана");
+        //sume
         return "admin/clients/plan/opstiplan";
     }
 
@@ -188,6 +255,24 @@ public class ClientsPlanController {
         model.addAttribute("rezultatlist", rezultatlist);
         model.addAttribute("planurl", viewurl);
         model.addAttribute("ceoplan", true);
+        //sume
+        List<Long> PCbudzetJls= new ArrayList();;
+        List<Long>PCbudzetOstalo= new ArrayList();;
+        List<Long>PCbudzetNeobezbedjeno= new ArrayList();;
+        
+        calculateSUMList(PClist,PCbudzetJls,PCbudzetOstalo,PCbudzetNeobezbedjeno);
+        
+        Long TotalbudzetJls=calculateTotals(PCbudzetJls);
+        Long TotalbudzetOstalo=calculateTotals(PCbudzetOstalo);
+        Long TotalbudzetNeobezbedjeno=calculateTotals(PCbudzetNeobezbedjeno);
+        model.addAttribute("PCbudzetJls", PCbudzetJls);
+        model.addAttribute("PCbudzetOstalo", PCbudzetOstalo);
+        model.addAttribute("PCbudzetNeobezbedjeno", PCbudzetNeobezbedjeno);
+        model.addAttribute("TotalbudzetJls", TotalbudzetJls);
+        model.addAttribute("TotalbudzetOstalo", TotalbudzetOstalo);
+        model.addAttribute("TotalbudzetNeobezbedjeno", TotalbudzetNeobezbedjeno);
+        model.addAttribute("SumaLabel", "Укупно финансијска средства за цео план");
+        //sume
         return "admin/clients/plan/opstiplan";
     }
 

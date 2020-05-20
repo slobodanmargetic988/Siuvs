@@ -143,7 +143,20 @@
                                 </th:block>
                             </th:block>
                         </th:block>
+                        <tr > 
+                            <td colspan="7">Укупно финансијска средства за посебан циљ</td>
+                            <td><span th:text="${PCbudzetJls.get(__${iCilj.index}__)}"></span></td>
+                            <td><span th:text="${PCbudzetOstalo.get(__${iCilj.index}__)}"></span></td>
+                            <td><span th:text="${PCbudzetNeobezbedjeno.get(__${iCilj.index}__)}"></span></td>
+                        </tr>
+                        
                     </th:block>
+                    <tr > 
+                            <td colspan="7"><span th:text="${SumaLabel}"></span></td>
+                            <td><span th:text="${TotalbudzetJls}"></span></td>
+                            <td><span th:text="${TotalbudzetOstalo}"></span></td>
+                            <td><span th:text="${TotalbudzetNeobezbedjeno}"></span></td>
+                        </tr>
                 </th:block>
             </table>     
 
@@ -292,7 +305,20 @@
                                 </th:block>
                             </th:block>
                         </th:block>
+                     <tr > 
+                            <td colspan="7">Укупно финансијска средства за посебан циљ</td>
+                            <td><span th:text="${PCbudzetJls.get(__${iCilj.index}__)}"></span></td>
+                            <td><span th:text="${PCbudzetOstalo.get(__${iCilj.index}__)}"></span></td>
+                            <td><span th:text="${PCbudzetNeobezbedjeno.get(__${iCilj.index}__)}"></span></td>
+                        </tr>
+                        
                     </th:block>
+                    <tr > 
+                            <td colspan="7"><span th:text="${SumaLabel}"></span></td>
+                            <td><span th:text="${TotalbudzetJls}"></span></td>
+                            <td><span th:text="${TotalbudzetOstalo}"></span></td>
+                            <td><span th:text="${TotalbudzetNeobezbedjeno}"></span></td>
+                        </tr>
                 </th:block>
             </table>     
 

@@ -63,18 +63,18 @@ public class ClientsController {
     ) {
         if (opstina.getValue() == 0) {
             redirectAttributes.addFlashAttribute("LSGErrorMessage", "Морате одабрати ниво приступа");
-            redirectAttributes.addFlashAttribute("errorMessage", "Грешка приликом креирања клијента!");
+            redirectAttributes.addFlashAttribute("errorMessage", "Грешка приликом креирања корисника!");
             return "redirect:/admin/clients/new";
         } else {
             if (name.isEmpty()) {
-                redirectAttributes.addFlashAttribute("NameErrorMessage", "Морате унети име клијента");
-                redirectAttributes.addFlashAttribute("errorMessage", "Грешка приликом креирања клијента!");
+                redirectAttributes.addFlashAttribute("NameErrorMessage", "Морате унети име корисника");
+                redirectAttributes.addFlashAttribute("errorMessage", "Грешка приликом креирања корисника!");
                 return "redirect:/admin/clients/new";
             }
         }
 
         if (clientService.isNameUsed(name)) {
-            redirectAttributes.addFlashAttribute("errorMessage", "Клијент са истим називом већ постоји!");
+            redirectAttributes.addFlashAttribute("errorMessage", "Корисник са истим називом већ постоји!");
             return "redirect:/admin/clients/new";
         } else {
 
@@ -84,7 +84,7 @@ public class ClientsController {
             newClient.setOpstina(opstinaService.findOne(opstina));
             clientService.createNew(newClient);
 
-            redirectAttributes.addFlashAttribute("successMessage", "Клијент успешно креиран!");
+            redirectAttributes.addFlashAttribute("successMessage", "Корисник успешно креиран!");
             return "redirect:/admin/clients";
         }
 
@@ -128,16 +128,16 @@ public class ClientsController {
             final Model model) {
         if (opstinaId.getValue() == 0) {
             redirectAttributes.addFlashAttribute("LSGErrorMessage", "Морате одабрати ниво приступа");
-            redirectAttributes.addFlashAttribute("errorMessage", "Грешка приликом креирања клијента!");
+            redirectAttributes.addFlashAttribute("errorMessage", "Грешка приликом креирања корисника!");
             return "redirect:/admin/clients/{clientId}/edit";
         } else {
             if (name.isEmpty()) {
-                redirectAttributes.addFlashAttribute("NameErrorMessage", "Морате унети име клијента");
-                redirectAttributes.addFlashAttribute("errorMessage", "Грешка приликом креирања клијента!");
+                redirectAttributes.addFlashAttribute("NameErrorMessage", "Морате унети име корисника");
+                redirectAttributes.addFlashAttribute("errorMessage", "Грешка приликом креирања корисника!");
                 return "redirect:/admin/clients/{clientId}/edit";
             } else {
                 if (clientService.isNameUsed(clientId, name)) {
-                    redirectAttributes.addFlashAttribute("errorMessage", "Клијент са истим називом већ постоји!");
+                    redirectAttributes.addFlashAttribute("errorMessage", "Корисник са истим називом већ постоји!");
                     return "redirect:/admin/clients/{clientId}/edit";
                 }
             }
@@ -152,7 +152,7 @@ public class ClientsController {
             client.setOpstina(opstinaService.findOne(opstinaId));
             try {
                 clientService.update(clientId, client);
-                redirectAttributes.addFlashAttribute("successMessage", "Клијент успешно измењен!");
+                redirectAttributes.addFlashAttribute("successMessage", "Корисник успешно измењен!");
             } catch (Exception e) {
                 redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
                 return "redirect:/admin/clients/{clientId}/edit";

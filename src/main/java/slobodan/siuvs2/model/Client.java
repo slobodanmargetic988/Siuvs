@@ -28,7 +28,7 @@ public class Client {
     private Opstina opstina;
 
     @Column(name = "name", unique = true)
-    @NotEmpty(message = "* Молимо унесите назив клијента")
+    @NotEmpty(message = "* Молимо унесите назив корисника")
     private String name;
 
     @OneToMany(mappedBy = "client")

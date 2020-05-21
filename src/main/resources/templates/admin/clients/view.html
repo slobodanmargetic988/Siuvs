@@ -23,12 +23,12 @@
             <!-- Client details panel -->
             <div class="panel">
                 <div class="panel-heading">
-                    <span class="panel-title">Подаци о клијенту</span>
+                    <span class="panel-title">Подаци о кориснику</span>
                 </div>
                 <div class="panel-body">
                     <div class="panel" >
                         <div class="panel-body">
-                            <label   >Назив јединице локалне самоуправе: <span th:text="${client.name}"></span> </label>
+                            <label   >Назив корисника: <span th:text="${client.name}"></span> </label>
                             <br><br/>
 
                                 <th:block th:if="${client.getOpstina() != null}">

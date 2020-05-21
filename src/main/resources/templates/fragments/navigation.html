@@ -53,13 +53,13 @@
 
                 <ul class="px-nav-content">
                     <li class="px-nav-item">
-                        <a th:href="@{/admin/clients}"><i class="fa fa-institution m-r-1"></i>Клијенти</a>
+                        <a th:href="@{/admin/clients}"><i class="fa fa-institution m-r-1"></i>Корисници</a>
                     </li>
                     <li class="px-nav-item" sec:authorize="hasAnyAuthority('ADMIN','RIS')">
                         <a th:href="@{/admin/users}"><i class="fa fa-users m-r-1"></i>РИС</a>
                     </li>
                     <li class="px-nav-item" sec:authorize="hasAnyAuthority('ADMIN','RIS')">
-                        <a th:href="@{/admin/supervisors}"><i class="fa fa-users m-r-1"></i>Супервизори</a>
+                        <a th:href="@{/admin/supervisors}"><i class="fa fa-users m-r-1"></i>Овлашћени корисници</a>
                     </li>
                     <li class="px-nav-item" sec:authorize="hasAnyAuthority('ADMIN','RIS')">
                         <a th:href="@{/admin/opstine}"><i class="fa fa-users m-r-1"></i>Локалне самоуправе</a>
@@ -80,7 +80,7 @@
 
                 <ul class="px-nav-content">
                     <li class="px-nav-item">
-                        <a th:href="@{/supervisor/clients}"><i class="fa fa-institution m-r-1"></i>Клијенти</a>
+                        <a th:href="@{/supervisor/clients}"><i class="fa fa-institution m-r-1"></i>Корисници</a>
                     </li>
 
                 </ul>
@@ -226,14 +226,14 @@
 
                 <ul class="px-nav-content">
                     <li class="px-nav-item">
-                        <a th:href="@{/admin/clients}"><i class="px-nav-icon fa fa-institution"></i><span class="px-nav-label">Клијенти</span></a>
+                        <a th:href="@{/admin/clients}"><i class="px-nav-icon fa fa-institution"></i><span class="px-nav-label">Корисници</span></a>
                     </li>
 
                     <li class="px-nav-item" sec:authorize="hasAnyAuthority('ADMIN','RIS')">
                         <a th:href="@{/admin/users}"><i class="px-nav-icon fa fa-users"></i><span class="px-nav-label">РИС</span></a>
                     </li>
                     <li class="px-nav-item" sec:authorize="hasAnyAuthority('ADMIN','RIS')">
-                        <a th:href="@{/admin/supervisors}"><i class="fa fa-users m-r-1"></i>Супервизори</a>
+                        <a th:href="@{/admin/supervisors}"><i class="fa fa-users m-r-1"></i>Овлашћени корисници</a>
                     </li>
                     <li class="px-nav-item" sec:authorize="hasAnyAuthority('ADMIN','RIS')">
                         <a th:href="@{/admin/opstine}"><i class="fa fa-users m-r-1"></i>Локалне самоуправе</a>
@@ -304,7 +304,7 @@
             <span class="text-muted font-weight-light">
                 <i class="page-header-icon fa fa-institution"></i>
             </span>
-            <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-link(Клијенти, @{/admin/clients}, false)"/>
+            <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-link(Корисници, @{/admin/clients}, false)"/>
             <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-separator(false)"/>
             <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-text(${client.name}, true)"/>
         </th:block>
@@ -313,7 +313,7 @@
             <span class="text-muted font-weight-light">
                 <i class="page-header-icon fa fa-institution"></i>
             </span>
-            <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-link(Клијенти, @{/admin/clients}, false)"/>
+            <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-link(Корисници, @{/admin/clients}, false)"/>
             <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-separator(false)"/>
             <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-link(${client.name}, @{/admin/clients/{id}(id=${client.id})}, false)"/>
             <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-separator(false)"/>
@@ -324,7 +324,7 @@
             <span class="text-muted font-weight-light">
                 <i class="page-header-icon fa fa-institution"></i>
             </span>
-            <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-link(Клијенти, @{/admin/clients}, false)"/>
+            <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-link(Корисници, @{/admin/clients}, false)"/>
             <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-separator(false)"/>
             <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-link(${client.name}, @{/admin/clients/{id}(id=${client.id})}, false)"/>
             <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-separator(false)"/>
@@ -340,7 +340,7 @@
             <span class="text-muted font-weight-light">
                 <i class="page-header-icon fa fa-institution"></i>
             </span>
-            <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-link(Клијенти, @{/supervisor/clients}, false)"/>
+            <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-link(Корисници, @{/supervisor/clients}, false)"/>
             <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-separator(false)"/>
             <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-text(${client.name}, true)"/>
         </th:block>
@@ -359,7 +359,7 @@
             <span class="text-muted font-weight-light">
                 <i class="page-header-icon fa fa-institution"></i>
             </span>
-            <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-link(Клијенти, @{/supervisor/clients}, false)"/>
+            <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-link(Корисници, @{/supervisor/clients}, false)"/>
             <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-separator(false)"/>
             <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-link(${client.name}, @{/supervisor/clients/{id}(id=${client.id})}, false)"/>
             <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-separator(false)"/>

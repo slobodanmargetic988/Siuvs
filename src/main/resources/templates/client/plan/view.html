@@ -35,7 +35,7 @@
 
                 <div class="panel-body data-panel-body">
                     <th:block th:if="${planempty}">
-                        План za изабраног клијента тренутно не постоји у бази.<br></br>
+                        План za изабраног корисника тренутно не постоји у бази.<br></br>
                         Прво додајте нови план путем странице <a th:href="@{/client/plan/{pageId}/NewPlan(clientId=${client.id},pageId=${page.id})}" >"Нови план"</a>.
                     </th:block>
                     <th:block th:if="${!planempty}">

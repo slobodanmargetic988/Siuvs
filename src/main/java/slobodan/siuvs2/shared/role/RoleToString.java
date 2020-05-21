@@ -30,10 +30,10 @@ public class RoleToString {
                 result = "РИС";
                 break;
             case CLIENT:
-                result = "Клијент - Унос/Измена";
+                result = "Корисник - Унос/Измена";
                 break;
             case CLIENT_READ_ONLY:
-                result = "Клијент - Преглед";
+                result = "Корисник - Преглед";
                 break;
             case MUP:
                 result = "МУП";

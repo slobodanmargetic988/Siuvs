@@ -41,7 +41,7 @@ public class SiuvsUserDetailsService implements UserDetailsService {
         }
         if (!isUserClientActive(user)) {
             isLocked = true;
-            request.getSession().setAttribute("errorMessage", "Клијент је неактиван. Контактирајте администратора");
+            request.getSession().setAttribute("errorMessage", "Корисник је неактиван. Контактирајте администратора");
         }
         return new SiuvsUserPrincipal(user, isLocked);
     }

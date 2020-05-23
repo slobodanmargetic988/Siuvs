@@ -71,6 +71,12 @@
 
                 </div>
             </div>
+            
+            <th:block th:with="deleteActionUrl=@{/admin/clients/{clientId}/deletePhoto/(clientId=${editClient.id})}">
+                <th:block th:with="uploadActionUrl=@{/admin/clients/{clientId}/uploadPhoto(clientId=${editClient.id})}">
+                    <th:block th:insert="fragments/forms/photo :: edit_photo_LSG(${deleteActionUrl}, ${uploadActionUrl})" />
+                </th:block>
+            </th:block>
 
         </div>
 

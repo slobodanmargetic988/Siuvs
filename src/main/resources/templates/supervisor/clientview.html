@@ -66,11 +66,10 @@
                                                     <br><br/>
                                                         </th:block>
                                                         </div>
-                                                        <!-- 
-                                                       <div class="panel" ></div>
-                                                       <label   >Графичка репрезентација: Тек треба додати!! </label>
-                                                       <br><br/>    
-                                                        <!-- -->
+                    
+                                                        <th:block th:with="photoUrl=@{/supervisor/clients/{clientId}/photo/(clientId=${client.id})}" >
+                                                                <th:block th:insert="fragments/forms/photo :: view_photos_LSG(${photoUrl})" />
+                                                            </th:block>
 
                                                         </div>
                                                         </div>

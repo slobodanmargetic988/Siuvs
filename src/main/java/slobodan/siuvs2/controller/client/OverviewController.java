@@ -5,6 +5,9 @@ package slobodan.siuvs2.controller.client;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.core.io.Resource;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -15,9 +18,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import slobodan.siuvs2.model.Client;
 import slobodan.siuvs2.model.InternationalAgreements;
+import slobodan.siuvs2.model.Page;
 import slobodan.siuvs2.model.PublicPolicyDocuments;
 import slobodan.siuvs2.model.SiuvsUserPrincipal;
 import slobodan.siuvs2.model.Tasks;
@@ -25,12 +30,17 @@ import slobodan.siuvs2.model.User;
 import slobodan.siuvs2.service.ClientService;
 import slobodan.siuvs2.service.InternationalAgreementsFactory;
 import slobodan.siuvs2.service.InternationalAgreementsService;
+import slobodan.siuvs2.service.PageService;
+import slobodan.siuvs2.service.PhotoService;
 import slobodan.siuvs2.service.PublicPolicyDocumentsFactory;
 import slobodan.siuvs2.service.PublicPolicyDocumentsService;
+import slobodan.siuvs2.service.StorageService;
 import slobodan.siuvs2.service.TasksFactory;
 import slobodan.siuvs2.service.TasksService;
 import slobodan.siuvs2.valueObject.ClientId;
 import slobodan.siuvs2.valueObject.InternationalAgreementsID;
+import slobodan.siuvs2.valueObject.PageId;
+import slobodan.siuvs2.valueObject.PhotoId;
 import slobodan.siuvs2.valueObject.PublicPolicyDocumentsID;
 import slobodan.siuvs2.valueObject.TasksID;
 
@@ -57,17 +67,38 @@ public class OverviewController {
     private PublicPolicyDocumentsFactory PPDFactory;
     @Autowired
     private InternationalAgreementsFactory IAFactory;
+        @Autowired
+    private PageService pageService;
+    @Autowired
+    private PhotoService photoService;
+    @Autowired
+    private StorageService storageService;
 
     @GetMapping(value = "/overview")
     public String list(final Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User currentUser = ((SiuvsUserPrincipal) authentication.getPrincipal()).getUser();       
         Client client=clientService.findOne(currentUser.getClient().getClientId());
-
+        PageId pageId;
+        pageId=new PageId(1);//using pageid=1 to store photos for client page
+        Page page = pageService.findOne(pageId);
+        model.addAttribute("photos", photoService.findByClientAndPage(client, page));
         model.addAttribute("client", clientService.findOne(client.getClientId()));
         return "client/overview/view";
     }
 
+    @GetMapping(value = "/overview/editPhoto")
+    public String editPhoto(final Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User currentUser = ((SiuvsUserPrincipal) authentication.getPrincipal()).getUser();       
+        Client client=clientService.findOne(currentUser.getClient().getClientId());
+        PageId pageId;
+        pageId=new PageId(1);//using pageid=1 to store photos for client page
+        Page page = pageService.findOne(pageId);
+        model.addAttribute("photos", photoService.findByClientAndPage(client, page));
+        model.addAttribute("client", clientService.findOne(client.getClientId()));
+        return "client/overview/editPhoto";
+    }
 
     @GetMapping(value = "/overview/newNadleznost")
     public String newNadleznost( final Model model) {
@@ -295,5 +326,66 @@ public class OverviewController {
                 return "redirect:/client/overview";
             }
         return "redirect:/client/overview";
+    }
+    
+    @PostMapping(value = "/overview/uploadPhoto")
+    public String uploadPhoto(
+            @RequestParam("file") MultipartFile file,
+            @RequestParam("title") String title,
+            final RedirectAttributes redirectAttributes
+    ) {
+        PageId pageId;
+        pageId=new PageId(1);//using pageid=1 to store photos for client page
+        Page page = pageService.findOne(pageId);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User currentUser = ((SiuvsUserPrincipal) authentication.getPrincipal()).getUser();       
+        Client client=clientService.findOne(currentUser.getClient().getClientId());
+        if (title.isEmpty()) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Молимо Вас да унесете назив слике");
+            return "redirect:/client/overview"+ "/editPhoto";
+        }  else {      
+            try{
+            String filename = storageService.store(file, client.getClientId());
+            photoService.save(client, page, title, filename);
+            redirectAttributes.addFlashAttribute("successMessage", "Слика је успешно сачувана!");
+            return "redirect:/client/overview" ;
+            }catch (Exception e) {
+            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+        return "redirect:/client/overview";
+        }
+        }
+    }
+    @PostMapping(value = "/overview/deletePhoto/{photoId}")
+    public String deletePhoto(
+            @PathVariable final PhotoId photoId,
+            final RedirectAttributes redirectAttributes
+    ) {
+        PageId pageId;
+        pageId=new PageId(1);//using pageid=1 to store photos for client page
+                Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User currentUser = ((SiuvsUserPrincipal) authentication.getPrincipal()).getUser();       
+        Client client=clientService.findOne(currentUser.getClient().getClientId());
+        String filename = photoService.findFileNameById(photoId);
+        photoService.delete(client, photoId);
+        storageService.delete(client.getClientId(), filename);
+        redirectAttributes.addFlashAttribute("successMessage", "Слика је успешно обрисана!");
+        return "redirect:/client/overview";
+    }
+    @GetMapping(value = "/overview/photo/{photoId}")
+    public ResponseEntity<Resource> servePhoto(
+           
+            @PathVariable final PhotoId photoId
+    ) {
+        
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User currentUser = ((SiuvsUserPrincipal) authentication.getPrincipal()).getUser();       
+        Client client=clientService.findOne(currentUser.getClient().getClientId());
+        
+        String filename = photoService.findFileNameById(photoId);
+        Resource file = storageService.loadAsResource(client.getClientId(), filename);
+        return ResponseEntity
+                .ok()
+                .contentType(MediaType.IMAGE_JPEG)
+                .body(file);
     }
 }

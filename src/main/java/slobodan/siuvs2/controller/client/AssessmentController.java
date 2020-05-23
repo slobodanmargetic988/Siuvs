@@ -139,10 +139,15 @@ public class AssessmentController {
                 redirectAttributes.addFlashAttribute("errorMessage", "Немате права за унос слике");
                 return "redirect:/client/assessment/" + pageId;
             }
+            try{
             String filename = storageService.store(file, client.getClientId());
             photoService.save(client, pageService.findOne(pageId), title, filename);
             redirectAttributes.addFlashAttribute("successMessage", "Слика је успешно сачувана!");
             return "redirect:/client/assessment/" + pageId;
+             }catch (Exception e) {
+            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+             return "redirect:/client/assessment/" + pageId;
+        }
         }
     }
 

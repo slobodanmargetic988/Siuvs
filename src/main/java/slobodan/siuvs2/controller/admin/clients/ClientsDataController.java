@@ -163,10 +163,15 @@ public class ClientsDataController {
             return "redirect:/admin/clients/" + clientId + "/" + pageId + "/edit";
         } else {
             Client client = clientService.findOne(clientId);
+            try{
             String filename = storageService.store(file, client.getClientId());
             photoService.save(client, pageService.findOne(pageId), title, filename);
             redirectAttributes.addFlashAttribute("successMessage", "Слика је успешно сачувана!");
             return "redirect:/admin/clients/" + clientId + "/" + pageId;
+             }catch (Exception e) {
+            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+         return "redirect:/admin/clients/" + clientId + "/" + pageId + "/edit";
+        }
         }
     }
 

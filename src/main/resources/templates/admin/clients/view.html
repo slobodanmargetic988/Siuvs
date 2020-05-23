@@ -45,32 +45,32 @@
 
                                                 <th:block th:each="task : ${client.opstina.tasks}">
                                                     <br><br/>  
-                                                    <a sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')" th:href="@{/admin/clients/{id}/editNadleznost/{Nadleznostid} (id=${client.id},Nadleznostid=${task.id})}" class=" btn-xs btn-info btn-outline"><i class="fa fa-pencil fa-lg"></i></a>
-                                                    <a sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')" th:href="@{/admin/clients/{id}/newNadleznost (id=${client.id})}" class=" btn-xs btn-info btn-outline"><i class="fa fa-plus-square-o fa-lg"></i></a>
-                                                    <a sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')" onclick="return confirm('Да ли сте сигурни да желите да обришете ставку из надлежности и делокруга?');"  th:href="@{/admin/clients/{id}/deleteNadleznost/{Nadleznostid} (id=${client.id},Nadleznostid=${task.id})}" class=" btn-xs btn-danger btn-outline " ><i class="fa fa-trash fa-lg"></i></a>
-                                                    <span th:text="${task.name}"></span> 
+                                                        <a sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')" th:href="@{/admin/clients/{id}/editNadleznost/{Nadleznostid} (id=${client.id},Nadleznostid=${task.id})}" class=" btn-xs btn-info btn-outline"><i class="fa fa-pencil fa-lg"></i></a>
+                                                        <a sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')" th:href="@{/admin/clients/{id}/newNadleznost (id=${client.id})}" class=" btn-xs btn-info btn-outline"><i class="fa fa-plus-square-o fa-lg"></i></a>
+                                                        <a sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')" onclick="return confirm('Да ли сте сигурни да желите да обришете ставку из надлежности и делокруга?');"  th:href="@{/admin/clients/{id}/deleteNadleznost/{Nadleznostid} (id=${client.id},Nadleznostid=${task.id})}" class=" btn-xs btn-danger btn-outline " ><i class="fa fa-trash fa-lg"></i></a>
+                                                        <span th:text="${task.name}"></span> 
 
                                                 </th:block>
                                                 <th:block th:if="${client.opstina.tasks.empty}">
                                                     <br><br/>
-                                                    <a sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')" th:href="@{/admin/clients/{id}/newNadleznost (id=${client.id})}" class=" btn-xs btn-info btn-outline"><i class="fa fa-plus-square-o fa-lg"></i></a>                                                    
-                                                    <span>Листа је празна.</span> 
+                                                        <a sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')" th:href="@{/admin/clients/{id}/newNadleznost (id=${client.id})}" class=" btn-xs btn-info btn-outline"><i class="fa fa-plus-square-o fa-lg"></i></a>                                                    
+                                                        <span>Листа је празна.</span> 
                                                 </th:block>
                                                 <br><br/>
 
                                                     <label  >Листа међународних докумената: </label>
                                                     <th:block th:each="internationalAgreements : ${client.opstina.internationalAgreements}">
                                                         <br><br/>
-                                                        <a sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')" th:href="@{/admin/clients/{id}/editIA/{IAid} (id=${client.id},IAid=${internationalAgreements.id})}" class=" btn-xs btn-info btn-outline"><i class="fa fa-pencil fa-lg"></i></a>
-                                                        <a sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')" th:href="@{/admin/clients/{id}/newIA (id=${client.id})}" class=" btn-xs btn-info btn-outline"><i class="fa fa-plus-square-o fa-lg"></i></a>
-                                                        <a sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')" onclick="return confirm('Да ли сте сигурни да желите да обришете ставку из листе међународних докумената?');"  th:href="@{/admin/clients/{id}/deleteIA/{IAid} (id=${client.id},IAid=${internationalAgreements.id})}" class=" btn-xs btn-danger btn-outline " ><i class="fa fa-trash fa-lg"></i></a>
-                                                    <span  th:text="${internationalAgreements.name}"></span> 
+                                                            <a sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')" th:href="@{/admin/clients/{id}/editIA/{IAid} (id=${client.id},IAid=${internationalAgreements.id})}" class=" btn-xs btn-info btn-outline"><i class="fa fa-pencil fa-lg"></i></a>
+                                                            <a sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')" th:href="@{/admin/clients/{id}/newIA (id=${client.id})}" class=" btn-xs btn-info btn-outline"><i class="fa fa-plus-square-o fa-lg"></i></a>
+                                                            <a sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')" onclick="return confirm('Да ли сте сигурни да желите да обришете ставку из листе међународних докумената?');"  th:href="@{/admin/clients/{id}/deleteIA/{IAid} (id=${client.id},IAid=${internationalAgreements.id})}" class=" btn-xs btn-danger btn-outline " ><i class="fa fa-trash fa-lg"></i></a>
+                                                            <span  th:text="${internationalAgreements.name}"></span> 
                                                     </th:block>
-                                                        <th:block th:if="${client.opstina.internationalAgreements.empty}">
+                                                    <th:block th:if="${client.opstina.internationalAgreements.empty}">
                                                         <br><br/>
-                                                        <a sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')" th:href="@{/admin/clients/{id}/newIA (id=${client.id})}" class=" btn-xs btn-info btn-outline"><i class="fa fa-plus-square-o fa-lg"></i></a>                                                    
-                                                        <span>Листа је празна.</span> 
-                                                        </th:block>
+                                                            <a sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')" th:href="@{/admin/clients/{id}/newIA (id=${client.id})}" class=" btn-xs btn-info btn-outline"><i class="fa fa-plus-square-o fa-lg"></i></a>                                                    
+                                                            <span>Листа је празна.</span> 
+                                                    </th:block>
                                                     <br><br/>
 
                                                         <label   >Листа јавних докумената: </label>
@@ -82,20 +82,22 @@
                                                                 <span  th:text="${publicPolicyDocument.name}"></span> 
                                                         </th:block>
                                                         <th:block th:if="${client.opstina.publicPolicyDocuments.empty}">
-                                                        <br><br/>
-                                                        <a sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')" th:href="@{/admin/clients/{id}/newPPD (id=${client.id})}" class=" btn-xs btn-info btn-outline"><i class="fa fa-plus-square-o fa-lg"></i></a>                                                    
-                                                        <span>Листа је празна.</span> 
+                                                            <br><br/>
+                                                                <a sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')" th:href="@{/admin/clients/{id}/newPPD (id=${client.id})}" class=" btn-xs btn-info btn-outline"><i class="fa fa-plus-square-o fa-lg"></i></a>                                                    
+                                                                <span>Листа је празна.</span> 
                                                         </th:block>
 
                                                         <br><br/>
                                                             </th:block>
                                                             </div>
                                                             </div>
-                                                            <!-- 
-                                                            <div class="panel" ></div>
-                                                            <label   >Графичка репрезентација: Тек треба додати!! </label>
-                                                            <br><br/>    
-                                                            <!-- -->
+
+
+                                                            <th:block th:with="photoUrl=@{/admin/clients/{clientId}/photo/(clientId=${client.id})}" >
+                                                                <th:block th:insert="fragments/forms/photo :: view_photos_LSG(${photoUrl})" />
+                                                            </th:block>
+
+
                                                             <a th:href="@{/admin/clients/{id}/edit(id=${client.id})}" sec:authorize="hasAnyAuthority('ADMIN','RIS')" class="btn btn-primary">Измени</a>
                                                             </div>
                                                             </div>

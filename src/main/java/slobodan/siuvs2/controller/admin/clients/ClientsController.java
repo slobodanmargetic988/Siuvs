@@ -13,10 +13,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import slobodan.siuvs2.model.Distrikt;
 import slobodan.siuvs2.model.InternationalAgreements;
 import slobodan.siuvs2.model.Opstina;
+import slobodan.siuvs2.model.Page;
 import slobodan.siuvs2.model.Provincija;
 import slobodan.siuvs2.model.PublicPolicyDocuments;
 import slobodan.siuvs2.model.Tasks;
@@ -24,13 +26,18 @@ import slobodan.siuvs2.service.DistriktService;
 import slobodan.siuvs2.service.InternationalAgreementsFactory;
 import slobodan.siuvs2.service.InternationalAgreementsService;
 import slobodan.siuvs2.service.OpstinaService;
+import slobodan.siuvs2.service.PageService;
+import slobodan.siuvs2.service.PhotoService;
 import slobodan.siuvs2.service.ProvincijaService;
 import slobodan.siuvs2.service.PublicPolicyDocumentsFactory;
 import slobodan.siuvs2.service.PublicPolicyDocumentsService;
+import slobodan.siuvs2.service.StorageService;
 import slobodan.siuvs2.service.TasksFactory;
 import slobodan.siuvs2.service.TasksService;
 import slobodan.siuvs2.valueObject.InternationalAgreementsID;
 import slobodan.siuvs2.valueObject.OpstinaID;
+import slobodan.siuvs2.valueObject.PageId;
+import slobodan.siuvs2.valueObject.PhotoId;
 import slobodan.siuvs2.valueObject.PublicPolicyDocumentsID;
 import slobodan.siuvs2.valueObject.TasksID;
 
@@ -58,7 +65,13 @@ public class ClientsController {
     @Autowired
     private PublicPolicyDocumentsFactory PPDFactory;
     @Autowired
-    private InternationalAgreementsFactory IAFactory;            
+    private InternationalAgreementsFactory IAFactory;  
+    @Autowired
+    private PageService pageService;
+    @Autowired
+    private PhotoService photoService;
+    @Autowired
+    private StorageService storageService;
 
     @ModelAttribute("newClient")
     public Client getClient() {
@@ -117,7 +130,13 @@ public class ClientsController {
     @GetMapping(value = "/clients/{clientId}")
     public String view(@PathVariable final ClientId clientId, final Model model) {
         Client client = clientService.findOne(clientId);
+        PageId pageId;
+        pageId=new PageId(1);//using pageid=1 to store photos for client page
+        Page page = pageService.findOne(pageId);
+        model.addAttribute("photos", photoService.findByClientAndPage(client, page));
+        
         model.addAttribute("client", client);
+        
         return "admin/clients/view";
     }
 
@@ -138,7 +157,11 @@ public class ClientsController {
         model.addAttribute("opstine", opstine);
         model.addAttribute("districts", districts);
         model.addAttribute("provincije", provincije);
-
+        PageId pageId;
+        pageId=new PageId(1);//using pageid=1 to store photos for client page
+        Page page = pageService.findOne(pageId);
+        model.addAttribute("photos", photoService.findByClientAndPage(client, page));
+        
         return "admin/clients/edit";
     }
 
@@ -401,6 +424,49 @@ public class ClientsController {
                 redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
                 return "redirect:/admin/clients/"+clientId;
             }
+        return "redirect:/admin/clients/" + clientId;
+    }
+    
+    @PostMapping(value = "clients/{clientId}/uploadPhoto")
+    public String uploadPhoto(
+            @PathVariable final ClientId clientId,
+            @RequestParam("file") MultipartFile file,
+            @RequestParam("title") String title,
+            final RedirectAttributes redirectAttributes
+    ) {
+        PageId pageId;
+        pageId=new PageId(1);//using pageid=1 to store photos for client page
+        Page page = pageService.findOne(pageId);
+        if (title.isEmpty()) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Молимо Вас да унесете назив слике");
+            return "redirect:/admin/clients/" + clientId + "/edit";
+        }  else {
+            Client client = clientService.findOne(clientId);
+            try{
+            String filename = storageService.store(file, client.getClientId());
+            photoService.save(client, pageService.findOne(pageId), title, filename);
+            redirectAttributes.addFlashAttribute("successMessage", "Слика је успешно сачувана!");
+            return "redirect:/admin/clients/" + clientId ;
+            }catch (Exception e) {
+            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+        return "redirect:/admin/clients/" + clientId + "/edit";
+        }
+        }
+    }
+    @PostMapping(value = "clients/{clientId}/deletePhoto/{photoId}")
+    public String deletePhoto(
+            @PathVariable final ClientId clientId,
+            @PathVariable final PhotoId photoId,
+            final RedirectAttributes redirectAttributes
+    ) {
+        PageId pageId;
+        pageId=new PageId(1);//using pageid=1 to store photos for client page
+        Page page = pageService.findOne(pageId);
+        Client client = clientService.findOne(clientId);
+        String filename = photoService.findFileNameById(photoId);
+        photoService.delete(client, photoId);
+        storageService.delete(clientId, filename);
+        redirectAttributes.addFlashAttribute("successMessage", "Слика је успешно обрисана!");
         return "redirect:/admin/clients/" + clientId;
     }
 }

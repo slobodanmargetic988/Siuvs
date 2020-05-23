@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+    <head>
+        <th:block th:include="fragments/head :: head" />
+    </head>
+    <body>
+
+        <!-- Nav -->
+        <th:block th:insert="fragments/navigation :: navigation-end-user"></th:block>
+
+        <!-- Content -->
+        <div class="px-content">
+
+            <div class="page-header">
+                <h1>
+                    <th:block th:insert="fragments/navigation :: nav-breadcrumbs-client(${client}, true)" />
+                </h1>
+            </div>
+            <th:block th:with="deleteActionUrl=@{/client/overview/deletePhoto/}">
+                <th:block th:with="uploadActionUrl=@{/client/overview/uploadPhoto/}">
+                    <th:block th:insert="fragments/forms/photo :: edit_photo_LSG(${deleteActionUrl}, ${uploadActionUrl})" />
+                </th:block>
+            </th:block>
+
+        </div>
+
+        </div>
+        <th:block th:insert="fragments/footer :: footer-standard" />
+        <th:block th:insert="fragments/scripts :: standard" />
+    </body>
+</html>

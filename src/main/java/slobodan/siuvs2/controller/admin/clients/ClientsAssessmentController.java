@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import slobodan.siuvs2.service.StorageException;
 import slobodan.siuvs2.valueObject.PhotoId;
 
 @Scope(WebApplicationContext.SCOPE_REQUEST)
@@ -129,10 +130,15 @@ public class ClientsAssessmentController {
             return "redirect:/admin/clients/" + clientId + "/assessment/" + pageId + "/edit";
         } else {
             Client client = clientService.findOne(clientId);
+            try{
             String filename = storageService.store(file, client.getClientId());
             photoService.save(client, pageService.findOne(pageId), title, filename);
             redirectAttributes.addFlashAttribute("successMessage", "Слика је успешно сачувана!");
             return "redirect:/admin/clients/" + clientId + "/assessment/" + pageId;
+            }catch (Exception e) {
+            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+        return "redirect:/admin/clients/" + clientId + "/assessment/" + pageId + "/edit";
+        }
         }
     }
 

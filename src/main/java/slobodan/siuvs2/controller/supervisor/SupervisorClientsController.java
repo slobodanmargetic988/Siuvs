@@ -152,6 +152,10 @@ public class SupervisorClientsController {
     public String view(@PathVariable final ClientId clientId, final Model model) {
         Client client = clientService.findOne(clientId);
         model.addAttribute("client", client);
+        PageId pageId;
+        pageId=new PageId(1);//using pageid=1 to store photos for client page
+        Page page = pageService.findOne(pageId);
+        model.addAttribute("photos", photoService.findByClientAndPage(client, page));
         return "supervisor/clientview";
     }
 

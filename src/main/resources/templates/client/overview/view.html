@@ -91,11 +91,9 @@
                                                             </th:block>
                                                             </div>
                                                             </div>
-                                                            <!-- 
-                                                            <div class="panel" ></div>
-                                                            <label   >Графичка репрезентација: Тек треба додати!! </label>
-                                                            <br><br/>    
-                                                            <!-- -->
+                                                             <th:block th:with="photoUrl=@{/client/overview/photo/}" >
+                <th:block th:insert="fragments/forms/photo :: view_photos_Client(${photoUrl})" />
+            </th:block>
 
                                                             </div>
                                                             </div>

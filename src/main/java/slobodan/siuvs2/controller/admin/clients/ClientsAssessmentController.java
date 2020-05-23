@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import slobodan.siuvs2.valueObject.PhotoId;
 
 @Scope(WebApplicationContext.SCOPE_REQUEST)
 @Controller
@@ -138,7 +139,7 @@ public class ClientsAssessmentController {
     @GetMapping(value = "/{clientId}/photo/{photoId}")
     public ResponseEntity<Resource> servePhoto(
             @PathVariable final ClientId clientId,
-            @PathVariable final OpstinaID photoId
+            @PathVariable final PhotoId photoId
     ) {
         String filename = photoService.findFileNameById(photoId);
         Resource file = storageService.loadAsResource(clientId, filename);
@@ -152,7 +153,7 @@ public class ClientsAssessmentController {
     public String deletePhoto(
             @PathVariable final ClientId clientId,
             @PathVariable final PageId pageId,
-            @PathVariable final OpstinaID photoId,
+            @PathVariable final PhotoId photoId,
             final RedirectAttributes redirectAttributes
     ) {
         Client client = clientService.findOne(clientId);

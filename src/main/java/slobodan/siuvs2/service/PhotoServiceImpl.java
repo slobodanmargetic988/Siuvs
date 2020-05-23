@@ -4,7 +4,7 @@ import slobodan.siuvs2.model.Client;
 import slobodan.siuvs2.model.Page;
 import slobodan.siuvs2.model.Photo;
 import slobodan.siuvs2.repository.PhotoRepository;
-import slobodan.siuvs2.valueObject.OpstinaID;
+import slobodan.siuvs2.valueObject.PhotoId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,14 +33,14 @@ public class PhotoServiceImpl implements PhotoService {
     }
 
     @Override
-    public String findFileNameById(OpstinaID photoId) {
+    public String findFileNameById(PhotoId photoId) {
         Photo photo = photoRepository.findOne(photoId.getValue());
         return photo.getFilename();
     }
 
     @Override
     @Transactional
-    public void delete(Client client, OpstinaID photoId) {
+    public void delete(Client client, PhotoId photoId) {
         Photo photo = photoRepository.findOne(photoId.getValue());
         if (photo.getClient().getId() == client.getId()) {
             photoRepository.deleteById(photoId.getValue());

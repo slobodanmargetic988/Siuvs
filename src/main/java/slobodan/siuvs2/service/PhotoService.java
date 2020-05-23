@@ -6,6 +6,7 @@ import slobodan.siuvs2.model.Photo;
 import slobodan.siuvs2.valueObject.OpstinaID;
 
 import java.util.List;
+import slobodan.siuvs2.valueObject.PhotoId;
 
 public interface PhotoService {
 
@@ -13,8 +14,8 @@ public interface PhotoService {
 
     List<Photo> findByClientAndPage(Client client, Page page);
 
-    String findFileNameById(OpstinaID photoId);
+    String findFileNameById(PhotoId photoId);
 
-    void delete(Client client, OpstinaID photoId);
+    void delete(Client client, PhotoId photoId);
 
 }

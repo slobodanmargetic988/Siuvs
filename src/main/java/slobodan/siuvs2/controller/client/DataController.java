@@ -45,6 +45,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
+import slobodan.siuvs2.valueObject.PhotoId;
 
 @Scope(WebApplicationContext.SCOPE_REQUEST)
 @Controller
@@ -174,7 +175,7 @@ public class DataController {
     @PostMapping(value = "/{pageId}/delete/{photoId}")
     public String deletePhoto(
             @PathVariable final PageId pageId,
-            @PathVariable final OpstinaID photoId,
+            @PathVariable final PhotoId photoId,
             final RedirectAttributes redirectAttributes
     ) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

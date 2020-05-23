@@ -59,6 +59,7 @@ import slobodan.siuvs2.shared.SiuvsException;
 import slobodan.siuvs2.valueObject.CustomTableDefinitionId;
 import slobodan.siuvs2.valueObject.OpstinaID;
 import slobodan.siuvs2.valueObject.PageId;
+import slobodan.siuvs2.valueObject.PhotoId;
 import slobodan.siuvs2.valueObject.TableDefinitionId;
 
 @Scope(WebApplicationContext.SCOPE_REQUEST)
@@ -413,7 +414,7 @@ return total;
     @GetMapping(value = "clients/{clientId}/photo/{photoId}")
     public ResponseEntity<Resource> servePhoto(
             @PathVariable final ClientId clientId,
-            @PathVariable final OpstinaID photoId
+            @PathVariable final PhotoId photoId
     ) {
         String filename = photoService.findFileNameById(photoId);
         Resource file = storageService.loadAsResource(clientId, filename);

@@ -47,6 +47,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.Map;
+import slobodan.siuvs2.valueObject.PhotoId;
 
 @Scope(WebApplicationContext.SCOPE_REQUEST)
 @Controller
@@ -173,7 +174,7 @@ public class ClientsDataController {
     public String deletePhoto(
             @PathVariable final ClientId clientId,
             @PathVariable final PageId pageId,
-            @PathVariable final OpstinaID photoId,
+            @PathVariable final PhotoId photoId,
             final RedirectAttributes redirectAttributes
     ) {
         Client client = clientService.findOne(clientId);

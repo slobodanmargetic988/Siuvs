@@ -28,6 +28,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import slobodan.siuvs2.valueObject.PhotoId;
 
 @Scope(WebApplicationContext.SCOPE_REQUEST)
 @Controller
@@ -146,7 +147,7 @@ public class AssessmentController {
     }
 
     @GetMapping(value = "/photo/{photoId}")
-    public ResponseEntity<Resource> servePhoto(@PathVariable final OpstinaID photoId) {
+    public ResponseEntity<Resource> servePhoto(@PathVariable final PhotoId photoId) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = ((SiuvsUserPrincipal) authentication.getPrincipal()).getUser();
         Client client = user.getClient();
@@ -161,7 +162,7 @@ public class AssessmentController {
     @PostMapping(value = "/assessment/{pageId}/delete/{photoId}")
     public String deletePhoto(
             @PathVariable final PageId pageId,
-            @PathVariable final OpstinaID photoId,
+            @PathVariable final PhotoId photoId,
             final RedirectAttributes redirectAttributes
     ) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

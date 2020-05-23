@@ -43,26 +43,48 @@
 
                                                 <label   >Надлежности и делокруг: </label> 
 
-                                                <th:block th:each="tasks : ${client.opstina.tasks}">
-                                                    <br><br/>  <span th:text="${tasks.name}"></span> 
+                                                <th:block th:each="task : ${client.opstina.tasks}">
+                                                    <br><br/>  
+                                                    <a sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')" th:href="@{/admin/clients/{id}/editNadleznost/{Nadleznostid} (id=${client.id},Nadleznostid=${task.id})}" class=" btn-xs btn-info btn-outline"><i class="fa fa-pencil fa-lg"></i></a>
+                                                    <a sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')" th:href="@{/admin/clients/{id}/newNadleznost (id=${client.id})}" class=" btn-xs btn-info btn-outline"><i class="fa fa-plus-square-o fa-lg"></i></a>
+                                                    <a sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')" onclick="return confirm('Да ли сте сигурни да желите да обришете ставку из надлежности и делокруга?');"  th:href="@{/admin/clients/{id}/deleteNadleznost/{Nadleznostid} (id=${client.id},Nadleznostid=${task.id})}" class=" btn-xs btn-danger btn-outline " ><i class="fa fa-trash fa-lg"></i></a>
+                                                    <span th:text="${task.name}"></span> 
 
                                                 </th:block>
-
+                                                <th:block th:if="${client.opstina.tasks.empty}">
+                                                    <br><br/>
+                                                    <a sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')" th:href="@{/admin/clients/{id}/newNadleznost (id=${client.id})}" class=" btn-xs btn-info btn-outline"><i class="fa fa-plus-square-o fa-lg"></i></a>                                                    
+                                                    <span>Листа је празна.</span> 
+                                                </th:block>
                                                 <br><br/>
 
                                                     <label  >Листа међународних докумената: </label>
                                                     <th:block th:each="internationalAgreements : ${client.opstina.internationalAgreements}">
                                                         <br><br/>
-                                                            <span  th:text="${internationalAgreements.name}"></span> 
-
+                                                        <a sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')" th:href="@{/admin/clients/{id}/editIA/{IAid} (id=${client.id},IAid=${internationalAgreements.id})}" class=" btn-xs btn-info btn-outline"><i class="fa fa-pencil fa-lg"></i></a>
+                                                        <a sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')" th:href="@{/admin/clients/{id}/newIA (id=${client.id})}" class=" btn-xs btn-info btn-outline"><i class="fa fa-plus-square-o fa-lg"></i></a>
+                                                        <a sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')" onclick="return confirm('Да ли сте сигурни да желите да обришете ставку из листе међународних докумената?');"  th:href="@{/admin/clients/{id}/deleteIA/{IAid} (id=${client.id},IAid=${internationalAgreements.id})}" class=" btn-xs btn-danger btn-outline " ><i class="fa fa-trash fa-lg"></i></a>
+                                                    <span  th:text="${internationalAgreements.name}"></span> 
                                                     </th:block>
-
+                                                        <th:block th:if="${client.opstina.internationalAgreements.empty}">
+                                                        <br><br/>
+                                                        <a sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')" th:href="@{/admin/clients/{id}/newIA (id=${client.id})}" class=" btn-xs btn-info btn-outline"><i class="fa fa-plus-square-o fa-lg"></i></a>                                                    
+                                                        <span>Листа је празна.</span> 
+                                                        </th:block>
                                                     <br><br/>
 
                                                         <label   >Листа јавних докумената: </label>
-                                                        <th:block th:each="publicPolicyDocuments : ${client.opstina.publicPolicyDocuments}">
-                                                            <br><br/> <span  th:text="${publicPolicyDocuments.name}"></span> 
-
+                                                        <th:block th:each="publicPolicyDocument : ${client.opstina.publicPolicyDocuments}">
+                                                            <br><br/> 
+                                                                <a sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')" th:href="@{/admin/clients/{id}/editPPD/{PPDid} (id=${client.id},PPDid=${publicPolicyDocument.id})}" class=" btn-xs btn-info btn-outline"><i class="fa fa-pencil fa-lg"></i></a>
+                                                                <a sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')" th:href="@{/admin/clients/{id}/newPPD (id=${client.id})}" class=" btn-xs btn-info btn-outline"><i class="fa fa-plus-square-o fa-lg"></i></a>
+                                                                <a sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')" onclick="return confirm('Да ли сте сигурни да желите да обришете ставку из листе јавних докумената?');"  th:href="@{/admin/clients/{id}/deletePPD/{PPDid} (id=${client.id},PPDid=${publicPolicyDocument.id})}" class=" btn-xs btn-danger btn-outline " ><i class="fa fa-trash fa-lg"></i></a>
+                                                                <span  th:text="${publicPolicyDocument.name}"></span> 
+                                                        </th:block>
+                                                        <th:block th:if="${client.opstina.publicPolicyDocuments.empty}">
+                                                        <br><br/>
+                                                        <a sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')" th:href="@{/admin/clients/{id}/newPPD (id=${client.id})}" class=" btn-xs btn-info btn-outline"><i class="fa fa-plus-square-o fa-lg"></i></a>                                                    
+                                                        <span>Листа је празна.</span> 
                                                         </th:block>
 
                                                         <br><br/>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+    <head>
+        <th:block th:include="fragments/head :: head" />
+    </head>
+    <body>
+
+        <th:block th:insert="fragments/navigation :: navigation-end-user" />
+
+        <!-- Content -->
+        <div class="px-content">
+
+            <div th:replace="fragments/page :: subtitle (icon='fa fa-institution', title='Корисници', subtitle='Нови')"></div>
+
+            <div th:replace="fragments/alert :: error (${errorMessage})"></div>
+
+            <!-- New client form -->
+            <div class="panel">
+                <div class="panel-heading">
+                    <span class="panel-title">Нови међународни документ</span>
+                </div>
+                <div class="panel-body">
+
+                    <form th:action="@{/client/overview/newIA}"  method="post" class="form-horizontal" autocomplete="off">
+                        <div class="form-group">
+                            <label class="col-md-3 control-label required">Назив документа:</label>
+                            <div th:class="${NameErrorMessage} ? 'col-md-3 has-error' : 'col-md-3'">
+                                <input type="text"   name="name" class="form-control">
+                                    <small class="form-message"  th:text="${NameErrorMessage}"></small>
+                            </div>
+                        </div>                      
+                        <div class="form-group">
+                            <div class="col-md-offset-3 col-md-9">
+                                <button type="submit" class="btn btn-primary">Додај документ</button>
+                               <a th:href="@{/client/overview}" class="btn">Одустани</a>
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+
+        </div>
+
+        <th:block th:insert="fragments/footer :: footer-standard" />
+
+        <th:block th:insert="fragments/scripts :: standard" />
+    </body>
+</html>

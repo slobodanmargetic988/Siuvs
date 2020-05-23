@@ -6,7 +6,7 @@
     </head>
     <body>
 
-        <th:block th:insert="fragments/navigation :: nav-admin-root" />
+        <th:block th:insert="fragments/navigation :: navigation-end-user" />
 
         <!-- Content -->
         <div class="px-content">
@@ -18,38 +18,22 @@
             <!-- New client form -->
             <div class="panel">
                 <div class="panel-heading">
-                    <span class="panel-title">Нови корисник</span>
+                    <span class="panel-title">Нова надлежност и делокруг</span>
                 </div>
                 <div class="panel-body">
 
-                    <form th:action="@{/admin/clients/new}" th:object="${newClient}" method="post" class="form-horizontal" autocomplete="off">
-
-
+                    <form th:action="@{/client/overview/newNadleznost}"  method="post" class="form-horizontal" autocomplete="off">
                         <div class="form-group">
                             <label class="col-md-3 control-label required">Назив:</label>
-
-
                             <div th:class="${NameErrorMessage} ? 'col-md-3 has-error' : 'col-md-3'">
                                 <input type="text"   name="name" class="form-control">
                                     <small class="form-message"  th:text="${NameErrorMessage}"></small>
                             </div>
-                        </div>
-                        <!-- select form for LSG -->
-                        <div class="form-group"  id="selectprovincecontainer" >
-                            <label class="col-md-3 control-label required">Lokalna samouprava:</label>
-                            <div th:classappend="${LSGErrorMessage} ? 'has-error' : ''" class="col-md-3">
-                                <select name="LSG" class="form-control">
-                                    <option value="0">Одабери локалну самоуправу</option>
-                                    <option th:each="opstina : ${listaopstina}" th:value="${opstina.id}" th:text="${opstina.name}"></option>
-                                </select>
-
-                                <small class="form-message" th:text="${LSGErrorMessage}"></small>
-                            </div>
-                        </div>
+                        </div>                        
                         <div class="form-group">
                             <div class="col-md-offset-3 col-md-9">
-                                <button type="submit" class="btn btn-primary">Додај корисника</button>
-                                <a th:href="@{/admin/clients}" class="btn">Одустани</a>
+                                <button type="submit" class="btn btn-primary">Додај</button>
+                               <a th:href="@{/client/overview}" class="btn">Одустани</a>
                             </div>
                         </div>
                     </form>

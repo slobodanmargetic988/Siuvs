@@ -43,6 +43,7 @@
                         <small class="form-message" th:text="${roleErrorMessage}"></small>
                     </div>
                 </div>
+                   <th:block th:if="${client == null}">
                 <div class="form-group" th:if="${client == null}">
                     <label class="col-md-3 control-label required">Ниво приступа</label>
                     <div th:classappend="${roleErrorMessage} ? 'has-error' : ''" class="col-md-9">
@@ -140,8 +141,9 @@
                             </div>
                         </div>
 
-                    </th:block>
+                    </th:block> 
                 </th:block>
+                        </th:block>
                 <div class="form-group">
                     <label class="col-md-3 control-label required">Активан</label>
                     <div th:class="${#fields.hasErrors('active')} ? 'col-md-9 has-error' : 'col-md-9'">

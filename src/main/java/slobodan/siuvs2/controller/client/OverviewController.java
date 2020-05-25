@@ -3,6 +3,13 @@
  */
 package slobodan.siuvs2.controller.client;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
+import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.core.io.Resource;
@@ -16,11 +23,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import slobodan.siuvs2.model.Client;
+import slobodan.siuvs2.model.Dokument;
 import slobodan.siuvs2.model.InternationalAgreements;
 import slobodan.siuvs2.model.Page;
 import slobodan.siuvs2.model.PublicPolicyDocuments;
@@ -28,6 +38,7 @@ import slobodan.siuvs2.model.SiuvsUserPrincipal;
 import slobodan.siuvs2.model.Tasks;
 import slobodan.siuvs2.model.User;
 import slobodan.siuvs2.service.ClientService;
+import slobodan.siuvs2.service.DokumentService;
 import slobodan.siuvs2.service.InternationalAgreementsFactory;
 import slobodan.siuvs2.service.InternationalAgreementsService;
 import slobodan.siuvs2.service.PageService;
@@ -38,6 +49,7 @@ import slobodan.siuvs2.service.StorageService;
 import slobodan.siuvs2.service.TasksFactory;
 import slobodan.siuvs2.service.TasksService;
 import slobodan.siuvs2.valueObject.ClientId;
+import slobodan.siuvs2.valueObject.DokumentID;
 import slobodan.siuvs2.valueObject.InternationalAgreementsID;
 import slobodan.siuvs2.valueObject.PageId;
 import slobodan.siuvs2.valueObject.PhotoId;
@@ -73,6 +85,8 @@ public class OverviewController {
     private PhotoService photoService;
     @Autowired
     private StorageService storageService;
+    @Autowired
+    private DokumentService dokumentService;
 
     @GetMapping(value = "/overview")
     public String list(final Model model) {
@@ -84,6 +98,19 @@ public class OverviewController {
         Page page = pageService.findOne(pageId);
         model.addAttribute("photos", photoService.findByClientAndPage(client, page));
         model.addAttribute("client", clientService.findOne(client.getClientId()));
+                 List<Dokument> dokumentlist= new ArrayList();
+         dokumentlist=dokumentService.findAllByClientId(client);
+         List<PublicPolicyDocuments> PPDlist= new ArrayList();
+         List<InternationalAgreements> IAlist= new ArrayList();
+       
+        for (Dokument i : dokumentlist) {
+        if (i.getIa()!=null){IAlist.add(i.getIa());}
+        else{PPDlist.add(i.getPpd());
+        }
+        }
+          model.addAttribute("docPPDlist", PPDlist);
+          model.addAttribute("docIAlist", IAlist);
+        
         return "client/overview/view";
     }
 
@@ -208,6 +235,8 @@ public class OverviewController {
         try{        
         client.getOpstina().getInternationalAgreements().remove(ia);
         clientService.save(client);
+        Dokument dokument=dokumentService.findByIa(ia);
+            dokumentService.delete(client, dokument.getId());
         IAService.delete(IAid);
         redirectAttributes.addFlashAttribute("successMessage", "Mеђународни документ успешно уклоњен!");
             } catch (Exception e) {
@@ -229,6 +258,8 @@ public class OverviewController {
         try{        
         client.getOpstina().getPublicPolicyDocuments().remove(PPD);
         clientService.save(client);
+        Dokument dokument=dokumentService.findByPpd(PPD);
+            dokumentService.delete(client, dokument.getId());
         PPDService.delete(PPDid);
         redirectAttributes.addFlashAttribute("successMessage", "Jавни документ успешно уклоњен!");
             } catch (Exception e) {
@@ -387,5 +418,177 @@ public class OverviewController {
                 .ok()
                 .contentType(MediaType.IMAGE_JPEG)
                 .body(file);
+    }
+    @GetMapping(value = "/overview/uploadDokumentIA/{IAid}")
+    public String uploadDokumentIA(
+            
+            @PathVariable final InternationalAgreementsID IAid,
+            final RedirectAttributes redirectAttributes,
+            final Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User currentUser = ((SiuvsUserPrincipal) authentication.getPrincipal()).getUser();       
+        Client client=clientService.findOne(currentUser.getClient().getClientId());
+        model.addAttribute("client", client);
+        InternationalAgreements IA = IAService.findOne(IAid);
+        model.addAttribute("IA", IA);
+        return "/client/overview/uploadDokumentIA";
+    }
+
+    @GetMapping(value = "/overview/uploadDokumentPPD/{PPDid}")
+    public String uploadDokumentPPD(
+            
+            @PathVariable final PublicPolicyDocumentsID PPDid,
+            final RedirectAttributes redirectAttributes,
+            final Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User currentUser = ((SiuvsUserPrincipal) authentication.getPrincipal()).getUser();       
+        Client client=clientService.findOne(currentUser.getClient().getClientId());
+        model.addAttribute("client", client);
+        PublicPolicyDocuments PPD = PPDService.findOne(PPDid);
+        model.addAttribute("PPD", PPD);
+        return "/client/overview/uploadDokumentPPD";
+    }
+
+    @PostMapping(value = "/overview/uploadDokumentIA/{IAid}")
+    public String uploadDokumentIA(
+           
+            @PathVariable final InternationalAgreementsID IAid,
+            @RequestParam("file") MultipartFile file,
+            @RequestParam("title") String title,
+            final RedirectAttributes redirectAttributes
+    ) {
+
+        if (title.isEmpty()) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Молимо Вас да унесете назив документа");
+            return "redirect:/client/overview/uploadDokumentIA/" + IAid;
+        } else {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User currentUser = ((SiuvsUserPrincipal) authentication.getPrincipal()).getUser();       
+        Client client=clientService.findOne(currentUser.getClient().getClientId());
+            InternationalAgreements ia = IAService.findOne(IAid);
+            try {
+                Dokument existing = dokumentService.findByIa(ia);
+                if (existing != null) {
+                    DokumentID dokumentId = new DokumentID(existing.getId());
+                    String filename = dokumentService.findFileNameById(dokumentId);
+                    dokumentService.delete(client, existing.getId());
+                    storageService.delete(client.getClientId(), filename);
+                }
+                String filename = storageService.storeDOC(file, client.getClientId());
+                dokumentService.save(client, ia, title, filename);
+
+                redirectAttributes.addFlashAttribute("successMessage", "Документ је успешно сачуван!");
+                return "redirect:/client/overview";
+            } catch (Exception e) {
+                redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+                return "redirect:/client/overview/edit";
+            }
+        }
+    }
+
+    @PostMapping(value = "/overview/uploadDokumentPPD/{PPDid}")
+    public String uploadDokumentPPD(
+          
+            @PathVariable final PublicPolicyDocumentsID PPDid,
+            @RequestParam("file") MultipartFile file,
+            @RequestParam("title") String title,
+            final RedirectAttributes redirectAttributes
+    ) {
+
+        if (title.isEmpty()) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Молимо Вас да унесете назив документа");
+            return "redirect:/client/overview/uploadDokumentPPD/" + PPDid;
+        } else {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User currentUser = ((SiuvsUserPrincipal) authentication.getPrincipal()).getUser();       
+        Client client=clientService.findOne(currentUser.getClient().getClientId());
+            PublicPolicyDocuments PPD = PPDService.findOne(PPDid);
+            try {
+                Dokument existing = dokumentService.findByPpd(PPD);
+                if (existing != null) {
+                    DokumentID dokumentId = new DokumentID(existing.getId());
+                    String filename = dokumentService.findFileNameById(dokumentId);
+                    dokumentService.delete(client, existing.getId());
+                    storageService.delete(client.getClientId(), filename);
+                }
+                String filename = storageService.storeDOC(file, client.getClientId());
+                dokumentService.save(client, PPD, title, filename);
+
+                redirectAttributes.addFlashAttribute("successMessage", "Документ је успешно сачуван!");
+                return "redirect:/client/overview/";
+            } catch (Exception e) {
+                redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+                return "redirect:/client/overview/edit";
+            }
+        }
+    }
+
+    @RequestMapping(value = "/overview/downloadPPD/{PPDid}", method = RequestMethod.GET, produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+    public StreamingResponseBody getSteamingFile(
+          
+            @PathVariable final PublicPolicyDocumentsID PPDid,
+            HttpServletResponse response,
+            final RedirectAttributes redirectAttributes
+    ) throws IOException {
+        try {
+        PublicPolicyDocuments PPD = PPDService.findOne(PPDid);
+        Dokument dokument = dokumentService.findByPpd(PPD);
+       /* if(dokument==null){
+        redirectAttributes.addFlashAttribute("errorMessage","Тражени документ није уплоадован");
+                return null;
+        }*/
+       Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User currentUser = ((SiuvsUserPrincipal) authentication.getPrincipal()).getUser();       
+        Client client=clientService.findOne(currentUser.getClient().getClientId());
+        DokumentID dokumentId = new DokumentID(dokument.getId());
+        String filename = dokumentService.findFileNameById(dokumentId);
+        response.setContentType("text/html;charset=UTF-8");
+        response.setHeader("Content-Disposition", "attachment; filename=\"" + dokument.getTitle() + filename.substring(filename.lastIndexOf(".")) + "\"");
+        InputStream inputStream = new FileInputStream(new File(storageService.load(client.getClientId(), filename).toString()));
+
+        return outputStream -> {
+            int nRead;
+            byte[] data = new byte[1024];
+            while ((nRead = inputStream.read(data, 0, data.length)) != -1) {
+                outputStream.write(data, 0, nRead);
+            }
+            inputStream.close();
+        };
+        } catch (Exception e) {
+                redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+                return null;
+            }
+    }
+        @RequestMapping(value = "/overview/downloadIA/{IAid}", method = RequestMethod.GET, produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+    public StreamingResponseBody getSteamingFile(
+          
+            @PathVariable final InternationalAgreementsID IAid,
+            HttpServletResponse response,
+            final RedirectAttributes redirectAttributes
+    ) throws IOException {
+        try {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User currentUser = ((SiuvsUserPrincipal) authentication.getPrincipal()).getUser();       
+        Client client=clientService.findOne(currentUser.getClient().getClientId());
+        InternationalAgreements IA = IAService.findOne(IAid);
+        Dokument dokument = dokumentService.findByIa(IA);
+        DokumentID dokumentId = new DokumentID(dokument.getId());
+        String filename = dokumentService.findFileNameById(dokumentId);
+        response.setContentType("text/html;charset=UTF-8");
+        response.setHeader("Content-Disposition", "attachment; filename=\"" + dokument.getTitle() + filename.substring(filename.lastIndexOf(".")) + "\"");
+        InputStream inputStream = new FileInputStream(new File(storageService.load(client.getClientId(), filename).toString()));
+
+        return outputStream -> {
+            int nRead;
+            byte[] data = new byte[1024];
+            while ((nRead = inputStream.read(data, 0, data.length)) != -1) {
+                outputStream.write(data, 0, nRead);
+            }
+            inputStream.close();
+        };
+        } catch (Exception e) {
+                redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+                return null;
+            }
     }
 }

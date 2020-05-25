@@ -12,11 +12,8 @@
         <!-- Content -->
         <div class="px-content">
 
-            <div class="page-header">
-                <h1>
-                    <th:block th:insert="fragments/navigation :: nav-breadcrumbs-client(${client}, true)" />
-                </h1>
-            </div>
+           <div th:replace="fragments/page :: subtitle (icon='fa fa-institution', title='Графичка репрезентација', subtitle='Измена')"></div>
+           
             <th:block th:with="deleteActionUrl=@{/client/overview/deletePhoto/}">
                 <th:block th:with="uploadActionUrl=@{/client/overview/uploadPhoto/}">
                     <th:block th:insert="fragments/forms/photo :: edit_photo_LSG(${deleteActionUrl}, ${uploadActionUrl})" />

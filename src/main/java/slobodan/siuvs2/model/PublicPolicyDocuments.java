@@ -6,7 +6,10 @@
 package slobodan.siuvs2.model;
 
 import javax.persistence.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import slobodan.siuvs2.repository.DokumentRepository;
+import slobodan.siuvs2.service.DokumentService;
 
 /**
  *
@@ -16,6 +19,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @Table(name = "public_policy_documents")
 @EntityListeners(AuditingEntityListener.class)
 public class PublicPolicyDocuments {
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -40,5 +44,9 @@ public class PublicPolicyDocuments {
     public void setName(String name) {
         this.name = name;
     }
+
+    
+    
+    
 
 }

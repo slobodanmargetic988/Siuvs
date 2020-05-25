@@ -1,9 +1,14 @@
 package slobodan.siuvs2.controller.supervisor;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.servlet.http.HttpServletResponse;
 import slobodan.siuvs2.model.Client;
 import slobodan.siuvs2.service.ClientService;
 import slobodan.siuvs2.service.UserService;
@@ -21,10 +26,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import slobodan.siuvs2.facade.TableFacade;
 import slobodan.siuvs2.model.Assessment;
 import slobodan.siuvs2.model.Distrikt;
+import slobodan.siuvs2.model.Dokument;
+import slobodan.siuvs2.model.InternationalAgreements;
 import slobodan.siuvs2.model.Mera;
 import slobodan.siuvs2.model.Opstina;
 import slobodan.siuvs2.model.Page;
@@ -32,6 +40,7 @@ import slobodan.siuvs2.model.Plan;
 import slobodan.siuvs2.model.PodRezultat;
 import slobodan.siuvs2.model.PosebanCilj;
 import slobodan.siuvs2.model.Provincija;
+import slobodan.siuvs2.model.PublicPolicyDocuments;
 import slobodan.siuvs2.model.Rezultat;
 import slobodan.siuvs2.model.Roles;
 import slobodan.siuvs2.model.SiuvsUserPrincipal;
@@ -40,16 +49,19 @@ import slobodan.siuvs2.model.User;
 import slobodan.siuvs2.service.AssessmentFactory;
 import slobodan.siuvs2.service.AssessmentService;
 import slobodan.siuvs2.service.CustomTableDefinitionService;
+import slobodan.siuvs2.service.DokumentService;
 import slobodan.siuvs2.service.DynamicGroupRowFactory;
 import slobodan.siuvs2.service.DynamicGroupRowService;
 import slobodan.siuvs2.service.DynamicRowFactory;
 import slobodan.siuvs2.service.DynamicRowService;
 import slobodan.siuvs2.service.DynamicTableService;
+import slobodan.siuvs2.service.InternationalAgreementsService;
 import slobodan.siuvs2.service.OpstinaService;
 import slobodan.siuvs2.service.PageService;
 import slobodan.siuvs2.service.PhotoService;
 import slobodan.siuvs2.service.PlanService;
 import slobodan.siuvs2.service.PosebanCiljService;
+import slobodan.siuvs2.service.PublicPolicyDocumentsService;
 import slobodan.siuvs2.service.StorageService;
 import slobodan.siuvs2.service.TableColumnFactory;
 import slobodan.siuvs2.service.TableColumnService;
@@ -57,9 +69,12 @@ import slobodan.siuvs2.service.TableDefinitionService;
 import slobodan.siuvs2.shared.AssesmentHelper1;
 import slobodan.siuvs2.shared.SiuvsException;
 import slobodan.siuvs2.valueObject.CustomTableDefinitionId;
+import slobodan.siuvs2.valueObject.DokumentID;
+import slobodan.siuvs2.valueObject.InternationalAgreementsID;
 import slobodan.siuvs2.valueObject.OpstinaID;
 import slobodan.siuvs2.valueObject.PageId;
 import slobodan.siuvs2.valueObject.PhotoId;
+import slobodan.siuvs2.valueObject.PublicPolicyDocumentsID;
 import slobodan.siuvs2.valueObject.TableDefinitionId;
 
 @Scope(WebApplicationContext.SCOPE_REQUEST)
@@ -103,6 +118,12 @@ public class SupervisorClientsController {
     private PlanService planService;
     @Autowired
     private PosebanCiljService posebanCiljService;
+     @Autowired
+    private DokumentService dokumentService;
+      @Autowired
+    private PublicPolicyDocumentsService PPDService;
+    @Autowired
+    private InternationalAgreementsService IAService;
 
     public List<Mera> makeMeraList(Plan plan) {
         List<Mera> meralist = new ArrayList();
@@ -145,6 +166,7 @@ public class SupervisorClientsController {
                 model.addAttribute("clients", clientService.findAllOrderByActiveDescNameAsc(pageable));
             }
         }
+
         return "supervisor/clients";
     }
 
@@ -156,6 +178,18 @@ public class SupervisorClientsController {
         pageId=new PageId(1);//using pageid=1 to store photos for client page
         Page page = pageService.findOne(pageId);
         model.addAttribute("photos", photoService.findByClientAndPage(client, page));
+         List<Dokument> dokumentlist= new ArrayList();
+         dokumentlist=dokumentService.findAllByClientId(client);
+         List<PublicPolicyDocuments> PPDlist= new ArrayList();
+         List<InternationalAgreements> IAlist= new ArrayList();
+      
+        for (Dokument i : dokumentlist) {
+        if (i.getIa()!=null){IAlist.add(i.getIa());}
+        else{PPDlist.add(i.getPpd());
+        }
+        }
+          model.addAttribute("docPPDlist", PPDlist);
+          model.addAttribute("docIAlist", IAlist);
         return "supervisor/clientview";
     }
 
@@ -426,5 +460,67 @@ return total;
                 .ok()
                 .contentType(MediaType.IMAGE_JPEG)
                 .body(file);
+    }
+    @RequestMapping(value = "/clients/{clientId}/downloadPPD/{PPDid}", method = RequestMethod.GET, produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+    public StreamingResponseBody getSteamingFile(
+            @PathVariable final ClientId clientId,
+            @PathVariable final PublicPolicyDocumentsID PPDid,
+            HttpServletResponse response,
+            final RedirectAttributes redirectAttributes
+    ) throws IOException {
+        try {
+        PublicPolicyDocuments PPD = PPDService.findOne(PPDid);
+        Dokument dokument = dokumentService.findByPpd(PPD);
+       /* if(dokument==null){
+        redirectAttributes.addFlashAttribute("errorMessage","Тражени документ није уплоадован");
+                return null;
+        }*/
+        DokumentID dokumentId = new DokumentID(dokument.getId());
+        String filename = dokumentService.findFileNameById(dokumentId);
+        response.setContentType("text/html;charset=UTF-8");
+        response.setHeader("Content-Disposition", "attachment; filename=\"" + dokument.getTitle() + filename.substring(filename.lastIndexOf(".")) + "\"");
+        InputStream inputStream = new FileInputStream(new File(storageService.load(clientId, filename).toString()));
+
+        return outputStream -> {
+            int nRead;
+            byte[] data = new byte[1024];
+            while ((nRead = inputStream.read(data, 0, data.length)) != -1) {
+                outputStream.write(data, 0, nRead);
+            }
+            inputStream.close();
+        };
+        } catch (Exception e) {
+                redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+                return null;
+            }
+    }
+        @RequestMapping(value = "/clients/{clientId}/downloadIA/{IAid}", method = RequestMethod.GET, produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+    public StreamingResponseBody getSteamingFile(
+            @PathVariable final ClientId clientId,
+            @PathVariable final InternationalAgreementsID IAid,
+            HttpServletResponse response,
+            final RedirectAttributes redirectAttributes
+    ) throws IOException {
+        try {
+        InternationalAgreements IA = IAService.findOne(IAid);
+        Dokument dokument = dokumentService.findByIa(IA);
+        DokumentID dokumentId = new DokumentID(dokument.getId());
+        String filename = dokumentService.findFileNameById(dokumentId);
+        response.setContentType("text/html;charset=UTF-8");
+        response.setHeader("Content-Disposition", "attachment; filename=\"" + dokument.getTitle() + filename.substring(filename.lastIndexOf(".")) + "\"");
+        InputStream inputStream = new FileInputStream(new File(storageService.load(clientId, filename).toString()));
+
+        return outputStream -> {
+            int nRead;
+            byte[] data = new byte[1024];
+            while ((nRead = inputStream.read(data, 0, data.length)) != -1) {
+                outputStream.write(data, 0, nRead);
+            }
+            inputStream.close();
+        };
+        } catch (Exception e) {
+                redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+                return null;
+            }
     }
 }

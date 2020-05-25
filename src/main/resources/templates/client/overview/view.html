@@ -65,6 +65,11 @@
                                                         <a sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')" th:href="@{/client/overview/newIA }" class=" btn-xs btn-info btn-outline"><i class="fa fa-plus-square-o fa-lg"></i></a>
                                                         <a sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')" onclick="return confirm('Да ли сте сигурни да желите да обришете ставку из листе међународних докумената?');"  th:href="@{/client/overview/deleteIA/{IAid} (IAid=${internationalAgreements.id})}" class=" btn-xs btn-danger btn-outline " ><i class="fa fa-trash fa-lg"></i></a>
                                                     <span  th:text="${internationalAgreements.name}"></span> 
+                                                    <a sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')" th:href="@{/client/overview/uploadDokumentIA/{IAid} (IAid=${internationalAgreements.id})}" class=" btn-xs btn-info btn-outline"><i class="fa fa-upload"></i></a>
+                                                            <th:block th:if="${docIAlist.contains(internationalAgreements) }">
+                                                            <a  th:href="@{/client/overview/downloadIA/{IAid} (IAid=${internationalAgreements.id})}" class=" btn-xs btn-info btn-outline"><i class="fa fa-download"></i></a>
+                                                    </th:block>
+                                                             </th:block>
                                                     </th:block>
                                                         <th:block th:if="${client.opstina.internationalAgreements.empty}">
                                                         <br><br/>
@@ -80,6 +85,10 @@
                                                                 <a sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')" th:href="@{/client/overview/newPPD}" class=" btn-xs btn-info btn-outline"><i class="fa fa-plus-square-o fa-lg"></i></a>
                                                                 <a sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')" onclick="return confirm('Да ли сте сигурни да желите да обришете ставку из листе јавних докумената?');"  th:href="@{/client/overview/deletePPD/{PPDid} (PPDid=${publicPolicyDocument.id})}" class=" btn-xs btn-danger btn-outline " ><i class="fa fa-trash fa-lg"></i></a>
                                                                 <span  th:text="${publicPolicyDocument.name}"></span> 
+                                                                <a sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')" th:href="@{/client/overview/uploadDokumentPPD/{PPDid} (PPDid=${publicPolicyDocument.id})}" class=" btn-xs btn-info btn-outline"><i class="fa fa-upload"></i></a>
+                                                                <th:block th:if="${docPPDlist.contains(publicPolicyDocument) }">
+                                                                <a  th:href="@{/client/overview/downloadPPD/{PPDid} (PPDid=${publicPolicyDocument.id})}" target="_blank" class=" btn-xs btn-info btn-outline"><i class="fa fa-download"></i></a>
+                                                                </th:block>
                                                         </th:block>
                                                         <th:block th:if="${client.opstina.publicPolicyDocuments.empty}">
                                                         <br><br/>

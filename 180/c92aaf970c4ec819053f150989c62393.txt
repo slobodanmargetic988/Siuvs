@@ -1,0 +1,18 @@
+1 slovna greska duznost utimu da se ubaci u projekat
+2 mobile adaptacija
+3 sms notifikacije
+4 prognoza
+5 desktop ofline/online
+6 kontakt forma
+7 faq
+8 mape
+9 search
+10 print samo tabele
+11 sertifikat obnova
+12 setup git celog projekta
+13 email bugs and errors
+14 restart servera
+15 database backup.
+
+
+imam kod searcha situaciju kada mi 

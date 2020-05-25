@@ -52,7 +52,9 @@
                                                 <th:block th:each="internationalAgreements : ${client.opstina.internationalAgreements}">
                                                     <br><br/>
                                                         <span  th:text="${internationalAgreements.name}"></span> 
-
+                                                        <th:block th:if="${docIAlist.contains(internationalAgreements) }">
+                                                            <a  th:href="@{/supervisor/clients/{id}/downloadIA/{IAid} (id=${client.id},IAid=${internationalAgreements.id})}" class=" btn-xs btn-info btn-outline"><i class="fa fa-download"></i></a>
+                                                    </th:block>
                                                 </th:block>
 
                                                 <br><br/>
@@ -60,7 +62,9 @@
                                                     <label   >Листа јавних докумената: </label>
                                                     <th:block th:each="publicPolicyDocuments : ${client.opstina.publicPolicyDocuments}">
                                                         <br><br/> <span  th:text="${publicPolicyDocuments.name}"></span> 
-
+                                                               <th:block th:if="${docPPDlist.contains(publicPolicyDocuments) }">
+                                                                <a  th:href="@{/supervisor/clients/{id}/downloadPPD/{PPDid} (id=${client.id},PPDid=${publicPolicyDocuments.id})}" target="_blank" class=" btn-xs btn-info btn-outline"><i class="fa fa-download"></i></a>
+                                                                </th:block>
                                                     </th:block>
 
                                                     <br><br/>

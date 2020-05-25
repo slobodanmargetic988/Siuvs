@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+    <head>
+        <th:block th:include="fragments/head :: head" />
+    </head>
+    <body>
+
+        <!-- Nav -->
+         <th:block th:insert="fragments/navigation :: navigation-end-user" />
+
+        <!-- Content -->
+        <div class="px-content">
+
+          <div th:replace="fragments/page :: subtitle (icon='fa fa-institution', title='Међународни документи', subtitle='Уплоад')"></div>
+
+
+            <div th:replace="fragments/alert :: success (${successMessage})"></div>
+
+            <!-- Client details panel -->
+            
+               
+                <div class="panel">
+                <div class="panel-heading">
+                    <span class="panel-title">Додај документ</span>
+                </div>
+                <div class="panel-body">
+
+                    <form method="post" enctype="multipart/form-data" th:action="@{/client/overview/uploadDokumentIA/{IAId} (IAId=${IA.id})}"  class="form-horizontal">
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">Назив документа</label>
+                            <div class="col-md-9">
+                                <input type="text" name="title" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">( макс. величина 20 MB)</label>
+                            <div class="col-md-9">
+                                <input type="file" name="file">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-offset-3 col-md-9">
+                                <button type="submit" class="btn btn-primary">Додај документ</button>
+                                <a th:href="@{/client/overview}" class="btn">Одустани</a>
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+
+            
+        </div>
+
+        </div>
+        <th:block th:insert="fragments/footer :: footer-standard" />
+        <th:block th:insert="fragments/scripts :: standard" />
+    </body>
+</html>

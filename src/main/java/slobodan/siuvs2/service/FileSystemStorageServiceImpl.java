@@ -1,6 +1,7 @@
 package slobodan.siuvs2.service;
 
 import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
@@ -12,6 +13,7 @@ import java.nio.file.StandardCopyOption;
 
 import slobodan.siuvs2.valueObject.ClientId;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
@@ -52,6 +54,31 @@ public class FileSystemStorageServiceImpl implements StorageService {
         }
         return filename;
     }
+    @Override
+    public String storeDOC(MultipartFile file, ClientId clientId) throws StorageException {
+        init(clientId);
+        String originalfilename=file.getOriginalFilename();
+        String filename = originalfilename + " " + clientId.toString() + " " + System.currentTimeMillis();
+        InputStream stream = new ByteArrayInputStream(filename.getBytes(StandardCharsets.UTF_8));
+        try {
+            filename = DigestUtils.md5DigestAsHex(stream) +originalfilename.substring(originalfilename.lastIndexOf(".") );
+            
+        } catch (IOException e) {
+            throw new StorageException("Неуспешно процесирање имена фајла");
+        }
+        try {
+            if (file.isEmpty()) {
+                throw new StorageException("Фајл је празан");
+            }
+
+            try (InputStream inputStream = file.getInputStream()) {
+                Files.copy(inputStream, this.rootLocation.resolve(filename), StandardCopyOption.REPLACE_EXISTING);
+            }
+        } catch (IOException e) {
+            throw new StorageException("Неуспешно снимање фајла", e);
+        }
+        return filename;
+    }
 
     @Override
     public Path load(ClientId clientId, String filename) {
@@ -75,6 +102,23 @@ public class FileSystemStorageServiceImpl implements StorageService {
             throw new StorageFileNotFoundException("Could not read file: " + filename, e);
         }
     }
+        @Override
+    public FileSystemResource loadAsFSResource(ClientId clientId, String filename) {
+        try {
+            Path file = load(clientId, filename);
+            FileSystemResource fSResource = new FileSystemResource( new File(file.toUri()));
+            if (fSResource.exists() || fSResource.isReadable()) {
+                return fSResource;
+            } else {
+                throw new StorageFileNotFoundException(
+                        "Could not read file: " + filename);
+
+            }
+        } catch (Exception e) {
+            throw new StorageFileNotFoundException("Could not read file: " + filename, e);
+        }
+    }
+
 
     @Override
     public void delete(ClientId clientId, String filename) {

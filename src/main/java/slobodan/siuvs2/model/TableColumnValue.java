@@ -17,9 +17,20 @@ public class TableColumnValue {
 
     @Column(name = "value")
     private String value;
+    
+    @Column(name = "order")
+    private int order;
 
     public int getId() {
         return id;
+    }
+
+    public int getOrder() {
+        return order;
+    }
+
+    public void setOrder(int order) {
+        this.order = order;
     }
 
     public TableColumn getColumn() {

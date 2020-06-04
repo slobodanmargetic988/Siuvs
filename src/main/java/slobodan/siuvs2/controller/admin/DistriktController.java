@@ -114,5 +114,10 @@ public class DistriktController {
         }
         return "redirect:/admin/distrikt";
     }
-
+    @GetMapping(value = "/codebooks")
+    public String codebooks (final Model model
+           ) {
+      
+        return "admin/codebook/codebooks";
+    }
 }

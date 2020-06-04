@@ -118,14 +118,19 @@
                             <th:block th:case="'AUTOSUM'" />
                             <th:block th:case="'ENUM'">
                                 <div class="form-group">
-                                    <label th:if="${field.column.title} != null and ${field.column.row2} == null and ${field.column.row3} == null and ${field.column.row4} == null" class="col-md-3 control-label" th:utext="${field.column.title}"></label>
+                                    <div class="col-md-3">
+                                         <a style="float:right"  th:href="${actionUrl+'/addOption/'+field.column.id}" class=" btn-xs btn-info btn-outline"><i class="fa fa-plus-square-o fa-lg"></i></a>
+                                    <label style="float:right"th:if="${field.column.title} != null and ${field.column.row2} == null and ${field.column.row3} == null and ${field.column.row4} == null" class="col-md-3 control-label" th:utext="${field.column.title}"></label>
                                     <label th:if="${field.column.row2} != null and ${field.column.row3} == null and ${field.column.row4} == null" class="col-md-3 control-label" th:utext="${field.column.row2}"></label>
                                     <label th:if="${field.column.row3} != null and ${field.column.row4} == null" class="col-md-3 control-label" th:utext="${field.column.row3}"></label>
                                     <label th:if="${field.column.row4} != null" class="col-md-3 control-label" th:utext="${field.column.row4}"></label>
+                                    
+                                     </div>
                                     <div class="col-md-9">
                                         <select th:field="*{data[__${field.order}__].value}" class="form-control">
                                             <th:block th:each="option : ${field.column.values}">
                                                 <option th:value="${option.id}" th:text="${option.value}"></option>
+                                                
                                             </th:block>
                                         </select>
                                     </div>

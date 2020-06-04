@@ -28,13 +28,19 @@
                 <div class="table-responsive">
                     <table class="table table-striped valign-middle">
                         <tbody>
-                            <tr th:each="tableDefinition: ${tableDefinitions}">
-                                <td><a th:href="@{/admin/clients/{clientId}/{pageId}/{tableDefinitionId}(clientId=${client.id},pageId=${page.id},tableDefinitionId=${tableDefinition.id})}" th:text="${tableDefinition.title}"></a></td>
+                            <tr th:each="tableDefinition,iterator: ${tableDefinitions}">
+                                <td>  <span th:text="${iterator.index}+1 +'. '"></span><a th:href="@{/admin/clients/{clientId}/{pageId}/{tableDefinitionId}(clientId=${client.id},pageId=${page.id},tableDefinitionId=${tableDefinition.id})}" th:text="${tableDefinition.title}"></a></td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
+            <!--   <div class="form-group" th:each="field,iterator : ${newGroup.data}">
+                    <label class="col-md-3 control-label required" th:text="${field.column.title}"></label>
+                    <div class="col-md-9">
+                        <input type="text" th:field="*{data[__${iterator.index}__].value}" class="form-control">
+                    </div>
+                </div>-->
 
             <th:block th:with="photoUrl=@{/admin/clients/{clientId}/photo/(clientId=${client.id})}">
                 <th:block th:insert="fragments/forms/photo :: view_photos(${photoUrl})" />

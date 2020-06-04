@@ -47,6 +47,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.Map;
+import slobodan.siuvs2.model.TableColumnValue;
+import slobodan.siuvs2.service.TableColumnValueService;
 import slobodan.siuvs2.valueObject.PhotoId;
 
 @Scope(WebApplicationContext.SCOPE_REQUEST)
@@ -80,6 +82,8 @@ public class ClientsDataController {
     private PhotoService photoService;
     @Autowired
     private StorageService storageService;
+    @Autowired
+    private TableColumnValueService tableColumnValueService;
 
     private Map<Integer, TableFacade> tableFacadeCache = new HashMap<>();
 
@@ -212,7 +216,62 @@ public class ClientsDataController {
             return "redirect:/admin/clients/" + clientId + "/" + pageId;
         }
     }
-
+    @GetMapping(value = "/{clientId}/{pageId}/{tableDefinitionId}/addOption/{tableColumnId}")
+    public String addTableOption(
+            @PathVariable final ClientId clientId,
+            @PathVariable final PageId pageId,
+            @PathVariable final TableDefinitionId tableDefinitionId,
+            @PathVariable final TableColumnId tableColumnId,
+            final Model model,
+            final RedirectAttributes redirectAttributes
+    ) {
+        Client client = clientService.findOne(clientId);
+        Page page = pageService.findOne(pageId);
+        model.addAttribute("client", client);
+        model.addAttribute("page", page);   
+        model.addAttribute("tableDefinitionId", tableDefinitionId);
+        model.addAttribute("backUrl","/admin/clients/"+clientId+"/"+pageId+"/"+tableDefinitionId);
+        TableColumn tableColumn = tableColumnService.findOne(tableColumnId);
+        try {
+           model.addAttribute("tableColumn", tableColumn);
+                return "admin/clients/data/tableAddOption";        
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+            return "redirect:/admin/clients/" + clientId + "/" + pageId+"/"+tableDefinitionId;
+        }
+    }
+        @PostMapping(value = "/{clientId}/{pageId}/{tableDefinitionId}/{tableColumnId}/saveNewOption")
+    public String saveTableOption(
+            @PathVariable final ClientId clientId,
+            @PathVariable final PageId pageId,
+            @PathVariable final TableDefinitionId tableDefinitionId,
+            @PathVariable final TableColumnId tableColumnId,
+            @RequestParam(name = "vrednost") String vrednost,
+            final Model model,
+            final RedirectAttributes redirectAttributes
+    ) {
+        Client client = clientService.findOne(clientId);
+        Page page = pageService.findOne(pageId);
+        model.addAttribute("client", client);
+        model.addAttribute("page", page);   
+        model.addAttribute("tableDefinitionId", tableDefinitionId);
+        model.addAttribute("backUrl","/admin/clients/"+clientId+"/"+pageId+"/"+tableDefinitionId);
+        
+        TableColumn tableColumn = tableColumnService.findOne(tableColumnId);
+        TableColumnValue newColumnValue= new TableColumnValue();
+        newColumnValue.setColumn(tableColumn);
+        newColumnValue.setValue(vrednost);
+        
+        newColumnValue.setOrder(tableColumnValueService.countByColumn(tableColumn)+1);
+        try {
+        tableColumnValueService.add(newColumnValue);
+                return "redirect:/admin/clients/" + clientId + "/" + pageId+"/"+tableDefinitionId;       
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+            return "redirect:/admin/clients/" + clientId + "/" + pageId+"/"+tableDefinitionId;
+        }
+    }
+    
     @PostMapping(value = "/{clientId}/{pageId}/{tableDefinitionId}")
     public String addRow(
             @PathVariable final ClientId clientId,
@@ -577,5 +636,6 @@ public class ClientsDataController {
         }
         return "redirect:/admin/clients/" + clientId + "/" + pageId + "/" + tableDefinitionId + "/" + customTableDefinitionId;
     }
+    
 
 }

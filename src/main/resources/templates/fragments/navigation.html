@@ -70,6 +70,9 @@
                     <li class="px-nav-item" sec:authorize="hasAnyAuthority('ADMIN','RIS')">
                         <a th:href="@{/admin/province}"><i class="fa fa-users m-r-1"></i>Аутономне покрајине</a>
                     </li>
+                    <li class="px-nav-item" sec:authorize="hasAnyAuthority('ADMIN')">
+                        <a th:href="@{/admin/codebooks}"><i class="fa fa-users m-r-1"></i>Codebooks</a>
+                    </li>
                 </ul>
             </nav>
         </th:block>
@@ -189,6 +192,13 @@
                 </th:block>
                 <th:block th:case="CEOPLAN">
                     <a th:href="@{{baseMenuUrl}/plan/ceo/{pageId}(baseMenuUrl=${baseMenuUrl},pageId=${menuItem.id})}"><span th:text="${menuItem.title}" class="px-nav-label"></span></a>
+                </th:block>
+                            
+                <th:block th:case="SINGLETABLE">
+                    <a th:href="@{{baseMenuUrl}/table/{pageId}/single (baseMenuUrl=${baseMenuUrl},pageId=${menuItem.id})}"><span th:text="${menuItem.title}" class="px-nav-label"></span></a>
+                </th:block>
+                <th:block th:case="COMPLEXTABLE">
+                    <a th:href="@{{baseMenuUrl}/table/{pageId}(baseMenuUrl=${baseMenuUrl},pageId=${menuItem.id})}"><span th:text="${menuItem.title}" class="px-nav-label"></span></a>
                 </th:block>
             </th:block>
 
@@ -402,6 +412,13 @@
                               ${isDark})"
                               />
                 </th:block>
+                 <th:block th:case="SINGLETABLE">
+                    <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-link(
+                              ${page.title},
+                              @{{baseMenuUrl}/{pageId}(baseMenuUrl=${baseMenuUrl},pageId=${page.id})},
+                              ${isDark})"
+                              />
+                </th:block>
 
                 <!-- Ovde dodajemo podrsku za planove-->
                 <th:block th:case="PLAN">
@@ -419,6 +436,13 @@
                               />
                 </th:block>
                 <th:block th:case="OPSTIPLAN">
+                    <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-link(
+                              ${page.title},
+                              @{{baseMenuUrl}/plan/opstideo/{pageId}(baseMenuUrl=${baseMenuUrl},pageId=${page.id})},
+                              ${isDark})"
+                              />
+                </th:block>
+                                   <th:block th:case="COMPLEXTABLE">
                     <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-link(
                               ${page.title},
                               @{{baseMenuUrl}/plan/opstideo/{pageId}(baseMenuUrl=${baseMenuUrl},pageId=${page.id})},

@@ -119,17 +119,19 @@ public class OverviewController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User currentUser = ((SiuvsUserPrincipal) authentication.getPrincipal()).getUser();       
         Client client=clientService.findOne(currentUser.getClient().getClientId());
+             model.addAttribute("client", clientService.findOne(client.getClientId()));
         PageId pageId;
         pageId=new PageId(1);//using pageid=1 to store photos for client page
         Page page = pageService.findOne(pageId);
         model.addAttribute("photos", photoService.findByClientAndPage(client, page));
-        model.addAttribute("client", clientService.findOne(client.getClientId()));
+
         return "client/overview/editPhoto";
     }
 
     @GetMapping(value = "/overview/newNadleznost")
     public String newNadleznost( final Model model) {
         return "/client/overview/newNadleznost";
+        //dd
     }
     @GetMapping(value = "/overview/newIA")
     public String newIA( final Model model) {

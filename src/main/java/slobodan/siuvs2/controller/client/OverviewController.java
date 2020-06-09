@@ -130,18 +130,18 @@ public class OverviewController {
 
     @GetMapping(value = "/overview/newNadleznost")
     public String newNadleznost( final Model model) {
-        return "/client/overview/newNadleznost";
-        //dd
+        return "client/overview/newNadleznost";
+        
     }
     @GetMapping(value = "/overview/newIA")
     public String newIA( final Model model) {
         
-        return "/client/overview/newIA";
+        return "client/overview/newIA";
     }
     @GetMapping(value = "/overview/newPPD")
     public String newPPD( final Model model) {
        
-        return "/client/overview/newPPD";
+        return "client/overview/newPPD";
     }
     
     @PostMapping(value = "/overview/newNadleznost")
@@ -279,7 +279,7 @@ public class OverviewController {
             final Model model) {
         Tasks task=tasksService.findOne(Nadleznostid);
         model.addAttribute("task", task);
-        return "/client/overview/editNadleznost";
+        return "client/overview/editNadleznost";
     }
     
         @GetMapping(value = "/overview/editIA/{IAid}")
@@ -289,7 +289,7 @@ public class OverviewController {
             final Model model) {
         InternationalAgreements IA = IAService.findOne(IAid);
         model.addAttribute("IA", IA);
-        return "/client/overview/editIA";
+        return "client/overview/editIA";
     }
     @GetMapping(value = "/overview/editPPD/{PPDid}")
     public String editPPD(
@@ -298,7 +298,7 @@ public class OverviewController {
             final Model model) {
         PublicPolicyDocuments PPD=PPDService.findOne(PPDid);
         model.addAttribute("PPD", PPD);
-        return "/client/overview/editPPD";
+        return "client/overview/editPPD";
     }
     @PostMapping(value = "/overview/editNadleznost/{Nadleznostid}")
     public String saveEditNadleznost(
@@ -433,7 +433,7 @@ public class OverviewController {
         model.addAttribute("client", client);
         InternationalAgreements IA = IAService.findOne(IAid);
         model.addAttribute("IA", IA);
-        return "/client/overview/uploadDokumentIA";
+        return "client/overview/uploadDokumentIA";
     }
 
     @GetMapping(value = "/overview/uploadDokumentPPD/{PPDid}")
@@ -448,7 +448,7 @@ public class OverviewController {
         model.addAttribute("client", client);
         PublicPolicyDocuments PPD = PPDService.findOne(PPDid);
         model.addAttribute("PPD", PPD);
-        return "/client/overview/uploadDokumentPPD";
+        return "client/overview/uploadDokumentPPD";
     }
 
     @PostMapping(value = "/overview/uploadDokumentIA/{IAid}")

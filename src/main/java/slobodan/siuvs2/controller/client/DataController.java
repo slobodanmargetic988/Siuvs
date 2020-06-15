@@ -45,6 +45,9 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
+import slobodan.siuvs2.model.TableColumnValue;
+import slobodan.siuvs2.service.TableColumnValueService;
+import slobodan.siuvs2.valueObject.ClientId;
 import slobodan.siuvs2.valueObject.PhotoId;
 
 @Scope(WebApplicationContext.SCOPE_REQUEST)
@@ -54,6 +57,8 @@ public class DataController {
 
     @Autowired
     private DynamicTableService dynamicTableService;
+    @Autowired
+    private TableColumnValueService tableColumnValueService;
     @Autowired
     private DynamicRowService dynamicRowService;
     @Autowired
@@ -561,5 +566,63 @@ public class DataController {
         }
         return "redirect:/client/" + pageId + "/" + tableDefinitionId;
     }
-
+@GetMapping(value = "/{pageId}/{tableDefinitionId}/addOption/{tableColumnId}")
+    public String addTableOption(
+            
+            @PathVariable final PageId pageId,
+            @PathVariable final TableDefinitionId tableDefinitionId,
+            @PathVariable final TableColumnId tableColumnId,
+            final Model model,
+            final RedirectAttributes redirectAttributes
+    ) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            User user = ((SiuvsUserPrincipal) authentication.getPrincipal()).getUser();
+            Client client = user.getClient();
+        Page page = pageService.findOne(pageId);
+        model.addAttribute("client", client);
+        model.addAttribute("page", page);   
+        model.addAttribute("tableDefinitionId", tableDefinitionId);
+        model.addAttribute("backUrl","/client/"+pageId+"/"+tableDefinitionId);
+        TableColumn tableColumn = tableColumnService.findOne(tableColumnId);
+        try {
+           model.addAttribute("tableColumn", tableColumn);
+                return "client/data/tableAddOption";        
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+            return "redirect:/client/"+ pageId+"/"+tableDefinitionId;
+        }
+    }
+        @PostMapping(value = "/{pageId}/{tableDefinitionId}/{tableColumnId}/saveNewOption")
+    public String saveTableOption(
+         
+            @PathVariable final PageId pageId,
+            @PathVariable final TableDefinitionId tableDefinitionId,
+            @PathVariable final TableColumnId tableColumnId,
+            @RequestParam(name = "vrednost") String vrednost,
+            final Model model,
+            final RedirectAttributes redirectAttributes
+    ) {
+         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            User user = ((SiuvsUserPrincipal) authentication.getPrincipal()).getUser();
+            Client client = user.getClient();
+        Page page = pageService.findOne(pageId);
+        model.addAttribute("client", client);
+        model.addAttribute("page", page);   
+        model.addAttribute("tableDefinitionId", tableDefinitionId);
+        model.addAttribute("backUrl","/client/"+pageId+"/"+tableDefinitionId);
+        
+        TableColumn tableColumn = tableColumnService.findOne(tableColumnId);
+        TableColumnValue newColumnValue= new TableColumnValue();
+        newColumnValue.setColumn(tableColumn);
+        newColumnValue.setValue(vrednost);
+        
+        newColumnValue.setOrder(tableColumnValueService.countByColumn(tableColumn)+1);
+        try {
+        tableColumnValueService.add(newColumnValue);
+                return "redirect:/client/"+ pageId+"/"+tableDefinitionId;       
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+            return "redirect:/client/"+ pageId+"/"+tableDefinitionId;
+        }
+    }
 }

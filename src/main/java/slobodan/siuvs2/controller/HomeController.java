@@ -58,5 +58,10 @@ public class HomeController {
         model.addAttribute("client", user.getClient());
         return "client/home";
     }
+        @GetMapping(value = "/publicaccess/home")
+    public String publicHome() {
 
+            return "publicaccess/home";
+        
+    }
 }

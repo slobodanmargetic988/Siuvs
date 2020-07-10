@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+     Content <th:block th:include="fragments/head :: head" />
+</head>
+<body class="dashboard">
+
+   <th:block th:insert="fragments/navigation-publicaccess :: navigation"></th:block>
+
+
+    <div class="px-content">
+<!--
+        <div th:replace="fragments/page :: title (icon='fa fa-area-chart', title='Обавештења')"></div>
+-->
+        <div class="panel">
+       
+            <div class="panel-body" style="color:#304251; max-width: 800px">
+                <p style="text-align: center; font-size: 2em;">Javno Dostupna strana...</p>
+                <a th:href="@{/publicaccess/clients}"><i class="fa fa-institution m-r-1"></i>Izbor opstine</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+
+    <th:block th:insert="fragments/footer :: footer-standard" />
+
+    <th:block th:insert="fragments/scripts :: standard" />
+
+</body>
+</html>

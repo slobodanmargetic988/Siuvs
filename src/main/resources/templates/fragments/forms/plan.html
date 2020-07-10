@@ -17,7 +17,7 @@
 
                             <td colspan="7" > 
                                 <a  sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')" th:href="${planurl + '/editPlan'}" class=" btn-xs btn-info btn-outline"><i class="fa fa-pencil fa-lg"></i></a>                   
-                                <span th:text="${plan.planText}"></span></td>
+                                <span th:text="${plan.planText}" style="font-weight:bold"></span></td>
                             <td colspan="3"> Период : <span th:text="${plan.periodOd}"></span> - <span th:text="${plan.periodDo}"></span></td>
 
 
@@ -41,7 +41,7 @@
 
                                 <a sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')" onclick="return confirm('Да ли сте сигурни да желите да обришете посебан циљ?');"  th:href="${planurl + '/deletePosebanCilj/'+posebanCilj.id}" class=" btn-xs btn-danger btn-outline " ><i class="fa fa-trash fa-lg"></i></a>
 
-                                Посебан циљ <span th:text="${__(${iCilj.index}+1)__ +': '+posebanCilj.posebanCiljText}"></span> </td>
+                               <strong>Посебан циљ</strong>   <span th:text="${__(${iCilj.index}+1)__ +': '+posebanCilj.posebanCiljText}"></span> </td>
 
 
                             <td colspan="3"> Показатељ : <span th:text="${posebanCilj.indikator}"></span></td>
@@ -144,7 +144,7 @@
                             </th:block>
                         </th:block>
                         <tr> 
-                            <td colspan="7">Укупно финансијска средства за посебан циљ</td>
+                            <td colspan="7">Укупно финансијска средства за посебан циљ <span th:text="${iCilj.index+1}"></span></td>
                             <td><span th:text="${PCbudzetJls.get(__${iCilj.index}__)}"></span></td>
                             <td><span th:text="${PCbudzetOstalo.get(__${iCilj.index}__)}"></span></td>
                             <td><span th:text="${PCbudzetNeobezbedjeno.get(__${iCilj.index}__)}"></span></td>
@@ -172,7 +172,7 @@
 
                             <td colspan="7" > 
                                 <a  sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')" th:href="${planurl + '/editPlan'}" class=" btn-xs btn-info btn-outline"><i class="fa fa-pencil fa-lg"></i></a>                   
-                                <span th:text="${plan.planText}"></span></td>
+                                <span th:text="${plan.planText}" style="font-weight:bold"></span></td>
                             <td colspan="3"> Период : <span th:text="${plan.periodOd}"></span> - <span th:text="${plan.periodDo}"></span></td>
 
 
@@ -181,7 +181,7 @@
 
                         <tr>
 
-                            <td colspan="7" rowspan="3">Општи циљ:  <span th:text="${plan.opstiCilj}"></span> </td>
+                            <td colspan="7" rowspan="3"> <b>Општи циљ</b>:  <span th:text="${plan.opstiCilj}"></span> </td>
 
                             <td colspan="3"> Показатељ : <span th:text="${plan.indikator}"></span></td></tr>
                         <tr> <td colspan="3">ПВ : <span th:text="${plan.indikatorPv}"></span></td></tr>
@@ -204,7 +204,7 @@
                                 </th:block>
                                 <a sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')" onclick="return confirm('Да ли сте сигурни да желите да обришете посебан циљ?');"  th:href="${planurl + '/deletePosebanCilj/'+posebanCilj.id}" class=" btn-xs btn-danger btn-outline " ><i class="fa fa-trash fa-lg"></i></a>
 
-                                Посебан циљ <span th:text="${__(${iCilj.index}+1)__ +': '+posebanCilj.posebanCiljText}"></span> </td>
+                                <b> Посебан циљ </b> <span th:text="${__(${iCilj.index}+1)__ +': '+posebanCilj.posebanCiljText}"></span> </td>
 
 
                             <td colspan="3"> Показатељ : <span th:text="${posebanCilj.indikator}"></span></td>
@@ -306,7 +306,7 @@
                             </th:block>
                         </th:block>
                      <tr > 
-                            <td colspan="7">Укупно финансијска средства за посебан циљ</td>
+                            <td colspan="7">Укупно финансијска средства за посебан циљ <span th:text="${iCilj.index+1}"></span></td>
                             <td><span th:text="${PCbudzetJls.get(__${iCilj.index}__)}"></span></td>
                             <td><span th:text="${PCbudzetOstalo.get(__${iCilj.index}__)}"></span></td>
                             <td><span th:text="${PCbudzetNeobezbedjeno.get(__${iCilj.index}__)}"></span></td>

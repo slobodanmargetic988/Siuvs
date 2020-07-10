@@ -49,6 +49,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/").permitAll()
                 .antMatchers("/forgotpassword/**").permitAll()
+                .antMatchers("/publicaccess/**").permitAll()
                 .antMatchers("/admin/**").hasAnyAuthority(Roles.ADMIN.toString(), Roles.RIS.toString(), Roles.MUP.toString())
                 .antMatchers("/supervisor/**").hasAnyAuthority(Roles.DISTRIKT.toString(), Roles.PROVINCE.toString())
                 .antMatchers("/client/**").hasAnyAuthority(Roles.CLIENT.toString(), Roles.CLIENT_READ_ONLY.toString())

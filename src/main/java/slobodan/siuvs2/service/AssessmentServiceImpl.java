@@ -17,7 +17,10 @@ public class AssessmentServiceImpl implements AssessmentService {
     public Assessment findOne(Client client, Page page) {
         return assessmentRepository.findFirstByClientAndPage(client, page);
     }
-
+    @Override
+    public Assessment findOne(Client client) {
+        return assessmentRepository.findFirstByClient(client);
+    }
     @Override
     public void save(Assessment assessment) {
         assessmentRepository.save(assessment);

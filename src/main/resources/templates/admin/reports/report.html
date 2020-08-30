@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+    <head> 
+        <th:block th:include="fragments/head :: head" />
+    </head>
+    <body>
+
+        <!-- Nav -->
+
+     <th:block th:insert="fragments/navigation :: navigation" />
+
+        <!-- Content -->
+        
+            <div class="px-content">
+
+                <div class="page-header" >
+                    <h1>
+                        Извештаји
+                    </h1>
+                </div>
+
+                
+
+                <div class="panel" >
+                   <div class="panel-body"> 
+                       <div class="panel-heading">
+                    <span class="panel-title">Основни извештаји</span>
+                </div>
+                   <br><br/>
+                Број отворених  и активних налога ЈЛСУ у систему је: <span th:text="${brojOpstina}"></span>
+                <br><br/>
+                                    <div class="panel-heading">
+                    <span class="panel-title">Процене ризика</span>
+                </div> <br><br/>
+                    Број ЈЛСУ са унетом проценом ризика је: <span th:text="${brojProcena}"></span>
+                    <br><br/>
+                        Листа ЈЛСУ које нeмају унету процену ризика за ниједну врсту опасности.   <button onclick="resetElementLA()" ><b> Прикажи листу</b></button> 
+                    <div class="form-group" id="listaAssesment" style="display:none">
+                    
+                         <th:block th:if="${!clientBezAssessment.empty}"> 
+                        <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Назив корисника</th>
+                               
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="clientA: ${clientBezAssessment}" th:attr="data-href=@{/admin/clients/{id}(id=${clientA.id})}">
+                                <th scope="row" th:text="${clientA.id}"></th>
+                                <td th:text="${clientA.name}"></td>
+                            
+                            </tr>
+                        </tbody>
+                    </table>
+                         </th:block>
+                        
+                        
+                    </div>
+                    <br><br/>
+                               <div class="panel-heading">
+                    <span class="panel-title">План смањења ризика</span>
+                </div> <br><br/>
+                    Број реализованих активности из плана смањења ризика на нивоу свих ЈЛС је: <span th:text="${brojAktivnostiGotovih}"></span>   
+                    <br><br/>
+                    Број активности са статусом "у току" или "није релевантно" из плана смањења ризика на нивоу свих ЈЛС је: <span th:text="${brojAktivnostiUToku}"></span>  
+                    <br><br/>
+                    Број активности од чије се реализације одустало из плана смањења ризика на нивоу свих ЈЛС је: <span th:text="${brojAktivnostiOdustalih}"></span>  
+                         <br><br/>
+                           <div class="panel-heading">
+                    <span class="panel-title">Оперативни план одбране од поплава</span>
+                </div>
+                      <br><br/>
+                Број ЈЛСУ у систему са унетим оперативни планом заштите од поплава је: <span th:text="${brojOPplanova}"></span>    
+                <br><br/>
+                Листа ЈЛСУ које нeмају унет оперативни план заштите од поплава.    <button onclick="resetElementPPD()"><b> Прикажи листу</b></button> 
+                <div class="form-group" id="listaPPD" style="display:none">
+                       <div class="form-group" id="listaPPD">
+                    
+                         <th:block th:if="${!clientBezPPD.empty}"> 
+                        <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Назив корисника</th>
+                               
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="clientB: ${clientBezPPD}" th:attr="data-href=@{/admin/clients/{id}(id=${clientB.id})}">
+                                <th scope="row" th:text="${clientB.id}"></th>
+                                <td th:text="${clientB.name}"></td>
+                            
+                            </tr>
+                        </tbody>
+                    </table>
+                         </th:block>
+                        
+                        
+                    </div> 
+                    </div>
+                </div>
+                </div>
+
+                <!---->
+            </div>
+        </th:block>
+        <th:block th:insert="fragments/footer :: footer-standard" />
+<script th:src="@{/js/izvestajiListeDropdown.js}"type="text/javascript"></script>
+        <th:block th:insert="fragments/scripts :: standard" />
+        <script th:src="@{/js/matrix.js}"></script>
+    </body>
+</html>

@@ -146,6 +146,7 @@ public class ClientsController {
     @GetMapping(value = "/clients/{clientId}")
     public String view(@PathVariable final ClientId clientId, final Model model) {
         Client client = clientService.findOne(clientId);
+        
         PageId pageId;
         pageId = new PageId(1);//using pageid=1 to store photos for client page
         Page page = pageService.findOne(pageId);

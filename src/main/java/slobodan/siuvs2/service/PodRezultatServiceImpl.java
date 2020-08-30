@@ -7,6 +7,7 @@ package slobodan.siuvs2.service;
  *
  * @author Slobodan Margetic slobodanmargetic988@gmail.com
  */
+import java.util.List;
 import slobodan.siuvs2.model.PodRezultat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,6 +24,10 @@ public class PodRezultatServiceImpl implements PodRezultatService {
     public PodRezultat findOne(PodRezultatID podRezultatID) {
         return podRezultatRepository.findOne(podRezultatID.getValue());
     }
+      @Override
+    public  List<PodRezultat> findAll() {
+        return podRezultatRepository.findAllBy();
+    };
 
     @Override
     // @Transactional
@@ -31,6 +36,7 @@ public class PodRezultatServiceImpl implements PodRezultatService {
 
     }
 
+    
     @Override
     // @Transactional
     public void delete(PodRezultatID podRezultatID) {

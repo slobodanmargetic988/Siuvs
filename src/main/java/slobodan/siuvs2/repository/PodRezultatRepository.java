@@ -11,6 +11,7 @@ package slobodan.siuvs2.repository;
  * 
  * @author Slobodan Margetic slobodanmargetic988@gmail.com
  */
+import java.util.List;
 import slobodan.siuvs2.model.Rezultat;
 import slobodan.siuvs2.model.PodRezultat;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -21,7 +22,7 @@ import org.springframework.data.repository.query.Param;
 public interface PodRezultatRepository extends JpaRepository<PodRezultat, Integer> {
 
     PodRezultat findFirstByRezultat(Rezultat rezultat);
-
+    List<PodRezultat> findAllBy();
     @Modifying
     @Query(value = "INSERT INTO pod_rezultat (`rezultat_id`, `redosled`, `period_kompletiran`) VALUES (:rezultat_id, :redosled, :period_kompletiran)", nativeQuery = true)
     void addData(@Param("rezultat_id") Integer rezultat_id, @Param("redosled") Integer redosled, @Param("period_kompletiran") Integer period_kompletiran);

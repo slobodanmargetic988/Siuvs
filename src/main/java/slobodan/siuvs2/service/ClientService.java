@@ -16,7 +16,9 @@ public interface ClientService {
     void update(ClientId clientId, Client client);
 
     Page<Client> findAllOrderByActiveDescNameAsc(Pageable pageable);
-
+    
+    List<Client> findAll();
+    
     Client findOne(ClientId clientId);
 
     Boolean isNameUsed(String name);

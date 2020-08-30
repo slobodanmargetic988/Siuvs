@@ -70,8 +70,11 @@
                     <li class="px-nav-item" sec:authorize="hasAnyAuthority('ADMIN','RIS')">
                         <a th:href="@{/admin/province}"><i class="fa fa-users m-r-1"></i>Аутономне покрајине</a>
                     </li>
+                   <!-- <li class="px-nav-item" sec:authorize="hasAnyAuthority('ADMIN')">
+                        <a th:href="@{/admin/codebooks}"><i class="fa fa-users m-r-1"></i>Шифарници</a>
+                    </li>-->
                     <li class="px-nav-item" sec:authorize="hasAnyAuthority('ADMIN')">
-                        <a th:href="@{/admin/codebooks}"><i class="fa fa-users m-r-1"></i>Codebooks</a>
+                        <a th:href="@{/admin/reports}"><i class="fa fa-users m-r-1"></i>Извештаји</a>
                     </li>
                 </ul>
             </nav>
@@ -253,6 +256,12 @@
                     </li>
                     <li class="px-nav-item" sec:authorize="hasAnyAuthority('ADMIN','RIS')">
                         <a th:href="@{/admin/province}"><i class="fa fa-users m-r-1"></i>Аутономне покрајине</a>
+                    </li>
+                    <!-- <li class="px-nav-item" sec:authorize="hasAnyAuthority('ADMIN')">
+                        <a th:href="@{/admin/codebooks}"><i class="fa fa-users m-r-1"></i>Шифарници</a>
+                    </li>-->
+                    <li class="px-nav-item" sec:authorize="hasAnyAuthority('ADMIN')">
+                        <a th:href="@{/admin/reports}"><i class="fa fa-users m-r-1"></i>Извештаји</a>
                     </li>
                 </ul>
             </nav>

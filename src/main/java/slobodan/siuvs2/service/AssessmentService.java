@@ -7,7 +7,7 @@ import slobodan.siuvs2.model.Page;
 public interface AssessmentService {
 
     Assessment findOne(Client client, Page page);
-
+    Assessment findOne(Client client);
     void save(Assessment assessment);
 
 }

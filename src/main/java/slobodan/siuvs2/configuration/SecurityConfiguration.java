@@ -48,7 +48,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                 .antMatchers("/").permitAll()
-                .antMatchers("/test.php").permitAll()
                 .antMatchers("/php/**").permitAll()
                 .antMatchers("/forgotpassword/**").permitAll()
                 .antMatchers("/publicaccess/**").permitAll()

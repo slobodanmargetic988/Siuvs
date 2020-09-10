@@ -38,20 +38,20 @@
         <div class="navbar-collapse collapse" id="px-navbar-navs-collapse" aria-expanded="false">
 
 
-            <!-- Search start -->
+            <!-- Search start --
             <div>
 
-                <form class="nav navbar-nav"  action="#" th:action="@{/search-results}"  method="POST">
-                    <div class="wrap">
+              <form class="nav navbar-nav"  action="#" th:action="@{/search-results}"  method="POST">
+                 <div class="wrap">
                         <div class="search">
-                            <input type="text"  id="searchrequest" class="searchTerm"  name="upit" placeholder="Претрага...">
-                            <button type="submit" class="searchButton">
+                           <input type="text"  id="searchrequest" class="searchTerm"  name="upit" placeholder="Претрага...">
+                            <button type="submit" class="searchButton"> 
                                 <i class="fa fa-search"></i>
                             </button>
                         </div>
                     </div>
 
-                </form>
+                </form> 
 
                 <button onclick="getPDF()" class="PDFButton"  id="btnSavePDF" ><b> PDF</b></button> </li>
                 <button onclick="getPNG()" class="PNGButton"  id="btnSavePNG" ><b> PNG</b></button> </li>
@@ -85,14 +85,14 @@
 
 <th:block th:fragment="menu">
     <!-- Nav -->
-    <
+    
     <nav class="px-nav px-nav-left" id="px-nav-dropdowns-left">
         <th:block th:insert="fragments/navigation-publicaccess :: toggle-menu-button" />
 
         <ul class="px-nav-content">
             <li class="px-nav-item">
                 <a th:href="@{/publicaccess/clients}"><i class="fa fa-institution m-r-1"></i>procene</a>
-                <!-- oVde treba da dodam          /{clientid}/assesment-->
+            
 
             </li>
             <li class="px-nav-item">
@@ -155,7 +155,7 @@
                    <!--  <a th:href="@{{baseMenuUrl}/plan/{pageId}(baseMenuUrl=${baseMenuUrl},pageId=${menuItem.id})}"><span th:text="${menuItem.title}" class="px-nav-label"></span></a> -->
                 </th:block>
                     <th:block th:case="OPSTIPLAN">
-                  <!--     <a th:href="@{{baseMenuUrl}/plan/opstideo/{pageId}(baseMenuUrl=${baseMenuUrl},pageId=${menuItem.id})}"><span th:text="${menuItem.title}" class="px-nav-label"></span></a> -->
+                 <!--     <a th:href="@{{baseMenuUrl}/plan/opstideo/{pageId}(baseMenuUrl=${baseMenuUrl},pageId=${menuItem.id})}"><span th:text="${menuItem.title}" class="px-nav-label"></span></a>  <!-->
                 </th:block>
                 <th:block th:case="CEOPLAN">
                  <a th:href="@{{baseMenuUrl}/plan/ceo/{pageId}(baseMenuUrl=${baseMenuUrl},pageId=${menuItem.id})}"><span th:text="${menuItem.title}" class="px-nav-label"></span></a> 

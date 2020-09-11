@@ -38,9 +38,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import slobodan.siuvs2.model.Mobileappdata;
+import slobodan.siuvs2.model.Volonter;
 import slobodan.siuvs2.service.ClientService;
 import slobodan.siuvs2.service.DynamicDataService;
 import slobodan.siuvs2.service.MobileappdataService;
+import slobodan.siuvs2.service.VolonterService;
 import slobodan.siuvs2.valueObject.OpstinaID;
 
 /**
@@ -53,6 +55,8 @@ public class MobileAppController {
 
     @Autowired
     private MobileappdataService mobileappdataService;
+    @Autowired
+    private VolonterService volonterService;
     
       @GetMapping("/php/getallopstine")
   List<Mobileappdata> all() {
@@ -69,6 +73,19 @@ public class MobileAppController {
   }
   
   
-  
+     @GetMapping("/php/volonterprijava/{opstina}/{ime}/{prezime}/{email}/{telefon}")
+ String volonter(@PathVariable final String opstina, @PathVariable final String ime, @PathVariable final String prezime, @PathVariable final String email, @PathVariable final String telefon) {
+     Volonter exists=volonterService.findFirstByEmail(email);
+    if(exists!=null){return "Volonter sa unetim emailom je već prijavljen";}
+     
+     Volonter volonter= new Volonter();
+     volonter.setIme(ime);
+     volonter.setPrezime(prezime);
+     volonter.setEmail(email);
+     volonter.setOpstina(opstina);
+     volonter.setTelefon(telefon);
+     volonterService.save(volonter);
+    return "Uspešno ste se prijavili za volontiranje u slučaju vanredne situacije";
+  }
   
 }

@@ -18,19 +18,19 @@ public class Mobileappdata {
 
    
 
-    @Column(name = "opstina", unique = true)
+    @Column(name = "opstina")
     private String opstina;
 
-    @Column(name = "opasnost", unique = true)
+    @Column(name = "opasnost")
     private String opasnost;
     
-    @Column(name = "klasifikacija", unique = true)
+    @Column(name = "klasifikacija")
     private String klasifikacija;
 
-     @Column(name = "tekst", unique = true)
+     @Column(name = "tekst")
     private String tekst;
      
-      @Column(name = "link", unique = true)
+      @Column(name = "link")
     private String link;
 
     public int getId() {

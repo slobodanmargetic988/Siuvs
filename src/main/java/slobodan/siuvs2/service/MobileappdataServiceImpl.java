@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import slobodan.siuvs2.model.Mobileappdata;
 import slobodan.siuvs2.repository.MobileappdataRepository;
+import slobodan.siuvs2.valueObject.MobileappdataID;
 
 @Service
 public class MobileappdataServiceImpl implements MobileappdataService {
@@ -30,6 +31,26 @@ public class MobileappdataServiceImpl implements MobileappdataService {
     public Mobileappdata findFirstByOpstinaAndOpasnost(String opstina, String opasnost) {
         return mobileappdataRepository.findFirstByOpstinaAndOpasnost( opstina,opasnost);
     }
-
-
+ @Override
+    public void save(Mobileappdata mobileappdata){
+     mobileappdataRepository.save(mobileappdata);
+    }
+    
+    @Override
+    public void update(MobileappdataID mobileappdataId, Mobileappdata editMobileappdata){
+        Mobileappdata mobileappdata= findOne(mobileappdataId);
+         mobileappdata.setKlasifikacija(editMobileappdata.getKlasifikacija());
+         mobileappdata.setLink(editMobileappdata.getLink());
+         mobileappdata.setOpasnost(editMobileappdata.getOpasnost());
+       mobileappdata.setOpstina(editMobileappdata.getOpstina());
+        mobileappdata.setTekst(editMobileappdata.getTekst());
+        save(mobileappdata);
+    
+    }
+    
+    
+    @Override
+    public Mobileappdata findOne(MobileappdataID mobileappdataId) {
+        return mobileappdataRepository.findOne(mobileappdataId.getValue());
+    }
 }

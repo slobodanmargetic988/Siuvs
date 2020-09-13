@@ -38,10 +38,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import slobodan.siuvs2.model.Mobileappdata;
+import slobodan.siuvs2.model.Notifikacije;
 import slobodan.siuvs2.model.Volonter;
 import slobodan.siuvs2.service.ClientService;
 import slobodan.siuvs2.service.DynamicDataService;
 import slobodan.siuvs2.service.MobileappdataService;
+import slobodan.siuvs2.service.NotifikacijeService;
 import slobodan.siuvs2.service.VolonterService;
 import slobodan.siuvs2.valueObject.OpstinaID;
 
@@ -57,15 +59,19 @@ public class MobileAppController {
     private MobileappdataService mobileappdataService;
     @Autowired
     private VolonterService volonterService;
-    
+     @Autowired
+    private NotifikacijeService notifikacijeService;
+   //unused  
       @GetMapping("/php/getallopstine")
   List<Mobileappdata> all() {
     return mobileappdataService.findAllBy();
   }
+  //unused
         @GetMapping("/php/getallopstine/{opstina}")
   List<Mobileappdata> opstinaAll(@PathVariable final String opstina) {
     return mobileappdataService.findAllByOpstina(opstina);
   }
+  
    @GetMapping("/php/getallopstine/{opstina}/{opasnost}")
  Mobileappdata opstinaFirst(@PathVariable final String opstina, @PathVariable final String opasnost) {
       
@@ -73,8 +79,8 @@ public class MobileAppController {
   }
   
   
-     @GetMapping("/php/volonterprijava/{opstina}/{ime}/{prezime}/{email}/{telefon}")
- String volonter(@PathVariable final String opstina, @PathVariable final String ime, @PathVariable final String prezime, @PathVariable final String email, @PathVariable final String telefon) {
+     @GetMapping("/php/volonterprijava/{opstina}/{ime}/{prezime}/{email}/{telefon}/{token}")
+ String volonter(@PathVariable final String opstina, @PathVariable final String ime, @PathVariable final String prezime, @PathVariable final String email, @PathVariable final String telefon, @PathVariable final String token) {
      Volonter exists=volonterService.findFirstByEmail(email);
     if(exists!=null){return "Volonter sa unetim emailom je već prijavljen";}
      
@@ -84,8 +90,42 @@ public class MobileAppController {
      volonter.setEmail(email);
      volonter.setOpstina(opstina);
      volonter.setTelefon(telefon);
+     
      volonterService.save(volonter);
     return "Uspešno ste se prijavili za volontiranje u slučaju vanredne situacije";
   }
+
+           @GetMapping("/php/notifikacije/clear/{token}")
+ Long notifikacijeClearByToken(@PathVariable final String token) {
+     
+    return   notifikacijeService.deleteByToken(token);
+     
+  } 
+ 
+
+          @GetMapping("/php/notifikacije/addSve/{token}")
+ String notifikacijeAddSveByToken(@PathVariable final String token) {
+     Notifikacije notifikacije= new Notifikacije();
+     notifikacije.setOpstina("Sve opštine");
+     notifikacije.setToken(token);
+     notifikacijeService.save(notifikacije);
+    return "Uspešno ste se prijavili za sve notifikacije";     
+  } 
+ 
+
+          @GetMapping("/php/notifikacije/addOne/{token}/{opstina}")
+ String notifikacijeAddOneByToken(@PathVariable final String token,@PathVariable final String opstina) {
+     Notifikacije notifikacije= new Notifikacije();
+     notifikacije.setOpstina(opstina);
+     notifikacije.setToken(token);
+     notifikacijeService.save(notifikacije);
+    return "Uspešno ste se prijavili za notifikacije za "+opstina;     
+  } 
+   // maybeused
+        @GetMapping("/php/notifikacije/getList/{token}")
+  List<Notifikacije> notifikacijeAll(@PathVariable final String token) {
+    return notifikacijeService.findAllByToken(token) ;
+  }
+ 
   
 }

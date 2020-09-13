@@ -30,6 +30,9 @@ public class Volonter {
      
       @Column(name = "telefon")
     private String telefon;
+      
+      @Column(name = "token")
+    private String token;
 
     public int getId() {
         return id;
@@ -77,6 +80,14 @@ public class Volonter {
 
     public void setTelefon(String telefon) {
         this.telefon = telefon;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 
     

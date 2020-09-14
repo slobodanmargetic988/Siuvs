@@ -44,6 +44,10 @@ public class NotifikacijeServiceImpl implements NotifikacijeService {
     public Long deleteByToken(String token){
     return notifikacijeRepository.deleteByToken(token);
     }
+        @Override
+    public Long deleteByTokenAndOpstina(String token, String opstina){
+    return notifikacijeRepository.deleteByTokenAndOpstina(token,opstina);
+    }
      @Override
     public void save(Notifikacije notifikacije){
     notifikacijeRepository.save(notifikacije);

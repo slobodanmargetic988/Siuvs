@@ -15,5 +15,6 @@ public interface NotifikacijeRepository extends JpaRepository<Notifikacije, Inte
     List<Notifikacije> findAllByToken( String token);
     Notifikacije findFirstByOpstinaAndToken(  String opstina, String token);
     Long deleteByToken(String token);
+    Long deleteByTokenAndOpstina(String token,String opstina);
     
 }

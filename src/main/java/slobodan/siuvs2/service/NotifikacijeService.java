@@ -15,6 +15,7 @@ public interface NotifikacijeService {
     List<Notifikacije> findAllByToken( String token);
      Notifikacije findFirstByOpstinaAndToken(  String opstina, String token);
      Long deleteByToken(String token);
+     Long deleteByTokenAndOpstina(String token,String opstina);
      void save(Notifikacije notifikacije);
 
 }

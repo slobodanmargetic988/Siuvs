@@ -96,11 +96,13 @@ public class MobileAppController {
   }
 
            @GetMapping("/php/notifikacije/clear/{token}")
- Long notifikacijeClearByToken(@PathVariable final String token) {
-     
-    return   notifikacijeService.deleteByToken(token);
-     
+ Long notifikacijeClearByToken(@PathVariable final String token) {     
+    return   notifikacijeService.deleteByToken(token);     
   } 
+            @GetMapping("/php/notifikacije/clearone/{token}/{opstina}")
+ Long notifikacijeClearByTokenAndOpstina(@PathVariable final String token,@PathVariable final String opstina) {    
+    return   notifikacijeService.deleteByTokenAndOpstina(token,opstina);  
+  }
  
 
           @GetMapping("/php/notifikacije/addSve/{token}")

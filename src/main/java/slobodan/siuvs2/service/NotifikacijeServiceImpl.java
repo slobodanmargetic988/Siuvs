@@ -1,6 +1,7 @@
 package slobodan.siuvs2.service;
 
 import java.util.List;
+import javax.transaction.Transactional;
 import slobodan.siuvs2.model.Assessment;
 import slobodan.siuvs2.model.Client;
 import slobodan.siuvs2.model.Page;
@@ -41,10 +42,12 @@ public class NotifikacijeServiceImpl implements NotifikacijeService {
      return notifikacijeRepository.findFirstByOpstinaAndToken(opstina, token);
     }
     @Override
+    @Transactional
     public Long deleteByToken(String token){
     return notifikacijeRepository.deleteByToken(token);
     }
         @Override
+        @Transactional
     public Long deleteByTokenAndOpstina(String token, String opstina){
     return notifikacijeRepository.deleteByTokenAndOpstina(token,opstina);
     }

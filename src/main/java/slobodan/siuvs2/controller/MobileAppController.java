@@ -128,6 +128,6 @@ public class MobileAppController {
   List<Notifikacije> notifikacijeAll(@PathVariable final String token) {
     return notifikacijeService.findAllByToken(token) ;
   }
- 
+        
   
 }

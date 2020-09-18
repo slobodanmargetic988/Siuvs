@@ -23,7 +23,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Scope(WebApplicationContext.SCOPE_REQUEST)
 @Controller
-@RequestMapping(value = "/publicaccess/home")
+//@RequestMapping(value = "/publicaccess/home")
 public class PublicAssessmentController {
 
     @Autowired
@@ -44,7 +44,7 @@ public class PublicAssessmentController {
     @Autowired
     private PhotoService photoService;
 
-    @GetMapping(value = "/{clientId}/assessment/{pageId}")
+    @GetMapping(value = "/publicaccess/home/{clientId}/assessment/{pageId}")
     public String assessment(
             @PathVariable final ClientId clientId,
             @PathVariable final PageId pageId,
@@ -63,5 +63,10 @@ public class PublicAssessmentController {
         model.addAttribute("vrsta_opasnosti", AssesmentHelper1.getOpasnost(pageId.getValue()));
         return "publicaccess/assesmentview";
     }
+ @GetMapping(value = "/publicaccess/privacypolicy")
+    public String privacyPolicy() {
 
+            return "publicaccess/privacypolicy";
+        
+    }
 }

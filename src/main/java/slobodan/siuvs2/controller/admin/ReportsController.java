@@ -111,6 +111,7 @@ public class ReportsController {
         model.addAttribute("clientBezAssessment", clientBezAssessment);
         model.addAttribute("brojOpstina", brojOpstina);
         model.addAttribute("brojProcena", brojProcena);
+        model.addAttribute("brojPZS", brojPZS);
         model.addAttribute("brojOPplanova", brojOPplanova);
         model.addAttribute("clientBezOpstina", clientBezOpstina);
         model.addAttribute("clientBezPZS", clientBezPZS);

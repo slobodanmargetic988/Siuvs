@@ -5,6 +5,7 @@ import slobodan.siuvs2.model.DynamicData;
 import slobodan.siuvs2.repository.DynamicDataRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import slobodan.siuvs2.model.DynamicRow;
 
 @Service
 public class DynamicDataServiceImpl implements DynamicDataService {
@@ -30,5 +31,8 @@ public class DynamicDataServiceImpl implements DynamicDataService {
         return dynamicDataRepository.findById(rowId);
     }
 ;
-
+@Override
+    public DynamicData findFirstByDynamicRow(DynamicRow dr){
+    return dynamicDataRepository.findFirstByRow(dr);
+    };
 }

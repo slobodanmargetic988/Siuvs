@@ -2,31 +2,35 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
-     Content <th:block th:include="fragments/head :: head" />
+     <th:block th:include="fragments/head :: head" />
 </head>
-<body class="dashboard">
 
-   <th:block th:insert="fragments/navigation-publicaccess :: navigation"></th:block>
+   
+     <body class="dashboard">
+     <!--       style="background-image: url('/img/bg_dashboard.jpg') ;background-size : cover;background-repeat: no-repeat; background-color: #eeeff3; background-position: center right;background-attachment: fixed" >
+        -->
+     <th:block th:insert="fragments/navigation-publicaccess :: navigation"></th:block>
 
+        <!-- Content -->
+        <div class="px-content">
 
-    <div class="px-content">
-<!--
-        <div th:replace="fragments/page :: title (icon='fa fa-area-chart', title='Обавештења')"></div>
--->
-        <div class="panel">
+<div class="panel">
        
             <div class="panel-body" style="color:#304251; max-width: 800px">
-                <p style="text-align: center; font-size: 2em;">Javno Dostupna strana...</p>
-                <a th:href="@{/publicaccess/clients}"><i class="fa fa-institution m-r-1"></i>Izbor opstine</a>
+                <p style="text-align: center; font-size: 2em;">Јавни приступ</p>
+                <a th:href="@{/publicaccess/clients}"><i class="fa fa-institution m-r-1"></i>Избор општине</a>
+                
+               <!--    Корисничко упутство за рад у СИВУС апликацији можете преузети <a href="https://siuvs.rs/img/Manual.pdf">ОВДЕ.</a>-->
                 </p>
             </div>
+        
         </div>
-    </div>
+        <th:block th:insert="fragments/investitori :: investors" />
+</div>
 
+        <th:block th:insert="fragments/footer :: footer-standard" />
 
-    <th:block th:insert="fragments/footer :: footer-standard" />
-
-    <th:block th:insert="fragments/scripts :: standard" />
-
-</body>
+        <th:block th:insert="fragments/scripts :: standard" />
+    </body>
+ 
 </html>

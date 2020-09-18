@@ -40,6 +40,10 @@ public class DynamicRowServiceImpl implements DynamicRowService {
     public DynamicRow findOne(DynamicRowId dynamicRowId) {
         return dynamicRowRepository.findOne(dynamicRowId.getValue());
     }
+    @Override
+    public DynamicRow findFirstByDynamicTable(DynamicTable dt){
+    return dynamicRowRepository.findFirstByDynamicTable( dt);
+    };
 
     @Override
     public DynamicRow getOneForEditing(DynamicRowId dynamicRowId, List<TableColumn> tableColumns) {

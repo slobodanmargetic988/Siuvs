@@ -73,7 +73,7 @@
                    <!-- <li class="px-nav-item" sec:authorize="hasAnyAuthority('ADMIN')">
                         <a th:href="@{/admin/codebooks}"><i class="fa fa-users m-r-1"></i>Шифарници</a>
                     </li>-->
-                    <li class="px-nav-item" sec:authorize="hasAnyAuthority('ADMIN')">
+                    <li class="px-nav-item" sec:authorize="hasAnyAuthority('ADMIN','RIS')">
                         <a th:href="@{/admin/reports}"><i class="fa fa-users m-r-1"></i>Извештаји</a>
                     </li>
                 </ul>
@@ -88,7 +88,9 @@
                     <li class="px-nav-item">
                         <a th:href="@{/supervisor/clients}"><i class="fa fa-institution m-r-1"></i>Корисници</a>
                     </li>
-
+ <li class="px-nav-item" >
+                        <a th:href="@{/supervisor/reports}"><i class="fa fa-users m-r-1"></i>Извештаји</a>
+                    </li>
                 </ul>
             </nav>
         </th:block>
@@ -215,6 +217,7 @@
                     <li th:each="topMenuItem: ${globalMenuItems}" class="px-nav-item" th:classappend="${topMenuItem.hasChildren()} ? 'px-nav-dropdown' : ''">
                         <th:block th:insert="fragments/navigation :: nav-item(${topMenuItem},${'/admin/clients/' + client.id})" />
                     </li>
+                   
                 </ul>
 
             </nav>
@@ -228,6 +231,7 @@
                     <li th:each="topMenuItem: ${globalMenuItems}" class="px-nav-item" th:classappend="${topMenuItem.hasChildren()} ? 'px-nav-dropdown' : ''">
                         <th:block th:insert="fragments/navigation :: nav-item(${topMenuItem},${'/supervisor/clients/' + client.id})" />
                     </li>
+                      
                 </ul>
 
             </nav>

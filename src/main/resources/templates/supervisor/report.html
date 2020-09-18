@@ -8,7 +8,7 @@
 
         <!-- Nav -->
 
-     <th:block th:insert="fragments/navigation :: navigation" />
+     <th:block th:insert="fragments/navigation :: navigation-supervisor" />
 
         <!-- Content -->
         
@@ -45,7 +45,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr th:each="clientA: ${clientBezOpstina}" th:attr="data-href=@{/admin/clients/{id}(id=${clientA.id})}">
+                            <tr th:each="clientA: ${clientBezOpstina}" th:attr="data-href=@{/supervisor/clients/{id}(id=${clientA.id})}">
                                 <th scope="row" th:text="${clientA.id}"></th>
                                 <td th:text="${clientA.name}"></td>
                             
@@ -76,7 +76,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr th:each="clientA: ${clientBezAssessment}" th:attr="data-href=@{/admin/clients/{id}(id=${clientA.id})}">
+                            <tr th:each="clientA: ${clientBezAssessment}" th:attr="data-href=@{/supervisor/clients/{id}(id=${clientA.id})}">
                                 <th scope="row" th:text="${clientA.id}"></th>
                                 <td th:text="${clientA.name}"></td>
                             
@@ -106,7 +106,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr th:each="clientA: ${clientBezPZS}" th:attr="data-href=@{/admin/clients/{id}(id=${clientA.id})}">
+                            <tr th:each="clientA: ${clientBezPZS}" th:attr="data-href=@{/supervisor/clients/{id}(id=${clientA.id})}">
                                 <th scope="row" th:text="${clientA.id}"></th>
                                 <td th:text="${clientA.name}"></td>
                             
@@ -147,7 +147,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr th:each="clientB: ${clientBezPPD}" th:attr="data-href=@{/admin/clients/{id}(id=${clientB.id})}">
+                            <tr th:each="clientB: ${clientBezPPD}" th:attr="data-href=@{/supervisor/clients/{id}(id=${clientB.id})}">
                                 <th scope="row" th:text="${clientB.id}"></th>
                                 <td th:text="${clientB.name}"></td>
                             

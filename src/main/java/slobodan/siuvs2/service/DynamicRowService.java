@@ -7,11 +7,13 @@ import slobodan.siuvs2.shared.SiuvsException;
 import slobodan.siuvs2.valueObject.DynamicRowId;
 
 import java.util.List;
+import slobodan.siuvs2.model.DynamicTable;
 
 public interface DynamicRowService {
 
     DynamicRow findOne(DynamicRowId dynamicRowId);
-
+    DynamicRow findFirstByDynamicTable(DynamicTable dt);
+    
     DynamicRow getOneForEditing(DynamicRowId dynamicRowId, List<TableColumn> tableColumns);
 
     void save(DynamicRow dynamicRow);

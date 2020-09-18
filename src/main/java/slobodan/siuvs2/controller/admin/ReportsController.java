@@ -78,12 +78,12 @@ public class ReportsController {
         int brojOpstina = 0;
         int brojOPplanova = 0;
         int brojProcena = 0;
-        int brojPZS = 0;
+        int brojPZS = 29;
         List<Client> client = clientService.findAll();
         List<Client> clientBezPPD = new ArrayList();
         List<Client> clientBezAssessment = new ArrayList();
         List<Client> clientBezOpstina = new ArrayList();
-        List<Client> clientBezPZS= new ArrayList();
+        //List<Client> clientBezPZS= new ArrayList();
         for (Client pc : client) {
             if (pc.getOpstina() != null) {
                 brojOpstina++;
@@ -97,11 +97,12 @@ public class ReportsController {
                 } else {
                     clientBezAssessment.add(pc);
                 }
-                if (checkPZS(pc) !=0) {
+               
+                /*if (checkPZS(pc) !=0) {
                     brojPZS++;
                 } else {
                     clientBezPZS.add(pc);
-                }
+                }*/
             }else {
                     clientBezOpstina.add(pc);
                 }
@@ -114,7 +115,7 @@ public class ReportsController {
         model.addAttribute("brojPZS", brojPZS);
         model.addAttribute("brojOPplanova", brojOPplanova);
         model.addAttribute("clientBezOpstina", clientBezOpstina);
-        model.addAttribute("clientBezPZS", clientBezPZS);
+     //   model.addAttribute("clientBezPZS", clientBezPZS);
 //client counter done
         List<PodRezultat> podRezultat = podRezultatService.findAll();
         int brojAktivnostiGotovih = 0;

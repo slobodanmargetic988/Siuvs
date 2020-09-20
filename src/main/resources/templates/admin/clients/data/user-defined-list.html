@@ -30,7 +30,7 @@
                     <table class="table table-striped valign-middle">
                         <tbody>
                             <tr th:each="customTableDefinition: ${customTableDefinitions}">
-                                <td><a th:href="@{/admin/clients/{clientId}/{pageId}/{tableDefinitionId}/{customTableDefinitionId}(clientId=${client.id},pageId=${page.id},tableDefinitionId=${customTableDefinition.tableDefinition.id},customTableDefinitionId=${customTableDefinition.id})}" th:text="${customTableDefinition.tableDefinition.title + ' ' + customTableDefinition.title}"></a></td>
+                                <td><a th:href="@{/admin/clients/{clientId}/{pageId}/{tableDefinitionId}/{customTableDefinitionId}(clientId=${client.id},pageId=${page.id},tableDefinitionId=${customTableDefinition.tableDefinition.id},customTableDefinitionId=${customTableDefinition.id})}" th:text="${customTableDefinition.title}"></a></td>
                             </tr>
                         </tbody>
                     </table>

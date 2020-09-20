@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -626,7 +627,9 @@ public class ClientsController {
         DokumentID dokumentId = new DokumentID(dokument.getId());
         String filename = dokumentService.findFileNameById(dokumentId);
         response.setContentType("text/html;charset=UTF-8");
-        response.setHeader("Content-Disposition", "attachment; filename=\"" + dokument.getTitle() + filename.substring(filename.lastIndexOf(".")) + "\"");
+ /**/       response.setCharacterEncoding("UTF-8");
+ /**/       String encode=dokument.getTitle() + filename.substring(filename.lastIndexOf("."));
+        response.setHeader("Content-Disposition", "attachment; filename=\"" + URLEncoder.encode(encode, "UTF-8")+ "\"");
         InputStream inputStream = new FileInputStream(new File(storageService.load(clientId, filename).toString()));
 
         return outputStream -> {
@@ -643,7 +646,7 @@ public class ClientsController {
             }
     }
         @RequestMapping(value = "/clients/{clientId}/downloadIA/{IAid}", method = RequestMethod.GET, produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
-    public StreamingResponseBody getSteamingFile(
+    public StreamingResponseBody getSteamingFile2(
             @PathVariable final ClientId clientId,
             @PathVariable final InternationalAgreementsID IAid,
             HttpServletResponse response,
@@ -655,7 +658,10 @@ public class ClientsController {
         DokumentID dokumentId = new DokumentID(dokument.getId());
         String filename = dokumentService.findFileNameById(dokumentId);
         response.setContentType("text/html;charset=UTF-8");
-        response.setHeader("Content-Disposition", "attachment; filename=\"" + dokument.getTitle() + filename.substring(filename.lastIndexOf(".")) + "\"");
+        /**/       response.setCharacterEncoding("UTF-8");
+ /**/       String encode=dokument.getTitle() + filename.substring(filename.lastIndexOf("."));
+        response.setHeader("Content-Disposition", "attachment; filename=\"" + URLEncoder.encode(encode, "UTF-8")+ "\"");
+   //     response.setHeader("Content-Disposition", "attachment; filename=\"" + dokument.getTitle() + filename.substring(filename.lastIndexOf(".")) + "\"");
         InputStream inputStream = new FileInputStream(new File(storageService.load(clientId, filename).toString()));
 
         return outputStream -> {

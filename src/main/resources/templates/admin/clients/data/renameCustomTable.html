@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+    <head> 
+        <th:block th:include="fragments/head :: head" />
+    </head>
+    <body>
+
+        <!-- Nav -->
+        <th:block th:insert="fragments/navigation :: navigation-client"></th:block>
+
+        <!-- Content -->
+        <div class="px-content">
+
+      <div class="page-header">
+                <h1>
+                    <th:block th:insert="fragments/navigation :: nav-breadcrumbs-admin-client-table(${client}, ${tableDefinition})" />
+                </h1>
+            </div>
+
+
+            <div th:replace="fragments/alert :: success (${successMessage})"></div>
+
+            <div th:replace="fragments/alert :: error (${errorMessage})"></div>
+
+            <div class="panel" >
+                <div class="panel-heading">
+
+                    <span class="panel-title" th:text="${customTable.getTitle()}"></span> 
+                </div>
+
+                <div class="panel-body data-panel-body">
+
+
+
+                    <div class="panel-body">
+
+                        <form th:action="@{/admin/clients/{clientId}/rename/{pageId}/{tableDefinitionId}/{customTableId}(clientId=${client.id},pageId=${pageId},tableDefinitionId=${tableDefinition.id},customTableId=${customTable.id})}"  method="post" class="form-horizontal" autocomplete="off">
+                            <div class="form-group">
+                                <label  class="col-md-3 " >Назив табеле: </label>
+                                <div class="col-md-9" >
+                                    <input type="text"  class="col-md-9"   name="Title" th:value="${customTable.getTitle()}"> 
+                                </div>
+                                <br> </br>
+
+
+                                <div class="col-md-offset-3 col-md-9">
+                                    <button type="submit" class="btn btn-primary">Сачувај измене</button>
+                                    <a th:href="@{/admin/clients/{clientId}/{pageId}/{tableDefinitionId}(clientId=${client.id},pageId=${pageId},tableDefinitionId=${tableDefinition.id})}" class="btn">Одустани</a>
+                                </div> 
+                            </div>
+                        </form>
+                    </div>
+
+
+                </div> 
+
+            </div>
+
+
+
+
+        </div>
+
+        <th:block th:insert="fragments/footer :: footer-standard" />
+
+        <th:block th:insert="fragments/scripts :: standard" />
+        <script th:src="@{/js/matrix.js}"></script> 
+    </body>
+</html>

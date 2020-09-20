@@ -625,4 +625,49 @@ public class DataController {
             return "redirect:/client/"+ pageId+"/"+tableDefinitionId;
         }
     }
+    
+     @GetMapping(value = "/rename/{pageId}/{tableDefinitionId}/{customTableDefinitionId}")
+    public String renameCustomTable(           
+             @PathVariable PageId pageId,
+             @PathVariable final TableDefinitionId tableDefinitionId,
+            @PathVariable final CustomTableDefinitionId customTableDefinitionId,          
+            final Model model,
+            final RedirectAttributes redirectAttributes
+    ) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            User user = ((SiuvsUserPrincipal) authentication.getPrincipal()).getUser();
+            Client client = user.getClient();
+        Page page = pageService.findOne(pageId);
+        model.addAttribute("client", client);
+CustomTableDefinition ct= customTableDefinitionService.findOne(customTableDefinitionId);
+    model.addAttribute("customTable", ct);  
+     model.addAttribute("page", page); 
+    model.addAttribute("pageId", pageId);
+     model.addAttribute("tableDefinition", tableDefinitionService.findOne(tableDefinitionId));
+        return "client/data/renameCustomTable" ;
+         
+    }
+    //@{/client/rename/{pageId}/{tableDefinitionId}/{customTableId}(pageId=${pageId},tableDefinitionId=${tableDefinition.id},customTableId=${customTable.id})}"
+        @PostMapping(value = "/rename/{pageId}/{tableDefinitionId}/{customTableId}")
+    public String setRenameCustomTable(
+             @PathVariable PageId pageId,
+             @PathVariable final TableDefinitionId tableDefinitionId,
+            @PathVariable final CustomTableDefinitionId customTableId,
+            @RequestParam(name = "Title") String title,
+            final Model model,
+            final RedirectAttributes redirectAttributes
+    ) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            User user = ((SiuvsUserPrincipal) authentication.getPrincipal()).getUser();
+            Client client = user.getClient();
+        Page page = pageService.findOne(pageId);
+        model.addAttribute("client", client);
+     model.addAttribute("page", page); 
+     
+        CustomTableDefinition customTable=customTableDefinitionService.findOne(customTableId);
+        customTable.setTitle(title);
+        customTableDefinitionService.save(customTable);
+       
+        return "redirect:/client/"  + pageId + "/" + tableDefinitionId  ;
+    }
 }

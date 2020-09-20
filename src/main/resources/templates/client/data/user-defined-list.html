@@ -30,8 +30,11 @@
                     <table class="table table-striped valign-middle">
                         <tbody>
                             <tr th:each="customTableDefinition: ${customTableDefinitions}">
-                                <td><a th:href="@{/client/{pageId}/{tableDefinitionId}/{customTableDefinitionId}(pageId=${page.id},tableDefinitionId=${customTableDefinition.tableDefinition.id},customTableDefinitionId=${customTableDefinition.id})}" th:text="${customTableDefinition.title}"></a></td>
-                            </tr>
+                                <td><a th:href="@{/client/{pageId}/{tableDefinitionId}/{customTableDefinitionId}(pageId=${page.id},tableDefinitionId=${customTableDefinition.tableDefinition.id},customTableDefinitionId=${customTableDefinition.id})}" th:text="${customTableDefinition.title}"></a>
+                                <a sec:authorize="hasAnyAuthority('CLIENT')" th:href="@{/client/rename/{pageId}/{tableDefinitionId}/{customTableDefinitionId}(pageId=${page.id},tableDefinitionId=${customTableDefinition.tableDefinition.id},customTableDefinitionId=${customTableDefinition.id})}" class=" btn-xs btn-info btn-outline"><i class="fa fa-pencil fa-lg"></i></a>
+                                </td>
+                            
+                                </tr>
                         </tbody>
                     </table>
                 </div>

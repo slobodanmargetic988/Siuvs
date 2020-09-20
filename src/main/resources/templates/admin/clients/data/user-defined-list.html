@@ -30,7 +30,9 @@
                     <table class="table table-striped valign-middle">
                         <tbody>
                             <tr th:each="customTableDefinition: ${customTableDefinitions}">
-                                <td><a th:href="@{/admin/clients/{clientId}/{pageId}/{tableDefinitionId}/{customTableDefinitionId}(clientId=${client.id},pageId=${page.id},tableDefinitionId=${customTableDefinition.tableDefinition.id},customTableDefinitionId=${customTableDefinition.id})}" th:text="${customTableDefinition.title}"></a></td>
+                                                                                           <td><a th:href="@{/admin/clients/{clientId}/{pageId}/{tableDefinitionId}/{customTableDefinitionId}(clientId=${client.id},pageId=${page.id},tableDefinitionId=${customTableDefinition.tableDefinition.id},customTableDefinitionId=${customTableDefinition.id})}" th:text="${customTableDefinition.title}"></a>
+                                <a sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')" th:href="@{/admin/clients/{clientId}/rename/{pageId}/{tableDefinitionId}/{customTableDefinitionId}(clientId=${client.id},pageId=${page.id},tableDefinitionId=${customTableDefinition.tableDefinition.id},customTableDefinitionId=${customTableDefinition.id})}" class=" btn-xs btn-info btn-outline"><i class="fa fa-pencil fa-lg"></i></a>
+                                </td>
                             </tr>
                         </tbody>
                     </table>

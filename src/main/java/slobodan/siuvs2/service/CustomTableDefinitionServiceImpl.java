@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import slobodan.siuvs2.valueObject.CustomTableDefinitionId;
 
 @Service
 public class CustomTableDefinitionServiceImpl implements CustomTableDefinitionService {
@@ -24,4 +25,8 @@ public class CustomTableDefinitionServiceImpl implements CustomTableDefinitionSe
     public List<CustomTableDefinition> findByClientAndTableDefinition(Client client, TableDefinition tableDefinition) {
         return customTableDefinitionRepository.findByClientAndTableDefinitionOrderByTitle(client, tableDefinition);
     }
+  @Override
+    public CustomTableDefinition findOne(CustomTableDefinitionId customTableDefinitionId){
+    return customTableDefinitionRepository.findOne(customTableDefinitionId.getValue());
+    };
 }

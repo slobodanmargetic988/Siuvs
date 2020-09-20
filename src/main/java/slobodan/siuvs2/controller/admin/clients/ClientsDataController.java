@@ -637,5 +637,40 @@ public class ClientsDataController {
         return "redirect:/admin/clients/" + clientId + "/" + pageId + "/" + tableDefinitionId + "/" + customTableDefinitionId;
     }
     
-
+    @GetMapping(value = "{clientId}/rename/{pageId}/{tableDefinitionId}/{customTableDefinitionId}")
+    public String renameCustomTable(
+             @PathVariable ClientId clientId,
+             @PathVariable PageId pageId,
+             @PathVariable final TableDefinitionId tableDefinitionId,
+            @PathVariable final CustomTableDefinitionId customTableDefinitionId,
+           
+            final Model model,
+            final RedirectAttributes redirectAttributes
+    ) {
+        Client client=clientService.findOne(clientId);
+CustomTableDefinition ct= customTableDefinitionService.findOne(customTableDefinitionId);
+    model.addAttribute("customTable", ct);
+    model.addAttribute("client", client);    
+    model.addAttribute("pageId", pageId);
+     model.addAttribute("tableDefinition", tableDefinitionService.findOne(tableDefinitionId));
+        return "admin/clients/data/renameCustomTable" ;
+    }
+    
+        @PostMapping(value = "{clientId}/rename/{pageId}/{tableDefinitionId}/{customTableId}")
+    public String setRenameCustomTable(
+             @PathVariable ClientId clientId,
+             @PathVariable PageId pageId,
+             @PathVariable final TableDefinitionId tableDefinitionId,
+            @PathVariable final CustomTableDefinitionId customTableId,
+            @RequestParam(name = "Title") String title,
+            final Model model,
+            final RedirectAttributes redirectAttributes
+    ) {
+        CustomTableDefinition customTable=customTableDefinitionService.findOne(customTableId);
+        customTable.setTitle(title);
+        customTableDefinitionService.save(customTable);
+       
+        return "redirect:/admin/clients/" + clientId + "/" + pageId + "/" + tableDefinitionId  ;
+    }
+    
 }

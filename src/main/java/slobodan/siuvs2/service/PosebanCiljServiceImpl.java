@@ -63,4 +63,8 @@ public class PosebanCiljServiceImpl implements PosebanCiljService {
         return posebanCiljRepository.findAllByClientAndPage(client, page);
     }
 ;
+     @Override
+    public PosebanCilj findFirstByClient(Client client){
+        return posebanCiljRepository.findFirstByClient(client);
+    };
 }

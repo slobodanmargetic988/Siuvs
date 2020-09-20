@@ -34,7 +34,7 @@
                     
                     Листа клијената које се не сматрају општинама.   <button onclick="resetElementLО()" ><b> Прикажи листу</b></button> 
                     <div class="form-group" id="listaOpstina" style="display:none">
-                    
+                     <br><br/>     <button onclick="resetElementLОHide()" ><b> Уклони листу</b></button> 
                          <th:block th:if="${!clientBezOpstina.empty}"> 
                         <table class="table table-striped">
                         <thead>
@@ -61,12 +61,37 @@
                                     <div class="panel-heading">
                     <span class="panel-title">Процене ризика</span>
                 </div> <br><br/>
-                    Број ЈЛСУ са унетом проценом ризика је: <span th:text="${brojProcena}"></span>
+                    Број ЈЛСУ са унетом Проценом ризика је: <span th:text="${brojProcena}"></span>
                     <br><br/>
                       
-                        Листа ЈЛСУ које нeмају унету процену ризика за ниједну врсту опасности.   <button onclick="resetElementLA()" ><b> Прикажи листу</b></button> 
+                        Листа ЈЛСУ које имају унету Процену ризика за макар једну врсту опасности.   <button onclick="resetElementLAIma()" ><b> Прикажи листу</b></button> 
+                    <div class="form-group" id="listaAssesmentIma" style="display:none">
+                  <br><br/>     <button onclick="resetElementLAImaHide()" ><b> Уклони листу</b></button> 
+                         <th:block th:if="${!clientSaAssessment.empty}"> 
+                        <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Назив корисника</th>
+                               
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="clientA: ${clientSaAssessment}" th:attr="data-href=@{/admin/clients/{id}(id=${clientA.id})}">
+                                <th scope="row" th:text="${clientA.id}"></th>
+                                <td th:text="${clientA.name}"></td>
+                            
+                            </tr>
+                        </tbody>
+                    </table>
+                                                 <br><br/>
+                            </th:block>
+                        
+                        
+                    </div>
+                  <br><br/>       Листа ЈЛСУ које нeмају унету Процену ризика за ниједну врсту опасности.   <button onclick="resetElementLA()" ><b> Прикажи листу</b></button> 
                     <div class="form-group" id="listaAssesment" style="display:none">
-                    
+                    <br><br/>     <button onclick="resetElementLAHide()" ><b> Уклони листу</b></button> 
                          <th:block th:if="${!clientBezAssessment.empty}"> 
                         <table class="table table-striped">
                         <thead>
@@ -92,11 +117,36 @@
                         <div class="panel-heading">
                     <span class="panel-title">План заштите и спасавања</span>
                 </div> <br><br/>
-                    Број ЈЛСУ са унетим планом заштите и спасавања је: <span th:text="${brojPZS}"></span>
+                    Број ЈЛСУ са унетим Планом заштите и спасавања је: <span th:text="${brojPZS}"></span>
                     <br><br/>
-                <!--          Листа ЈЛСУ које нeмају унет план заштите и спасавања.   <button onclick="resetElementLPZS()" ><b> Прикажи листу</b></button> 
+                          Листа ЈЛСУ које имају унет План заштите и спасавања.   <button onclick="resetElementLPZSIma()" ><b> Прикажи листу</b></button> 
+                    <div class="form-group" id="listaPZSIma" style="display:none">
+                     <br><br/>     <button onclick="resetElementLPZSImaHide()" ><b> Уклони листу</b></button> 
+                         <th:block th:if="${!clientSaPZS.empty}"> 
+                        <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Назив корисника</th>
+                               
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="clientA: ${clientSaPZS}" th:attr="data-href=@{/admin/clients/{id}(id=${clientA.id})}">
+                                <th scope="row" th:text="${clientA.id}"></th>
+                                <td th:text="${clientA.name}"></td>
+                            
+                            </tr>
+                        </tbody>
+                    </table>
+                             <br><br/>
+                                       </th:block>
+                        
+                        
+                    </div>
+                 <br><br/>          Листа ЈЛСУ које нeмају унет План заштите и спасавања.   <button onclick="resetElementLPZS()" ><b> Прикажи листу</b></button> 
                     <div class="form-group" id="listaPZS" style="display:none">
-                    
+                     <br><br/>     <button onclick="resetElementLPZSHide()" ><b> Уклони листу</b></button> 
                          <th:block th:if="${!clientBezPZS.empty}"> 
                         <table class="table table-striped">
                         <thead>
@@ -118,25 +168,107 @@
                         
                         
                     </div>  
-                    <br><br/><!-->
+                    <br><br/>
                                <div class="panel-heading">
                     <span class="panel-title">План смањења ризика</span>
                 </div> <br><br/>
-                    Број реализованих активности из плана смањења ризика на нивоу свих ЈЛС је: <span th:text="${brojAktivnostiGotovih}"></span>   
+                    Број унетих Планова смањења ризика на нивоу свих ЈЛС је: <span th:text="${brojPSR}"></span>   
                     <br><br/>
-                    Број активности са статусом "у току" или "није релевантно" из плана смањења ризика на нивоу свих ЈЛС је: <span th:text="${brojAktivnostiUToku}"></span>  
+                        <br><br/>
+                    Број реализованих активности из Плана смањења ризика на нивоу свих ЈЛС је: <span th:text="${brojAktivnostiGotovih}"></span>   
                     <br><br/>
-                    Број активности од чије се реализације одустало из плана смањења ризика на нивоу свих ЈЛС је: <span th:text="${brojAktivnostiOdustalih}"></span>  
+                    Број активности са статусом "у току" или "није релевантно" из Плана смањења ризика на нивоу свих ЈЛС је: <span th:text="${brojAktivnostiUToku}"></span>  
+                    <br><br/>
+                    Број активности од чије се реализације одустало из Плана смањења ризика на нивоу свих ЈЛС је: <span th:text="${brojAktivnostiOdustalih}"></span>  
                          <br><br/>
+                              <br><br/>
+                          Листа ЈЛСУ које имају унет План смањења ризика.   <button onclick="resetElementPSRIma()" ><b> Прикажи листу</b></button> 
+                    <div class="form-group" id="listaPSRIma" style="display:none">
+                     <br><br/>     <button onclick="resetElementPSRImaHide()" ><b> Уклони листу</b></button> 
+                         <th:block th:if="${!clientSaPSR.empty}"> 
+                        <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Назив корисника</th>
+                               
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="clientA: ${clientSaPSR}" th:attr="data-href=@{/admin/clients/{id}(id=${clientA.id})}">
+                                <th scope="row" th:text="${clientA.id}"></th>
+                                <td th:text="${clientA.name}"></td>
+                            
+                            </tr>
+                        </tbody>
+                    </table>
+                              <br><br/>
+                                        </th:block>
+                        
+                        
+                    </div>
+                  <br><br/>         Листа ЈЛСУ које немају унет План смањења ризика.   <button onclick="resetElementPSR()" ><b> Прикажи листу</b></button> 
+                    <div class="form-group" id="listaPSR" style="display:none">
+                     <br><br/>     <button onclick="resetElementPSRHide()" ><b> Уклони листу</b></button> 
+                         <th:block th:if="${!clientBezPSR.empty}"> 
+                        <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Назив корисника</th>
+                               
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="clientA: ${clientBezPSR}" th:attr="data-href=@{/admin/clients/{id}(id=${clientA.id})}">
+                                <th scope="row" th:text="${clientA.id}"></th>
+                                <td th:text="${clientA.name}"></td>
+                            
+                            </tr>
+                        </tbody>
+                    </table>
+                             <br><br/>
+                                   </th:block>
+                        
+                        
+                    </div>
                            <div class="panel-heading">
                     <span class="panel-title">Оперативни план одбране од поплава</span>
                 </div>
                       <br><br/>
-                Број ЈЛСУ у систему са унетим оперативни планом заштите од поплава је: <span th:text="${brojOPplanova}"></span>    
+                Број ЈЛСУ у систему са унетим Оперативни планом заштите од поплава је: <span th:text="${brojOPplanova}"></span>    
                 <br><br/>
-                Листа ЈЛСУ које нeмају унет оперативни план заштите од поплава.    <button onclick="resetElementPPD()"><b> Прикажи листу</b></button> 
+                Листа ЈЛСУ које имају унет Оперативни план заштите од поплава.    <button onclick="resetElementPPDIma()"><b> Прикажи листу</b></button> 
+                <div class="form-group" id="listaPPDIma" style="display:none">
+                   <br><br/>     <button onclick="resetElementPPDImaHide()" ><b> Уклони листу</b></button> 
+                   
+                    
+                         <th:block th:if="${!clientSaPPD.empty}"> 
+                        <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Назив корисника</th>
+                               
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="clientB: ${clientSaPPD}" th:attr="data-href=@{/admin/clients/{id}(id=${clientB.id})}">
+                                <th scope="row" th:text="${clientB.id}"></th>
+                                <td th:text="${clientB.name}"></td>
+                            
+                            </tr>
+                        </tbody>
+                    </table>
+                              <br><br/>
+                                                   </th:block>
+                       
+                        
+                    </div>
+             <br><br/>    Листа ЈЛСУ које нeмају унет Оперативни план заштите од поплава.    <button onclick="resetElementPPD()"><b> Прикажи листу</b></button> 
                 <div class="form-group" id="listaPPD" style="display:none">
-                       <div class="form-group" id="listaPPD">
+                     <br><br/>     <button onclick="resetElementPPDHide()" ><b> Уклони листу</b></button> 
+                      
                     
                          <th:block th:if="${!clientBezPPD.empty}"> 
                         <table class="table table-striped">
@@ -158,8 +290,9 @@
                          </th:block>
                         
                         
-                    </div> 
+                    
                     </div>
+                 
                 </div>
                 </div>
 

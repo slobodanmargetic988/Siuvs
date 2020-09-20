@@ -27,5 +27,5 @@ public interface PosebanCiljRepository extends JpaRepository<PosebanCilj, Intege
     PosebanCilj findFirstByClientAndPage(Client client, Page page);
 
     List<PosebanCilj> findAllByClientAndPage(Client client, Page page);
-
+PosebanCilj findFirstByClient(Client client);
 }

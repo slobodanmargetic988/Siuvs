@@ -35,4 +35,8 @@ public class DynamicDataServiceImpl implements DynamicDataService {
     public DynamicData findFirstByDynamicRow(DynamicRow dr){
     return dynamicDataRepository.findFirstByRow(dr);
     };
+    @Override
+    public DynamicData checkIfExists(Integer table_definition_id,Integer client_id){
+         return dynamicDataRepository.checkIfExists(table_definition_id,client_id);
+    };
 }

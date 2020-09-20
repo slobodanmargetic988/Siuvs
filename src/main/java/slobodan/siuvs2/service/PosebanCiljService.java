@@ -28,4 +28,5 @@ public interface PosebanCiljService {
     void delete(PosebanCiljID posebanCiljID);
 
     List<PosebanCilj> findAllByClientAndPage(Client client, Page page);
+     PosebanCilj findFirstByClient(Client client);
 }

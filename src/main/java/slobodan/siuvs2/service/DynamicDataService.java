@@ -12,4 +12,5 @@ public interface DynamicDataService {
 
     List<DynamicData> findByRowId(Integer rowId);
 DynamicData findFirstByDynamicRow(DynamicRow dr);
+DynamicData checkIfExists(Integer table_definition_id,Integer client_id);
 }

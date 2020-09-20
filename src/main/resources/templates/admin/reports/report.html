@@ -32,10 +32,11 @@
                 <br><br/>
                     <div     sec:authorize="hasAnyAuthority('ADMIN')">
                     
-                    Листа клијената које се не сматрају општинама.   <button onclick="resetElementLО()" ><b> Прикажи листу</b></button> 
+                    Листа клијената које се не сматрају општинама.   <button class=" btn-xs btn-info btn-outline" onclick="resetElementLО()" ><b> Прикажи листу</b></button> 
+                    <br><br/>
                     <div class="form-group" id="listaOpstina" style="display:none">
-                     <br><br/>     <button onclick="resetElementLОHide()" ><b> Уклони листу</b></button> 
-                         <th:block th:if="${!clientBezOpstina.empty}"> 
+                     <br><br/>     <button class=" btn-xs btn-danger btn-outline" onclick="resetElementLОHide()" ><b> Уклони листу</b></button> 
+                        <br><br/>  <th:block th:if="${!clientBezOpstina.empty}"> 
                         <table class="table table-striped">
                         <thead>
                             <tr>
@@ -64,10 +65,10 @@
                     Број ЈЛСУ са унетом Проценом ризика је: <span th:text="${brojProcena}"></span>
                     <br><br/>
                       
-                        Листа ЈЛСУ које имају унету Процену ризика за макар једну врсту опасности.   <button onclick="resetElementLAIma()" ><b> Прикажи листу</b></button> 
+                        Листа ЈЛСУ које имају унету Процену ризика за макар једну врсту опасности.   <button class=" btn-xs btn-info btn-outline" onclick="resetElementLAIma()" ><b> Прикажи листу</b></button>   <br><br/>
                     <div class="form-group" id="listaAssesmentIma" style="display:none">
-                  <br><br/>     <button onclick="resetElementLAImaHide()" ><b> Уклони листу</b></button> 
-                         <th:block th:if="${!clientSaAssessment.empty}"> 
+                  <br><br/>     <button class=" btn-xs btn-danger btn-outline" onclick="resetElementLAImaHide()" ><b> Уклони листу</b></button> 
+                    <br><br/>       <th:block th:if="${!clientSaAssessment.empty}"> 
                         <table class="table table-striped">
                         <thead>
                             <tr>
@@ -89,9 +90,9 @@
                         
                         
                     </div>
-                  <br><br/>       Листа ЈЛСУ које нeмају унету Процену ризика за ниједну врсту опасности.   <button onclick="resetElementLA()" ><b> Прикажи листу</b></button> 
+                  <br><br/>       Листа ЈЛСУ које нeмају унету Процену ризика за ниједну врсту опасности.   <button class=" btn-xs btn-info btn-outline" onclick="resetElementLA()" ><b> Прикажи листу</b></button>  <br><br/> 
                     <div class="form-group" id="listaAssesment" style="display:none">
-                    <br><br/>     <button onclick="resetElementLAHide()" ><b> Уклони листу</b></button> 
+                    <br><br/>     <button class=" btn-xs btn-danger btn-outline" onclick="resetElementLAHide()" ><b> Уклони листу</b></button>  <br><br/> 
                          <th:block th:if="${!clientBezAssessment.empty}"> 
                         <table class="table table-striped">
                         <thead>
@@ -119,9 +120,9 @@
                 </div> <br><br/>
                     Број ЈЛСУ са унетим Планом заштите и спасавања је: <span th:text="${brojPZS}"></span>
                     <br><br/>
-                          Листа ЈЛСУ које имају унет План заштите и спасавања.   <button onclick="resetElementLPZSIma()" ><b> Прикажи листу</b></button> 
+                          Листа ЈЛСУ које имају унет План заштите и спасавања.   <button class=" btn-xs btn-info btn-outline" onclick="resetElementLPZSIma()" ><b> Прикажи листу</b></button>   <br><br/>
                     <div class="form-group" id="listaPZSIma" style="display:none">
-                     <br><br/>     <button onclick="resetElementLPZSImaHide()" ><b> Уклони листу</b></button> 
+                     <br><br/>     <button class=" btn-xs btn-danger btn-outline" onclick="resetElementLPZSImaHide()" ><b> Уклони листу</b></button>  <br><br/>   
                          <th:block th:if="${!clientSaPZS.empty}"> 
                         <table class="table table-striped">
                         <thead>
@@ -144,9 +145,9 @@
                         
                         
                     </div>
-                 <br><br/>          Листа ЈЛСУ које нeмају унет План заштите и спасавања.   <button onclick="resetElementLPZS()" ><b> Прикажи листу</b></button> 
+                 <br><br/>          Листа ЈЛСУ које нeмају унет План заштите и спасавања.   <button class=" btn-xs btn-info btn-outline"  onclick="resetElementLPZS()" ><b> Прикажи листу</b></button>   <br><br/>
                     <div class="form-group" id="listaPZS" style="display:none">
-                     <br><br/>     <button onclick="resetElementLPZSHide()" ><b> Уклони листу</b></button> 
+                     <br><br/>     <button class=" btn-xs btn-danger btn-outline" onclick="resetElementLPZSHide()" ><b> Уклони листу</b></button>  <br><br/>   
                          <th:block th:if="${!clientBezPZS.empty}"> 
                         <table class="table table-striped">
                         <thead>
@@ -182,9 +183,9 @@
                     Број активности од чије се реализације одустало из Плана смањења ризика на нивоу свих ЈЛС је: <span th:text="${brojAktivnostiOdustalih}"></span>  
                          <br><br/>
                               <br><br/>
-                          Листа ЈЛСУ које имају унет План смањења ризика.   <button onclick="resetElementPSRIma()" ><b> Прикажи листу</b></button> 
+                          Листа ЈЛСУ које имају унет План смањења ризика.   <button class=" btn-xs btn-info btn-outline"  onclick="resetElementPSRIma()" ><b> Прикажи листу</b></button>   <br><br/>
                     <div class="form-group" id="listaPSRIma" style="display:none">
-                     <br><br/>     <button onclick="resetElementPSRImaHide()" ><b> Уклони листу</b></button> 
+                     <br><br/>     <button class=" btn-xs btn-danger btn-outline" onclick="resetElementPSRImaHide()" ><b> Уклони листу</b></button>  <br><br/>
                          <th:block th:if="${!clientSaPSR.empty}"> 
                         <table class="table table-striped">
                         <thead>
@@ -207,9 +208,9 @@
                         
                         
                     </div>
-                  <br><br/>         Листа ЈЛСУ које немају унет План смањења ризика.   <button onclick="resetElementPSR()" ><b> Прикажи листу</b></button> 
+                  <br><br/>         Листа ЈЛСУ које немају унет План смањења ризика.   <button class=" btn-xs btn-info btn-outline"  onclick="resetElementPSR()" ><b> Прикажи листу</b></button>   <br><br/>
                     <div class="form-group" id="listaPSR" style="display:none">
-                     <br><br/>     <button onclick="resetElementPSRHide()" ><b> Уклони листу</b></button> 
+                     <br><br/>     <button class=" btn-xs btn-danger btn-outline" onclick="resetElementPSRHide()" ><b> Уклони листу</b></button>  <br><br/>
                          <th:block th:if="${!clientBezPSR.empty}"> 
                         <table class="table table-striped">
                         <thead>
@@ -238,9 +239,9 @@
                       <br><br/>
                 Број ЈЛСУ у систему са унетим Оперативни планом заштите од поплава је: <span th:text="${brojOPplanova}"></span>    
                 <br><br/>
-                Листа ЈЛСУ које имају унет Оперативни план заштите од поплава.    <button onclick="resetElementPPDIma()"><b> Прикажи листу</b></button> 
+                Листа ЈЛСУ које имају унет Оперативни план заштите од поплава.    <button class=" btn-xs btn-info btn-outline" onclick="resetElementPPDIma()"><b> Прикажи листу</b></button>   <br><br/>
                 <div class="form-group" id="listaPPDIma" style="display:none">
-                   <br><br/>     <button onclick="resetElementPPDImaHide()" ><b> Уклони листу</b></button> 
+                   <br><br/>     <button class=" btn-xs btn-danger btn-outline" onclick="resetElementPPDImaHide()" ><b> Уклони листу</b></button> <br><br/> 
                    
                     
                          <th:block th:if="${!clientSaPPD.empty}"> 
@@ -265,9 +266,9 @@
                        
                         
                     </div>
-             <br><br/>    Листа ЈЛСУ које нeмају унет Оперативни план заштите од поплава.    <button onclick="resetElementPPD()"><b> Прикажи листу</b></button> 
+             <br><br/>    Листа ЈЛСУ које нeмају унет Оперативни план заштите од поплава.    <button class=" btn-xs btn-info btn-outline" onclick="resetElementPPD()"><b> Прикажи листу</b></button>   <br><br/>
                 <div class="form-group" id="listaPPD" style="display:none">
-                     <br><br/>     <button onclick="resetElementPPDHide()" ><b> Уклони листу</b></button> 
+                     <br><br/>     <button class=" btn-xs btn-danger btn-outline" onclick="resetElementPPDHide()" ><b> Уклони листу</b></button> <br><br/> 
                       
                     
                          <th:block th:if="${!clientBezPPD.empty}"> 

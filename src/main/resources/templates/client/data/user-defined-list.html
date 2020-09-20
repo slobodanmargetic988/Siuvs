@@ -27,7 +27,7 @@
                     <span class="panel-title">Списак табела</span>
                 </div>
                 <div class="table-responsive">
-                    <table class="table table-striped valign-middle">
+                    <table class="table table-striped ">
                         <tbody>
                             <tr th:each="customTableDefinition: ${customTableDefinitions}">
                                 <td><a th:href="@{/client/{pageId}/{tableDefinitionId}/{customTableDefinitionId}(pageId=${page.id},tableDefinitionId=${customTableDefinition.tableDefinition.id},customTableDefinitionId=${customTableDefinition.id})}" th:text="${customTableDefinition.title}"></a>

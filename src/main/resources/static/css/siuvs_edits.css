@@ -15,6 +15,56 @@ table head #7990a8
 */
 /* Body */
 
+    
+@media only screen and (max-width: 450px)  {
+    .headermali{
+        display: none;
+    }
+    .futermali{
+        padding: 0px;
+     padding-left: 5px;
+        font-size: 7pt;
+       
+    }
+       .contentmali{
+   padding: 0px;
+   
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+    .zaglavlje{
+       font-size: 8pt; 
+        color:white;
+    }
+.maketextsmaller{
+   /* min-width: 100px*/
+    font-size: 9pt;
+  
+    color: black;
+   /* background-color: white;*/
+   
+}
+.maketextsmaller2{
+   /* min-width: 100px*/
+    font-size: 8pt;
+    color: black;
+   
+   /* background-color: white;*/
+   /* background:rgba(304, 304, 304, 0.5);*/
+}
+.dontshow{
+    display: none;
+    
+}
+.showsmall{
+    max-width: 65px;
+    
+}
+.pozadina{
+    margin-top: 10px;
+    background:rgba(304, 304, 304, 0.5); 
+}
+}
 body {
     background-color: #eeeff3;
 }

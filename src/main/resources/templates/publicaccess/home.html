@@ -12,20 +12,22 @@
      <th:block th:insert="fragments/navigation-publicaccess :: navigation"></th:block>
 
         <!-- Content -->
-        <div class="px-content">
+        <div class="px-content contentmali">
 
-<div class="panel">
+<!-- <div class="panel">
        
-            <div class="panel-body" style="color:#304251; max-width: 800px">
-                <p style="text-align: center; font-size: 2em;">Јавни приступ</p>
-                <a th:href="@{/publicaccess/clients}"><i class="fa fa-institution m-r-1"></i>Избор општине</a>
+       <!-- Content --   <div class="panel-body" style="color:#304251; max-width: 800px"><!-- Content -->
+                <p class="maketextsmaller" >Јавни приступ</p>
+                <a class="maketextsmaller" style="color:darkslateblue" th:href="@{/publicaccess/clients}"><i class="fa fa-institution m-r-1"></i>Избор општине</a>
                 
                <!--    Корисничко упутство за рад у СИВУС апликацији можете преузети <a href="https://siuvs.rs/img/Manual.pdf">ОВДЕ.</a>-->
                 </p>
-            </div>
+           
         
-        </div>
+        
         <th:block th:insert="fragments/investitori :: investors" />
+    <!-- Content --    </div><!-- Content 
+        </div>-->
 </div>
 
         <th:block th:insert="fragments/footer :: footer-standard" />

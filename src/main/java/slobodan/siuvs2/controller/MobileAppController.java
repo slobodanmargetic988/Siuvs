@@ -1,29 +1,16 @@
 package slobodan.siuvs2.controller;
 
-import slobodan.siuvs2.model.Roles;
-import slobodan.siuvs2.model.SiuvsUserPrincipal;
-import slobodan.siuvs2.model.User;
 import slobodan.siuvs2.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
-import java.util.List;
-import java.util.ArrayList;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -81,14 +68,8 @@ public class MobileAppController {
             final Model model,
             final RedirectAttributes redirectAttributes) {
 
-        String registration_ids="\"fOa1rkFpQpuW782aUdYr7q:APA91bFhzOIZ3P5-Uj9pBygwY_PiZeBtlIAH8Qm1jQuCghuF2rCSgMzUEMeUHEI2yISLYjhHkLDnbMYkgM6QbDn8lQBWCichlcieq2qB693CZ2IN1zGvvcWJHh-W7qvrTpHc-BUWE0Vu\"";  
-    /* 
-        String registration_ids="\"fOa1rkFpQpuW782aUdYr7q:APA91bFhzOIZ3P5-Uj9pBygwY_PiZeBtlIAH8Qm1jQuCghuF2rCSgMzUEMeUHEI2yISLYjhHkLDnbMYkgM6QbDn8lQBWCichlcieq2qB693CZ2IN1zGvvcWJHh-W7qvrTpHc-BUWE0Vu\", "
-                + "\"drjPO26gRBCV18CQXx7qvR:APA91bG82mDMwPY1dRIC9uxVfYT6-GmsRDPdR92weIWehbBY12pvI_zmLUISty_Tn8OtkKcxJeXY-TdXkcqvBlCnUKlpUek5xyEq0mbaEXJ5u1JB_3eUNczw-bFefZ8GPP-3ZF9eKpiS\",\n" +
-"    \"cCYDaFsFSReDR9pw5zlBrj:APA91bG2FoekMgpcuZeYRTeBYXIbBfCRcAP5oPyhONmDBXXmIkm8P_oXftBMaA8B8AnZukX2RkvA6t5pdRMG82kfW_P2KPaoTo5M_HSeREApan6U4psQ8ZqUHtT2W4L-F586r2BaPWrS\",\n" +
-"    \"fisUgnh5RW2vnN4MJCx0mH:APA91bHXlm33Xe349UPKuqnBuXKOEvcT7JzHsOgPe1wXugmOMJpSzBsfkjpiVtfJgQi8JWaoXB7PnmhnznN_iTyQ0JPQsQhfihw97QzVls87LraSdekCPDdde6ARf9RGQWAny_g38pyM\",\n" +
-"    \"eAvyOtIYTU6PBWZhL51sxK:APA91bHirr_1-qqP3nej3NtG42r-72ihpPigKJlOQ464waoyzIxjObmEhrWj2FRGO9YZUyo6HcrmXEhB1ipBC-yuV1VJHzHNNQvNGyHko6w0CbYggZXv4DmDfHPCq1JTGG8mBVWhpsc2\"";
-      */         
+        String registration_ids=buildRegistrationIds("");
+        
      String titleTextV=" ";
      String bodyTextV=" ";
      String imageTextV=" ";
@@ -96,15 +77,17 @@ public class MobileAppController {
      String linkTextV=" ";
      String linkTextTextV=" ";
      
-     if (!titleText.equals("") || !titleText.equals(" ")){titleTextV=titleText;}
+     if (!titleText.equals("") && !titleText.equals(" ")){titleTextV=titleText;}
 
-    if (!bodyText.equals("") || !bodyText.equals(" ")){bodyTextV=bodyText;}
+    if (!bodyText.equals("") && !bodyText.equals(" ")){bodyTextV=bodyText;}
     
-    if (!imageText.equals("") || !imageText.equals(" ")||imageText.startsWith("http")){imageTextV=imageText;}
-    if (!messageText.equals("") || !messageText.equals(" ")){messageTextV=messageText;}
-    if (!linkText.equals("") | !linkText.equals(" ")||linkText.startsWith("http") ){linkTextV=linkText;}
+    if (!imageText.equals("") && !imageText.equals(" ")&&imageText.startsWith("http")){imageTextV=imageText;}
+    if (!messageText.equals("") && !messageText.equals(" ")){messageTextV=messageText;}
+    if (!linkText.equals("") &&!linkText.equals(" ")&&linkText.startsWith("http") ){linkTextV=linkText;
+     if (!linkTextText.equals("") && !linkTextText.equals(" ")){linkTextTextV=linkTextText;}
+    }
   
-      if (!linkTextText.equals("") || !linkTextText.equals(" ")){linkTextTextV=linkTextText;}
+   
     
     
         String JSON_Body =buildJSONBody( titleTextV, bodyTextV, imageTextV, messageTextV, linkTextV, linkTextTextV, registration_ids);
@@ -117,7 +100,7 @@ public class MobileAppController {
             post.setEntity(requestEntity);
             HttpResponse rawResponse = httpclient.execute(post);
 
-            redirectAttributes.addFlashAttribute("successMessage", "Нотификација успешно послата!"+rawResponse.toString());
+            redirectAttributes.addFlashAttribute("successMessage", "Нотификација успешно послата!");
 
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("errorMessage", "Грешка приликом слања нотификације!");
@@ -140,12 +123,7 @@ public class MobileAppController {
         String link="https://siuvs.rs/";
         String linkText="Login strana na siuvs.rs";
 
-        String registration_ids="\"fOa1rkFpQpuW782aUdYr7q:APA91bFhzOIZ3P5-Uj9pBygwY_PiZeBtlIAH8Qm1jQuCghuF2rCSgMzUEMeUHEI2yISLYjhHkLDnbMYkgM6QbDn8lQBWCichlcieq2qB693CZ2IN1zGvvcWJHh-W7qvrTpHc-BUWE0Vu\", "
-                + "\"drjPO26gRBCV18CQXx7qvR:APA91bG82mDMwPY1dRIC9uxVfYT6-GmsRDPdR92weIWehbBY12pvI_zmLUISty_Tn8OtkKcxJeXY-TdXkcqvBlCnUKlpUek5xyEq0mbaEXJ5u1JB_3eUNczw-bFefZ8GPP-3ZF9eKpiS\",\n" +
-"    \"cCYDaFsFSReDR9pw5zlBrj:APA91bG2FoekMgpcuZeYRTeBYXIbBfCRcAP5oPyhONmDBXXmIkm8P_oXftBMaA8B8AnZukX2RkvA6t5pdRMG82kfW_P2KPaoTo5M_HSeREApan6U4psQ8ZqUHtT2W4L-F586r2BaPWrS\",\n" +
-"    \"fisUgnh5RW2vnN4MJCx0mH:APA91bHXlm33Xe349UPKuqnBuXKOEvcT7JzHsOgPe1wXugmOMJpSzBsfkjpiVtfJgQi8JWaoXB7PnmhnznN_iTyQ0JPQsQhfihw97QzVls87LraSdekCPDdde6ARf9RGQWAny_g38pyM\",\n" +
-"    \"eAvyOtIYTU6PBWZhL51sxK:APA91bHirr_1-qqP3nej3NtG42r-72ihpPigKJlOQ464waoyzIxjObmEhrWj2FRGO9YZUyo6HcrmXEhB1ipBC-yuV1VJHzHNNQvNGyHko6w0CbYggZXv4DmDfHPCq1JTGG8mBVWhpsc2\"";
-              
+        String registration_ids=buildRegistrationIds("");
         String JSON_Body =buildJSONBody( title, body, image, message, link, linkText, registration_ids);
         try {
             HttpClient httpclient = HttpClients.createDefault();
@@ -167,18 +145,13 @@ public class MobileAppController {
     @PostMapping("/admin/mobileapp/slanje/posalji2")
     public String mobileappSlanjeNotifikacije2(final Model model,
             final RedirectAttributes redirectAttributes) {
-  String title="Naslov 1 sa siuvs.rs";
-        String body="Telo 1 sa siuvs.rs";
+  String title="Naslov 2 sa siuvs.rs";
+        String body="Telo 2 sa siuvs.rs";
         String image="https://cdn0.tnwcdn.com/wp-content/blogs.dir/1/files/2020/02/Google-Image-Search.jpg";
-        String message="Poruka 1 sa siuvs.rs";
+        String message="Poruka 2 sa siuvs.rs";
         String link="https://siuvs.rs/";
         String linkText="Login strana na siuvs.rs";
-        String registration_ids="\"fOa1rkFpQpuW782aUdYr7q:APA91bFhzOIZ3P5-Uj9pBygwY_PiZeBtlIAH8Qm1jQuCghuF2rCSgMzUEMeUHEI2yISLYjhHkLDnbMYkgM6QbDn8lQBWCichlcieq2qB693CZ2IN1zGvvcWJHh-W7qvrTpHc-BUWE0Vu\", "
-                + "\"drjPO26gRBCV18CQXx7qvR:APA91bG82mDMwPY1dRIC9uxVfYT6-GmsRDPdR92weIWehbBY12pvI_zmLUISty_Tn8OtkKcxJeXY-TdXkcqvBlCnUKlpUek5xyEq0mbaEXJ5u1JB_3eUNczw-bFefZ8GPP-3ZF9eKpiS\",\n" +
-"    \"cCYDaFsFSReDR9pw5zlBrj:APA91bG2FoekMgpcuZeYRTeBYXIbBfCRcAP5oPyhONmDBXXmIkm8P_oXftBMaA8B8AnZukX2RkvA6t5pdRMG82kfW_P2KPaoTo5M_HSeREApan6U4psQ8ZqUHtT2W4L-F586r2BaPWrS\",\n" +
-"    \"fisUgnh5RW2vnN4MJCx0mH:APA91bHXlm33Xe349UPKuqnBuXKOEvcT7JzHsOgPe1wXugmOMJpSzBsfkjpiVtfJgQi8JWaoXB7PnmhnznN_iTyQ0JPQsQhfihw97QzVls87LraSdekCPDdde6ARf9RGQWAny_g38pyM\",\n" +
-"    \"eAvyOtIYTU6PBWZhL51sxK:APA91bHirr_1-qqP3nej3NtG42r-72ihpPigKJlOQ464waoyzIxjObmEhrWj2FRGO9YZUyo6HcrmXEhB1ipBC-yuV1VJHzHNNQvNGyHko6w0CbYggZXv4DmDfHPCq1JTGG8mBVWhpsc2\"";
-               
+        String registration_ids=buildRegistrationIds("");
         String JSON_Body =buildJSONBody( title, body, image, message, link, linkText, registration_ids);
         try {
             HttpClient httpclient = HttpClients.createDefault();
@@ -200,19 +173,14 @@ public class MobileAppController {
     @PostMapping("/admin/mobileapp/slanje/posalji3")
     public String mobileappSlanjeNotifikacije3(final Model model,
             final RedirectAttributes redirectAttributes) {
- String title="Naslov 1 sa siuvs.rs";
-        String body="Telo 1 sa siuvs.rs";
+ String title="Naslov 3 sa siuvs.rs";
+        String body="Telo 3 sa siuvs.rs";
         String image="https://cdn0.tnwcdn.com/wp-content/blogs.dir/1/files/2020/02/Google-Image-Search.jpg";
-        String message="Poruka 1 sa siuvs.rs";
+        String message="Poruka 3 sa siuvs.rs";
         String link="https://siuvs.rs/";
         String linkText="Login strana na siuvs.rs";
 
-        String registration_ids="\"fOa1rkFpQpuW782aUdYr7q:APA91bFhzOIZ3P5-Uj9pBygwY_PiZeBtlIAH8Qm1jQuCghuF2rCSgMzUEMeUHEI2yISLYjhHkLDnbMYkgM6QbDn8lQBWCichlcieq2qB693CZ2IN1zGvvcWJHh-W7qvrTpHc-BUWE0Vu\", "
-                + "\"drjPO26gRBCV18CQXx7qvR:APA91bG82mDMwPY1dRIC9uxVfYT6-GmsRDPdR92weIWehbBY12pvI_zmLUISty_Tn8OtkKcxJeXY-TdXkcqvBlCnUKlpUek5xyEq0mbaEXJ5u1JB_3eUNczw-bFefZ8GPP-3ZF9eKpiS\",\n" +
-"    \"cCYDaFsFSReDR9pw5zlBrj:APA91bG2FoekMgpcuZeYRTeBYXIbBfCRcAP5oPyhONmDBXXmIkm8P_oXftBMaA8B8AnZukX2RkvA6t5pdRMG82kfW_P2KPaoTo5M_HSeREApan6U4psQ8ZqUHtT2W4L-F586r2BaPWrS\",\n" +
-"    \"fisUgnh5RW2vnN4MJCx0mH:APA91bHXlm33Xe349UPKuqnBuXKOEvcT7JzHsOgPe1wXugmOMJpSzBsfkjpiVtfJgQi8JWaoXB7PnmhnznN_iTyQ0JPQsQhfihw97QzVls87LraSdekCPDdde6ARf9RGQWAny_g38pyM\",\n" +
-"    \"eAvyOtIYTU6PBWZhL51sxK:APA91bHirr_1-qqP3nej3NtG42r-72ihpPigKJlOQ464waoyzIxjObmEhrWj2FRGO9YZUyo6HcrmXEhB1ipBC-yuV1VJHzHNNQvNGyHko6w0CbYggZXv4DmDfHPCq1JTGG8mBVWhpsc2\"";
-             
+        String registration_ids=buildRegistrationIds("");
         String JSON_Body =buildJSONBody( title, body, image, message, link, linkText, registration_ids);
         try {
             HttpClient httpclient = HttpClients.createDefault();
@@ -248,5 +216,17 @@ public class MobileAppController {
                 + "}";
 
         return JSONBody;
+    }
+        private String buildRegistrationIds(String registration_id) {
+
+     String   registration_id1="\"d32ZKzP0RYCXmBskF-pj4s:APA91bEwj0QDcTtLHSgHxLs2ALOre1Ows-zDgoJiCZ1vtl2LnBVZ-J_WZoKMdlUnm_-N8bWjftdPF0o7hNgGjElwhOxfOdcblFLimK3V-91hr0ku4xMkwujjpNz8DY-Nvlp-93mkk9wH\"";
+    String registration_ids="\"fOa1rkFpQpuW782aUdYr7q:APA91bFhzOIZ3P5-Uj9pBygwY_PiZeBtlIAH8Qm1jQuCghuF2rCSgMzUEMeUHEI2yISLYjhHkLDnbMYkgM6QbDn8lQBWCichlcieq2qB693CZ2IN1zGvvcWJHh-W7qvrTpHc-BUWE0Vu\", "
+                + "\"drjPO26gRBCV18CQXx7qvR:APA91bG82mDMwPY1dRIC9uxVfYT6-GmsRDPdR92weIWehbBY12pvI_zmLUISty_Tn8OtkKcxJeXY-TdXkcqvBlCnUKlpUek5xyEq0mbaEXJ5u1JB_3eUNczw-bFefZ8GPP-3ZF9eKpiS\",\n" +
+"    \"cCYDaFsFSReDR9pw5zlBrj:APA91bG2FoekMgpcuZeYRTeBYXIbBfCRcAP5oPyhONmDBXXmIkm8P_oXftBMaA8B8AnZukX2RkvA6t5pdRMG82kfW_P2KPaoTo5M_HSeREApan6U4psQ8ZqUHtT2W4L-F586r2BaPWrS\",\n" +
+"    \"fisUgnh5RW2vnN4MJCx0mH:APA91bHXlm33Xe349UPKuqnBuXKOEvcT7JzHsOgPe1wXugmOMJpSzBsfkjpiVtfJgQi8JWaoXB7PnmhnznN_iTyQ0JPQsQhfihw97QzVls87LraSdekCPDdde6ARf9RGQWAny_g38pyM\",\n" +
+"    \"eAvyOtIYTU6PBWZhL51sxK:APA91bHirr_1-qqP3nej3NtG42r-72ihpPigKJlOQ464waoyzIxjObmEhrWj2FRGO9YZUyo6HcrmXEhB1ipBC-yuV1VJHzHNNQvNGyHko6w0CbYggZXv4DmDfHPCq1JTGG8mBVWhpsc2\"";
+             
+     
+        return registration_id1;
     }
 }

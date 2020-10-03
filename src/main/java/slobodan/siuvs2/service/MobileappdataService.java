@@ -16,4 +16,5 @@ public interface MobileappdataService {
     void save(Mobileappdata mobileappdata);
     void update(MobileappdataID mobileappdataId, Mobileappdata mobileappdata);
     Mobileappdata findOne(MobileappdataID mobileappdataId);
+ 
 }

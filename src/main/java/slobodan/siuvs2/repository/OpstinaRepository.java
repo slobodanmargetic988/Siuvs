@@ -20,7 +20,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface OpstinaRepository extends JpaRepository<Opstina, Integer> {
 
     Opstina findFirstByDistrikt(Distrikt distrikt);
-
+    Opstina findFirstByName(String name);
+Opstina findFirstByNamelatinica(String namelatinica);
     List<Opstina> findAllByDistriktOrderByIdAsc(Distrikt distrikt);
 
     List<Opstina> findAllByProvincijaOrderByIdAsc(Provincija provincija);

@@ -20,6 +20,8 @@ import slobodan.siuvs2.valueObject.OpstinaID;
 public interface OpstinaService {
 
     Opstina findOne(OpstinaID opstinaID);
+    Opstina findFirstByName(String name);
+    Opstina findFirstByNamelatinica(String name);
 
     List<Opstina> findAllOrderByNameAsc();
 

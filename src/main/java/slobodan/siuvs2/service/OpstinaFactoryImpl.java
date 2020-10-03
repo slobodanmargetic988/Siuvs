@@ -21,6 +21,7 @@ public class OpstinaFactoryImpl implements OpstinaFactory {
         opstina.setDistrikt(distrikt);
         opstina.setProvincija(provincija);
         opstina.setName("");
+          opstina.setNamelatinica("");
         return opstina;
     }
 

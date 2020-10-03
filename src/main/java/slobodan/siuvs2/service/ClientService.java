@@ -28,4 +28,5 @@ public interface ClientService {
     Page<Client> findAllByOpstinaIdOrderByNameAsc(List<Integer> opstinaId, Pageable pageable);
 
     Page<Client> findAllByOpstinaInOrderByNameAsc(List<Opstina> opstina, Pageable pageable);
+      Client findFirstByOpstina(Opstina opstina);
 }

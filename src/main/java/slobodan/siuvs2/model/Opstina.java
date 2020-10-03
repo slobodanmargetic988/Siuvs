@@ -64,6 +64,17 @@ public class Opstina {
     @Column(name = "opstina_name")
     private String name;
 
+    @Column(name = "opstina_name_latinica")
+    private String namelatinica;
+
+    public String getNamelatinica() {
+        return namelatinica;
+    }
+
+    public void setNamelatinica(String namelatinica) {
+        this.namelatinica = namelatinica;
+    }
+    
     public int getId() {
         return id;
     }

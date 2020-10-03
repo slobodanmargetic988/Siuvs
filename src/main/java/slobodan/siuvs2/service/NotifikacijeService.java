@@ -11,7 +11,9 @@ public interface NotifikacijeService {
 
     
     List<Notifikacije> findAllBy();
-    List<Notifikacije> findAllByOpstina( String opstina);
+    List<Notifikacije> findAllByOrderByOpstinaAsc();
+     List<String> findDistinctByToken();
+    List<String> findAllByOpstina( String opstina);
     List<Notifikacije> findAllByToken( String token);
      Notifikacije findFirstByOpstinaAndToken(  String opstina, String token);
      Long deleteByToken(String token);

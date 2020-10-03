@@ -30,7 +30,18 @@
 
                         <form th:action="@{/admin/mobileapp/slanje/posalji}"  method="post" class="form-horizontal" autocomplete="off">
                             <div class="form-group col-md-12">
+ <div class="col-md-12" >
+                                <label  class="col-md-3 " >Изабери општину : </label>
 
+                                   
+                                        <select class="col-md-9 "  name="opstinanamelatinica"  >
+                                             <option value="Sve Opštine" >Sve Opštine</option>
+                                            <option  th:each="opstina : ${opstine}" th:value="${opstina.namelatinica}" th:text="${opstina.namelatinica}">Текст</option>
+
+                                        </select> 
+                                    </div>
+                                    <br> </br>
+                                
                                 <div class="col-md-12" >
                                     <label  class="col-md-3 " >Наслов нотификације: </label>
                                     <input type="text"   class="col-md-9"  name="titleText" > 
@@ -52,14 +63,14 @@
                                 <br> </br>
  <br> </br> <br> </br> <br> 
                                 <div class="col-md-12" >
-                                    <label  class="col-md-3 " >Слика уз нотификацију: </label>
+                                    <label  class="col-md-3 " >Слика уз нотификацију (веб линк): </label>
                                     <input type="text"   class="col-md-9"  name="imageText" > 
                                 </div>
 
                                 <br> </br>
 
                                 <div class="col-md-12" >
-                                    <label  class="col-md-3 " >Веб линк уз нотификацију (адреса на коју линк шаље): </label>
+                                    <label  class="col-md-3 " >Веб линк уз нотификацију (адреса на коју линк шаље када се кликне): </label>
                                     <input type="text"   class="col-md-9"  name="linkText" > 
                                 </div>
                                 <br> </br>

@@ -14,12 +14,44 @@
             <div th:replace="fragments/page :: title (icon='fa fa-area-chart', title='Администраторски панел за мобилну апликацију')"></div>
              <!-- Content -->
              
-            <p>Опције:</p>
-           <!-- Content -->
 
-           <p><a th:href="@{/admin/mobileapp/izmenaProcena}"><i class="fa fa-users m-r-1"></i>Измена процена</a></p>
 
-                    <th:block th:insert="fragments/page :: contact" />
+                 <div class="panel-body data-panel-body">
+                    <div th:replace="fragments/alert :: success (${successMessage})"></div>
+
+                    <div th:replace="fragments/alert :: error (${errorMessage})"></div>
+
+
+                    <div class="panel-body">
+
+                        <form th:action="@{/admin/mobileapp/izmenaProcena/izmeni}"  method="post" class="form-horizontal" autocomplete="off">
+                            <div class="form-group col-md-12">
+
+                                <div class="col-md-12" >
+                                    <label  class="col-md-3 " >Изабери општину: </label>
+
+                                    <div class="col-md-9" >
+                                        <select class="col-md-9 "  name="opstinanamelatinica"  >
+                                            <option  th:each="opstina : ${opstine}" th:value="${opstina.namelatinica}" th:text="${opstina.namelatinica}">Текст</option>
+
+                                        </select> 
+                                    </div>
+                                    <br> </br>
+
+
+                                <div class="col-md-offset-3 col-md-9">
+                                    <button type="submit" class="btn btn-primary">Измени</button>
+                                   
+                                </div> 
+                            </div> 
+                        </form>
+
+                  
+
+                    </div>
+
+
+                </div> 
               <!-- Content -->
             
  </div>

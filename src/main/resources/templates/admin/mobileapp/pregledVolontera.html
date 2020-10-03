@@ -5,24 +5,62 @@
         <th:block th:include="fragments/head :: head" />
     </head>
     <body class="dashboard">
-                <!-- Content -->
+        <!-- Content -->
         <th:block th:insert="fragments/navigation :: navigation" />
         <!-- Content -->
         <!-- Content -->
         <div class="px-content contentmali">
-  <!-- Content -->
+            <!-- Content -->
             <div th:replace="fragments/page :: title (icon='fa fa-area-chart', title='Администраторски панел за мобилну апликацију')"></div>
-             <!-- Content -->
-             
-            <p>Опције:</p>
-           <!-- Content -->
+            <!-- Content -->
 
-           <p><a th:href="@{/admin/mobileapp/pregledVolontera}"><i class="fa fa-users m-r-1"></i>Преглед волонтера</a></p>
+            <div class="panel-body data-panel-body">
+                <div th:replace="fragments/alert :: success (${successMessage})"></div>
 
-                    <th:block th:insert="fragments/page :: contact" />
-              <!-- Content -->
-            
- </div>
+                <div th:replace="fragments/alert :: error (${errorMessage})"></div>
+
+                <div class="panel" >
+                <div class="panel-body data-panel-body">
+
+                    <p>Преглед волонтера: </p>
+                    <table class="table table-striped" style="background-color: white">
+                        <!-- plan-->
+                        <th:block th:if="${volonteri != null}">
+                            <thead>
+                                <tr >
+
+                                    <td colspan="1" >Име</td>
+                                    <td colspan="1">Презиме</td>
+                                    <td colspan="1">Емаил</td>
+                                    <td colspan="1">Општина</td>
+                                    <td colspan="1">Телефон</td>
+
+                                </tr>
+                            </thead>
+                            <!-- opsti cilj-->
+                            <th:block th:each="volonter: ${volonteri}">
+                                <tr >
+                                    <td >    <span th:text="${volonter.ime}"></span> </td>
+                                    <td >    <span th:text="${volonter.prezime}"></span> </td>
+                                    <td >    <span th:text="${volonter.email}"></span> </td>
+                                    <td >    <span th:text="${volonter.opstina}"></span> </td>
+                                    <td >    <span th:text="${volonter.telefon}"></span> </td>
+                                </tr>
+                            </th:block>
+
+                        </th:block>
+
+
+                    </table>
+
+
+                </div>
+</div>
+
+            </div> 
+            <!-- Content -->
+
+        </div>
 
         <th:block th:insert="fragments/footer :: footer-standard" />
 

@@ -30,6 +30,15 @@ public class OpstinaServiceImpl implements OpstinaService {
     public Opstina findOne(OpstinaID opstinaID) {
         return opstinaRepository.findOne(opstinaID.getValue());
     }
+    
+    @Override
+    public Opstina findFirstByName(String name) {
+        return opstinaRepository.findFirstByName(name);
+    }
+        @Override
+    public Opstina findFirstByNamelatinica(String name) {
+        return opstinaRepository.findFirstByNamelatinica(name);
+    }
 
     @Override
     public List<Opstina> findAllOrderByNameAsc() {

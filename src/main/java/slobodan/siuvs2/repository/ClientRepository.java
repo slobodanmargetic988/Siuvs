@@ -20,4 +20,5 @@ public interface ClientRepository extends JpaRepository<Client, Integer> {
     Page<Client> findByOpstinaIdInOrderByNameAsc(List<Integer> opstinaId, Pageable pageable);
 
     Page<Client> findByOpstinaInOrderByNameAsc(List<Opstina> opstina, Pageable pageable);
-}
+    Client findFirstByOpstina(Opstina opstina);
+            }

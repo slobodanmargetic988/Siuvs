@@ -81,4 +81,8 @@ public class ClientServiceImpl implements ClientService {
     public Page<Client> findAllByOpstinaInOrderByNameAsc(List<Opstina> opstina, Pageable pageable) {
         return clientRepository.findByOpstinaInOrderByNameAsc(opstina, pageable);
     }
+      @Override
+    public  Client findFirstByOpstina(Opstina opstina){
+     return clientRepository.findFirstByOpstina(opstina);
+    };
 }

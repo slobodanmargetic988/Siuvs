@@ -27,8 +27,18 @@ public class NotifikacijeServiceImpl implements NotifikacijeService {
        return notifikacijeRepository.findAllBy();
     }
     
+      @Override
+    public List<Notifikacije> findAllByOrderByOpstinaAsc(){
+       return notifikacijeRepository.findAllByOrderByOpstinaAsc();
+    }
+          @Override
+    public List<String> findDistinctByToken(){
+       return notifikacijeRepository.findDistinctToken();
+    }
+
+    
     @Override
-    public List<Notifikacije> findAllByOpstina( String opstina){
+    public List<String> findAllByOpstina( String opstina){
        return notifikacijeRepository.findAllByOpstina( opstina);
     }
     

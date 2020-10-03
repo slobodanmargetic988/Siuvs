@@ -194,7 +194,7 @@ List<Notifikacije> notifikacije=notifikacijeService.findAllByOrderByOpstinaAsc()
          List<String> primaoci;
         primaoci =notifikacijeService.findDistinctByToken();
     
-        if (opstinanamelatinica.equals("Све општине")){
+        if (opstinanamelatinica.equals("Sve Opštine")){
    primaoci =notifikacijeService.findDistinctByToken();
         }
         else{

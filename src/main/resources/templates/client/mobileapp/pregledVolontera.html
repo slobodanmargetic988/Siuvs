@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+    <head>
+        <th:block th:include="fragments/head :: head" />
+    </head>
+    <body class="dashboard">
+        <!-- Content -->
+        <th:block th:insert="fragments/navigation :: navigation-end-user" />
+        <!-- Content -->
+        <!-- Content -->
+        <div class="px-content contentmali">
+            <!-- Content -->
+            <div th:replace="fragments/page :: title (icon='fa fa-area-chart', title='Преглед волонтера пријављених преко мобилне апликације')"></div>
+            <!-- Content -->
+
+            <div class="panel-body data-panel-body">
+                <div th:replace="fragments/alert :: success (${successMessage})"></div>
+
+                <div th:replace="fragments/alert :: error (${errorMessage})"></div>
+
+                <div class="panel" >
+                <div class="panel-body data-panel-body">
+
+                    <p>Преглед волонтера: </p>
+                    <table class="table table-striped" style="background-color: white">
+                        <!-- plan-->
+                        <th:block th:if="${volonteri != null}">
+                            <thead>
+                                <tr >
+
+                                    <td colspan="1" >Име</td>
+                                    <td colspan="1">Презиме</td>
+                                    <td colspan="1">Емаил</td>
+                                   
+                                    <td colspan="1">Телефон</td>
+
+                                </tr>
+                            </thead>
+                            <!-- opsti cilj-->
+                            <th:block th:each="volonter: ${volonteri}">
+                                <tr >
+                                    <td >    <span th:text="${volonter.ime}"></span> </td>
+                                    <td >    <span th:text="${volonter.prezime}"></span> </td>
+                                    <td >    <span th:text="${volonter.email}"></span> </td>
+                           
+                                    <td >    <span th:text="${volonter.telefon}"></span> </td>
+                                </tr>
+                            </th:block>
+
+                        </th:block>
+
+
+                    </table>
+
+
+                </div>
+</div>
+
+            </div> 
+            <!-- Content -->
+
+        </div>
+
+        <th:block th:insert="fragments/footer :: footer-standard" />
+
+        <th:block th:insert="fragments/scripts :: standard" />
+    </body>
+</html>

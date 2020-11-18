@@ -6,7 +6,7 @@
     </head>
     <body class="dashboard">
         <!-- Content -->
-        <th:block th:insert="fragments/navigation :: navigation" />
+        <th:block th:insert="fragments/navigation :: navigation-end-user" />
         <!-- Content -->
         <!-- Content -->
         <div class="px-content contentmali">
@@ -25,19 +25,9 @@
 
                     <div class="panel-body">
 
-                        <form th:action="@{/admin/mobileapp/slanje/posalji}"  method="post" class="form-horizontal" autocomplete="off">
+                        <form th:action="@{/client/mobileapp/slanje/posalji}"  method="post" class="form-horizontal" autocomplete="off">
                             <div class="form-group col-md-12">
- <div class="col-md-12" >
-                                <label  class="col-md-3 " >Изабери општину : </label>
 
-                                   
-                                        <select class="col-md-9 "  name="opstinanamelatinica"  >
-                                             <option value="Sve Opštine" >Sve Opštine</option>
-                                            <option  th:each="opstina : ${opstine}" th:value="${opstina.namelatinica}" th:text="${opstina.namelatinica}">Текст</option>
-
-                                        </select> 
-                                    </div>
-                                    <br> </br>
                                 
                                 <div class="col-md-12" >
                                     <label  class="col-md-3 " >Наслов нотификације: </label>
@@ -67,33 +57,29 @@
                                 <br> </br>
 
                                 <div class="col-md-12" >
-                                    <label  class="col-md-3 " >Веб линк уз нотификацију (адреса на коју линк шаље када се кликне)*: </label>
+                                    <label  class="col-md-3 " >Веб линк уз нотификацију (адреса на коју линк шаље када се кликне) *: </label>
                                     <input type="text"   class="col-md-9"  name="linkText" > 
                                 </div>
                                 <br> </br>
                                 <div class="col-md-12" >
-                                    <label class="col-md-3"  >Текст веб линка (описни текст који ће корисник видети уместо адресе)**: </label>                         
+                                    <label class="col-md-3"  >Текст веб линка (описни текст који ће корисник видети уместо адресе) **: </label>                         
                                     <input type="text"  class="col-md-9"  name="linkTextText" > 
                                 </div>
                                 <br> </br>
 
                                 <div class="col-md-offset-3 col-md-9">
                                     <button type="submit" class="btn btn-primary">Пошаљи</button>
-                                    <a th:href="@{/admin/mobileapp}" class="btn">Одустани</a>
+                                    <a th:href="@{/client/mobileapp}" class="btn">Одустани</a>
                                 </div> 
                             </div> 
                         </form>
- <div class="col-md-12" >
+                         <div class="col-md-12" >
                                  <br> </br>
                              <label   >* http://www.link.com/primer/ </label>    <br> </br>
                                     <label   >** Више информација можете видети на "овом линку" </label>
                               
                                 </div>
-                         <br> </br>
-                        <p><form method="POST" th:action="@{/admin/mobileapp/slanje/posalji1}"><button type="submit" name="submit" value="value" class="link-button">Пример нотификација 1</button></form></p>
-                        <p><form method="POST" th:action="@{/admin/mobileapp/slanje/posalji2}"><button type="submit" name="submit" value="value" class="link-button">Пример нотификација 2</button></form></p>
-                        <p><form method="POST" th:action="@{/admin/mobileapp/slanje/posalji3}"><button type="submit" name="submit" value="value" class="link-button">Пример нотификација 3</button></form></p>
-
+                        
 
                     </div>
 

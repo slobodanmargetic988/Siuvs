@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+    <head>
+        <th:block th:include="fragments/head :: head" />
+    </head>
+    <body class="dashboard">
+        <!-- Content -->
+        <th:block th:insert="fragments/navigation :: navigation-end-user" />
+        <!-- Content -->
+        <!-- Content -->
+        <div class="px-content contentmali">
+            <!-- Content -->
+            <div th:replace="fragments/page :: title (icon='fa fa-area-chart', title='Измена података о проценама за мобилну апликацију')"></div>
+            <!-- Content -->
+
+
+
+            <div class="panel-body data-panel-body">
+                <div th:replace="fragments/alert :: success (${successMessage})"></div>
+
+                <div th:replace="fragments/alert :: error (${errorMessage})"></div>
+
+
+                <div class="panel-body">
+
+                    <form th:action="@{/client/mobileapp/izmenaProcene/izmeni}"  method="post" class="form-horizontal" autocomplete="off">
+                        <div class="form-group col-md-12">
+
+                         
+                            <div class="col-md-12" >
+                                <label  class="col-md-9 " >Подаци за опасност од земљотреса: </label>                              
+
+
+                                <br> </br>
+
+                                <div class="col-md-12" >
+                                    <label  class="col-md-3 " >Класификација опасности(кратак текст): </label>
+
+                                    <input type="text" class="col-md-9" name="zemljotresklasifikacija" th:value="${zemljotresklasifikacija}">
+                                        <!--  <input type="text"   class="col-md-9"  name="messageText" > -->
+                                </div>
+                                <br> </br>
+
+                                <div class="col-md-12" >
+                                    <label  class="col-md-3 " >Опис опасности (дужи текст): </label>
+                                    <textarea rows="5" class="col-md-9" name="zemljotrestekst" th:text="${zemljotrestekst}"></textarea>
+                                    <!--  <input type="text"   class="col-md-9"  name="messageText" > -->
+                                </div>
+                                <br> </br>   <br> </br>
+                                <br> </br>
+
+
+                            </div>
+                            <div class="col-md-12" >
+                                <label  class="col-md-9 " >Подаци за опасност поплаве: </label>                              
+
+
+                                <br> </br>
+
+                                <div class="col-md-12" >
+                                    <label  class="col-md-3 " >Класификација опасности(кратак текст): </label>
+
+                                    <input type="text" class="col-md-9" name="poplavaklasifikacija" th:value="${poplavaklasifikacija}">
+                                        <!--  <input type="text"   class="col-md-9"  name="messageText" > -->
+                                </div>
+                                <br> </br>
+
+                                <div class="col-md-12" >
+                                    <label  class="col-md-3 " >Опис опасности (дужи текст): </label>
+                                    <textarea rows="5" class="col-md-9" name="poplavatekst" th:text="${poplavatekst}"></textarea>
+                                    <!--  <input type="text"   class="col-md-9"  name="messageText" > -->
+                                </div>
+                                <br> </br>   <br> </br>
+
+
+                                <br> </br>          
+                            </div>
+
+                            <div class="col-md-12" >
+                                <label  class="col-md-9 " >Подаци за опасност пожари, експлозије и пожари на отвореном: </label>                              
+
+
+                                <br> </br>
+
+                                <div class="col-md-12" >
+                                    <label  class="col-md-3 " >Класификација опасности(кратак текст): </label>
+
+                                    <input type="text" class="col-md-9" name="pozarklasifikacija" th:value="${pozarklasifikacija}">
+                                        <!--  <input type="text"   class="col-md-9"  name="messageText" > -->
+                                </div>
+                                <br> </br>
+
+                                <div class="col-md-12" >
+                                    <label  class="col-md-3 " >Опис опасности (дужи текст): </label>
+                                    <textarea rows="5" class="col-md-9" name="pozartekst" th:text="${pozartekst}"></textarea>
+                                    <!--  <input type="text"   class="col-md-9"  name="messageText" > -->
+                                </div>
+                                <br> </br>   <br> </br>
+
+
+                                <br> </br>          
+                            </div>
+                            <div class="col-md-12" >
+                                <label  class="col-md-9 " >Подаци за опасност одрони, клизишта и ерозије : </label>                              
+
+
+                                <br> </br>
+
+                                <div class="col-md-12" >
+                                    <label  class="col-md-3 " >Класификација опасности(кратак текст): </label>
+
+                                    <input type="text" class="col-md-9" name="klizisteklasifikacija" th:value="${klizisteklasifikacija}">
+                                        <!--  <input type="text"   class="col-md-9"  name="messageText" > -->
+                                </div>
+                                <br> </br>
+
+                                <div class="col-md-12" >
+                                    <label  class="col-md-3 " >Опис опасности (дужи текст): </label>
+                                    <textarea rows="5" class="col-md-9" name="klizistetekst" th:text="${klizistetekst}"></textarea>
+                                    <!--  <input type="text"   class="col-md-9"  name="messageText" > -->
+                                </div>
+                                <br> </br>   <br> </br>
+
+
+                                <br> </br>          
+                            </div>
+                            <div class="col-md-12" >
+                                <label  class="col-md-9 " >Подаци за опасност олујни ветар: </label>                              
+
+
+                                <br> </br>
+
+                                <div class="col-md-12" >
+                                    <label  class="col-md-3 " >Класификација опасности(кратак текст): </label>
+
+                                    <input type="text" class="col-md-9" name="olujaklasifikacija" th:value="${olujaklasifikacija}">
+                                        <!--  <input type="text"   class="col-md-9"  name="messageText" > -->
+                                </div>
+                                <br> </br>
+
+                                <div class="col-md-12" >
+                                    <label  class="col-md-3 " >Опис опасности (дужи текст): </label>
+                                    <textarea rows="5" class="col-md-9" name="olujatekst" th:text="${olujatekst}"></textarea>
+                                    <!--  <input type="text"   class="col-md-9"  name="messageText" > -->
+                                </div>
+                                <br> </br>   <br> </br>
+
+
+                                <br> </br>          
+                            </div>
+
+
+                            <div class="col-md-offset-3 col-md-9">
+                                <button type="submit" class="btn btn-primary">Сачувај</button>
+                                <a th:href="@{/client/mobileapp}" class="btn">Одустани</a>
+                            </div> 
+                        </div> 
+                    </form>
+
+
+
+                </div>
+
+
+            </div> 
+            <!-- Content -->
+
+        </div>
+
+        <th:block th:insert="fragments/footer :: footer-standard" />
+
+        <th:block th:insert="fragments/scripts :: standard" />
+    </body>
+</html>

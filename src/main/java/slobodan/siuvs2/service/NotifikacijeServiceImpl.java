@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import slobodan.siuvs2.model.Mobileappdata;
 import slobodan.siuvs2.model.Notifikacije;
+import slobodan.siuvs2.model.Opstina;
 import slobodan.siuvs2.model.Volonter;
 import slobodan.siuvs2.repository.MobileappdataRepository;
 import slobodan.siuvs2.repository.NotifikacijeRepository;
@@ -41,6 +42,12 @@ public class NotifikacijeServiceImpl implements NotifikacijeService {
     public List<String> findAllByOpstina( String opstina){
        return notifikacijeRepository.findAllByOpstina( opstina);
     }
+    
+    @Override
+    public List<Notifikacije> findAllByOpstina( Opstina opstina){
+       return notifikacijeRepository.findAllByOpstinaAsNotifikacije( opstina.getNamelatinica());
+    }
+    
     
     @Override
     public List<Notifikacije> findAllByToken( String token){

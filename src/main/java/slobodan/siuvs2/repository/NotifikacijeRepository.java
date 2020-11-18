@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import slobodan.siuvs2.model.DynamicData;
 import slobodan.siuvs2.model.Mobileappdata;
 import slobodan.siuvs2.model.Notifikacije;
+import slobodan.siuvs2.model.Opstina;
 import slobodan.siuvs2.model.Volonter;
 
 @Repository
@@ -27,5 +28,7 @@ public interface NotifikacijeRepository extends JpaRepository<Notifikacije, Inte
      @Query(value = "SELECT DISTINCT token  FROM notifikacije WHERE opstina=:opstina OR opstina='Sve opštine'", nativeQuery = true)
     List<String> findAllByOpstina(@Param("opstina") String opstina);
     
+    @Query(value = "SELECT * FROM notifikacije WHERE opstina=:opstina ", nativeQuery = true)
+     List<Notifikacije> findAllByOpstinaAsNotifikacije(@Param("opstina") String opstina);
      
 }

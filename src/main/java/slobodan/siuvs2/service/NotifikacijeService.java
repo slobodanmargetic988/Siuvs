@@ -4,6 +4,7 @@ import java.util.List;
 
 
 import slobodan.siuvs2.model.Notifikacije;
+import slobodan.siuvs2.model.Opstina;
 
 
 public interface NotifikacijeService {
@@ -12,6 +13,9 @@ public interface NotifikacijeService {
     
     List<Notifikacije> findAllBy();
     List<Notifikacije> findAllByOrderByOpstinaAsc();
+    
+       List<Notifikacije> findAllByOpstina( Opstina opstina);
+       
      List<String> findDistinctByToken();
     List<String> findAllByOpstina( String opstina);
     List<Notifikacije> findAllByToken( String token);

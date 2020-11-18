@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+    <head>
+        <th:block th:include="fragments/head :: head" />
+    </head>
+    <body class="dashboard">
+                <!-- Content -->
+        <th:block th:insert="fragments/navigation :: navigation-end-user" />
+        <!-- Content -->
+        <!-- Content -->
+        <div class="px-content contentmali">
+  <!-- Content -->
+            <div th:replace="fragments/page :: title (icon='fa fa-area-chart', title='Администраторски панел за мобилну апликацију')"></div>
+             <!-- Content -->
+              <div th:replace="fragments/alert :: success (${successMessage})"></div>
+
+                <div th:replace="fragments/alert :: error (${errorMessage})"></div>
+            <p>Опције:</p>
+           <!-- Content -->
+           <p><a th:href="@{/client/mobileapp/slanje}"><i class="fa fa-users m-r-1"></i>Слање нотификација</a></p>
+           <p><a th:href="@{/client/mobileapp/izmenaProcene}"><i class="fa fa-users m-r-1"></i>Измена процена у мобилној апликацији</a></p>
+           <p><a th:href="@{/client/mobileapp/pregledVolontera}"><i class="fa fa-users m-r-1"></i>Преглед волонтера</a></p>
+           <p><a th:href="@{/client/mobileapp/prijavljeniZaNotifikacije}"><i class="fa fa-users m-r-1"></i>Преглед корисника пријављених за нотификације</a></p>
+           <!-- Content --      <p><a th:href="@{/admin/mobileapp/istorijaNotifikacija}"><i class="fa fa-users m-r-1"></i>Историја послатих нотификација</a></p>  <!-- Content -->
+           <th:block th:insert="fragments/page :: contact" />
+           <!-- Content -->
+            
+ </div>
+
+        <th:block th:insert="fragments/footer :: footer-standard" />
+
+        <th:block th:insert="fragments/scripts :: standard" />
+    </body>
+</html>

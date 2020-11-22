@@ -23,5 +23,5 @@ public interface NotifikacijeService {
      Long deleteByToken(String token);
      Long deleteByTokenAndOpstina(String token,String opstina);
      void save(Notifikacije notifikacije);
-
+   void updateToken(String stariToken,String token);
 }

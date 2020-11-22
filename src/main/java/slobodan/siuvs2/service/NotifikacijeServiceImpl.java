@@ -73,6 +73,9 @@ public class NotifikacijeServiceImpl implements NotifikacijeService {
     notifikacijeRepository.save(notifikacije);
     }
      
-
+          @Override
+    public void updateToken(String stariToken,String token){
+    notifikacijeRepository.updateToken(stariToken,token);
+    }
 
 }

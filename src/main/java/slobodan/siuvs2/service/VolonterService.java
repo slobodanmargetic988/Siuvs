@@ -14,5 +14,6 @@ public interface VolonterService {
     List<Volonter> findAllByOpstina( String opstina);
     Volonter findFirstByEmail( String Email);
      void save(Volonter volonter);
+     void updateToken(String stariToken,String token);
 
 }

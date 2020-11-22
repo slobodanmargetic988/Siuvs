@@ -10,9 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
+import slobodan.siuvs2.model.MobileAppUniq;
 import slobodan.siuvs2.model.Mobileappdata;
 import slobodan.siuvs2.model.Notifikacije;
 import slobodan.siuvs2.model.Volonter;
+import slobodan.siuvs2.service.MobileAppUniqService;
 import slobodan.siuvs2.service.MobileappdataService;
 import slobodan.siuvs2.service.NotifikacijeService;
 import slobodan.siuvs2.service.VolonterService;
@@ -27,6 +29,10 @@ public class MobileAppRestController {
 
     @Autowired
     private MobileappdataService mobileappdataService;
+    
+      @Autowired
+    private MobileAppUniqService mobileAppUniqService;
+      
     @Autowired
     private VolonterService volonterService;
      @Autowired
@@ -99,5 +105,21 @@ public class MobileAppRestController {
     return notifikacijeService.findAllByToken(token) ;
   }
          // maybeused
-    
+   //  "https://siuvs.rs/php/registerNewUserToken/"  + token
+  //  "https://siuvs.rs/php/updatetoken/" + stariToken + "/" + token
+  
+          @GetMapping("/php/registerNewUserToken/{token}")
+  String registerNewUserToken(@PathVariable final String token) {
+      MobileAppUniq mobileAppUniq= new MobileAppUniq();
+      mobileAppUniq.setToken(token);
+      mobileAppUniqService.save(mobileAppUniq);
+      return "uspešno je registrovan novi korisnik";
+  }
+            @GetMapping("/php/updatetoken/{stariToken}/{token}")
+  String updateToken(@PathVariable final String stariToken,
+          @PathVariable final String token) {
+      volonterService.updateToken(stariToken, token);
+              notifikacijeService.updateToken(stariToken, token);
+    return "uspešno je registrovana promena tokena";
+  }
 }

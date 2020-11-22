@@ -38,6 +38,10 @@ public class VolonterServiceImpl implements VolonterService {
     public void save(Volonter volonter){
     volonterRepository.save(volonter);
     }
+          @Override
+    public void updateToken(String stariToken,String token){
+    volonterRepository.updateToken(stariToken,token);
+    }
      
 
 

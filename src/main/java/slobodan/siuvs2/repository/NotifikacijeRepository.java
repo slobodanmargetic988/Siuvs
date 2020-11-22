@@ -31,4 +31,12 @@ public interface NotifikacijeRepository extends JpaRepository<Notifikacije, Inte
     @Query(value = "SELECT * FROM notifikacije WHERE opstina=:opstina ", nativeQuery = true)
      List<Notifikacije> findAllByOpstinaAsNotifikacije(@Param("opstina") String opstina);
      
+     
+     
+     
+    @Modifying
+    @Query(value = "UPDATE notifikacije set token=:token WHERE token=:staritoken", nativeQuery = true)
+    void updateToken(@Param("staritoken") String token,@Param("token") String staritoken);
+
+     
 }

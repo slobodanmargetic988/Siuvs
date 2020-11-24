@@ -420,7 +420,7 @@ List<Notifikacije> notifikacije=notifikacijeService.findAllByOpstina(client.getO
          try {
        
                filename = storageService.store(file,id);      
-  imageTextV="https://siuvs.rs/php/getimg/{"+id.getValue()+"}/{"+filename+".}";               
+  imageTextV="https://www.siuvs.rs/php/getimg/{"+id.getValue()+"}/{"+filename+".}";               
             } catch (Exception e) {
                redirectAttributes.addFlashAttribute("errorMessage", "Грешка приликом чувања слике!");             
             }
@@ -520,7 +520,7 @@ istorijaNotifikacijaService.save(istorijaNotifikacija);
             } catch (Exception e) {
                redirectAttributes.addFlashAttribute("errorMessage", "Грешка приликом чувања слике!");             
             }
-          imageTextV="https://siuvs.rs/php/getimg/{"+client.getClientId()+"}/{"+filename+".}";
+          imageTextV="https://www.siuvs.rs/php/getimg/{"+client.getClientId()+"}/{"+filename+".}";
           }
          IstorijaNotifikacija istorijaNotifikacija=new IstorijaNotifikacija();
          istorijaNotifikacija.setTitle(titleTextV);

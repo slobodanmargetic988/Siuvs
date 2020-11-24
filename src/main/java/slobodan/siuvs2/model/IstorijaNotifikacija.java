@@ -33,7 +33,9 @@ public class IstorijaNotifikacija {
 
     @Column(name = "img_file_name")
     private String img_file_name;
-
+    
+@Column(name = "img_link")
+    private String img_link;
 
     @ManyToOne
     @JoinColumn(name = "client_id")
@@ -66,6 +68,14 @@ public class IstorijaNotifikacija {
 
     public String getBody() {
         return body;
+    }
+
+    public String getImg_link() {
+        return img_link;
+    }
+
+    public void setImg_link(String img_link) {
+        this.img_link = img_link;
     }
 
     public void setBody(String body) {

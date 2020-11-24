@@ -7,6 +7,9 @@ package slobodan.siuvs2.controller;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,7 +20,11 @@ import slobodan.siuvs2.model.Volonter;
 import slobodan.siuvs2.service.MobileAppUniqService;
 import slobodan.siuvs2.service.MobileappdataService;
 import slobodan.siuvs2.service.NotifikacijeService;
+import slobodan.siuvs2.service.PhotoService;
+import slobodan.siuvs2.service.StorageService;
 import slobodan.siuvs2.service.VolonterService;
+import slobodan.siuvs2.valueObject.ClientId;
+import slobodan.siuvs2.valueObject.PhotoId;
 
 /**
  *
@@ -29,6 +36,11 @@ public class MobileAppRestController {
 
     @Autowired
     private MobileappdataService mobileappdataService;
+    @Autowired
+    private StorageService storageService;
+    @Autowired
+    private PhotoService photoService;
+    
     
       @Autowired
     private MobileAppUniqService mobileAppUniqService;
@@ -122,4 +134,18 @@ public class MobileAppRestController {
               notifikacijeService.updateToken(stariToken, token);
     return "uspešno je registrovana promena tokena";
   }
+  
+  @GetMapping(value = "/php/getimg/{clientId}/{filename}")
+    public ResponseEntity<Resource> servePhoto(
+            @PathVariable final ClientId clientId,
+            @PathVariable final String filename
+    ) {
+        Resource file = storageService.loadAsResource(clientId, filename);
+        return ResponseEntity
+                .ok()
+                .contentType(MediaType.IMAGE_JPEG)
+                .body(file);
+    }
+    
+
 }

@@ -420,7 +420,7 @@ List<Notifikacije> notifikacije=notifikacijeService.findAllByOpstina(client.getO
          try {
        
                filename = storageService.store(file,id);      
-  imageTextV="https://siuvs.rs/php/getimg/{"+id+"}/{"+filename+".}";               
+  imageTextV="https://siuvs.rs/php/getimg/{"+id.getValue()+"}/{"+filename+".}";               
             } catch (Exception e) {
                redirectAttributes.addFlashAttribute("errorMessage", "Грешка приликом чувања слике!");             
             }

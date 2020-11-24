@@ -25,7 +25,7 @@
 
                     <div class="panel-body">
 
-                        <form th:action="@{/client/mobileapp/slanje/posalji}"  method="post" class="form-horizontal" autocomplete="off">
+                        <form th:action="@{/client/mobileapp/slanje/posalji}" enctype="multipart/form-data" method="post" class="form-horizontal" autocomplete="off">
                             <div class="form-group col-md-12">
 
                                 
@@ -49,10 +49,14 @@
                                 </div>
                                 <br> </br>
  <br> </br> <br> </br> <br> 
-                                <div class="col-md-12" >
-                                    <label  class="col-md-3 " >Слика уз нотификацију (веб линк): </label>
-                                    <input type="text"   class="col-md-9"  name="imageText" > 
-                                </div>
+             
+    
+                        <div class="col-md-12">
+                            <label class="col-md-3 ">Слика уз нотификацију (*.jpg, макс. 20 MB)</label>
+                            <div class="col-md-9">
+                                <input type="file" name="file">
+                            </div>
+                        </div>
 
                                 <br> </br>
 

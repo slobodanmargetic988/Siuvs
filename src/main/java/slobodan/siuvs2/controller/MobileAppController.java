@@ -18,8 +18,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import slobodan.siuvs2.model.Client;
+import slobodan.siuvs2.model.IstorijaNotifikacija;
 import slobodan.siuvs2.model.Mobileappdata;
 import slobodan.siuvs2.model.Notifikacije;
 import slobodan.siuvs2.model.Opstina;
@@ -28,17 +30,28 @@ import slobodan.siuvs2.model.SiuvsUserPrincipal;
 import slobodan.siuvs2.model.User;
 import slobodan.siuvs2.model.Volonter;
 import slobodan.siuvs2.service.ClientService;
+import slobodan.siuvs2.service.IstorijaNotifikacijaService;
 import slobodan.siuvs2.service.MobileappdataFactory;
 import slobodan.siuvs2.service.MobileappdataService;
 import slobodan.siuvs2.service.NotifikacijeService;
 import slobodan.siuvs2.service.OpstinaService;
+import slobodan.siuvs2.service.PhotoService;
+import slobodan.siuvs2.service.StorageService;
 import slobodan.siuvs2.service.VolonterService;
+import slobodan.siuvs2.valueObject.ClientId;
 
 @Controller
 public class MobileAppController {
 
     @Autowired
     private UserService userService;
+       @Autowired
+    private IstorijaNotifikacijaService istorijaNotifikacijaService;
+    
+       @Autowired
+    private StorageService storageService;
+     @Autowired
+    private PhotoService photoService;
 
     @GetMapping("/admin/mobileapp")
     public String mobileappHome(final Model model) {
@@ -344,16 +357,21 @@ List<Notifikacije> notifikacije=notifikacijeService.findAllByOpstina(client.getO
             @RequestParam(name = "titleText", defaultValue = " ") String titleText,
             @RequestParam(name = "bodyText", defaultValue = " ") String bodyText,
             @RequestParam(name = "messageText", defaultValue = " ") String messageText,
-            @RequestParam(name = "imageText", defaultValue = " ") String imageText,
+    
             @RequestParam(name = "linkText", defaultValue = " ") String linkText,
             @RequestParam(name = "linkTextText", defaultValue = " ") String linkTextText,
             @RequestParam(name = "opstinanamelatinica", defaultValue = " ") String opstinanamelatinica,
+            @RequestParam(name = "file",  required=false) MultipartFile file,
             final Model model,
             final RedirectAttributes redirectAttributes) {
   
          List<String> primaoci;
-        primaoci =notifikacijeService.findDistinctByToken();
-    
+      
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = ((SiuvsUserPrincipal) authentication.getPrincipal()).getUser();
+        Client client = user.getClient(); 
+        
+
         if (opstinanamelatinica.equals("Sve Opštine")){
    primaoci =notifikacijeService.findDistinctByToken();
         }
@@ -377,9 +395,7 @@ List<Notifikacije> notifikacije=notifikacijeService.findAllByOpstina(client.getO
             bodyTextV = bodyText;
         }
 
-        if (!imageText.equals("") && !imageText.equals(" ") && imageText.startsWith("http")) {
-            imageTextV = imageText;
-        }
+       
         if (!messageText.equals("") && !messageText.equals(" ")) {
             messageTextV = messageText;
         }
@@ -389,6 +405,38 @@ List<Notifikacije> notifikacije=notifikacijeService.findAllByOpstina(client.getO
                 linkTextTextV = linkTextText;
             }
         }
+        
+      
+        ClientId id;
+       if (client==null) {id=new ClientId(0);}
+       else{id=client.getClientId();}
+               String filename="";
+          if (file.isEmpty()){
+               imageTextV=" ";
+              
+  }
+  else{
+       
+         try {
+       
+               filename = storageService.store(file,id);      
+  imageTextV="https://siuvs.rs/php/getimg/{"+id+"}/{"+filename+".}";               
+            } catch (Exception e) {
+               redirectAttributes.addFlashAttribute("errorMessage", "Грешка приликом чувања слике!");             
+            }
+          }
+         IstorijaNotifikacija istorijaNotifikacija=new IstorijaNotifikacija();
+         istorijaNotifikacija.setTitle(titleTextV);
+         istorijaNotifikacija.setBody(bodyTextV);
+         istorijaNotifikacija.setMessage(messageTextV);
+istorijaNotifikacija.setLink(linkTextV);
+istorijaNotifikacija.setLink_text(linkTextV);
+istorijaNotifikacija.setImg_file_name(filename);
+istorijaNotifikacija.setClient(client);
+istorijaNotifikacija.setCreatedBy(user);
+istorijaNotifikacijaService.save(istorijaNotifikacija);
+      
+
 
         String JSON_Body = buildJSONBody(titleTextV, bodyTextV, imageTextV, messageTextV, linkTextV, linkTextTextV, registration_ids);
         try {
@@ -415,12 +463,13 @@ List<Notifikacije> notifikacije=notifikacijeService.findAllByOpstina(client.getO
             @RequestParam(name = "titleText", defaultValue = " ") String titleText,
             @RequestParam(name = "bodyText", defaultValue = " ") String bodyText,
             @RequestParam(name = "messageText", defaultValue = " ") String messageText,
-            @RequestParam(name = "imageText", defaultValue = " ") String imageText,
+        
             @RequestParam(name = "linkText", defaultValue = " ") String linkText,
-            @RequestParam(name = "linkTextText", defaultValue = " ") String linkTextText,       
+            @RequestParam(name = "linkTextText", defaultValue = " ") String linkTextText,  
+             @RequestParam(name = "file",  required=false) MultipartFile file,
             final Model model,
             final RedirectAttributes redirectAttributes) {
-  
+
          List<String> primaoci;
     
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -447,9 +496,7 @@ List<Notifikacije> notifikacije=notifikacijeService.findAllByOpstina(client.getO
             bodyTextV = bodyText;
         }
 
-        if (!imageText.equals("") && !imageText.equals(" ") && imageText.startsWith("http")) {
-            imageTextV = imageText;
-        }
+
         if (!messageText.equals("") && !messageText.equals(" ")) {
             messageTextV = messageText;
         }
@@ -459,6 +506,33 @@ List<Notifikacije> notifikacije=notifikacijeService.findAllByOpstina(client.getO
                 linkTextTextV = linkTextText;
             }
         }
+        String filename="";
+          if (file.isEmpty()){
+               imageTextV=" ";
+              
+  }
+  else{
+  
+ //this part goes in else
+         try {
+       
+               filename = storageService.store(file,client.getClientId());                     
+            } catch (Exception e) {
+               redirectAttributes.addFlashAttribute("errorMessage", "Грешка приликом чувања слике!");             
+            }
+          imageTextV="https://siuvs.rs/php/getimg/{"+client.getClientId()+"}/{"+filename+".}";
+          }
+         IstorijaNotifikacija istorijaNotifikacija=new IstorijaNotifikacija();
+         istorijaNotifikacija.setTitle(titleTextV);
+         istorijaNotifikacija.setBody(bodyTextV);
+         istorijaNotifikacija.setMessage(messageTextV);
+istorijaNotifikacija.setLink(linkTextV);
+istorijaNotifikacija.setLink_text(linkTextV);
+istorijaNotifikacija.setImg_file_name(filename);
+istorijaNotifikacija.setClient(client);
+istorijaNotifikacija.setCreatedBy(user);
+istorijaNotifikacijaService.save(istorijaNotifikacija);
+         
 
         String JSON_Body = buildJSONBody(titleTextV, bodyTextV, imageTextV, messageTextV, linkTextV, linkTextTextV, registration_ids);
         try {
@@ -515,98 +589,6 @@ List<Notifikacije> notifikacije=notifikacijeService.findAllByOpstina(client.getO
     
     //block used to demonstrate and test features across server app and mobileapp
 
-    @PostMapping("/admin/mobileapp/slanje/posalji1")
-    public String mobileappSlanjeNotifikacije1(final Model model,
-            final RedirectAttributes redirectAttributes) {
-        String title = "Naslov 1 sa siuvs.rs";
-        String body = "Telo 1 sa siuvs.rs";
-        String image = "https://cdn0.tnwcdn.com/wp-content/blogs.dir/1/files/2020/02/Google-Image-Search.jpg";
-        String message = "Poruka 1 sa siuvs.rs";
-        String link = "https://siuvs.rs/";
-        String linkText = "Login strana na siuvs.rs";
- List<String> primaoci;
-        primaoci =notifikacijeService.findDistinctByToken();
-    
-        String registration_ids = buildRegistrationIds(primaoci);
-        String JSON_Body = buildJSONBody(title, body, image, message, link, linkText, registration_ids);
-        try {
-            HttpClient httpclient = HttpClients.createDefault();
-            StringEntity requestEntity = new StringEntity(JSON_Body, ContentType.APPLICATION_JSON);
-            String HOST = "https://fcm.googleapis.com/fcm/send";
-            HttpPost post = new HttpPost(HOST);
-            post.setHeader("Authorization", "key=AAAAxbbCok8:APA91bGMZcat_HhLBi5lcx_k0NBLfNcEGDBj8HAyY6GNRaCIggaDqw-tqpn4yGeagxUojem408qkbkUbTZK6mt0TpFsGp56gGj-pvFGbpxtwkgjCuh8o2Y-2LFMjOFm203DDieSA1CI8");
-            post.setEntity(requestEntity);
-            HttpResponse rawResponse = httpclient.execute(post);
-            redirectAttributes.addFlashAttribute("successMessage", "Нотификација успешно послата!");
-
-        } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("errorMessage", "Грешка приликом слања нотификације!");
-        }
-
-        return "redirect:/admin/mobileapp/slanje";
-    }
-
-    @PostMapping("/admin/mobileapp/slanje/posalji2")
-    public String mobileappSlanjeNotifikacije2(final Model model,
-            final RedirectAttributes redirectAttributes) {
-        String title = "Naslov 2 sa siuvs.rs";
-        String body = "Telo 2 sa siuvs.rs";
-        String image = "https://cdn0.tnwcdn.com/wp-content/blogs.dir/1/files/2020/02/Google-Image-Search.jpg";
-        String message = "Poruka 2 sa siuvs.rs";
-        String link = "https://siuvs.rs/";
-        String linkText = "Login strana na siuvs.rs";
-         List<String> primaoci;
-        primaoci =notifikacijeService.findDistinctByToken();
-    
-        String registration_ids = buildRegistrationIds(primaoci);
-        String JSON_Body = buildJSONBody(title, body, image, message, link, linkText, registration_ids);
-        try {
-            HttpClient httpclient = HttpClients.createDefault();
-            StringEntity requestEntity = new StringEntity(JSON_Body, ContentType.APPLICATION_JSON);
-            String HOST = "https://fcm.googleapis.com/fcm/send";
-            HttpPost post = new HttpPost(HOST);
-            post.setHeader("Authorization", "key=AAAAxbbCok8:APA91bGMZcat_HhLBi5lcx_k0NBLfNcEGDBj8HAyY6GNRaCIggaDqw-tqpn4yGeagxUojem408qkbkUbTZK6mt0TpFsGp56gGj-pvFGbpxtwkgjCuh8o2Y-2LFMjOFm203DDieSA1CI8");
-            post.setEntity(requestEntity);
-            HttpResponse rawResponse = httpclient.execute(post);
-            redirectAttributes.addFlashAttribute("successMessage", "Нотификација успешно послата!");
-
-        } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("errorMessage", "Грешка приликом слања нотификације!");
-        }
-
-        return "redirect:/admin/mobileapp/slanje";
-    }
-
-    @PostMapping("/admin/mobileapp/slanje/posalji3")
-    public String mobileappSlanjeNotifikacije3(final Model model,
-            final RedirectAttributes redirectAttributes) {
-        String title = "Naslov 3 sa siuvs.rs";
-        String body = "Telo 3 sa siuvs.rs";
-        String image = "https://cdn0.tnwcdn.com/wp-content/blogs.dir/1/files/2020/02/Google-Image-Search.jpg";
-        String message = "Poruka 3 sa siuvs.rs";
-        String link = "https://siuvs.rs/";
-        String linkText = "Login strana na siuvs.rs";
-List<String> primaoci;
-        primaoci =notifikacijeService.findDistinctByToken();
-    
-        String registration_ids = buildRegistrationIds(primaoci);
-        String JSON_Body = buildJSONBody(title, body, image, message, link, linkText, registration_ids);
-        try {
-            HttpClient httpclient = HttpClients.createDefault();
-            StringEntity requestEntity = new StringEntity(JSON_Body, ContentType.APPLICATION_JSON);
-            String HOST = "https://fcm.googleapis.com/fcm/send";
-            HttpPost post = new HttpPost(HOST);
-            post.setHeader("Authorization", "key=AAAAxbbCok8:APA91bGMZcat_HhLBi5lcx_k0NBLfNcEGDBj8HAyY6GNRaCIggaDqw-tqpn4yGeagxUojem408qkbkUbTZK6mt0TpFsGp56gGj-pvFGbpxtwkgjCuh8o2Y-2LFMjOFm203DDieSA1CI8");
-            post.setEntity(requestEntity);
-            HttpResponse rawResponse = httpclient.execute(post);
-            redirectAttributes.addFlashAttribute("successMessage", "Нотификација успешно послата!");
-
-        } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("errorMessage", "Грешка приликом слања нотификације!");
-        }
-
-        return "redirect:/admin/mobileapp/slanje";
-    }
 
 //block used to demonstrate and test features across server app and mobileapp
 }

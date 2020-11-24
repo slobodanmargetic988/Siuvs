@@ -99,7 +99,7 @@ public class FileSystemStorageServiceImpl implements StorageService {
 
             }
         } catch (MalformedURLException e) {
-            throw new StorageFileNotFoundException("Could not read file: " + filename, e);
+            throw new StorageFileNotFoundException("Could not read file malformed URL: " + filename, e);
         }
     }
         @Override

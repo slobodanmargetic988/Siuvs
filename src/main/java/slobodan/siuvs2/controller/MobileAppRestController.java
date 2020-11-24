@@ -20,11 +20,10 @@ import slobodan.siuvs2.model.Volonter;
 import slobodan.siuvs2.service.MobileAppUniqService;
 import slobodan.siuvs2.service.MobileappdataService;
 import slobodan.siuvs2.service.NotifikacijeService;
-import slobodan.siuvs2.service.PhotoService;
 import slobodan.siuvs2.service.StorageService;
 import slobodan.siuvs2.service.VolonterService;
 import slobodan.siuvs2.valueObject.ClientId;
-import slobodan.siuvs2.valueObject.PhotoId;
+
 
 /**
  *
@@ -38,8 +37,7 @@ public class MobileAppRestController {
     private MobileappdataService mobileappdataService;
     @Autowired
     private StorageService storageService;
-    @Autowired
-    private PhotoService photoService;
+
     
     
       @Autowired

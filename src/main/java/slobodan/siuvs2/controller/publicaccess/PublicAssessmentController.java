@@ -63,6 +63,21 @@ public class PublicAssessmentController {
         model.addAttribute("vrsta_opasnosti", AssesmentHelper1.getOpasnost(pageId.getValue()));
         return "publicaccess/assesmentview";
     }
+    
+    @GetMapping(value = "/publicaccess/home/{clientId}/photo/{photoId}")
+    public ResponseEntity<Resource> servePhoto(
+            @PathVariable final ClientId clientId,
+            @PathVariable final PhotoId photoId
+    ) {
+        String filename = photoService.findFileNameById(photoId);
+        Resource file = storageService.loadAsResource(clientId, filename);
+        return ResponseEntity
+                .ok()
+                .contentType(MediaType.IMAGE_JPEG)
+                .body(file);
+    }
+    
+    
  @GetMapping(value = "/publicaccess/privacypolicy")
     public String privacyPolicy() {
 

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+    <head>
+        <th:block th:include="fragments/head :: head" />
+    </head>
+    <body class="dashboard">
+                <!-- Content -->
+        <th:block th:insert="fragments/navigation :: navigation-end-user" />
+        <!-- Content -->
+        <!-- Content -->
+        <div class="px-content contentmali">
+  <!-- Content -->
+  <div th:replace="fragments/page :: title (icon='fa fa-area-chart', title='Преглед обавештења')"></div>
+             <!-- Content -->
+             
+        <div class="panel" >
+                <div class="panel-body data-panel-body">
+
+                    <p>Преглед обавештења: </p>
+                
+                      
+                        <th:block th:if="${notifikacija != null}">
+                                <div class="col-md-12" >
+                                    <label  class="col-md-3 " >Примаоци: </label>
+                                    <th:block th:if="${notifikacija.client != null}">
+                                    <p   class="col-md-9" ><span th:text="${notifikacija.client.opstina.name}"></span> </p>
+                                    </th:block>
+                                    <th:block th:if="${notifikacija.client == null}">
+                                    <p   class="col-md-9" >Све општине </p>
+                                    </th:block>
+                                </div>
+                            <div class="col-md-12" >
+                                    <label  class="col-md-3 " >Наслов обавештења </label>
+                                    <p   class="col-md-9" ><span th:text="${notifikacija.title}"></span> </p>
+                                </div>
+  <div class="col-md-12" >
+                                    <label  class="col-md-3 " >Кратки текст обавештења: </label>
+                                    <p   class="col-md-9" ><span th:text="${notifikacija.body}"></span> </p>
+                                </div>
+                              <div class="col-md-12" >
+                                    <label  class="col-md-3 " >Дужи текст обавештења: </label>
+                                    <p   class="col-md-9" ><span th:text="${notifikacija.message}"></span> </p>
+                                </div>
+                            
+                          <div class="col-md-12" >
+                                    <label  class="col-md-3 " >Линк web адреса: </label>
+                                    <p   class="col-md-9" ><span th:text="${notifikacija.link}"></span> </p>
+                                </div>
+                            
+                             <div class="col-md-12" >
+                                    <label  class="col-md-3 " >Линк текстуални део: </label>
+                                    <p   class="col-md-9" ><span th:text="${notifikacija.link_text}"></span> </p>
+                                </div>
+                            <div class="col-md-12" >
+                                    <label  class="col-md-3 " >Датум слања обавештења: </label>
+                                    <p   class="col-md-9" ><span th:text="${notifikacija.createdOn}"></span> </p>
+                                </div>
+                             <div class="col-md-12" >
+                                    <label  class="col-md-3 " >Слика послата уз обавештење: </label>            
+                                    <img th:src="${notifikacija.img_link}" style="max-width: 100%" />
+                                         
+                                </div>
+                            
+
+                        </th:block>
+
+
+            
+
+
+                </div>
+</div>
+            
+ </div>
+
+        <th:block th:insert="fragments/footer :: footer-standard" />
+
+        <th:block th:insert="fragments/scripts :: standard" />
+    </body>
+</html>

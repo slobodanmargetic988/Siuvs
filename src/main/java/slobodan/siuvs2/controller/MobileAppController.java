@@ -10,6 +10,9 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClients;
+import org.springframework.core.io.Resource;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -346,11 +349,7 @@ List<Notifikacije> notifikacije=notifikacijeService.findAllByOpstina(client.getO
         return "client/mobileapp/prijavljeniZaNotifikacije";
     }
 
-    @GetMapping("/admin/mobileapp/istorijaNotifikacija")
-    public String mobileappIstorijaNotifikacija(final Model model) {
-
-        return "admin/mobileapp/istorijaNotifikacija";
-    }
+   
 
     @PostMapping("/admin/mobileapp/slanje/posalji")
     public String mobileappSlanjeNotifikacije( 
@@ -589,8 +588,59 @@ istorijaNotifikacijaService.save(istorijaNotifikacija);
     }
     
     
-    //block used to demonstrate and test features across server app and mobileapp
-
-
-//block used to demonstrate and test features across server app and mobileapp
+ @GetMapping("/admin/mobileapp/istorijaNotifikacija")
+    public String mobileappIstorijaNotifikacija(final Model model) {
+List<IstorijaNotifikacija> istorijaNotifikacija=istorijaNotifikacijaService.findAllBy();
+ model.addAttribute("notifikacije", istorijaNotifikacija);
+        return "admin/mobileapp/istorijaNotifikacija";
+    }
+    
+    
+     @GetMapping("/client/mobileapp/istorijaNotifikacija")
+    public String mobileappIstorijaNotifikacijaClient(final Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = ((SiuvsUserPrincipal) authentication.getPrincipal()).getUser();
+        Client client = user.getClient(); 
+List<IstorijaNotifikacija> istorijaNotifikacija=istorijaNotifikacijaService.findAllByClient(client);
+        model.addAttribute("client", client);
+ model.addAttribute("notifikacije", istorijaNotifikacija);
+        return "client/mobileapp/istorijaNotifikacija";
+    }
+    
+     @GetMapping("/admin/mobileapp/pregledNotifikacije/{id}")
+    public String mobileappPregledNotifikacije(
+            @PathVariable final Integer id,
+            final Model model) {
+        
+IstorijaNotifikacija notifikacija=istorijaNotifikacijaService.findById(id);
+ model.addAttribute("notifikacija", notifikacija);
+        return "admin/mobileapp/pregledNotifikacije";
+    }
+    
+         @GetMapping("/client/mobileapp/pregledNotifikacije/{id}")
+    public String mobileappPregledNotifikacijeClient(
+            @PathVariable final Integer id,
+            final Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = ((SiuvsUserPrincipal) authentication.getPrincipal()).getUser();
+        Client client = user.getClient(); 
+IstorijaNotifikacija notifikacija=istorijaNotifikacijaService.findById(id);
+ model.addAttribute("client", client);
+ model.addAttribute("notifikacija", notifikacija);
+        return "client/mobileapp/pregledNotifikacije";
+    }
+    /*
+     @GetMapping(value = "/{id}/notificationPhoto/{filename}")
+    public ResponseEntity<Resource> servePhoto(
+            @PathVariable final Integer id,
+            @PathVariable final String filename
+    ) {
+       ClientId clientId =new ClientId(id);
+        Resource file = storageService.loadAsResource(clientId, filename);
+        return ResponseEntity
+                .ok()
+                .contentType(MediaType.IMAGE_JPEG)
+                .body(file);
+    }
+*/
 }

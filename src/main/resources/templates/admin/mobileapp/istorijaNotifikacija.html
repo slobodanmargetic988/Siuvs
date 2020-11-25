@@ -11,15 +11,47 @@
         <!-- Content -->
         <div class="px-content contentmali">
   <!-- Content -->
-            <div th:replace="fragments/page :: title (icon='fa fa-area-chart', title='Администраторски панел за мобилну апликацију')"></div>
+            <div th:replace="fragments/page :: title (icon='fa fa-area-chart', title='Историја послатих обавештења')"></div>
              <!-- Content -->
              
-            <p>Опције:</p>
-           <!-- Content -->
+        <div class="panel" >
+                <div class="panel-body data-panel-body">
 
-           <p><a th:href="@{/admin/mobileapp/istorijaNotifikacija}"><i class="fa fa-users m-r-1"></i>Историја послатих нотификација</a></p>
-                    <th:block th:insert="fragments/page :: contact" />
-              <!-- Content -->
+                    <p>Преглед обавештења: </p>
+                    <table class="table table-striped" style="background-color: white">
+                      
+                        <th:block th:if="${notifikacije != null}">
+                            <thead>
+                                <tr>
+                                    <td colspan="1">Примаоци</td>
+                                    <td colspan="1">Наслов</td>
+                                    <td colspan="1">Датум</td>
+                                </tr>
+                            </thead>
+                         
+                            <th:block th:each="notifikacija: ${notifikacije}">
+                                <tr th:attr="data-href=@{/admin/mobileapp/pregledNotifikacije/{id}(id=${notifikacija.id})}">
+                                    <th:block th:if="${notifikacija.client != null}">
+                                    <td >    <span th:text="${notifikacija.client.opstina.name}"></span> </td>
+                                    </th:block>
+                                      <th:block th:if="${notifikacija.client == null}">
+                                    <td >   Све општине</td>
+                                    </th:block>
+                                    <td >    <span th:text="${notifikacija.title}"></span> </td>
+                                    <td >    <span th:text="${notifikacija.createdOn}"></span> </td>
+             
+                                </tr>
+                            </th:block>
+
+                        </th:block>
+
+
+                    </table>
+
+
+                </div>
+</div>
+              
             
  </div>
 

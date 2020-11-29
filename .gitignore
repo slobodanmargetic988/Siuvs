@@ -59,3 +59,4 @@ src/main/resources/application.properties
 *.jpg
 application.properties
 src/main/resources/application.properties
+*.properties

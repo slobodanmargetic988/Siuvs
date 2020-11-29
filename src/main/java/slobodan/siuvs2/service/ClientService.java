@@ -18,6 +18,7 @@ public interface ClientService {
     Page<Client> findAllOrderByActiveDescNameAsc(Pageable pageable);
     
     List<Client> findAll();
+    List<Client> findAllByOrderByNameAsc();
     
     Client findOne(ClientId clientId);
 

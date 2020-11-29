@@ -98,6 +98,7 @@ public class ClientsController {
     @GetMapping(value = "/clients")
     public String list(final Model model, @PageableDefault final Pageable pageable) {
         model.addAttribute("clients", clientService.findAllOrderByActiveDescNameAsc(pageable));
+        model.addAttribute("allclients",clientService.findAllByOrderByNameAsc());
         return "admin/clients/clients";
     }
 

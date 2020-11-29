@@ -166,7 +166,7 @@ public class SupervisorClientsController {
                 model.addAttribute("clients", clientService.findAllOrderByActiveDescNameAsc(pageable));
             }
         }
-
+  model.addAttribute("allclients",clientService.findAllByOrderByNameAsc());
         return "supervisor/clients";
     }
 

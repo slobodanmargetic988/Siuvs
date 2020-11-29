@@ -44,7 +44,12 @@ public class ClientServiceImpl implements ClientService {
     public List<Client> findAll(){
         return clientRepository.findAllBy();
     };
-
+    @Override
+    public  List<Client> findAllByOrderByNameAsc(){
+        return clientRepository.findAllByOrderByNameAsc();
+    };
+    
+    
     @Override
     public Client findOne(ClientId clientId) {
         return clientRepository.findOne(clientId.getValue());

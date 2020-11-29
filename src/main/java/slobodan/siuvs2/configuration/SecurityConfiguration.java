@@ -49,6 +49,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/").permitAll()
                 .antMatchers("/php/**").permitAll()
+                .antMatchers("/login/**").permitAll()
                 .antMatchers("/forgotpassword/**").permitAll()
                 .antMatchers("/publicaccess/**").permitAll()
                 .antMatchers("/admin/**").hasAnyAuthority(Roles.ADMIN.toString(), Roles.RIS.toString(), Roles.MUP.toString())
@@ -65,7 +66,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and()
                 .logout()
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                .logoutSuccessUrl("/?logout")
+                .logoutSuccessUrl("/login/?logout")
                 .and()
                 .exceptionHandling()
                 .accessDeniedPage("/access-denied");

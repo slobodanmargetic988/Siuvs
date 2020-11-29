@@ -1,5 +1,6 @@
 package slobodan.siuvs2.controller;
 
+import javax.servlet.http.HttpServletRequest;
 import slobodan.siuvs2.model.Roles;
 import slobodan.siuvs2.model.SiuvsUserPrincipal;
 import slobodan.siuvs2.model.User;
@@ -11,13 +12,20 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
 public class HomeController {
 
     @Autowired
     private UserService userService;
-
+    
+  @RequestMapping(value = "/", method = RequestMethod.GET)
+    public String login(final Model model) {
+       
+        return "publicaccess/home";
+    }
     @GetMapping(value = "/admin")
     public String admin() {
         return "admin/home";

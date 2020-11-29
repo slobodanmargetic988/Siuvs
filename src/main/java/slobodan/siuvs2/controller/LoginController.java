@@ -31,9 +31,20 @@ public class LoginController {
 
     @Autowired
     public EmailNotificationService emailNotificationService;
-
+/*
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String login(final Model model, final HttpServletRequest request) {
+        if (request.getSession().getAttribute("errorMessage") != null) {
+            String errorMessage = (String) request.getSession().getAttribute("errorMessage");
+            model.addAttribute("errorMessage", errorMessage);
+            request.getSession().setAttribute("errorMessage", null);
+        } else {
+            model.addAttribute("errorMessage", null);
+        }
+        return "login";
+    }*/
+    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    public String login2(final Model model, final HttpServletRequest request) {
         if (request.getSession().getAttribute("errorMessage") != null) {
             String errorMessage = (String) request.getSession().getAttribute("errorMessage");
             model.addAttribute("errorMessage", errorMessage);

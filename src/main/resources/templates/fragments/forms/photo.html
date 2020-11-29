@@ -88,11 +88,11 @@
         <th:block th:fragment="view_photos_LSG (photoUrl)">
             <div class="panel">
                 <div class="panel-heading">
-                    <span class="panel-title">Графичка репрезентација организационе структуре</span>
+                    <span class="panel-title">Графичка презентација организационе структуре</span>
                 </div>
                 <div class="panel-body">
                 <th:block th:if="${photos.isEmpty()}" >
-                        <span class="panel-title">Графичка репрезентација организационе структуре још није унета</span>
+                        <span class="panel-title">Графичка презентација организационе структуре још није унета</span>
                     </th:block>
                     <th:block  th:if="${!photos.isEmpty()}" th:each="photo : ${photos}">
                         <p th:text="${photo.title}"></p>
@@ -106,7 +106,7 @@
                     
             <div class="panel" th:if="${!photos.isEmpty()}">
                 <div class="panel-heading">
-                    <span class="panel-title">Графичка репрезентација организационе структуре</span>
+                    <span class="panel-title">Графичка презентација организационе структуре</span>
                 </div>
                 <div class="panel-body">
 
@@ -134,7 +134,7 @@
 
             <div class="panel">
                 <div class="panel-heading">
-                    <span class="panel-title">Нова графичка репрезентација организационе структуре</span>
+                    <span class="panel-title">Нова графичка презентација организационе структуре</span>
                 </div>
                 <div class="panel-body">
 
@@ -166,7 +166,7 @@
         <th:block th:fragment="view_photos_Client (photoUrl)">
             <div class="panel" >
                 <div class="panel-heading">
-                    <span class="panel-title">Графичка репрезентација организационе структуре</span>
+                    <span class="panel-title">Графичка презентација организационе структуре</span>
                 </div>
                 <div class="panel-body" >
 
@@ -175,7 +175,7 @@
                         <img th:src="${photoUrl + photo.id}" style="max-width: 100%" />
                     </th:block>
                  <th:block th:if="${photos.isEmpty()}" >
-                        <span class="panel-title">Графичка репрезентација организационе структуре још није унета</span>
+                        <span class="panel-title">Графичка презентација организационе структуре још није унета</span>
                     </th:block>
                 </div>
                 

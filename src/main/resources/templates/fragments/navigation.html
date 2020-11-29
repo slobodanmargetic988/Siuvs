@@ -74,7 +74,7 @@
                         <a th:href="@{/admin/codebooks}"><i class="fa fa-users m-r-1"></i>Шифарници</a>
                     </li>-->
                     <li class="px-nav-item" sec:authorize="hasAnyAuthority('ADMIN','RIS','MUP')">
-                        <a th:href="@{/admin/reports}"><i class="fa fa-users m-r-1"></i>Извештаји</a>
+                        <a th:href="@{/admin/reports}"><i class="fa fa-users m-r-1"></i>Статистика унетих докумената</a>
                     </li>
                  
                    <li class="px-nav-item" sec:authorize="hasAnyAuthority('ADMIN')">
@@ -93,7 +93,7 @@
                         <a th:href="@{/supervisor/clients}"><i class="fa fa-institution m-r-1"></i>Корисници</a>
                     </li>
  <li class="px-nav-item" >
-                        <a th:href="@{/supervisor/reports}"><i class="fa fa-users m-r-1"></i>Извештаји</a>
+                        <a th:href="@{/supervisor/reports}"><i class="fa fa-users m-r-1"></i>Статистика унетих докумената</a>
                     </li>
                 </ul>
             </nav>
@@ -269,7 +269,7 @@
                         <a th:href="@{/admin/codebooks}"><i class="fa fa-users m-r-1"></i>Шифарници</a>
                     </li>-->
                     <li class="px-nav-item" sec:authorize="hasAnyAuthority('ADMIN')">
-                        <a th:href="@{/admin/reports}"><i class="fa fa-users m-r-1"></i>Извештаји</a>
+                        <a th:href="@{/admin/reports}"><i class="fa fa-users m-r-1"></i>Статистика унетих докумената</a>
                     </li>
                 </ul>
             </nav>

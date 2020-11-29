@@ -7,18 +7,15 @@
 
    
      <body class="dashboard">
-     <!--       style="background-image: url('/img/bg_dashboard.jpg') ;background-size : cover;background-repeat: no-repeat; background-color: #eeeff3; background-position: center right;background-attachment: fixed" >
-        -->
+
      <th:block th:insert="fragments/navigation-publicaccess :: navigation"></th:block>
 
         <!-- Content -->
         <div class="px-content contentmali">
 
-<!-- <div class="panel">
-       
-       <!-- Content --   <div class="panel-body" style="color:#304251; max-width: 800px"><!-- Content -->
+
                 <p class="maketextsmaller" >Јавни приступ</p>
-                <a class="maketextsmaller" style="color:darkslateblue" th:href="@{/publicaccess/clients}"><i class="fa fa-institution m-r-1"></i>Избор општине</a>
+                <a class="maketextsmaller" style="color:darkslateblue" th:href="@{/publicaccess/clients}"><i class="fa fa-institution m-r-1"></i>Избор јединице локалне самоуправе</a>
                 
                <!--    Корисничко упутство за рад у СИВУС апликацији можете преузети <a href="https://siuvs.rs/img/Manual.pdf">ОВДЕ.</a>-->
                 </p>
@@ -26,8 +23,7 @@
         
         
         <th:block th:insert="fragments/investitori :: investors" />
-    <!-- Content --    </div><!-- Content 
-        </div>-->
+   
 </div>
 
         <th:block th:insert="fragments/footer :: footer-standard" />

@@ -12,13 +12,7 @@
   <!-- Content -->
     <div class="px-content">
 
-        <div class="page-header">
-            <h1>
-                <!--
-                <th:block th:insert="fragments/navigation :: nav-breadcrumbs-admin-client-view(${client})" />
-                -->
-            </h1>
-        </div>
+       
 
               <div th:replace="fragments/alert :: success (${successMessage})"></div>
 
@@ -36,6 +30,60 @@
                 Ставке у менију означене као "Тренутно није јавно доступно" су тренутно недоступне јер садрже осетљиве податке (нпр. Име, Презиме, број телефона)
                  <br/>
             </div>
+            <div class="panel-heading">
+                    <span class="panel-title">Подаци о локалној самоуправи</span>
+                </div>
+                <div class="panel-body">
+                    <div class="panel" >
+                       
+                     
+                            <th:block th:if="${client.getOpstina() != null}">
+                                <label >Локална самоуправа: <span th:text="${client.opstina.name}"></span> </label>
+                                <br><br/>
+
+                                    <label   >Аутономна покрајина: <span  th:text="${client.opstina.provincija.name}"></span> </label>
+                                    <br><br/>
+
+                                        <label   >Управни округ: <span th:text="${client.opstina.distrikt.name}"></span> </label>
+                                        <br><br/>
+
+                                            <label   >Надлежности и делокруг: </label> 
+
+                                            <th:block th:each="tasks : ${client.opstina.tasks}">
+                                                <br><br/>  <span th:text="${tasks.name}"></span> 
+
+                                            </th:block>
+
+                                            <br><br/>
+
+                                                <label  >Листа међународних докумената: </label>
+                                                <th:block th:each="internationalAgreements : ${client.opstina.internationalAgreements}">
+                                                    <br><br/>
+                                                        <span  th:text="${internationalAgreements.name}"></span> 
+                                                        <th:block th:if="${docIAlist.contains(internationalAgreements) }">
+                                                            <a  th:href="@{/publicaccess/clients/{id}/downloadIA/{IAid} (id=${client.id},IAid=${internationalAgreements.id})}" class=" btn-xs btn-info btn-outline"><i class="fa fa-download"></i></a>
+                                                    </th:block>
+                                                </th:block>
+
+                                                <br><br/>
+
+                                                    <label   >Листа јавних докумената: </label>
+                                                    <th:block th:each="publicPolicyDocuments : ${client.opstina.publicPolicyDocuments}">
+                                                        <br><br/> <span  th:text="${publicPolicyDocuments.name}"></span> 
+                                                               <th:block th:if="${docPPDlist.contains(publicPolicyDocuments) }">
+                                                                <a  th:href="@{/publicaccess/clients/{id}/downloadPPD/{PPDid} (id=${client.id},PPDid=${publicPolicyDocuments.id})}" target="_blank" class=" btn-xs btn-info btn-outline"><i class="fa fa-download"></i></a>
+                                                                </th:block>
+                                                    </th:block>
+
+                                                    <br><br/>
+                                                        </th:block>
+                                                        </div>
+                    
+                                                        <th:block th:with="photoUrl=@{/publicaccess/clients/{clientId}/photo/(clientId=${client.id})}" >
+                                                                <th:block th:insert="fragments/forms/photo :: view_photos_LSG(${photoUrl})" />
+                                                            </th:block>
+
+                                                        </div>
         </div>
 
     </div>

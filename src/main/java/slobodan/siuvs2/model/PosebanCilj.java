@@ -35,6 +35,17 @@ public class PosebanCilj {
 
     @Column(name = "poseban_cilj_text")
     private String posebanCiljText;
+    
+    @Column(name = "komponenta")
+    private int komponenta;
+
+    public int getKomponenta() {
+        return komponenta;
+    }
+
+    public void setKomponenta(int komponenta) {
+        this.komponenta = komponenta;
+    }
 
     @Column(name = "redosled")
     private int redosled;

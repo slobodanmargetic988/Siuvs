@@ -374,7 +374,7 @@ public class SupervisorClientsController {
         model.addAttribute("TotalbudzetJls", TotalbudzetJls);
         model.addAttribute("TotalbudzetOstalo", TotalbudzetOstalo);
         model.addAttribute("TotalbudzetNeobezbedjeno", TotalbudzetNeobezbedjeno);
-        model.addAttribute("SumaLabel", "Укупно финансијска средства за општи део плана");
+        model.addAttribute("SumaLabel", "Укупно финансијска средства за цео план");
         //sume
         return "supervisor/planopsti";
     }
@@ -389,11 +389,20 @@ public class SupervisorClientsController {
         Page page = pageService.findOne(pageId);
         Plan plan = planService.findFirstByClient(client);
         List<PosebanCilj> PClist = posebanCiljService.findAllByPlanOrderByPagePageIdAsc(plan);
+         List<PosebanCilj> PClistK1 = posebanCiljService.findAllByClientAndPageAndKomponenta(client, page,1);
+         List<PosebanCilj> PClistK2 = posebanCiljService.findAllByClientAndPageAndKomponenta(client, page,2);
+          List<PosebanCilj> PClistK3 = posebanCiljService.findAllByClientAndPageAndKomponenta(client, page,3);
+           List<PosebanCilj> PClistK4 = posebanCiljService.findAllByClientAndPageAndKomponenta(client, page,4);
         String viewurl = "/supervisor/clients/" + clientId + "/plan/" + pageId;
         model.addAttribute("client", client);
         model.addAttribute("page", page);
         model.addAttribute("plan", plan);
         model.addAttribute("PClist", PClist);
+        
+        model.addAttribute("PClistK1", PClistK1);
+        model.addAttribute("PClistK2", PClistK2);
+        model.addAttribute("PClistK3", PClistK3);
+        model.addAttribute("PClistK4", PClistK4);
         model.addAttribute("planurl", viewurl);
         model.addAttribute("ceoplan", true);
         //sume

@@ -94,6 +94,10 @@ public class PlanController {
         }
         Plan plan = planService.findFirstByClient(client);
         List<PosebanCilj> PClist = posebanCiljService.findAllByClientAndPage(client, page);
+        List<PosebanCilj> PClistK1 = posebanCiljService.findAllByClientAndPageAndKomponenta(client, page,1);
+         List<PosebanCilj> PClistK2 = posebanCiljService.findAllByClientAndPageAndKomponenta(client, page,2);
+          List<PosebanCilj> PClistK3 = posebanCiljService.findAllByClientAndPageAndKomponenta(client, page,3);
+           List<PosebanCilj> PClistK4 = posebanCiljService.findAllByClientAndPageAndKomponenta(client, page,4);
         List<Mera> meralist = new ArrayList();
         List<Rezultat> rezultatlist = new ArrayList();
         String viewurl = "/client/plan/" + pageId;
@@ -113,6 +117,10 @@ public class PlanController {
         model.addAttribute("page", page);
         model.addAttribute("plan", plan);
         model.addAttribute("PClist", PClist);
+        model.addAttribute("PClistK1", PClistK1);
+        model.addAttribute("PClistK2", PClistK2);
+        model.addAttribute("PClistK3", PClistK3);
+        model.addAttribute("PClistK4", PClistK4);
         model.addAttribute("meralist", meralist);
         model.addAttribute("rezultatlist", rezultatlist);
         model.addAttribute("planurl", viewurl);
@@ -188,7 +196,7 @@ public class PlanController {
         model.addAttribute("TotalbudzetJls", TotalbudzetJls);
         model.addAttribute("TotalbudzetOstalo", TotalbudzetOstalo);
         model.addAttribute("TotalbudzetNeobezbedjeno", TotalbudzetNeobezbedjeno);
-        model.addAttribute("SumaLabel", "Укупно финансијска средства за општи део плана");
+        model.addAttribute("SumaLabel", "Укупно финансијска средства за цео план");
         //sume
         return "client/plan/opstiplan";
     }
@@ -302,6 +310,7 @@ return total;
     public String addPosebanCilj(
             final Model model,
             @PathVariable final PageId pageId,
+            @RequestParam(name = "posebanCiljKomponenta") Integer posebanCiljKomponenta,
             @RequestParam(name = "posebanCiljText") String posebanCiljText,
             @RequestParam(name = "indikator") String indikator,
             @RequestParam(name = "indikatorPV") String indikatorPV,
@@ -316,6 +325,7 @@ return total;
         List<PosebanCilj> PClist = posebanCiljService.findAllByClientAndPage(client, page);
         PosebanCilj pc = posebanCiljFactory.empty(plan, page);
         pc.setRedosled(PClist.size() + 1);
+         pc.setKomponenta(posebanCiljKomponenta);
         pc.setPosebanCiljText(posebanCiljText);
         pc.setIndikator(indikator);
         pc.setIndikatorPv(indikatorPV);
@@ -519,6 +529,7 @@ return total;
     public String saveEditPosebanCilj(
             @PathVariable final PageId pageId,
             @PathVariable final PosebanCiljID posebanCiljId,
+                  @RequestParam(name = "posebanCiljKomponenta") Integer posebanCiljKomponenta,
             @RequestParam(name = "posebanCiljText") String posebanCiljText,
             @RequestParam(name = "indikator") String indikator,
             @RequestParam(name = "indikatorPv") String indikatorPV,
@@ -535,6 +546,7 @@ return total;
         model.addAttribute("client", client);
         model.addAttribute("page", page);
         posebanCilj.setPosebanCiljText(posebanCiljText);
+          posebanCilj.setKomponenta(posebanCiljKomponenta);
         posebanCilj.setIndikator(indikator);
         posebanCilj.setIndikatorPv(indikatorPV);
         posebanCilj.setIndikatorCv(indikatorCV);
@@ -789,6 +801,7 @@ return total;
     public String saveNewPosebanCilj(
             @PathVariable final PageId pageId,
             @PathVariable final PlanID planId,
+             @RequestParam(name = "posebanCiljKomponenta") Integer posebanCiljKomponenta,
             @RequestParam(name = "posebanCiljText") String posebanCiljText,
             @RequestParam(name = "indikator") String indikator,
             @RequestParam(name = "indikatorPv") String indikatorPV,
@@ -807,6 +820,7 @@ return total;
         List<PosebanCilj> PClist = posebanCiljService.findAllByClientAndPage(client, page);
         PosebanCilj pc = posebanCiljFactory.empty(plan, page);
         pc.setRedosled(PClist.size() + 1);
+          pc.setKomponenta(posebanCiljKomponenta);
         pc.setPosebanCiljText(posebanCiljText);
         pc.setIndikator(indikator);
         pc.setIndikatorPv(indikatorPV);

@@ -34,6 +34,7 @@ public class PosebanCiljServiceImpl implements PosebanCiljService {
     }
 
     ;
+  
 
 
 @Override
@@ -63,6 +64,12 @@ public class PosebanCiljServiceImpl implements PosebanCiljService {
         return posebanCiljRepository.findAllByClientAndPage(client, page);
     }
 ;
+     @Override
+    public List<PosebanCilj> findAllByClientAndPageAndKomponenta(Client client,Page page, Integer komponenta){
+           return posebanCiljRepository.findAllByClientAndPageAndKomponenta(client, page,komponenta);
+    }
+
+    ;
      @Override
     public PosebanCilj findFirstByClient(Client client){
         return posebanCiljRepository.findFirstByClient(client);

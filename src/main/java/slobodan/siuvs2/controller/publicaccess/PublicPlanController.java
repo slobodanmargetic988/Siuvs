@@ -105,6 +105,11 @@ public class PublicPlanController {
         Plan plan = planRepository.findFirstByClient(client);
 
       List<PosebanCilj> PClist = posebanCiljService.findAllByPlanOrderByPagePageIdAsc(plan);
+       List<PosebanCilj> PClistK1 = posebanCiljService.findAllByClientAndPageAndKomponenta(client, page,1);
+         List<PosebanCilj> PClistK2 = posebanCiljService.findAllByClientAndPageAndKomponenta(client, page,2);
+          List<PosebanCilj> PClistK3 = posebanCiljService.findAllByClientAndPageAndKomponenta(client, page,3);
+           List<PosebanCilj> PClistK4 = posebanCiljService.findAllByClientAndPageAndKomponenta(client, page,4);
+      
         String viewurl = "/publicaccess/home/" + clientId + "/plan/ceo/" + pageId;
         List<Mera> meralist = new ArrayList();
         List<Rezultat> rezultatlist = new ArrayList();
@@ -125,6 +130,11 @@ public class PublicPlanController {
         model.addAttribute("page", page);
         model.addAttribute("plan", plan);
         model.addAttribute("PClist", PClist);
+        
+        model.addAttribute("PClistK1", PClistK1);
+        model.addAttribute("PClistK2", PClistK2);
+        model.addAttribute("PClistK3", PClistK3);
+        model.addAttribute("PClistK4", PClistK4);
         model.addAttribute("meralist", meralist);
         model.addAttribute("rezultatlist", rezultatlist);
         model.addAttribute("planurl", viewurl);

@@ -37,6 +37,16 @@
 
                         <form th:action="@{/admin/clients/{clientId}/plan/{pageId}/saveNewPosebanCilj/{planId} (planId=${plan.id},clientId=${client.id},pageId=${page.id})}"  method="post" class="form-horizontal" autocomplete="off">
                             <div class="form-group">
+                                 <label  class="col-md-3 " >Посебан циљ припада компоненти: </label>
+                                    <div class="col-md-9" >
+                                         
+                                            <select class="col-md-9 "  name="posebanCiljKomponenta"  >
+                                            <option  value="1" >Компонента 1: Разумевање ризика од катастрофа</option>
+                                            <option  value="2" >Компонента 2: Јачање управе и институција како би управљале ризиком од катастрофа</option>
+                                             <option  value="3" >Компонента 3: Инвестирање у структурне и неструктурне мере</option>
+                                              <option  value="4" >Компонента 4: Јачање спремности за делотворно реаговање, и успостављање бољег система током обнове и реконструкције</option>
+                                        </select> 
+                                    </div><br> </br>
                                 <label  class="col-md-3 " >Посебан циљ текст: </label>
                                 <div class="col-md-9" >
                                     <input type="text"   class="col-md-9"  name="posebanCiljText" value="Посебан циљ текст ..."> 

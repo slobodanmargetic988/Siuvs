@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+    <head>
+        <th:block th:include="fragments/head :: head" />
+    </head>
+    <body>
+
+        <!-- Nav -->
+        <th:block th:insert="fragments/navigation :: navigation-client"></th:block>
+
+        <!-- Content -->
+        <div class="px-content">
+
+            <div class="page-header">
+                <h1>
+                    <th:block th:insert="fragments/navigation :: nav-breadcrumbs-admin-client-view(${client})" />
+                </h1>
+            </div>
+
+            <div th:replace="fragments/alert :: success (${successMessage})"></div>
+
+            <!-- Client details panel -->
+            <div class="panel">
+                <div class="panel-heading">
+                    <span class="panel-title">Преглед периода важења докумената</span>
+                </div>
+                <div class="panel-body">
+                    <div class="panel" >
+                        <form th:action="@{/admin/clients/{clientID}/calendar/edit (clientID=${client.id})}" enctype="multipart/form-data"  method="post" class="form-horizontal " autocomplete="off">
+<div class="panel" >
+    <div class="panel-body "  >
+                               
+                             
+<label  class="col-md-3 " ><b>Процена ризика: </b> </label>
+                                    <br> </br>
+
+                                    <div class="col-md-12" >
+                                        <label  class="col-md-3 " >Број решења: </label>
+                                        <input type="text"   class="col-md-3"  name="brojresenja1" th:value="${calendar1.getResenje()}" > 
+                                    </div>
+                                    <br> </br>
+                                    <div class="col-md-12" >
+                                        <label  class="col-md-3 " >Датум доношења: </label>
+                                        <input type="date"   class="col-md-3"  name="datumdonosenja1" th:value="${calendar1.getDoneto()}"> 
+                                    </div>
+                                    <br> </br>
+                                    <div class="col-md-12" >
+                                        <label  class="col-md-3 " >Документ важи до: </label>
+                                        <input type="date" class="col-md-3"  name="vazido1" th:value="${calendar1.getVazido()}" > 
+                                    </div>
+                                    <br> </br>
+
+
+
+
+                         
+
+                         
+</div>
+                            <div class="panel-body " style="background-color: #f6f6f6"  >
+                             
+
+ 
+  
+    <label  class="col-md-3 " ><b>План заштите и спасавања: </b> </label>
+                                    <br> </br>
+
+                                    <div class="col-md-12" >
+                                        <label  class="col-md-3 " >Број решења: </label>
+                                        <input type="text"   class="col-md-3"  name="brojresenja2" th:value="${calendar2.getResenje()}" >  
+                                    </div>
+                                    <br> </br>
+                                    <div class="col-md-12" >
+                                        <label  class="col-md-3 " >Датум доношења: </label>
+                                        <input type="date"   class="col-md-3"  name="datumdonosenja2" th:value="${calendar2.getDoneto()}"> 
+                                    </div>
+                                    <br> </br>
+                                    <div class="col-md-12" >
+                                        <label  class="col-md-3 " >Документ важи до: </label>
+                                        <input type="date" class="col-md-3"  name="vazido2" th:value="${calendar2.getVazido()}" > 
+                                    </div>
+                                    <br> </br>
+
+
+
+
+                           
+                            </div>
+                            
+                          
+                            <div class="panel-body" >
+
+<label  class="col-md-3 " ><b>План смањења ризика: </b> </label>
+                                    <br> </br>
+
+                                    <div class="col-md-12" >
+                                        <label  class="col-md-3 " >Број решења: </label>
+                                        <input type="text"   class="col-md-3"  name="brojresenja3" th:value="${calendar3.getResenje()}" >  
+                                    </div>
+                                    <br> </br>
+                                    <div class="col-md-12" >
+                                        <label  class="col-md-3 " >Датум доношења: </label>
+                                        <input type="date"   class="col-md-3"  name="datumdonosenja3" th:value="${calendar3.getDoneto()}"> 
+                                    </div>
+                                    <br> </br>
+                                    <div class="col-md-12" >
+                                        <label  class="col-md-3 " >Документ важи до: </label>
+                                        <input type="date" class="col-md-3"  name="vazido3" th:value="${calendar3.getVazido()}"  > 
+                                    </div>
+                                    <br> </br>
+
+
+
+
+                           
+                            </div>
+                            <div class="panel-body "style="background-color: #f6f6f6	"  >
+
+<label  class="col-md-12 " ><b>Оперативни план за одбрану од поплава: </b> </label>
+                                    <br> </br>
+
+                                   <div class="col-md-12" >
+                                        <label  class="col-md-3 " >Број решења: </label>
+                                        <input type="text"   class="col-md-3"  name="brojresenja4" th:value="${calendar4.resenje}" >  
+                                    </div>
+                                    <br> </br>
+                                    <div class="col-md-12" >
+                                        <label  class="col-md-3 " >Датум доношења: </label>
+                                        <input type="date"   class="col-md-3"  name="datumdonosenja4" th:value="${calendar4.getDoneto()}">  
+                                    </div>
+                                    <br> </br>
+                                    <div class="col-md-12" >
+                                        <label  class="col-md-3 " >Документ важи до: </label>
+                                        <input type="date" class="col-md-3"  name="vazido4" th:value="${calendar4.getVazido()}"  > 
+                                    </div>
+                                    <br> </br>
+
+
+
+
+                               
+                            </div>
+
+                            <div class="form-group col-md-12">
+
+                                <br> </br>
+
+
+
+
+
+                                <div class="col-md-offset-3 col-md-9">
+                                    <button type="submit" class="btn btn-primary">Сачувај</button>
+                                    <a th:href="@{/admin/clients/{clientId}/calendar (clientId=${client.id})}" class="btn">Одустани</a>
+                                </div> 
+                            </div> 
+                            
+                             </div> 
+                        </form>
+
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        </div>
+        <th:block th:insert="fragments/footer :: footer-standard" />
+        <th:block th:insert="fragments/scripts :: standard" />
+    </body>
+</html>

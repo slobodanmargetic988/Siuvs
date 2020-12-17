@@ -7,6 +7,7 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
+
 @Table(name = "login_log")
 @EntityListeners(AuditingEntityListener.class)
 public class LoginLog {

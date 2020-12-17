@@ -1,0 +1,1 @@
+gunzip < backupfile.sql.gz | mysql -u root -p  siuvs-prod

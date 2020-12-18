@@ -7,7 +7,8 @@ package slobodan.siuvs2.model;
 
 
 
-import java.sql.Date;
+
+import java.time.LocalDate;
 import java.util.List;
 import javax.persistence.*;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -41,10 +42,10 @@ public class Calendar {
     private String resenje;
 
     @Column(name = "datum_donosenja")
-    private Date doneto;
+    private LocalDate doneto;
 
     @Column(name = "vazi_do")
-    private Date vazido;
+    private LocalDate vazido;
 
     public int getId() {
         return id;
@@ -78,22 +79,22 @@ public class Calendar {
         this.resenje = resenje;
     }
 
-    public Date getDoneto() {
+    public LocalDate getDoneto() {
         return doneto;
     }
 
-    public void setDoneto(Date doneto) {
+    public void setDoneto(LocalDate doneto) {
         this.doneto = doneto;
     }
 
-    public Date getVazido() {
+    public LocalDate getVazido() {
         return vazido;
     }
 
-    public void setVazido(Date vazido) {
+    public void setVazido(LocalDate vazido) {
         this.vazido = vazido;
     }
-    
+
     
 
 

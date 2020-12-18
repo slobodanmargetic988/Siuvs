@@ -1,5 +1,6 @@
 package slobodan.siuvs2.model;
 
+import java.sql.Date;
 import slobodan.siuvs2.valueObject.ClientId;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.data.annotation.CreatedBy;
@@ -33,6 +34,10 @@ public class Client {
 
     @OneToMany(mappedBy = "client")
     private List<User> users = new ArrayList<>();
+    
+    @ManyToOne
+    @JoinColumn(name = "calendar_id")
+    private Calendar calendar;
 
     @CreatedBy
     @ManyToOne
@@ -54,6 +59,16 @@ public class Client {
 
     @Column(name = "active")
     private boolean active;
+
+    public Calendar getCalendar() {
+        return calendar;
+    }
+
+    public void setCalendar(Calendar calendar) {
+        this.calendar = calendar;
+    }
+    
+  
 
     public Opstina getOpstina() {
         return opstina;

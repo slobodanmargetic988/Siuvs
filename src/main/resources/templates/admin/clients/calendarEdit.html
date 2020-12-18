@@ -19,6 +19,7 @@
             </div>
 
             <div th:replace="fragments/alert :: success (${successMessage})"></div>
+  <div th:replace="fragments/alert :: error (${errorMessage})"></div>
 
             <!-- Client details panel -->
             <div class="panel">
@@ -43,6 +44,7 @@
                                     <div class="col-md-12" >
                                         <label  class="col-md-3 " >Датум доношења: </label>
                                         <input type="date"   class="col-md-3"  name="datumdonosenja1" th:value="${calendar1.getDoneto()}"> 
+                                            
                                     </div>
                                     <br> </br>
                                     <div class="col-md-12" >

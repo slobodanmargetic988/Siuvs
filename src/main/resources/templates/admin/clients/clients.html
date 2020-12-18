@@ -84,7 +84,7 @@
                                 <th>#</th>
                                  <th >Назив корисника</th>
                                 <th >Индикатор</th>
-                                <th>Датум истека документа</th>
+                                <th>Датум истека за документ који најраније истиче</th>
                                 <th>Назив документа</th>
                                
                                 <th>Активан</th>
@@ -94,6 +94,7 @@
                             <tr th:each="client: ${clients}" th:attr="data-href=@{/admin/clients/{id}(id=${client.id})}">
                                 <th scope="row" th:text="${client.id}"></th>
                                  <td  th:text="${client.name}"></td>
+                                 
                                  <th:block th:if="${client.calendar != null}">
                                      <th:block th:switch="${komparator.uporedi(currentDate,client.calendar.vazido)}">
                                      <td th:case="'2'"><a data-toggle="tooltip" data-placement="right" title="Документу истиче период важења за мање од 3 месеца" > <i class="fa fa-circle" style="color: red"></i></a></td>
@@ -108,8 +109,9 @@
                                 <td >Није унето</td>
                                 <td >Није унето</td> 
                                 </th:block> 
-                                 </th:block>
-                                <td th:text="${client.isActive()} ? 'ДА' : 'НЕ'"></td>
+                                
+                             
+        <td th:text="${client.isActive()} ? 'ДА' : 'НЕ'"></td>
                             </tr>
                         </tbody>
                     </table>

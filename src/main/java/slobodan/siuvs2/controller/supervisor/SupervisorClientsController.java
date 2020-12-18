@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -30,6 +31,7 @@ import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBo
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import slobodan.siuvs2.facade.TableFacade;
 import slobodan.siuvs2.model.Assessment;
+import slobodan.siuvs2.model.DateKomparator;
 import slobodan.siuvs2.model.Distrikt;
 import slobodan.siuvs2.model.Dokument;
 import slobodan.siuvs2.model.InternationalAgreements;
@@ -155,18 +157,28 @@ public class SupervisorClientsController {
             Distrikt distrikt = user.getSupervising().getDistrikt();
             List<Opstina> opstina = new ArrayList<Opstina>();
             opstina = opstinaService.findAllByDistriktOrderByNameAsc(distrikt);
+            if (opstina!=null){
             model.addAttribute("clients", clientService.findAllByOpstinaInOrderByNameAsc(opstina, pageable));
+        }
         } else {
             if (userService.hasRole(user, Roles.PROVINCE)) {
                 Provincija provincija = user.getSupervising().getProvincija();
                 List<Opstina> opstina = new ArrayList<Opstina>();
                 opstina = opstinaService.findAllByProvincijaOrderByNameAsc(provincija);
+                 if (opstina!=null){
                 model.addAttribute("clients", clientService.findAllByOpstinaInOrderByNameAsc(opstina, pageable));
+                }
             } else {
                 model.addAttribute("clients", clientService.findAllOrderByActiveDescNameAsc(pageable));
             }
         }
   model.addAttribute("allclients",clientService.findAllByOrderByNameAsc());
+  
+     LocalDate currentDate = LocalDate.now();
+        model.addAttribute("currentDate",currentDate);
+        DateKomparator komparator= new DateKomparator();
+        model.addAttribute("komparator",komparator);
+  
         return "supervisor/clients";
     }
 

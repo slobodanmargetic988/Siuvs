@@ -96,15 +96,15 @@
                                  <td  th:text="${client.name}"></td>
                                  <th:block th:if="${client.calendar != null}">
                                      <th:block th:switch="${komparator.uporedi(currentDate,client.calendar.vazido)}">
-                                     <td th:case="'2'">crveno</td>
-                                     <td th:case="'3'">zuto</td>
-                                     <td th:case="'4'">zeleno</td>
+                                     <td th:case="'2'"><a data-toggle="tooltip" data-placement="right" title="Документу истиче период важења за мање од 3 месеца" > <i class="fa fa-circle" style="color: red"></i></a></td>
+                                     <td th:case="'3'"><a data-toggle="tooltip" data-placement="right" title="Документу истиче период важења за мање од 6 месеци" > <i class="fa fa-circle" style="color: orange"></i></a></td>
+                                     <td th:case="'4'"><a data-toggle="tooltip" data-placement="right" title="Документу истиче период важења за више од 6 месеци" > <i class="fa fa-circle" style="color: green"></i> </a></td>
                                          </th:block>
                                 <td th:text="${client.calendar.vazido}"></td>
                                 <td th:text="${client.calendar.dokument}"></td>
                                 </th:block>
                                 <th:block th:if="${client.calendar == null}">
-                                   <td >Crno bas bas <i class="fas fa-circle"></i></td>
+                                    <td > <a data-toggle="tooltip" data-placement="right" title="Није унет период важења" > <i class="fa fa-circle" style="color: black"> </i>  </a></td>
                                 <td >Није унето</td>
                                 <td >Није унето</td> 
                                 </th:block> 

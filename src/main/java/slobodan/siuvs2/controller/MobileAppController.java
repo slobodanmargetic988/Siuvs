@@ -810,8 +810,8 @@ primaoci= mobileAppUniqService.findDistinctToken();
             redirectAttributes.addFlashAttribute("errorMessage", "Грешка приликом слања нотификације!");
         }
         //repeat notification 5 times every 20 minutes
-        //Integer howManyTimes = 5;
-       // repeatNotification(howManyTimes, post);
+        Integer howManyTimes = 5;
+       repeatNotification(howManyTimes, post);
         return "redirect:/admin/mobileapp/slanje";
 
     }

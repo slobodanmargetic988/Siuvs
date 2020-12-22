@@ -14,6 +14,9 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClients;
+import org.springframework.boot.configurationprocessor.json.JSONArray;
+import org.springframework.boot.configurationprocessor.json.JSONObject;
+
 import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -410,7 +413,7 @@ public class MobileAppController {
         } else {
             primaoci = notifikacijeService.findAllByOpstina(opstinanamelatinica);
         }
-        String registration_ids = buildRegistrationIds(primaoci);
+       // String registration_ids = buildRegistrationIds(primaoci);
 
         String titleTextV = " ";
         String bodyTextV = " ";
@@ -460,6 +463,7 @@ public class MobileAppController {
         IstorijaNotifikacija istorijaNotifikacija = new IstorijaNotifikacija();
         istorijaNotifikacija.setTitle(titleTextV);
         istorijaNotifikacija.setBody(bodyTextV);
+     
         istorijaNotifikacija.setMessage(messageTextV);
         istorijaNotifikacija.setLink(linkTextV);
         istorijaNotifikacija.setLink_text(linkTextV);
@@ -469,7 +473,7 @@ public class MobileAppController {
         istorijaNotifikacija.setImg_link(imageTextV);
         istorijaNotifikacijaService.save(istorijaNotifikacija);
 
-        String JSON_Body = buildJSONBody(istorijaNotifikacija, titleTextV, bodyTextV, imageTextV, messageTextV, linkTextV, linkTextTextV, registration_ids);
+        String JSON_Body = buildJSONBody(istorijaNotifikacija, titleTextV, bodyTextV, imageTextV, messageTextV, linkTextV, linkTextTextV, primaoci);
 
         HttpClient httpclient = HttpClients.createDefault();
         StringEntity requestEntity = new StringEntity(JSON_Body, ContentType.APPLICATION_JSON);
@@ -479,8 +483,10 @@ public class MobileAppController {
         post.setEntity(requestEntity);
         try {
             HttpResponse rawResponse = httpclient.execute(post);
+            
+// System.out.println("odgovor od googla je      "+rawResponse);
 
-            redirectAttributes.addFlashAttribute("successMessage", "Нотификација успешно послата! \n " + registration_ids);
+            redirectAttributes.addFlashAttribute("successMessage", "Нотификација успешно послата! \n " /*+ rawResponse*/);
 
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("errorMessage", "Грешка приликом слања нотификације!");
@@ -511,7 +517,7 @@ public class MobileAppController {
 
         primaoci = notifikacijeService.findAllByOpstina(client.getOpstina().getNamelatinica());
 
-        String registration_ids = buildRegistrationIds(primaoci);
+        //String registration_ids = buildRegistrationIds(primaoci);
 
         String titleTextV = " ";
         String bodyTextV = " ";
@@ -564,7 +570,7 @@ public class MobileAppController {
         istorijaNotifikacija.setImg_link(imageTextV);
         istorijaNotifikacijaService.save(istorijaNotifikacija);
 
-        String JSON_Body = buildJSONBody(istorijaNotifikacija, titleTextV, bodyTextV, imageTextV, messageTextV, linkTextV, linkTextTextV, registration_ids);
+        String JSON_Body = buildJSONBody(istorijaNotifikacija, titleTextV, bodyTextV, imageTextV, messageTextV, linkTextV, linkTextTextV, primaoci);
 
         HttpClient httpclient = HttpClients.createDefault();
         StringEntity requestEntity = new StringEntity(JSON_Body, ContentType.APPLICATION_JSON);
@@ -575,7 +581,7 @@ public class MobileAppController {
         try {
             HttpResponse rawResponse = httpclient.execute(post);
 
-            redirectAttributes.addFlashAttribute("successMessage", "Нотификација успешно послата! \n " + registration_ids);
+            redirectAttributes.addFlashAttribute("successMessage", "Нотификација успешно послата! \n " /*+ rawResponse*/);
 
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("errorMessage", "Грешка приликом слања нотификације!");
@@ -587,41 +593,47 @@ public class MobileAppController {
 
     }
 
-    private String buildJSONBody(IstorijaNotifikacija istorijaNotifikacija, String title, String body, String image, String message, String link, String linkText, String registration_ids) {
+    private String buildJSONBody(IstorijaNotifikacija istorijaNotifikacija, String title, String body, String image, String message, String link, String linkText, List<String> primaoci) {
 
-        String JSONBody = "{\n"
-                + "    \"data\": {\n"
-                + "        \"title\" : \"" + title + "\", \n"
-                + "        \"body\" : \"" + body + "\", \n"
-                + "        \"image\" : \"" + image + "\",     \n"
-                + "        \"message\": \"" + message + "\",\n"
-                + "        \"link\": \"" + link + "\",\n"
-                + "        \"serverNotificationId\": \"" + istorijaNotifikacija.getId() + "\",\n"
-                + "        \"linkText\": \"" + linkText + "\"    \n" + " "
-                + "    },\n"
-                + "    \"registration_ids\": [\n" + registration_ids
-                + "    ]\n"
-                + "}";
-        //System.out.println("Da li nam je dostupan id valjda jeste ako jeste onda je :   "+istorijaNotifikacija.getId());
-        return JSONBody;
-    }
+JSONObject jsonPoruka = new JSONObject();
+JSONObject jsonData = new JSONObject();
+JSONArray jsonRegistrationIdsArray = new JSONArray();
 
-    private String buildRegistrationIds(List<String> primaoci) {
+try{
+    //build data json
+jsonData.put("title", title);
+jsonData.put("body", body);
+jsonData.put("image", image);
+jsonData.put("message", message);
+jsonData.put("link", link);
+jsonData.put("linkText", linkText);
+jsonData.put("serverNotificationId", istorijaNotifikacija.getId());
 
-        String registration_ids = "\"";
-        Iterator<String> iterator = primaoci.iterator();
+//build registration ids json
+Iterator<String> iterator = primaoci.iterator();
         while (iterator.hasNext()) {
-            String notif = iterator.next();
-            //   registration_ids+=notif+"\",\n\"";
-            if (!iterator.hasNext()) {
-                registration_ids += notif + "\"";
-                //last name 
-            } else {
-                registration_ids += notif + "\",\n\"";
-            }
+jsonRegistrationIdsArray.put(iterator.next());
         }
-        return registration_ids;
+
+//build payload json
+jsonPoruka.put("data",jsonData);
+jsonPoruka.put("registration_ids",jsonRegistrationIdsArray);
+}catch(Exception e){}
+
+
+
+
+String payload = jsonPoruka.toString();
+
+        System.out.println("jsonPoruka je evo je :   "+jsonPoruka+ "  ");
+        System.out.println("payload je evo je :   "+payload+ "  ");
+        
+       return payload;
     }
+    
+   
+
+    
     private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 
     private void repeatNotification(Integer howManyTimes, HttpPost post) {
@@ -734,7 +746,7 @@ public class MobileAppController {
         }*/
 primaoci= mobileAppUniqService.findDistinctToken();
         
-        String registration_ids = buildRegistrationIds(primaoci);
+       // String registration_ids = buildRegistrationIds(primaoci);
 
         String titleTextV = " ";
         String bodyTextV = " ";
@@ -793,7 +805,7 @@ primaoci= mobileAppUniqService.findDistinctToken();
         istorijaNotifikacija.setImg_link(imageTextV);
         istorijaNotifikacijaService.save(istorijaNotifikacija);
 
-        String JSON_Body = buildJSONBody(istorijaNotifikacija, titleTextV, bodyTextV, imageTextV, messageTextV, linkTextV, linkTextTextV, registration_ids);
+        String JSON_Body = buildJSONBody(istorijaNotifikacija, titleTextV, bodyTextV, imageTextV, messageTextV, linkTextV, linkTextTextV, primaoci);
 
         HttpClient httpclient = HttpClients.createDefault();
         StringEntity requestEntity = new StringEntity(JSON_Body, ContentType.APPLICATION_JSON);
@@ -804,7 +816,7 @@ primaoci= mobileAppUniqService.findDistinctToken();
         try {
             HttpResponse rawResponse = httpclient.execute(post);
 
-            redirectAttributes.addFlashAttribute("successMessage", "Нотификација успешно послата! \n " + registration_ids);
+            redirectAttributes.addFlashAttribute("successMessage", "Нотификација успешно послата! \n " /*+ rawResponse*/);
 
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("errorMessage", "Грешка приликом слања нотификације!");

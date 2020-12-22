@@ -53,7 +53,7 @@ import slobodan.siuvs2.valueObject.ClientId;
 
 @Controller
 public class MobileAppController {
-
+ private Integer howManyTimes = 5;// how many times notifications are resent to ensure delivery resend obavestenja obaveštenja
     @Autowired
     private UserService userService;
     @Autowired
@@ -492,7 +492,7 @@ public class MobileAppController {
             redirectAttributes.addFlashAttribute("errorMessage", "Грешка приликом слања нотификације!");
         }
         //repeat notification 5 times every 20 minutes
-        Integer howManyTimes = 5;
+
         repeatNotification(howManyTimes, post);
         return "redirect:/admin/mobileapp/slanje";
 
@@ -587,7 +587,7 @@ public class MobileAppController {
             redirectAttributes.addFlashAttribute("errorMessage", "Грешка приликом слања нотификације!");
         }
         //repeat notification 5 times every 20 minutes
-        Integer howManyTimes = 5;
+   
         repeatNotification(howManyTimes, post);
         return "redirect:/client/mobileapp/slanje";
 
@@ -822,7 +822,7 @@ primaoci= mobileAppUniqService.findDistinctToken();
             redirectAttributes.addFlashAttribute("errorMessage", "Грешка приликом слања нотификације!");
         }
         //repeat notification 5 times every 20 minutes
-        Integer howManyTimes = 5;
+ 
        repeatNotification(howManyTimes, post);
         return "redirect:/admin/mobileapp/slanje";
 

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+    <head>
+         
+        <link th:href="@{/css/stefan.css}" rel="stylesheet" type="text/css">
+ 
+    </head>
+    <body >
+
+        <div class="navbar"> 
+            <a href="#">Home</a>
+            <div class="dropdown">
+                <button class="dropbtn">Meni</button>
+                <div class="dropdown-content">
+                    <a href="#">Lista klijenata</a>
+                    <a href="#">Lista korisnika</a>
+                    <a href="#">Lista volontera</a>
+                    <a href="#">Lista volontera ograničena</a>
+                </div>
+            </div> 
+                <a href="#">Procene</a>
+                <a href="#">Home 2</a>
+        </div>
+        
+        <div class ="container">
+            
+           <div class ="pod-container">
+           <label><b>Ime</b></label>
+           <input type="text" placeholder="unesite svoje ime" name="ime" id="ime"required> 
+           <label class="sekundarni-label"><b>Prezime</b></label>
+           <input type="text" placeholder="unesite svoje prezime" name="prezime" id="prezimert"required> 
+           <button onclick="prikazi()" class="pozdrav">Pozdrav</button> 
+           </div> 
+           <br></br>
+           <div id="poruka1" class="dobardan">Dobar dan</div>
+           <br></br>
+          
+           <div class ="pod-container">
+           <label><b>A:</b></label>
+           <input type="number" placeholder="unesite vrednost A" name="A" id="inputA"required> 
+           <label><b>B:</b></label>
+           <input type="number" placeholder="unesite vrednost B" name="B" id="inputB"required> 
+           <button class="suma" onclick="suma()">Suma</button>
+           <br></br>
+           <div id="poruka2" class="suma">Suma je:</div>
+           </div>    
+              
+         </div> 
+        
+        <div class="footer">
+       All rights reserved: Stefan the Noob™     
+        </div>
+        
+        
+            <script th:src="@{/js/stefan.js}"type="text/javascript"></script>
+        
+    </body>
+</html>

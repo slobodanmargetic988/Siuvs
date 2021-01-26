@@ -18,7 +18,7 @@
 
         <th:block th:fragment="standard">
             <th:block th:insert="fragments/scripts :: core" />
-
+<script th:src="@{/js/aleksandrinJS.js}"></script>
             <!-- Your scripts -->
             <th:block th:insert="fragments/navigation :: navigation-script" />
             <th:block th:insert="fragments/scripts :: clickable-table-row" />

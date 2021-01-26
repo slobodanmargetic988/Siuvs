@@ -171,16 +171,9 @@ public class SupervisorsController {
             }
 //if distrikt or province are selected roles, set role and set selected province/distrikt
             Supervising supervising;
-           
-            
-           
-        
-        
             if (Roles.DISTRIKT.toString().equals(roleName)) {
                 DistriktID distriktID = new DistriktID(distrikt);
-                Distrikt distrikttemp=distriktService.findOne(distriktID);
-               
-                supervising = supervisingService.findFirstByDistrikt(distrikttemp);//.findFirstById(distrikt));
+                supervising = supervisingService.findFirstByDistrikt(distriktService.findOne(distriktID));//.findFirstById(distrikt));
                 userService.setSupervising(user, supervising);
                 userService.addRole(user, Roles.DISTRIKT);
             }
@@ -192,7 +185,6 @@ public class SupervisorsController {
                 userService.addRole(user, Roles.PROVINCE);
             }
 
-               
             userService.saveNewUser(user);
             redirectAttributes.addFlashAttribute("successMessage", "Корисник успешно креиран!");
             return "redirect:/admin/supervisors";

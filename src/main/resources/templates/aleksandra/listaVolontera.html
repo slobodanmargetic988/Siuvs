@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+    <head>
+        <title>Lista volontera</title>
+        <!--        <th:block th:include="fragments/head :: head" />-->
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <!--        <link th:href="@{/css/siuvs.css}" rel="stylesheet" type="text/css" />-->
+        <!-- <th:block th:include="fragments/head :: head" />-->
+        <link th:href="@{/css/aleksandrinCss.css}" rel="stylesheet" type="text/css" />
+ <link rel="preconnect" href="https://fonts.gstatic.com">
+
+                    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+                </head>
+
+                </head>
+
+                <body>
+
+                    <th:block th:insert="fragments/delici/aleksDelici :: navbar" />
+
+
+                    <div class="content ">
+
+                        <div class="content-client">
+                            <h3>Tabela - lista volontera</h3>
+
+                            <table class="table table-borded">
+
+                                <tr class="bg-secondary text-white">
+                                    <th >Ime</th>
+                                    <th >Prezime</th>
+                                    <th >Opstina</th>
+                                    <th >Email</th>
+                                </tr>
+
+                                <tr th:each="volonter : ${listaVolontera}">
+                                    <td th:text="${volonter.ime}">Pera</td>
+                                    <td th:text="${volonter.prezime}">Peric</td>
+                                    <td th:text="${volonter.opstina}">Palilula</td> 
+                                    <td th:text="${volonter.email}">pera@example.com</td>
+                                </tr>
+
+                            </table>
+                            
+                            
+
+
+                        </div>
+
+
+                        <!--
+                                <footer id="thefooter">
+                                    <th:block th:fragment="copyright">Copyright 2021 © All rights reserved.</th:block>
+                                </footer>-->
+
+                        <!--        <footer id="thefooter">
+                                    <p class="myf">©All rights reserved</p>
+                                </footer> -->
+
+                        <!--                <div class="footer">This will always appear at the bottom of the page, but <strong>not fixed</strong>.</div>-->
+
+
+                    </div>
+                    <th:block th:insert="fragments/delici/footer :: footerAleks" />
+
+
+                    <th:block th:insert="fragments/delici/scripts :: standard" />
+
+                </body>
+
+                </html>

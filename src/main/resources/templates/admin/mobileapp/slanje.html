@@ -86,8 +86,6 @@
                                 </div> 
                             </div> 
                         </form>
-                        
-                        
  <div class="col-md-12" >
                                  <br> </br>
                              <label   >* http://www.link.com/primer/ </label>    <br> </br>
@@ -101,72 +99,7 @@
 
 
                 </div> 
-                
-                 <br> </br> <br> </br>
-                  <br> </br>  <br> </br>
-                 
-<form th:action="@{/admin/mobileapp/slanje/posalji/all}" enctype="multipart/form-data"  method="post" class="form-horizontal" autocomplete="off" sec:authorize="hasAnyAuthority('ADMIN')">
-                            <div class="form-group col-md-12">
- <div class="col-md-12" >
-     <label  class="col-md-12 " ><h1><b>Ова форма шаље обавештење свим корисницима који су инсталирали мобилну апликацију без обзира на то да ли су се пријавили за нотификације од општина ! </b> </h1></label>
 
-                                   
-                                         
-                                    </div>
-                                    <br> </br>
-                                
-                                <div class="col-md-12" >
-                                    <label  class="col-md-3 " >Наслов нотификације: </label>
-                                    <input type="text"   class="col-md-9"  name="titleText" > 
-                                        <br> </br>
-                                </div>
-                                <br> </br><br> </br>
-
-                                <div class="col-md-12" >
-                                    <label  class="col-md-3 " >Кратак описни текст: </label>                              
-                                    <input type="text"   class="col-md-9"  name="bodyText" > 
-                                        <br> </br>
-                                </div>
-                                <br> </br>
-
-                                <div class="col-md-12" >
-                                    <label  class="col-md-3 " >Дужи текст: </label>
-
-                                    <textarea rows="5" class="col-md-9" name="messageText"></textarea>
-                                    <!--  <input type="text"   class="col-md-9"  name="messageText" > -->
-                                    <br> </br>
-                                </div>
-                                <br> </br>
-
-                                
-                        <div class="col-md-12">
-                            <br> </br>
-                            <label class="col-md-3 ">Слика уз нотификацију (*.jpg, макс. 20 MB)</label>
-                            <div class="col-md-9">
-                                <input type="file" name="file">
-                                    <br> </br>
-                            </div>
-                        </div>
-
-                                <br> </br>
-
-                                <div class="col-md-12" >
-                                    <label  class="col-md-3 " >Веб линк уз нотификацију (адреса на коју линк шаље када се кликне)*: </label>
-                                    <input type="text"   class="col-md-9"  name="linkText" > 
-                                </div>
-                                <br> </br>
-                                <div class="col-md-12" >
-                                    <label class="col-md-3"  >Текст веб линка (описни текст који ће корисник видети уместо адресе)**: </label>                         
-                                    <input type="text"  class="col-md-9"  name="linkTextText" > 
-                                </div>
-                                <br> </br>
-
-                                <div class="col-md-offset-3 col-md-9">
-                                    <button type="submit" class="btn btn-primary">Пошаљи свим корисницима мобилне апликације</button>
-                                    <a th:href="@{/admin/mobileapp}" class="btn">Одустани</a>
-                                </div> 
-                            </div> 
-                        </form>
             </div>
 
 

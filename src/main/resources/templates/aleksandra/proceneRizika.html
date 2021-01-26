@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+    <head>
+        <title>Vezba</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <style>
+        </style>
+        <!--        <th:block th:include="fragments/head :: head" />-->
+        <link th:href="@{/css/aleksandrinCss.css}" rel="stylesheet" type="text/css" />
+
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+
+
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+                <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+                    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+                    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+                    </head>
+
+                    <body>
+
+                        <th:block th:insert="fragments/delici/aleksDelici :: navbar" />
+
+                        <div class="content content-proceneRizika">
+<!--                            prvi nacin-->
+                            <form th:action="@{/aleksandra/home/proceneRizika/prikazi}" method="post" class="form-horizontal" autocomplete="off">
+
+                                <label  class="col-md-3 " >Изабери општину : </label>
+
+                                <select class="col-md-9 "  name="opstinanamelatinica"  >
+                                    <option  th:each="opstina : ${opstine}" th:value="${opstina.namelatinica}" th:text="${opstina.namelatinica}">Текст</option>
+                                </select> 
+
+                                <select  name = "opasnost">
+                                    <option   th:value="zemljotres" th:text="Zemljotres">Zemljotes</option>
+                                    <option   th:value="poplava" th:text="Poplava">Poplava</option>
+                                    <option   th:value="pozar" th:text="Pozar">Pozar</option>
+                                    <option   th:value="oluja" th:text="Oluja">Oluja</option>
+                                    <option   th:value="kliziste" th:text="Kliziste">Kliziste</option>
+                                </select> 
+
+                                <button type="submit" >Prikazi procenu</button>
+                            </form>
+                            <br>
+                                
+<!--                            drugi nacin-->
+                                <form th:action="@{/aleksandra/home/proceneRizika/prikazi2}" method="post" class="form-horizontal" autocomplete="off">
+
+                                    <label  class="col-md-3 " >Изабери општину : </label>
+
+                                    <select class="col-md-9 "  name="opstinanamelatinica"  >
+                                        <option  th:each="opstina : ${opstine}" th:value="${opstina.namelatinica}" th:text="${opstina.namelatinica}">Текст</option>
+                                    </select> 
+
+                                    <select  name = "opasnost">
+                                        <option   th:value="zemljotres" th:text="Zemljotres">Zemljotes</option>
+                                        <option   th:value="poplava" th:text="Poplava">Poplava</option>
+                                        <option   th:value="pozar" th:text="Pozar">Pozar</option>
+                                        <option   th:value="oluja" th:text="Oluja">Oluja</option>
+                                        <option   th:value="kliziste" th:text="Kliziste">Kliziste</option>
+                                    </select> 
+
+                                    <button type="submit" >Prikazi procenu dva</button>
+                                </form>
+
+                                <!--                            prvi nacin-->
+
+                                <th:block th:if="${mobileappdata!=null}">
+                                    <div ><p  th:text="${prvaporuka}" >  </p> </div>
+                                    <div><p th:text="${drugaporuka}" >  </p> </div>
+                                    <div ><p  th:text="${trecaporuka}" >  </p> </div>
+                                    <div><p  th:text="${cetvrtaporuka}" >  </p> </div>
+                                    <div ><p id="output5" th:text="${petaporuka}" >  </p> </div>
+                                </th:block>
+                                
+<!--                            drugi nacin-->
+                                <th:block th:if="${mobileappdata2!=null}">
+                                    <div><p>Izabrana opstina je <span th:text="${mobileappdata2.getOpstina()}"></span>  </p> </div>
+                                    <div><p>Procena rizika od <span th:text="${mobileappdata2.getOpasnost()}"></span> </p> </div>
+                                    <div><p>Klasifikacija:  <span th:text="${mobileappdata2.getKlasifikacija()}"></span> </p> </div>
+                                    <div><p>Tekst: <span th:text="${mobileappdata2.getTekst()}"></span>  </p> </div>
+                                    <div><p> Link: <span th:text="${mobileappdata2.getLink()}"></span> </p> </div>
+                                </th:block>
+
+                        </div>
+
+                        <th:block th:insert="fragments/delici/footer :: footerAleks" />
+
+
+                        <th:block th:insert="fragments/delici/scripts :: standard" />
+
+                    </body>
+
+                    </html>

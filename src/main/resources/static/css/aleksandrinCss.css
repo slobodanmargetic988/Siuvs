@@ -1,0 +1,114 @@
+
+html {
+    height: 100%;
+}
+body {
+    margin: 0;
+    min-height: 100%;
+    position: relative;
+}
+
+
+.forms {
+    margin-top: 40px;
+    margin-left: 40px;
+}
+
+
+.content-proceneRizika {
+    margin-top: 40px;
+    margin-left: 40px;
+}
+
+/*Tabela*/
+/*table {
+    border-collapse: collapse;
+}
+
+h1 {
+    text-align: center;
+    font-size: 1.5rem;
+}
+
+.table-header {
+    border-radius: 8px 8px 0 0; 
+}
+
+.table-klijent {
+    margin: 0 auto;
+}
+
+th {
+    background-color: #456268;
+    color: #fff;
+    font-size: 1rem;
+    text-align: left;
+    padding: 10px;
+    line-height: 2;
+    letter-spacing: 1.5px;
+}
+
+td {
+    font-size: 0.9rem;    
+    padding: 12px 15px;
+    border-bottom: thin solid #456268;
+    background-color:   #f2f2f2;
+}
+
+.fullWidthContainer {
+    width: 100%;
+    text-align: center;
+        align-content: center;
+}
+
+.buttonOnScreen {
+    width: 100%;
+    text-align: center;
+}
+
+.button-fullWidthContainer{
+    border-radius: 11px;
+    color: #ffffff;
+    font-size: 16px;
+    background-color: #456268;
+    padding: 10px 20px 10px 20px;
+    text-decoration: none;
+}
+
+.button-fullWidthContainer:hover{
+
+    background-color: #557880;
+    text-decoration: none;
+}*/
+
+/*Footer*/
+/*.footer {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    background-color: #456268;
+    color: #fff;
+    padding: 14px 16px;
+    text-align: center;
+}*/
+
+.footer {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    left: 0;
+}
+
+i {
+    color: #ffffff;
+}
+
+i:hover {
+    color: #428bca;
+}
+
+
+.navbar-fontSize {
+    font-size: 20px;
+}

@@ -21,7 +21,11 @@ import slobodan.siuvs2.model.Supervising;
 
 @Service
 public class UserServiceImpl implements UserService {
-
+ @Override
+    public List<User> findAll(){
+        return userRepository.findAllBy();
+    };
+    
     @Autowired
     private UserRepository userRepository;
 

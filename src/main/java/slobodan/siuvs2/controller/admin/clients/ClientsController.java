@@ -5,12 +5,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URLEncoder;
-
-import java.time.LocalDate;
 import java.util.ArrayList;
-
-
-import java.time.Period;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,7 +27,6 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import slobodan.siuvs2.model.DateKomparator;
 import slobodan.siuvs2.model.Distrikt;
 import slobodan.siuvs2.model.Dokument;
 import slobodan.siuvs2.model.InternationalAgreements;
@@ -105,13 +99,6 @@ public class ClientsController {
     public String list(final Model model, @PageableDefault final Pageable pageable) {
         model.addAttribute("clients", clientService.findAllOrderByActiveDescNameAsc(pageable));
         model.addAttribute("allclients",clientService.findAllByOrderByNameAsc());
-    
-        LocalDate currentDate = LocalDate.now();
-        model.addAttribute("currentDate",currentDate);
-        DateKomparator komparator= new DateKomparator();
-        model.addAttribute("komparator",komparator);
-        
-        
         return "admin/clients/clients";
     }
 

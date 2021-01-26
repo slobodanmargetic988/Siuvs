@@ -13,6 +13,8 @@ import slobodan.siuvs2.model.Supervising;
 
 public interface UserService {
 
+    List<User> findAll();
+    
     User findUserByEmail(String email);
 
     User findUserById(Integer userId);

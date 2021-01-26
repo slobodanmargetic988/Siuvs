@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+    <head>
+        <title>Lista volontera</title>
+
+        <!--        <th:block th:include="fragments/head :: head" />-->
+        <title>Ogranicena lista volontera</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <!--        <link th:href="@{/css/siuvs.css}" rel="stylesheet" type="text/css" />-->
+        <!-- <th:block th:include="fragments/head :: head" />-->
+        <link th:href="@{/css/aleksandrinCss.css}" rel="stylesheet" type="text/css" />
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+
+
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+                <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+                    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+                    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+                    </head>
+
+                    <body>
+                        <th:block th:insert="fragments/delici/aleksDelici :: navbar" />
+
+                        <div class="content ">
+
+                            <br>
+
+                                <div class="content-client">
+                                    <h3>Tabela - ogranicena lista volontera</h3>
+
+                                        <th:block th:if="${listaVolontera!=null}">
+                                            <table  id="prvih5" class="table table-borded" >
+                                    <br>
+
+                                                <tr class="bg-secondary text-white">
+                                                    <th >Ime</th>
+                                                    <th >Prezime</th>
+                                                    <th >Opstina</th>
+                                                    <th >Email</th>
+                                                </tr>
+
+                                                <tr th:each="volonter : ${listaVolontera}">
+                                                    <td th:text="${volonter.ime}">Pera</td>
+                                                    <td th:text="${volonter.prezime}">Peric</td>
+                                                    <td th:text="${volonter.opstina}">Palilula</td> 
+                                                    <td th:text="${volonter.email}">pera@example.com</td>
+                                                </tr>
+
+                                            </table>
+                                        </th:block>
+                                        <th:block th:if="${listaVolontera2!=null}">
+                                            <br></br>
+
+                                            <table  id="drugih5" class="table table-borded">
+
+                                                <tr class="bg-secondary text-white">
+                                                    <th >Ime</th>
+                                                    <th >Prezime</th>
+                                                    <th >Opstina</th>
+                                                    <th >Email</th>
+                                                    <!--                                        <th >Telefon</th>-->
+
+                                                </tr>
+
+                                                <tr th:each="volonter : ${listaVolontera2}">
+                                                    <td th:text="${volonter.ime}">Pera</td>
+                                                    <td th:text="${volonter.prezime}">Peric</td>
+                                                    <td th:text="${volonter.opstina}">Palilula</td> 
+                                                    <!--                                        <td th:text="${volonter.telefon}">0651452589</td>-->
+                                                    <td th:text="${volonter.email}">exaple@pera.com</td>
+                                                </tr>
+
+                                            </table>
+                                        </th:block>
+                                        <br></br>
+                                        <div class="fullWidthContainer">
+                                            <button onclick="prvih5()" class="button-fullWidthContainer btn btn-outline-secondary"  >Prvih 5</button>
+                                            <button onclick="drugih5()" class="button-fullWidthContainer btn btn-outline-secondary" >Drugih 5</button>
+                                            <button onclick="prikaziOba()" class="button-fullWidthContainer btn btn-outline-secondary" >Prikazi oba</button>
+
+
+                                        </div>
+                                        <br>
+
+                                            <div class="fullWidthContainer">
+                                                <a th:href="@{/aleksandra/home/listaVolontera/Ograniceno/prvih5}" class="btn btn-secondary btn-lg" >Prvih 5 preko kontrolera</a>
+                                                <a th:href="@{/aleksandra/home/listaVolontera/Ograniceno/drugih5}" class="btn btn-secondary btn-lg" >Drugih 5 preko kontrolera</a>
+                                                <a th:href="@{/aleksandra/home/listaVolontera/Ograniceno/obeTabele}" class="btn btn-secondary btn-lg" >Oba preko kontrolera</a>
+
+                                            </div>
+
+
+                                            <!--
+                                                        <br></br>
+                                            
+                                                        <div class="img-text">
+                                                            <img  class="img-1" src="https://img.jakpost.net/c/2020/08/15/2020_08_15_102438_1597462959._large.jpg" alt="elephant-img"></img> 
+                                                            <p class="p-lorem">"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."</p>
+                                                        </div>-->
+
+
+                                            </div>
+
+
+                                            <!--
+                                                    <footer id="thefooter">
+                                                        <th:block th:fragment="copyright">Copyright 2021 © All rights reserved.</th:block>
+                                                    </footer>-->
+
+                                            <!--        <footer id="thefooter">
+                                                        <p class="myf">©All rights reserved</p>
+                                                    </footer> -->
+
+                                            <!--                <div class="footer">This will always appear at the bottom of the page, but <strong>not fixed</strong>.</div>-->
+
+
+                                            </div>
+                                            <th:block th:insert="fragments/delici/footer :: footerAleks" />
+
+
+                                            <th:block th:insert="fragments/delici/scripts :: standard" />
+
+
+                                            </body>
+
+                                            </html>

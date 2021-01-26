@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+    <head>
+        <title>Vezba</title>
+         <link th:href="@{/css/aleksandrinCss_home_1.css}" rel="stylesheet" type="text/css" />
+    </head>
+
+    <body>
+
+        <div class="navbar">
+            <a th:href="@{/aleksandra/home}">Home</a>
+            <div class="dropdown">
+                <button class="dropbtn">Meni  <i class="fa fa-caret-down"></i></button>
+                <div class="dropdown-content">
+                    <a th:href="@{/aleksandra/home/listaKlijenata}"  >Lista klijenata</a>
+                    <a th:href="@{/aleksandra/home/listaKorisnika}"  >Lista korisnika</a>
+                    <a th:href="@{/aleksandra/home/listaVolontera}"  >Lista volontera</a>
+                    <a th:href="@{/aleksandra/home/listaVolontera/Ograniceno}"  >Lista volontera ogranicena</a>
+                </div>
+            </div>
+            <a th:href="@{/aleksandra/home/proceneRizika}"  >Procene rizika</a>
+        </div>
+        <!--        <div>
+                    <ul >
+                        <li style="display: inline-block"><a th:href="@{/aleksandra/home}">Home</a></li>
+        
+                        <li style="display: inline-block"><a href="#">Meni</a>
+                            <ul style="display: none" > 
+                                <li><a th:href="@{/aleksandra/home/listaKlijenata}"  >Lista klijenata</a></li>
+                                <li><a th:href="@{/aleksandra/home/listaKorisnika}"  >Lista korisnika</a></li>
+                                <li><a th:href="@{/aleksandra/home/listaVolontera}"  >Lista volontera</a></li>
+                                <li><a th:href="@{/aleksandra/home/listaVolontera/Ograniceno}"  >Lista volontera ogranicena</a></li>
+                            </ul>
+                        </li>
+        
+                        <li style="display: inline-block"><a th:href="@{/aleksandra/home/proceneRizika}"  >Procene rizika</a>
+                        </li>
+        
+                    </ul>
+        
+                </div>-->
+    </body>
+
+</html>

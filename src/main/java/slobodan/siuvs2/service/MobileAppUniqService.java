@@ -13,6 +13,6 @@ public interface MobileAppUniqService {
     
     List<MobileAppUniq> findAllBy();
          void save(MobileAppUniq mobileAppUniq);
- List<String> findDistinctToken();
+
 
 }

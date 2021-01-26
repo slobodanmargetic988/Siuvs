@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+    <head>
+        <title>Vezba</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+        <!-- <th:block th:include="fragments/head :: head" />-->
+        <link th:href="@{/css/aleksandrinCss.css}" rel="stylesheet" type="text/css" />
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+
+                    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    </head>
+
+                    <body>
+
+
+                        <th:block th:insert="fragments/delici/aleksDelici :: navbar" />
+
+                        <!--        <div class="content ">
+                                    <div class="content-home ">
+                                        <form th:action="@{/aleksandra/home/pozdrav}" method="post" class="form-horizontal" autocomplete="off">
+                                            <label>Ime: </label>
+                                            <input type="text" id="text1" name="name" th:value="${#objects.nullSafe(testIme, 'Unesite ime: ')}"/>
+                                            <label class="prezime">Prezime: </label>
+                                            <input type="text" id="text2" name="LASTname" th:value="${#objects.nullSafe(testPrezime, 'Unesite prezime: ')}"/>
+                                            <button  id="button1" class="hello-btn"  type="submit" > Pozdrav </button>
+                                        </form>
+                        
+                                        <div id="message1"><p id="output1" th:text="${#objects.nullSafe(testPozdrav, 'Dobar dan')}" >  </p> </div>
+                                        <br></br>
+                        
+                        
+                                        <form th:action="@{/aleksandra/home/suma}" method="post">
+                                            <label>A: </label>
+                                            <input type="number" id="number1" name="broj1" th:value="${#objects.nullSafe(testBroj1, '0')}"/>
+                                            <label class="label-b">B: </label>
+                                            <input type="number" id="number2" name="broj2" th:value="${#objects.nullSafe(testBroj2, '0')}"/>
+                                            <button  id="button2" class="suma-btn" type="submit" >Suma</button>
+                                        </form>
+                                        <div id="output2"> <p th:text="${#objects.nullSafe(testSuma, 'Suma je: ')}"> </p></div>
+                                        <br></br>
+                        
+                        
+                                    </div>-->
+
+                        <div class="forms">
+                            <form class="form-group" th:action="@{/aleksandra/home/pozdrav}" method="post">
+                                <label for="name" class="mr-sm-2">Ime:</label>
+                                <input type="text" class="form-control mb-2 mr-sm-2 form-sirina" id="text1" name="name" th:value="${#objects.nullSafe(testIme, 'Unesite ime: ')}" >
+                                    <label for="name" class="mr-sm-2">Prezime:</label>
+                                    <input type="text" class="form-control mb-2 mr-sm-2 form-sirina"  id="text2" name="LASTname" th:value="${#objects.nullSafe(testPrezime, 'Unesite prezime: ')}">
+                                        <div class="form-check mb-2 mr-sm-2">
+                                        </div>
+                                        <button type="submit" class="btn btn-primary mb-2" id="button1">Pozdrav</button>
+                                        </form>
+                                        <div id="message1">
+                                            <p id="output1" th:text="${#objects.nullSafe(testPozdrav, 'Dobar dan')}" > </p> </div>
+                                        <br></br>
+
+                                        <form th:action="@{/aleksandra/home/suma}" method="post" >
+                                            <div class="form-group">
+
+                                                <label for="number" class="mr-sm-2">A:</label>
+                                                <input type="number" class="form-control mb-2 mr-sm-2 form-sirina" id="number1" name="broj1" th:value="${#objects.nullSafe(testBroj1, '0')}">
+                                                    <label for="number" class="mr-sm-2">B:</label>
+                                                    <input type="number" class="form-control mb-2 mr-sm-2 form-sirina" id="number2" name="broj2" th:value="${#objects.nullSafe(testBroj2, '0')}">
+                                                        <div class="form-check mb-2 mr-sm-2">
+                                                        </div>
+                                                        <button class="btn btn-outline-primary mb-2" id="button2" type="submit" >Suma</button>
+                                                        </div>
+
+                                                        </form>
+                                                        <div id="output2"> <p th:text="${#objects.nullSafe(testSuma, 'Suma je: ')}"> </p></div>
+
+
+                                                        </div>
+
+
+                                                        <!--        <footer id="thefooter">
+                                                                    <p class="myf">©All rights reserved</p>
+                                                                </footer>-->
+
+                                                        <!--
+                                                                <footer id="thefooter">
+                                                                    <th:block th:fragment="copyright">Copyright 2021 © All rights reserved.</th:block>
+                                                                </footer> -->
+
+
+
+                                                        </div>
+
+
+                                                        <th:block th:insert="fragments/delici/footer :: footerAleks" />
+
+                                                        <th:block th:insert="fragments/delici/scripts :: standard" />
+
+                                                        </body>
+
+                                                        </html>

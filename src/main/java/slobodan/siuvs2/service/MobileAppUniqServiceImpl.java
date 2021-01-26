@@ -24,10 +24,7 @@ public class MobileAppUniqServiceImpl implements MobileAppUniqService {
     mobileAppUniqRepository.save(mobileAppUniq);
     }
       
-     @Override
-    public List<String> findDistinctToken(){
-    return mobileAppUniqRepository.findDistinctToken();
-    };
+     
 
 
 }

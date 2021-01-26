@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+    <head>
+        <title>СИУВС 1.0</title>
+    </head>
+
+    <body>
+
+        <th:block th:fragment="core">
+            <!-- Load jQuery -->
+            <script th:src="@{/js/jquery-3.1.1.min.js}"></script>
+
+            <!-- Core scripts -->
+            <script th:src="@{/js/bootstrap.min.js}"></script>
+            <script th:src="@{/js/pixeladmin.min.js}"></script>
+        </th:block>
+
+        <th:block th:fragment="standard">
+            <th:block th:insert="fragments/scripts :: core" />
+<script th:src="@{/js/aleksandrinJS.js}"></script>
+         
+        </th:block>
+
+
+
+    </body>
+</html>

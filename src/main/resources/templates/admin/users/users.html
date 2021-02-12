@@ -35,9 +35,9 @@
                     <div class="panel-heading-controls">
                         <ul class="pagination pagination-xs">
                             <li th:class="${users.isFirst()} ? 'disabled' : ''">
-                                <a th:if="${users.isFirst()}" href="#">«</a>
-                                <a th:if="${users.getNumber() == 1}" th:href="@{/admin/users}">«</a>
-                                <a th:if="${users.getNumber() > 1}" th:href="@{/admin/users(page=${users.getNumber()-1})}">«</a>
+                                <a style="color:#fff" th:if="${users.isFirst()}" href="#">«</a>
+                                <a style="color:#fff" th:if="${users.getNumber() == 1}" th:href="@{/admin/users}">«</a>
+                                <a style="color:#fff" th:if="${users.getNumber() > 1}" th:href="@{/admin/users(page=${users.getNumber()-1})}">«</a>
                             </li>
                             <th:block th:with="startPage = ${users.getNumber() - 2}">
                                 <th:block th:with="startPage = ${startPage < 0} ? 0 : ${startPage}">
@@ -48,11 +48,11 @@
                                                     <th:block th:with="startPage = ${startPage > 0 and endPage == lastPage} ? ${startPage - 1} : ${startPage}">
                                                         <th:block th:each="pageNo : ${#numbers.sequence(startPage, endPage)}">
                                                             <li th:if="${pageNo == users.getNumber()}" class="active">
-                                                                <a th:text="${pageNo + 1}" href="#"></a>
+                                                                <a style="color:#fff" th:text="${pageNo + 1}" href="#"></a>
                                                             </li>
                                                             <li th:if="${pageNo != users.getNumber()}">
-                                                                <a th:if="${pageNo > 0}" th:text="${pageNo + 1}" th:href="@{/admin/users(page=${pageNo})}"></a>
-                                                                <a th:if="${pageNo == 0}" th:text="${pageNo + 1}" th:href="@{/admin/users}"></a>
+                                                                <a style="color:#fff" th:if="${pageNo > 0}" th:text="${pageNo + 1}" th:href="@{/admin/users(page=${pageNo})}"></a>
+                                                                <a style="color:#fff" th:if="${pageNo == 0}" th:text="${pageNo + 1}" th:href="@{/admin/users}"></a>
                                                             </li>
                                                         </th:block>
                                                     </th:block>
@@ -63,8 +63,8 @@
                                 </th:block>
                             </th:block>
                             <li th:class="${users.isLast()} ? 'disabled' : ''">
-                                <a th:if="${users.isLast()}" href="#">»</a>
-                                <a th:if="${not users.isLast()}" th:href="@{/admin/users(page=${users.getNumber()+1})}">»</a>
+                                <a style="color:#fff" th:if="${users.isLast()}" href="#">»</a>
+                                <a style="color:#fff" th:if="${not users.isLast()}" th:href="@{/admin/users(page=${users.getNumber()+1})}">»</a>
                             </li>
                         </ul>
                     </div>
@@ -73,8 +73,8 @@
                 <div class="panel-body">
 
 
-                    <table class="table table-striped">
-                        <thead>
+                    <table class="table table-striped table-hover">
+                        <thead class="thead-custom">
                             <tr>
                                 <th>#</th>
                                 <th>Име</th>
@@ -83,11 +83,11 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr th:each="user: ${users}" th:attr="data-href=@{/admin/users/{id}(id=${user.id})}">
-                                <th scope="row" th:text="${user.id}"></th>
-                                <td th:text="${user.name}"></td>
-                                <td th:text="${user.lastName}"></td>
-                                <td th:text="${user.email}"></td>
+                            <tr  th:each="user: ${users}" th:attr="data-href=@{/admin/users/{id}(id=${user.id})}">
+                                <th class="table-border-custom" scope="row" th:text="${user.id}"></th>
+                                <td class="table-border-custom" th:text="${user.name}"></td>
+                                <td class="table-border-custom" th:text="${user.lastName}"></td>
+                                <td class="table-border-custom" th:text="${user.email}"></td>
                             </tr>
                         </tbody>
                     </table>

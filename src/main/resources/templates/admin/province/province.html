@@ -36,9 +36,9 @@
                     <div class="panel-heading-controls">
                         <ul class="pagination pagination-xs">
                             <li th:class="${provincije.isFirst()} ? 'disabled' : ''">
-                                <a th:if="${provincije.isFirst()}" href="#">«</a>
-                                <a th:if="${provincije.getNumber() == 1}" th:href="@{/admin/province}">«</a>
-                                <a th:if="${provincije.getNumber() > 1}" th:href="@{/admin/province(page=${provincije.getNumber()-1})}">«</a>
+                                <a style="color:#fff" th:if="${provincije.isFirst()}" href="#">«</a>
+                                <a style="color:#fff" th:if="${provincije.getNumber() == 1}" th:href="@{/admin/province}">«</a>
+                                <a style="color:#fff" th:if="${provincije.getNumber() > 1}" th:href="@{/admin/province(page=${provincije.getNumber()-1})}">«</a>
                             </li>
                             <th:block th:with="startPage = ${provincije.getNumber() - 2}">
                                 <th:block th:with="startPage = ${startPage < 0} ? 0 : ${startPage}">
@@ -49,11 +49,11 @@
                                                     <th:block th:with="startPage = ${startPage > 0 and endPage == lastPage} ? ${startPage - 1} : ${startPage}">
                                                         <th:block th:each="pageNo : ${#numbers.sequence(startPage, endPage)}">
                                                             <li th:if="${pageNo == provincije.getNumber()}" class="active">
-                                                                <a th:text="${pageNo + 1}" href="#"></a>
+                                                                <a style="color:#fff" th:text="${pageNo + 1}" href="#"></a>
                                                             </li>
                                                             <li th:if="${pageNo != provincije.getNumber()}">
-                                                                <a th:if="${pageNo > 0}" th:text="${pageNo + 1}" th:href="@{/admin/province(page=${pageNo})}"></a>
-                                                                <a th:if="${pageNo == 0}" th:text="${pageNo + 1}" th:href="@{/admin/province}"></a>
+                                                                <a style="color:#fff" th:if="${pageNo > 0}" th:text="${pageNo + 1}" th:href="@{/admin/province(page=${pageNo})}"></a>
+                                                                <a style="color:#fff" th:if="${pageNo == 0}" th:text="${pageNo + 1}" th:href="@{/admin/province}"></a>
                                                             </li>
                                                         </th:block>
                                                     </th:block>
@@ -64,8 +64,8 @@
                                 </th:block>
                             </th:block>
                             <li th:class="${provincije.isLast()} ? 'disabled' : ''">
-                                <a th:if="${provincije.isLast()}" href="#">»</a>
-                                <a th:if="${not provincije.isLast()}" th:href="@{/admin/province(page=${provincije.getNumber()+1})}">»</a>
+                                <a style="color:#fff" th:if="${provincije.isLast()}" href="#">»</a>
+                                <a style="color:#fff" th:if="${not provincije.isLast()}" th:href="@{/admin/province(page=${provincije.getNumber()+1})}">»</a>
                             </li>
                         </ul>
                     </div>
@@ -73,8 +73,8 @@
 
                 <div class="panel-body">
 
-                    <table class="table table-striped">
-                        <thead>
+                    <table class="table table-striped table-hover">
+                        <thead class="thead-custom">
                             <tr>
                                 <th>#</th>
                                 <th>Назив аутономне покрајине</th>
@@ -84,8 +84,8 @@
                         <tbody>
 
                             <tr th:each="provincija: ${provincije}" th:attr="data-href=@{/admin/province/{id}(id=${provincija.id})}">
-                                <th scope="row" th:text="${provincija.id}"></th>
-                                <td th:text="${provincija.name}"></td>
+                                <th class="table-border-custom" scope="row" th:text="${provincija.id}"></th>
+                                <td class="table-border-custom" th:text="${provincija.name}"></td>
 
                             </tr>
                         </tbody>

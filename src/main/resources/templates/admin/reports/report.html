@@ -8,301 +8,300 @@
 
         <!-- Nav -->
 
-     <th:block th:insert="fragments/navigation :: navigation" />
+        <th:block th:insert="fragments/navigation :: navigation" />
 
         <!-- Content -->
-        
-            <div class="px-content">
 
-                <div class="page-header" >
-                    <h1>
-                        Извештаји
-                    </h1>
-                </div>
+        <div class="px-content">
 
-                
-
-                <div class="panel" >
-                   <div class="panel-body"> 
-                       <div class="panel-heading">
-                    <span class="panel-title">Основна статистика унетих докумената</span>
-                </div>
-                   <br><br/>
-                Број отворених  и активних налога ЈЛСУ у систему је: <span th:text="${brojOpstina}"></span>
-                <br><br/>
-                    <div     sec:authorize="hasAnyAuthority('ADMIN')">
-                    
-                    Листа клијената које се не сматрају општинама.   <button class=" btn-xs btn-info btn-outline" onclick="resetElementLО()" ><b> Прикажи листу</b></button> 
-                    <br><br/>
-                    <div class="form-group" id="listaOpstina" style="display:none">
-                     <br><br/>     <button class=" btn-xs btn-danger btn-outline" onclick="resetElementLОHide()" ><b> Уклони листу</b></button> 
-                        <br><br/>  <th:block th:if="${!clientBezOpstina.empty}"> 
-                        <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Назив корисника</th>
-                               
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr th:each="clientA: ${clientBezOpstina}" th:attr="data-href=@{/admin/clients/{id}(id=${clientA.id})}">
-                                <th scope="row" th:text="${clientA.id}"></th>
-                                <td th:text="${clientA.name}"></td>
-                            
-                            </tr>
-                        </tbody>
-                    </table>
-                         </th:block>
-                        
-                        
-                    </div>
-                    </div>
-                  
-                                    <div class="panel-heading">
-                    <span class="panel-title">Процене ризика</span>
-                </div> <br><br/>
-                    Број ЈЛСУ са унетом Проценом ризика је: <span th:text="${brojProcena}"></span>
-                    <br><br/>
-                      
-                        Листа ЈЛСУ које имају унету Процену ризика за макар једну врсту опасности.   <button class=" btn-xs btn-info btn-outline" onclick="resetElementLAIma()" ><b> Прикажи листу</b></button>   <br><br/>
-                    <div class="form-group" id="listaAssesmentIma" style="display:none">
-                  <br><br/>     <button class=" btn-xs btn-danger btn-outline" onclick="resetElementLAImaHide()" ><b> Уклони листу</b></button> 
-                    <br><br/>       <th:block th:if="${!clientSaAssessment.empty}"> 
-                        <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Назив корисника</th>
-                               
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr th:each="clientA: ${clientSaAssessment}" th:attr="data-href=@{/admin/clients/{id}(id=${clientA.id})}">
-                                <th scope="row" th:text="${clientA.id}"></th>
-                                <td th:text="${clientA.name}"></td>
-                            
-                            </tr>
-                        </tbody>
-                    </table>
-                                                 <br><br/>
-                            </th:block>
-                        
-                        
-                    </div>
-                  <br><br/>       Листа ЈЛСУ које нeмају унету Процену ризика за ниједну врсту опасности.   <button class=" btn-xs btn-info btn-outline" onclick="resetElementLA()" ><b> Прикажи листу</b></button>  <br><br/> 
-                    <div class="form-group" id="listaAssesment" style="display:none">
-                    <br><br/>     <button class=" btn-xs btn-danger btn-outline" onclick="resetElementLAHide()" ><b> Уклони листу</b></button>  <br><br/> 
-                         <th:block th:if="${!clientBezAssessment.empty}"> 
-                        <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Назив корисника</th>
-                               
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr th:each="clientA: ${clientBezAssessment}" th:attr="data-href=@{/admin/clients/{id}(id=${clientA.id})}">
-                                <th scope="row" th:text="${clientA.id}"></th>
-                                <td th:text="${clientA.name}"></td>
-                            
-                            </tr>
-                        </tbody>
-                    </table>
-                         </th:block>
-                        
-                        
-                    </div>
-                    <br><br/>
-                        <div class="panel-heading">
-                    <span class="panel-title">План заштите и спасавања</span>
-                </div> <br><br/>
-                    Број ЈЛСУ са унетим Планом заштите и спасавања је: <span th:text="${brojPZS}"></span>
-                    <br><br/>
-                          Листа ЈЛСУ које имају унет План заштите и спасавања.   <button class=" btn-xs btn-info btn-outline" onclick="resetElementLPZSIma()" ><b> Прикажи листу</b></button>   <br><br/>
-                    <div class="form-group" id="listaPZSIma" style="display:none">
-                     <br><br/>     <button class=" btn-xs btn-danger btn-outline" onclick="resetElementLPZSImaHide()" ><b> Уклони листу</b></button>  <br><br/>   
-                         <th:block th:if="${!clientSaPZS.empty}"> 
-                        <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Назив корисника</th>
-                               
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr th:each="clientA: ${clientSaPZS}" th:attr="data-href=@{/admin/clients/{id}(id=${clientA.id})}">
-                                <th scope="row" th:text="${clientA.id}"></th>
-                                <td th:text="${clientA.name}"></td>
-                            
-                            </tr>
-                        </tbody>
-                    </table>
-                             <br><br/>
-                                       </th:block>
-                        
-                        
-                    </div>
-                 <br><br/>          Листа ЈЛСУ које нeмају унет План заштите и спасавања.   <button class=" btn-xs btn-info btn-outline"  onclick="resetElementLPZS()" ><b> Прикажи листу</b></button>   <br><br/>
-                    <div class="form-group" id="listaPZS" style="display:none">
-                     <br><br/>     <button class=" btn-xs btn-danger btn-outline" onclick="resetElementLPZSHide()" ><b> Уклони листу</b></button>  <br><br/>   
-                         <th:block th:if="${!clientBezPZS.empty}"> 
-                        <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Назив корисника</th>
-                               
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr th:each="clientA: ${clientBezPZS}" th:attr="data-href=@{/admin/clients/{id}(id=${clientA.id})}">
-                                <th scope="row" th:text="${clientA.id}"></th>
-                                <td th:text="${clientA.name}"></td>
-                            
-                            </tr>
-                        </tbody>
-                    </table>
-                         </th:block>
-                        
-                        
-                    </div>  
-                    <br><br/>
-                               <div class="panel-heading">
-                    <span class="panel-title">План смањења ризика</span>
-                </div> <br><br/>
-                    Број унетих Планова смањења ризика на нивоу свих ЈЛС је: <span th:text="${brojPSR}"></span>   
-                    <br><br/>
-                        <br><br/>
-                    Број реализованих активности из Плана смањења ризика на нивоу свих ЈЛС је: <span th:text="${brojAktivnostiGotovih}"></span>   
-                    <br><br/>
-                    Број активности са статусом "у току" или "није релевантно" из Плана смањења ризика на нивоу свих ЈЛС је: <span th:text="${brojAktivnostiUToku}"></span>  
-                    <br><br/>
-                    Број активности од чије се реализације одустало из Плана смањења ризика на нивоу свих ЈЛС је: <span th:text="${brojAktivnostiOdustalih}"></span>  
-                         <br><br/>
-                              <br><br/>
-                          Листа ЈЛСУ које имају унет План смањења ризика.   <button class=" btn-xs btn-info btn-outline"  onclick="resetElementPSRIma()" ><b> Прикажи листу</b></button>   <br><br/>
-                    <div class="form-group" id="listaPSRIma" style="display:none">
-                     <br><br/>     <button class=" btn-xs btn-danger btn-outline" onclick="resetElementPSRImaHide()" ><b> Уклони листу</b></button>  <br><br/>
-                         <th:block th:if="${!clientSaPSR.empty}"> 
-                        <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Назив корисника</th>
-                               
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr th:each="clientA: ${clientSaPSR}" th:attr="data-href=@{/admin/clients/{id}(id=${clientA.id})}">
-                                <th scope="row" th:text="${clientA.id}"></th>
-                                <td th:text="${clientA.name}"></td>
-                            
-                            </tr>
-                        </tbody>
-                    </table>
-                              <br><br/>
-                                        </th:block>
-                        
-                        
-                    </div>
-                  <br><br/>         Листа ЈЛСУ које немају унет План смањења ризика.   <button class=" btn-xs btn-info btn-outline"  onclick="resetElementPSR()" ><b> Прикажи листу</b></button>   <br><br/>
-                    <div class="form-group" id="listaPSR" style="display:none">
-                     <br><br/>     <button class=" btn-xs btn-danger btn-outline" onclick="resetElementPSRHide()" ><b> Уклони листу</b></button>  <br><br/>
-                         <th:block th:if="${!clientBezPSR.empty}"> 
-                        <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Назив корисника</th>
-                               
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr th:each="clientA: ${clientBezPSR}" th:attr="data-href=@{/admin/clients/{id}(id=${clientA.id})}">
-                                <th scope="row" th:text="${clientA.id}"></th>
-                                <td th:text="${clientA.name}"></td>
-                            
-                            </tr>
-                        </tbody>
-                    </table>
-                             <br><br/>
-                                   </th:block>
-                        
-                        
-                    </div>
-                           <div class="panel-heading">
-                    <span class="panel-title">Оперативни план одбране од поплава</span>
-                </div>
-                      <br><br/>
-                Број ЈЛСУ у систему са унетим Оперативни планом заштите од поплава је: <span th:text="${brojOPplanova}"></span>    
-                <br><br/>
-                Листа ЈЛСУ које имају унет Оперативни план заштите од поплава.    <button class=" btn-xs btn-info btn-outline" onclick="resetElementPPDIma()"><b> Прикажи листу</b></button>   <br><br/>
-                <div class="form-group" id="listaPPDIma" style="display:none">
-                   <br><br/>     <button class=" btn-xs btn-danger btn-outline" onclick="resetElementPPDImaHide()" ><b> Уклони листу</b></button> <br><br/> 
-                   
-                    
-                         <th:block th:if="${!clientSaPPD.empty}"> 
-                        <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Назив корисника</th>
-                               
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr th:each="clientB: ${clientSaPPD}" th:attr="data-href=@{/admin/clients/{id}(id=${clientB.id})}">
-                                <th scope="row" th:text="${clientB.id}"></th>
-                                <td th:text="${clientB.name}"></td>
-                            
-                            </tr>
-                        </tbody>
-                    </table>
-                              <br><br/>
-                                                   </th:block>
-                       
-                        
-                    </div>
-             <br><br/>    Листа ЈЛСУ које нeмају унет Оперативни план заштите од поплава.    <button class=" btn-xs btn-info btn-outline" onclick="resetElementPPD()"><b> Прикажи листу</b></button>   <br><br/>
-                <div class="form-group" id="listaPPD" style="display:none">
-                     <br><br/>     <button class=" btn-xs btn-danger btn-outline" onclick="resetElementPPDHide()" ><b> Уклони листу</b></button> <br><br/> 
-                      
-                    
-                         <th:block th:if="${!clientBezPPD.empty}"> 
-                        <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Назив корисника</th>
-                               
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr th:each="clientB: ${clientBezPPD}" th:attr="data-href=@{/admin/clients/{id}(id=${clientB.id})}">
-                                <th scope="row" th:text="${clientB.id}"></th>
-                                <td th:text="${clientB.name}"></td>
-                            
-                            </tr>
-                        </tbody>
-                    </table>
-                         </th:block>
-                        
-                        
-                    
-                    </div>
-                 
-                </div>
-                </div>
-
-                <!---->
+            <div class="page-header" >
+                <h1>
+                    Извештаји
+                </h1>
             </div>
-        </th:block>
-        <th:block th:insert="fragments/footer :: footer-standard" />
-<script th:src="@{/js/izvestajiListeDropdown.js}"type="text/javascript"></script>
-        <th:block th:insert="fragments/scripts :: standard" />
-        <script th:src="@{/js/matrix.js}"></script>
-    </body>
-</html>
+
+
+
+            <div class="panel" >
+                <div class="panel-body"> 
+                    <div class="panel-heading">
+                        <span class="panel-title">Основна статистика унетих докумената</span>
+                    </div>
+                    <br><br/>
+                        Број отворених  и активних налога ЈЛСУ у систему је: <span th:text="${brojOpstina}"></span>
+                        <br><br/>
+                            <div     sec:authorize="hasAnyAuthority('ADMIN')">
+
+                                Листа клијената које се не сматрају општинама. <br> <br>  <button class="button-custom-first" onclick="resetElementLО()" ><b> Прикажи листу</b></button> 
+                                        <br><br/>
+                                            <div class="form-group" id="listaOpstina" style="display:none">
+                                                <!-- <br><br/>  -->   <button class="button-custom-second" onclick="resetElementLОHide()" ><b> Уклони листу</b></button> 
+                                                <br><br/>  <th:block th:if="${!clientBezOpstina.empty}"> 
+                                                        <table class="table table-striped table-hover">
+                                                            <thead class="thead-custom">
+                                                                <tr>
+                                                                    <th>#</th>
+                                                                    <th>Назив корисника</th>
+
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr th:each="clientA: ${clientBezOpstina}" th:attr="data-href=@{/admin/clients/{id}(id=${clientA.id})}">
+                                                                    <th  scope="row" th:text="${clientA.id}"></th>
+                                                                    <td  th:text="${clientA.name}"></td>
+
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </th:block>
+
+
+                                            </div>
+                                            </div>
+
+                                            <div class="panel-heading">
+                                                <span class="panel-title">Процене ризика</span>
+                                            </div> <br><br/>
+                                                Број ЈЛСУ са унетом Проценом ризика је: <span th:text="${brojProcena}"></span>
+                                                <br><br/>
+
+                                                    Листа ЈЛСУ које имају унету Процену ризика за макар једну врсту опасности. <br> <br>    <button class="button-custom-first" onclick="resetElementLAIma()" ><b> Прикажи листу</b></button>   <br><br/>
+                                                                <div class="form-group" id="listaAssesmentIma" style="display:none">
+                                                                    <!-- <br><br/>-->     <button class="button-custom-second" onclick="resetElementLAImaHide()" ><b> Уклони листу</b></button> 
+                                                                    <br><br/>       <th:block th:if="${!clientSaAssessment.empty}"> 
+                                                                            <table class="table table-striped table-hover">
+                                                                                <thead class="thead-custom">
+                                                                                    <tr>
+                                                                                        <th>#</th>
+                                                                                        <th>Назив корисника</th>
+
+                                                                                    </tr>
+                                                                                </thead>
+                                                                                <tbody>
+                                                                                    <tr th:each="clientA: ${clientSaAssessment}" th:attr="data-href=@{/admin/clients/{id}(id=${clientA.id})}">
+                                                                                        <th class="table-border-custom" scope="row" th:text="${clientA.id}"></th>
+                                                                                        <td class="table-border-custom" th:text="${clientA.name}"></td>
+
+                                                                                    </tr>
+                                                                                </tbody>
+                                                                            </table>
+                                                                            <br><br/>
+                                                                        </th:block>
+
+
+                                                                </div>
+                                                                <br><br/>       Листа ЈЛСУ које нeмају унету Процену ризика за ниједну врсту опасности.  <br> <br>   <button class="button-custom-first" onclick="resetElementLA()" ><b> Прикажи листу</b></button>  <br><br/> 
+                                                                                <div class="form-group" id="listaAssesment" style="display:none">
+                                                                                    <!-- <br><br/>  -->   <button class="button-custom-second" onclick="resetElementLAHide()" ><b> Уклони листу</b></button>  <br><br/> 
+                                                                                        <th:block th:if="${!clientBezAssessment.empty}"> 
+                                                                                            <table class="table table-striped table-hover">
+                                                                                                <thead class="thead-custom">
+                                                                                                    <tr>
+                                                                                                        <th>#</th>
+                                                                                                        <th>Назив корисника</th>
+
+                                                                                                    </tr>
+                                                                                                </thead>
+                                                                                                <tbody>
+                                                                                                    <tr th:each="clientA: ${clientBezAssessment}" th:attr="data-href=@{/admin/clients/{id}(id=${clientA.id})}">
+                                                                                                        <th class="table-border-custom" scope="row" th:text="${clientA.id}"></th>
+                                                                                                        <td class="table-border-custom" th:text="${clientA.name}"></td>
+
+                                                                                                    </tr>
+                                                                                                </tbody>
+                                                                                            </table>
+                                                                                        </th:block>
+
+
+                                                                                </div>
+                                                                                <br><br/>
+                                                                                    <div class="panel-heading">
+                                                                                        <span class="panel-title">План заштите и спасавања</span>
+                                                                                    </div> <br><br/>
+                                                                                        Број ЈЛСУ са унетим Планом заштите и спасавања је: <span th:text="${brojPZS}"></span>
+                                                                                        <br><br/>
+                                                                                            Листа ЈЛСУ које имају унет План заштите и спасавања. <br> <br>   <button class="button-custom-first" onclick="resetElementLPZSIma()" ><b> Прикажи листу</b></button>   <br><br/>
+                                                                                                        <div class="form-group" id="listaPZSIma" style="display:none">
+                                                                                                            <!--  <br><br/>  -->   <button class="button-custom-second" onclick="resetElementLPZSImaHide()" ><b> Уклони листу</b></button>  <br><br/>   
+                                                                                                                <th:block th:if="${!clientSaPZS.empty}"> 
+                                                                                                                    <table class="table table-striped table-hover">
+                                                                                                                        <thead class="thead-custom">
+                                                                                                                            <tr>
+                                                                                                                                <th>#</th>
+                                                                                                                                <th>Назив корисника</th>
+
+                                                                                                                            </tr>
+                                                                                                                        </thead>
+                                                                                                                        <tbody>
+                                                                                                                            <tr th:each="clientA: ${clientSaPZS}" th:attr="data-href=@{/admin/clients/{id}(id=${clientA.id})}">
+                                                                                                                                <th class="table-border-custom" scope="row" th:text="${clientA.id}"></th>
+                                                                                                                                <td class="table-border-custom" th:text="${clientA.name}"></td>
+
+                                                                                                                            </tr>
+                                                                                                                        </tbody>
+                                                                                                                    </table>
+                                                                                                                    <br><br/>
+                                                                                                                </th:block>
+
+
+                                                                                                        </div>
+                                                                                                        <br><br/>          Листа ЈЛСУ које нeмају унет План заштите и спасавања. <br> <br>  <button class="button-custom-first"  onclick="resetElementLPZS()" ><b> Прикажи листу</b></button>   <br><br/>
+                                                                                                                        <div class="form-group" id="listaPZS" style="display:none">
+                                                                                                                            <!--   <br><br/> -->    <button class="button-custom-second" onclick="resetElementLPZSHide()" ><b> Уклони листу</b></button>  <br><br/>   
+                                                                                                                                <th:block th:if="${!clientBezPZS.empty}"> 
+                                                                                                                                    <table class="table table-striped table-hover">
+                                                                                                                                        <thead class="thead-custom">
+                                                                                                                                            <tr>
+                                                                                                                                                <th>#</th>
+                                                                                                                                                <th>Назив корисника</th>
+
+                                                                                                                                            </tr>
+                                                                                                                                        </thead>
+                                                                                                                                        <tbody>
+                                                                                                                                            <tr th:each="clientA: ${clientBezPZS}" th:attr="data-href=@{/admin/clients/{id}(id=${clientA.id})}">
+                                                                                                                                                <th class="table-border-custom" scope="row" th:text="${clientA.id}"></th>
+                                                                                                                                                <td class="table-border-custom" th:text="${clientA.name}"></td>
+
+                                                                                                                                            </tr>
+                                                                                                                                        </tbody>
+                                                                                                                                    </table>
+                                                                                                                                </th:block>
+
+
+                                                                                                                        </div>  
+                                                                                                                        <br><br/>
+                                                                                                                            <div class="panel-heading">
+                                                                                                                                <span class="panel-title">План смањења ризика</span>
+                                                                                                                            </div> <br><br/>
+                                                                                                                                Број унетих Планова смањења ризика на нивоу свих ЈЛС је: <span th:text="${brojPSR}"></span>   
+                                                                                                                                    <br><br/>
+                                                                                                                                        Број реализованих активности из Плана смањења ризика на нивоу свих ЈЛС је: <span th:text="${brojAktivnostiGotovih}"></span>   
+                                                                                                                                        <br><br/>
+                                                                                                                                            Број активности са статусом "у току" или "није релевантно" из Плана смањења ризика на нивоу свих ЈЛС је: <span th:text="${brojAktivnostiUToku}"></span>  
+                                                                                                                                            <br><br/>
+                                                                                                                                                Број активности од чије се реализације одустало из Плана смањења ризика на нивоу свих ЈЛС је: <span th:text="${brojAktivnostiOdustalih}"></span>  
+                                                                                                                                                <br><br/>
+                                                                                                                                                    <br><br/>
+                                                                                                                                                        Листа ЈЛСУ које имају унет План смањења ризика. <br> <br>  <button class="button-custom-first"  onclick="resetElementPSRIma()" ><b> Прикажи листу</b></button>   <br><br/>
+                                                                                                                                                                    <div class="form-group" id="listaPSRIma" style="display:none">
+                                                                                                                                                                        <!-- <br><br/>   -->  <button class="button-custom-second" onclick="resetElementPSRImaHide()" ><b> Уклони листу</b></button>  <br><br/>
+                                                                                                                                                                            <th:block th:if="${!clientSaPSR.empty}"> 
+                                                                                                                                                                                <table class="table table-striped table-hover">
+                                                                                                                                                                                    <thead class="thead-custom">
+                                                                                                                                                                                        <tr>
+                                                                                                                                                                                            <th>#</th>
+                                                                                                                                                                                            <th>Назив корисника</th>
+
+                                                                                                                                                                                        </tr>
+                                                                                                                                                                                    </thead>
+                                                                                                                                                                                    <tbody>
+                                                                                                                                                                                        <tr th:each="clientA: ${clientSaPSR}" th:attr="data-href=@{/admin/clients/{id}(id=${clientA.id})}">
+                                                                                                                                                                                            <th class="table-border-custom" scope="row" th:text="${clientA.id}"></th>
+                                                                                                                                                                                            <td class="table-border-custom" th:text="${clientA.name}"></td>
+
+                                                                                                                                                                                        </tr>
+                                                                                                                                                                                    </tbody>
+                                                                                                                                                                                </table>
+                                                                                                                                                                                <br><br/>
+                                                                                                                                                                            </th:block>
+
+
+                                                                                                                                                                    </div>
+                                                                                                                                                                    <br><br/>         Листа ЈЛСУ које немају унет План смањења ризика. <br> <br>  <button class="button-custom-first"  onclick="resetElementPSR()" ><b> Прикажи листу</b></button>   <br><br/>
+                                                                                                                                                                                    <div class="form-group" id="listaPSR" style="display:none">
+                                                                                                                                                                                        <!-- <br><br/>  -->   <button class="button-custom-second" onclick="resetElementPSRHide()" ><b> Уклони листу</b></button>  <br><br/>
+                                                                                                                                                                                            <th:block th:if="${!clientBezPSR.empty}"> 
+                                                                                                                                                                                                <table class="table table-striped table-hover">
+                                                                                                                                                                                                    <thead class="thead-custom">
+                                                                                                                                                                                                        <tr>
+                                                                                                                                                                                                        <th>#</th>
+                                                                                                                                                                                                        <th>Назив корисника</th>
+
+                                                                                                                                                                                                        </tr>
+                                                                                                                                                                                                    </thead>
+                                                                                                                                                                                                    <tbody>
+                                                                                                                                                                                                        <tr th:each="clientA: ${clientBezPSR}" th:attr="data-href=@{/admin/clients/{id}(id=${clientA.id})}">
+                                                                                                                                                                                                        <th class="table-border-custom" scope="row" th:text="${clientA.id}"></th>
+                                                                                                                                                                                                        <td class="table-border-custom" th:text="${clientA.name}"></td>
+
+                                                                                                                                                                                                        </tr>
+                                                                                                                                                                                                    </tbody>
+                                                                                                                                                                                                </table>
+                                                                                                                                                                                                <br><br/>
+                                                                                                                                                                                            </th:block>
+
+
+                                                                                                                                                                                    </div>
+                                                                                                                                                                                    <div class="panel-heading">
+                                                                                                                                                                                        <span class="panel-title">Оперативни план одбране од поплава</span>
+                                                                                                                                                                                    </div>
+                                                                                                                                                                                    <br><br/>
+                                                                                                                                                                                        Број ЈЛСУ у систему са унетим Оперативни планом заштите од поплава је: <span th:text="${brojOPplanova}"></span>    
+                                                                                                                                                                                        <br><br/>
+                                                                                                                                                                                            Листа ЈЛСУ које имају унет Оперативни план заштите од поплава.   <br> <br>  <button class="button-custom-first"   onclick="resetElementPPDIma()"><b> Прикажи листу</b></button>   <br><br/>
+                                                                                                                                                                                                        <div class="form-group" id="listaPPDIma" style="display:none">
+                                                                                                                                                                                                        <!--<br><br/>-->     <button class="button-custom-second" onclick="resetElementPPDImaHide()" ><b> Уклони листу</b></button> <br><br/> 
+
+
+                                                                                                                                                                                                        <th:block th:if="${!clientSaPPD.empty}"> 
+                                                                                                                                                                                                        <table class="table table-striped table-hover">
+                                                                                                                                                                                                        <thead class="thead-custom">
+                                                                                                                                                                                                        <tr>
+                                                                                                                                                                                                        <th>#</th>
+                                                                                                                                                                                                        <th>Назив корисника</th>
+
+                                                                                                                                                                                                        </tr>
+                                                                                                                                                                                                        </thead>
+                                                                                                                                                                                                        <tbody>
+                                                                                                                                                                                                        <tr th:each="clientB: ${clientSaPPD}" th:attr="data-href=@{/admin/clients/{id}(id=${clientB.id})}">
+                                                                                                                                                                                                        <th class="table-border-custom" scope="row" th:text="${clientB.id}"></th>
+                                                                                                                                                                                                        <td class="table-border-custom" th:text="${clientB.name}"></td>
+
+                                                                                                                                                                                                        </tr>
+                                                                                                                                                                                                        </tbody>
+                                                                                                                                                                                                        </table>
+                                                                                                                                                                                                        <br><br/>
+                                                                                                                                                                                                        </th:block>
+
+
+                                                                                                                                                                                                        </div>
+                                                                                                                                                                                                        <br><br/>    Листа ЈЛСУ које нeмају унет Оперативни план заштите од поплава.   <br> <br>  <button class="button-custom-first" onclick="resetElementPPD()"><b> Прикажи листу</b></button>   <br><br/>
+                                                                                                                                                                                                        <div class="form-group" id="listaPPD" style="display:none">
+                                                                                                                                                                                                        <!--  <br><br/>  -->   <button class="button-custom-second" onclick="resetElementPPDHide()" ><b> Уклони листу</b></button> <br><br/> 
+
+
+                                                                                                                                                                                                        <th:block th:if="${!clientBezPPD.empty}"> 
+                                                                                                                                                                                                        <table class="table table-striped table-hover">
+                                                                                                                                                                                                        <thead class="thead-custom">
+                                                                                                                                                                                                        <tr>
+                                                                                                                                                                                                        <th>#</th>
+                                                                                                                                                                                                        <th>Назив корисника</th>
+
+                                                                                                                                                                                                        </tr>
+                                                                                                                                                                                                        </thead>
+                                                                                                                                                                                                        <tbody>
+                                                                                                                                                                                                        <tr th:each="clientB: ${clientBezPPD}" th:attr="data-href=@{/admin/clients/{id}(id=${clientB.id})}">
+                                                                                                                                                                                                        <th class="table-border-custom" scope="row" th:text="${clientB.id}"></th>
+                                                                                                                                                                                                        <td class="table-border-custom" th:text="${clientB.name}"></td>
+
+                                                                                                                                                                                                        </tr>
+                                                                                                                                                                                                        </tbody>
+                                                                                                                                                                                                        </table>
+                                                                                                                                                                                                        </th:block>
+
+
+
+                                                                                                                                                                                                        </div>
+
+                                                                                                                                                                                                        </div>
+                                                                                                                                                                                                        </div>
+
+                                                                                                                                                                                                        <!---->
+                                                                                                                                                                                                        </div>
+                                                                                                                                                                                                        </th:block>
+                                                                                                                                                                                                        <th:block th:insert="fragments/footer :: footer-standard" />
+                                                                                                                                                                                                        <script th:src="@{/js/izvestajiListeDropdown.js}"type="text/javascript"></script>
+                                                                                                                                                                                                        <th:block th:insert="fragments/scripts :: standard" />
+                                                                                                                                                                                                        <script th:src="@{/js/matrix.js}"></script>
+                                                                                                                                                                                                        </body>
+                                                                                                                                                                                                        </html>

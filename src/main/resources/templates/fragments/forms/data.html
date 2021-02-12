@@ -15,9 +15,9 @@
                 </form>
             </div>
             <table class="table table-striped">
-                <thead>
-                    <tr th:each="headerRow : ${tableHeader}">
-                        <th th:each="column : ${headerRow.columns}"
+                <thead >
+                    <tr class="header-bg-cl"  th:each="headerRow : ${tableHeader}">
+                        <th class="fWeight"  th:each="column : ${headerRow.columns}"
                             th:utext="${column.title}"
                             th:attr="rowspan=${column.rowSpan}, colspan=${column.colSpan}"
                             th:classappend="${column.colSpan} > 1 ? 'text-xs-center' : ''">
@@ -29,22 +29,23 @@
                                 <a th:href="${viewUrl}" class="btn btn-xs btn-info btn-outline"><i class="fa fa-pencil"></i></a>
                             </div> 
                     ovde se zavrsava -->
-                    <tr th:each="row,iterator : ${dynamicTable.rows}">
-                        <th scope="row" class="data-header-actions-row" sec:authorize="hasAnyAuthority('ADMIN','RIS', 'CLIENT')">
+                    <tr   th:each="row,iterator : ${dynamicTable.rows}">
+                        <th  scope="row" class="border data-header-actions-row" sec:authorize="hasAnyAuthority('ADMIN','RIS', 'CLIENT')">
                             <div class="data-header-action-block">
                                 <a th:href="${viewUrl + '/edit/' + row.id}" class="btn btn-xs btn-info btn-outline"><i class="fa fa-pencil"></i></a>
-                            </div>
-                            <div class="data-header-action-block">
-                                <a href="#" class="btn btn-xs btn-danger btn-outline row-delete-button" th:attr="data-rowid=${row.id}"><i class="fa fa-trash"></i></a>
                             </div>
                             <div class="data-header-action-block" th:if="${!iterator.first}">
                                 <a th:href="${viewUrl + '/moverow/' + row.id + '/up'}" class="btn btn-xs btn-warning btn-outline"><i class="fa fa-arrow-up"></i></a>
                             </div>
-                            <div class="data-header-action-block" th:if="${!iterator.last}">
+                            <div class="data-header-action-block trash-icon-space">
+                                <a href="#" class="btn btn-xs btn-danger btn-outline row-delete-button" th:attr="data-rowid=${row.id}"><i class="fa fa-trash"></i></a>
+                            </div>
+                            
+                            <div class="data-header-action-block " th:if="${!iterator.last}">
                                 <a th:href="${viewUrl + '/moverow/' + row.id + '/down'}" class="btn btn-xs btn-warning btn-outline"><i class="fa fa-arrow-down"></i></a>
                             </div>
                         </th>
-                        <th scope="row">
+                        <th class="border" scope="row">
                             <div th:text="${iterator.index + 1}"></div>
                         </th>
                         <th:block th:each="data: ${row.getDataForColumns(tableDefinition.getDataColumns(client))}">
@@ -63,10 +64,9 @@
                                                   or ${data.column.type.toString()} eq 'AUTOSUM'
                                                   )
                                                   ? ${#siuvs.formatNumber(value)} : ${value}">
-                                            <td th:text="${value == '' ? '/' : value}"
+                                            <td class="border" th:text="${value == '' ? '/' : value}"
                                                 th:rowspan="${data.rowSpan} > 1 ? ${data.rowSpan} : '1'"
-                                                th:classappend="${data.rowSpan} > 1 ? 'align-middle' : ''"
-                                                >
+                                                th:classappend="${data.rowSpan} > 1 ? 'align-middle' : ''">
                                             </td>
                                         </th:block>
                                     </th:block>

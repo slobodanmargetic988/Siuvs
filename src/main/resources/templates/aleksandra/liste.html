@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+    <head>
+        <title>Vezba</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+        <!-- <th:block th:include="fragments/head :: head" />-->
+        <link th:href="@{/css/aleksandrinCss.css}" rel="stylesheet" type="text/css" />
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+
+                    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    </head>
+
+                    <body>
+
+
+                        <th:block th:insert="fragments/delici/aleksDelici :: navbar" />
+
+                    <div class="content ">
+
+            <div class="content-client">
+                <h3>Tabela - lista knjiga iz biblioteke : <span th:text="${biblioteka.imeBiblioteke}"></span></h3>
+
+                <table class="table table-borded">
+
+                    <tr class="bg-secondary text-white">
+                        <th >Naslov</th>
+                        <th >Pisac</th>
+                        <th >Godina izdanja</th>
+                        <th >Izdavac</th>
+                    </tr>
+
+                    <tr th:each="knjiga : ${biblioteka.getListaKnjiga()}">
+                        <td th:text="${knjiga.getNaslov()}">pera@example.com</td>
+                        <td th:text="${knjiga.getPisac()}">Pera</td>
+                        <td th:text="${knjiga.getGodinaIzdavanja()}">Peric</td> 
+                        <td th:text="${knjiga.getIzdavac()}">*</td>
+                    </tr>
+
+                </table>
+
+
+
+            </div>
+
+
+
+
+        </div>
+
+
+                                              
+
+
+                                                        <th:block th:insert="fragments/delici/footer :: footerAleks" />
+
+                                                        <th:block th:insert="fragments/delici/scripts :: standard" />
+
+                                                        </body>
+
+                                                        </html>

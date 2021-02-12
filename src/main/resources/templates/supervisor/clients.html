@@ -22,12 +22,12 @@
 
             <!-- Clients list -->
             <div class="panel">
-                <select name="forma" onchange="location = 'clients/' + this.value;">
- <option value="">Изаберите општину</option>
- <th:block th:each="client : ${allclients}">
- <option th:value="${client.id}" th:text="${client.name}"></option>
- </th:block>
-</select>
+                <!--                <select name="forma" onchange="location = 'clients/' + this.value;">
+                                    <option value="">Изаберите општину</option>
+                                    <th:block th:each="client : ${allclients}">
+                                        <option th:value="${client.id}" th:text="${client.name}"></option>
+                                    </th:block>
+                                </select>-->
                 <div class="panel-heading">
                     <span class="panel-title">Списак корисника</span>
 
@@ -50,8 +50,8 @@
                                                                 <a th:text="${pageNo + 1}" href="#"></a>
                                                             </li>
                                                             <li th:if="${pageNo != clients.getNumber()}">
-                                                                <a th:if="${pageNo > 0}" th:text="${pageNo + 1}" th:href="@{/supervisor/clients(page=${pageNo})}"></a>
-                                                                <a th:if="${pageNo == 0}" th:text="${pageNo + 1}" th:href="@{/supervisor/clients}"></a>
+                                                                <a  style="color:#fff" th:if="${pageNo > 0}" th:text="${pageNo + 1}" th:href="@{/supervisor/clients(page=${pageNo})}"></a>
+                                                                <a  style="color:#fff" th:if="${pageNo == 0}" th:text="${pageNo + 1}" th:href="@{/supervisor/clients}"></a>
                                                             </li>
                                                         </th:block>
                                                     </th:block>
@@ -69,26 +69,33 @@
                     </div>
 
                 </div>
-                <div class="panel-body">
+                <br>
+                     <select class="select-opstina-custom" name="forma" onchange="location = 'clients/' + this.value;">
+                        <option  value="">Изаберите општину</option>
+                        <th:block th:each="client : ${allclients}">
+                            <option class="custom-option-style" th:value="${client.id}" th:text="${client.name}"></option>
+                        </th:block>
+                    </select>
+                    <div class="panel-body">
 
-                    <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Назив корисника</th>
-                                <th>Активан</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr th:each="client: ${clients}" th:attr="data-href=@{/supervisor/clients/{id}(id=${client.id})}">
-                                <th scope="row" th:text="${client.id}"></th>
-                                <td th:text="${client.name}"></td>
-                                <td th:text="${client.isActive()} ? 'ДА' : 'НЕ'"></td>
-                            </tr>
-                        </tbody>
-                    </table>
+                        <table class="table table-striped table-hover">
+                            <thead class="thead-custom">
+                                <tr>
+                                    <th>#</th>
+                                    <th>Назив корисника</th>
+                                    <th>Активан</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="client: ${clients}" th:attr="data-href=@{/supervisor/clients/{id}(id=${client.id})}">
+                                    <th class="table-border-custom" scope="row" th:text="${client.id}"></th>
+                                    <td class="table-border-custom" th:text="${client.name}"></td>
+                                    <td class="table-border-custom" th:text="${client.isActive()} ? 'ДА' : 'НЕ'"></td>
+                                </tr>
+                            </tbody>
+                        </table>
 
-                </div>
+                    </div>
             </div>
 
         </div>

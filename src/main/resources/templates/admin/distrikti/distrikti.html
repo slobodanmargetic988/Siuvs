@@ -36,9 +36,9 @@
                     <div class="panel-heading-controls">
                         <ul class="pagination pagination-xs">
                             <li th:class="${distrikti.isFirst()} ? 'disabled' : ''">
-                                <a th:if="${distrikti.isFirst()}" href="#">«</a>
-                                <a th:if="${distrikti.getNumber() == 1}" th:href="@{/admin/distrikt}">«</a>
-                                <a th:if="${distrikti.getNumber() > 1}" th:href="@{/admin/distrikt(page=${distrikti.getNumber()-1})}">«</a>
+                                <a style="color:#fff" th:if="${distrikti.isFirst()}" href="#">«</a>
+                                <a style="color:#fff" th:if="${distrikti.getNumber() == 1}" th:href="@{/admin/distrikt}">«</a>
+                                <a style="color:#fff" th:if="${distrikti.getNumber() > 1}" th:href="@{/admin/distrikt(page=${distrikti.getNumber()-1})}">«</a>
                             </li>
                             <th:block th:with="startPage = ${distrikti.getNumber() - 2}">
                                 <th:block th:with="startPage = ${startPage < 0} ? 0 : ${startPage}">
@@ -49,11 +49,11 @@
                                                     <th:block th:with="startPage = ${startPage > 0 and endPage == lastPage} ? ${startPage - 1} : ${startPage}">
                                                         <th:block th:each="pageNo : ${#numbers.sequence(startPage, endPage)}">
                                                             <li th:if="${pageNo == distrikti.getNumber()}" class="active">
-                                                                <a th:text="${pageNo + 1}" href="#"></a>
+                                                                <a style="color:#fff" th:text="${pageNo + 1}" href="#"></a>
                                                             </li>
                                                             <li th:if="${pageNo != distrikti.getNumber()}">
-                                                                <a th:if="${pageNo > 0}" th:text="${pageNo + 1}" th:href="@{/admin/distrikt(page=${pageNo})}"></a>
-                                                                <a th:if="${pageNo == 0}" th:text="${pageNo + 1}" th:href="@{/admin/distrikt}"></a>
+                                                                <a style="color:#fff" th:if="${pageNo > 0}" th:text="${pageNo + 1}" th:href="@{/admin/distrikt(page=${pageNo})}"></a>
+                                                                <a style="color:#fff" th:if="${pageNo == 0}" th:text="${pageNo + 1}" th:href="@{/admin/distrikt}"></a>
                                                             </li>
                                                         </th:block>
                                                     </th:block>
@@ -64,8 +64,8 @@
                                 </th:block>
                             </th:block>
                             <li th:class="${distrikti.isLast()} ? 'disabled' : ''">
-                                <a th:if="${distrikti.isLast()}" href="#">»</a>
-                                <a th:if="${not distrikti.isLast()}" th:href="@{/admin/distrikt(page=${distrikti.getNumber()+1})}">»</a>
+                                <a style="color:#fff" th:if="${distrikti.isLast()}" href="#">»</a>
+                                <a style="color:#fff" th:if="${not distrikti.isLast()}" th:href="@{/admin/distrikt(page=${distrikti.getNumber()+1})}">»</a>
                             </li>
                         </ul>
                     </div>
@@ -73,8 +73,8 @@
 
                 <div class="panel-body">
 
-                    <table class="table table-striped">
-                        <thead>
+                    <table class="table table-striped table-hover">
+                        <thead class="thead-custom">
                             <tr>
                                 <th>#</th>
                                 <th>Назив управног округа</th>
@@ -83,8 +83,8 @@
                         </thead>   
                         <tbody>
                             <tr th:each="distrikt: ${distrikti}" th:attr="data-href=@{/admin/distrikt/{id}(id=${distrikt.id})}">
-                                <th scope="row" th:text="${distrikt.id}"></th>
-                                <td th:text="${distrikt.name}"></td>
+                                <th class="table-border-custom" scope="row" th:text="${distrikt.id}"></th>
+                                <td class="table-border-custom" th:text="${distrikt.name}"></td>
 
                             </tr>
                         </tbody>

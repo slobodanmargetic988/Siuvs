@@ -41,19 +41,19 @@
                                             <label   >Управни округ: <span th:text="${client.opstina.distrikt.name}"></span> </label>
                                             <br><br/>
 
-                                                <label   >Надлежности и делокруг: </label> 
+                                                <label>Надлежности и делокруг: </label> 
 
                                                 <th:block th:each="task : ${client.opstina.tasks}">
                                                     <br><br/>  
                                                         <a sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')" th:href="@{/admin/clients/{id}/editNadleznost/{Nadleznostid} (id=${client.id},Nadleznostid=${task.id})}" class=" btn-xs btn-info btn-outline"><i class="fa fa-pencil fa-lg"></i></a>
-                                                        <a sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')" th:href="@{/admin/clients/{id}/newNadleznost (id=${client.id})}" class=" btn-xs btn-info btn-outline"><i class="fa fa-plus-square-o fa-lg"></i></a>
+                                                        <a sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')" th:href="@{/admin/clients/{id}/newNadleznost (id=${client.id})}" class=" btn-xs btn-warning btn-outline"><i class="fa fa-plus-square-o fa-lg"></i></a>
                                                         <a sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')" onclick="return confirm('Да ли сте сигурни да желите да обришете ставку из надлежности и делокруга?');"  th:href="@{/admin/clients/{id}/deleteNadleznost/{Nadleznostid} (id=${client.id},Nadleznostid=${task.id})}" class=" btn-xs btn-danger btn-outline " ><i class="fa fa-trash fa-lg"></i></a>
                                                         <span th:text="${task.name}"></span> 
 
                                                 </th:block>
                                                 <th:block th:if="${client.opstina.tasks.empty}">
                                                     <br><br/>
-                                                        <a sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')" th:href="@{/admin/clients/{id}/newNadleznost (id=${client.id})}" class=" btn-xs btn-info btn-outline"><i class="fa fa-plus-square-o fa-lg"></i></a>                                                    
+                                                        <a sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')" th:href="@{/admin/clients/{id}/newNadleznost (id=${client.id})}" class=" btn-xs btn-warning btn-outline"><i class="fa fa-plus-square-o fa-lg"></i></a>                                                    
                                                         <span>Листа је празна.</span> 
                                                 </th:block>
                                                 <br><br/>
@@ -62,7 +62,7 @@
                                                     <th:block th:each="internationalAgreements : ${client.opstina.internationalAgreements}">
                                                         <br><br/>
                                                             <a sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')" th:href="@{/admin/clients/{id}/editIA/{IAid} (id=${client.id},IAid=${internationalAgreements.id})}" class=" btn-xs btn-info btn-outline"><i class="fa fa-pencil fa-lg"></i></a>
-                                                            <a sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')" th:href="@{/admin/clients/{id}/newIA (id=${client.id})}" class=" btn-xs btn-info btn-outline"><i class="fa fa-plus-square-o fa-lg"></i></a>
+                                                            <a sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')" th:href="@{/admin/clients/{id}/newIA (id=${client.id})}" class=" btn-xs btn-warning btn-outline"><i class="fa fa-plus-square-o fa-lg"></i></a>
                                                             <a sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')" onclick="return confirm('Да ли сте сигурни да желите да обришете ставку из листе међународних докумената?');"  th:href="@{/admin/clients/{id}/deleteIA/{IAid} (id=${client.id},IAid=${internationalAgreements.id})}" class=" btn-xs btn-danger btn-outline " ><i class="fa fa-trash fa-lg"></i></a>
                                                           
                                                             <span  th:text="${internationalAgreements.name}"></span> 
@@ -73,7 +73,7 @@
                                                              </th:block>
                                                     <th:block th:if="${client.opstina.internationalAgreements.empty}">
                                                         <br><br/>
-                                                            <a sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')" th:href="@{/admin/clients/{id}/newIA (id=${client.id})}" class=" btn-xs btn-info btn-outline"><i class="fa fa-plus-square-o fa-lg"></i></a>                                                    
+                                                            <a sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')" th:href="@{/admin/clients/{id}/newIA (id=${client.id})}" class=" btn-xs btn-warning btn-outline"><i class="fa fa-plus-square-o fa-lg"></i></a>                                                    
                                                             <span>Листа је празна.</span> 
                                                     </th:block>
                                                     <br><br/>
@@ -82,7 +82,7 @@
                                                         <th:block th:each="publicPolicyDocument : ${client.opstina.publicPolicyDocuments}">
                                                             <br><br/> 
                                                                 <a sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')" th:href="@{/admin/clients/{id}/editPPD/{PPDid} (id=${client.id},PPDid=${publicPolicyDocument.id})}" class=" btn-xs btn-info btn-outline"><i class="fa fa-pencil fa-lg"></i></a>
-                                                                <a sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')" th:href="@{/admin/clients/{id}/newPPD (id=${client.id})}" class=" btn-xs btn-info btn-outline"><i class="fa fa-plus-square-o fa-lg"></i></a>
+                                                                <a sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')" th:href="@{/admin/clients/{id}/newPPD (id=${client.id})}" class=" btn-xs btn-warning btn-outline"><i class="fa fa-plus-square-o fa-lg"></i></a>
                                                                 <a sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')" onclick="return confirm('Да ли сте сигурни да желите да обришете ставку из листе јавних докумената?');"  th:href="@{/admin/clients/{id}/deletePPD/{PPDid} (id=${client.id},PPDid=${publicPolicyDocument.id})}" class=" btn-xs btn-danger btn-outline " ><i class="fa fa-trash fa-lg"></i></a>
                                                                 <span  th:text="${publicPolicyDocument.name}"></span> 
                                                                 <a sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')" th:href="@{/admin/clients/{id}/uploadDokumentPPD/{PPDid} (id=${client.id},PPDid=${publicPolicyDocument.id})}" class=" btn-xs btn-info btn-outline"><i class="fa fa-upload"></i></a>
@@ -92,7 +92,7 @@
                                                         </th:block>
                                                         <th:block th:if="${client.opstina.publicPolicyDocuments.empty}">
                                                             <br><br/>
-                                                                <a sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')" th:href="@{/admin/clients/{id}/newPPD (id=${client.id})}" class=" btn-xs btn-info btn-outline"><i class="fa fa-plus-square-o fa-lg"></i></a>                                                    
+                                                                <a sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')" th:href="@{/admin/clients/{id}/newPPD (id=${client.id})}" class=" btn-xs btn-warning btn-outline"><i class="fa fa-plus-square-o fa-lg"></i></a>                                                    
                                                                 <span>Листа је празна.</span> 
                                                         </th:block>
 

@@ -152,7 +152,9 @@ public class SupervisorClientsController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = ((SiuvsUserPrincipal) authentication.getPrincipal()).getUser();
         if (userService.hasRole(user, Roles.DISTRIKT)) {
+            
             Distrikt distrikt = user.getSupervising().getDistrikt();
+            
             List<Opstina> opstina = new ArrayList<Opstina>();
             opstina = opstinaService.findAllByDistriktOrderByNameAsc(distrikt);
             model.addAttribute("clients", clientService.findAllByOpstinaInOrderByNameAsc(opstina, pageable));

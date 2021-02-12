@@ -1,0 +1,571 @@
+/*************************************************************************/
+
+/*Top section*/
+
+
+/*posting a background image*/
+header {
+    /*    height: 100vh;
+        min-height: 200px;*/
+    background-size: 1900px 650px;
+    background-image: url("/img/bg-home.jpg");
+    background-repeat: no-repeat;
+    height: 650px;
+}
+
+/*Navigation bar*/
+
+/*navbar without logo styling*/
+.navbar-custom .navbar-nav .nav-link {
+    /*    color: #fff;*/
+    font-size: 16px;
+    letter-spacing: 1.5px;
+    font-weight: 600;
+}
+
+/*setting a green line under navbar links on hover*/
+.navbar .navbar-nav .nav-link {
+    position: relative;
+}
+.navbar .navbar-nav .nav-link::after {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    background-color: #2A7B40;
+    color: transparent;
+    transition: width 0.3s ease 0s, left 0.3s ease 0s;
+    width: 0%;
+    content: '.';
+    height: 2px; /*height of the line*/
+}
+.navbar .navbar-nav .nav-link:hover::after {
+    width: 100%;
+    left: 0; 
+}
+
+/* setting a green line under navbar dropdown links on hover */
+.navbar .dropdown .dropdown-item {
+    color: green;
+    position: relative;
+}
+.navbar .dropdown .dropdown-item::after {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    background-color: #2A7B40;
+    color: transparent;
+    transition: width 0.3s ease 0s, left 0.3s ease 0s;
+    width: 0%;
+    content: '.';
+    height: 2px;
+    /*height of the line*/
+}
+.navbar .dropdown .dropdown-item:hover::after {
+    width: 85%;
+}
+
+/* change the color of active and hovered links */
+.navbar-custom .nav-item.active .nav-link {
+    color: green !important;
+}
+.navbar-custom .nav-item.active:hover {
+    color: green !important;
+}
+.navbar-custom .nav-link,
+.navbar-custom .nav-item:hover .nav-item.active .nav-link {
+    color: white !important;
+
+}
+
+/* change the color of hovered links in dropdown menu*/
+.navbar-custom .dropdown-menu:hover .dropdown-item:hover {
+    color: white !important;
+}
+
+/* for dropdown only - change the color of dropdown box*/
+.navbar-custom .dropdown-menu {
+    background-color: black;
+    border-radius: 10px;
+    font-size: 16px;
+    margin-left: 15px;
+    width:100px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+}
+.navbar-custom .dropdown-item {
+    color: #fff;
+    font-family: "Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+    font-weight: 600;
+}
+.navbar-custom .dropdown-item:hover {
+    color: #fff;
+}
+.navbar-custom .dropdown-item:hover,
+.navbar-custom .dropdown-item:focus {
+    color: #fff;
+    background-color: #000;
+}
+
+/*move navbar-starting from home*/
+.navbar-nav {
+    margin-left: 250px;
+}
+
+/*distance between each navbar item*/
+.navbar-nav > li{
+    padding-left: 16px;
+    padding-right: 16px;
+}
+
+/*navbar submenu*/
+.dropdown:hover>.dropdown-menu {
+    display: block;
+}
+
+
+.dropdown.open>.dropdown-menu,
+.dropdown:hover>.dropdown-menu {
+    visibility: visible;
+    opacity: 1;
+    transition-delay: 0s;
+}
+
+
+.dropdown-menu {
+    visibility: hidden;
+    display: block;
+    opacity: 0;
+    transition: visibility 0s linear 0.3s, opacity 0.3s linear;
+
+
+
+    .dropdown>a:after {
+        display: block;
+        content: " ";
+        float: right;
+        width: 0;
+        height: 0;
+        border-color: transparent;
+        border-style: solid;
+        border-width: 5px 0 5px 5px;
+        border-left-color: #999;
+        margin-top: 5px;
+        margin-right: -10px;
+    }
+}
+
+.navbar-custom .dropdown-menu-custom-multi {
+    left: 145px;
+    margin-bottom: -155px;
+    width: 100px;
+    top:0;
+
+}
+
+/*change color of chevron down icon on dropdown link*/
+.fa-chevron-down {
+    color: #2A7B40;
+}
+
+/*change color on hover for shopping cart, user icon, chevron*/
+.fa-shopping-cart-custom:hover, .fa-user-custom:hover, .fa-chevron-down:hover, .fa-chevron-right:hover {
+    color: #2A7B40; 
+    transition-duration: 0.3s;
+}
+
+/*change color of chevron right icon on dropdown link*/
+.fa-chevron-right {
+    color: #2A7B40;
+}
+
+/*disable clickable dropdown from bootstrap and enable hover dropdown*/
+.navbar .nav-item .dropdown-menu { 
+    display: none; 
+}
+/*.navbar .nav-item:hover .nav-link { 
+    color: #fff;  
+}*/
+.navbar .nav-item:hover .dropdown-menu { 
+    display: block; 
+}
+.navbar .nav-item .dropdown-menu { 
+    margin-top:0; 
+}
+
+/*Change the color of the downward arrow on an open dropdown-menu*/
+.navbar .dropdown-toggle::after { 
+    color: #2A7B40; 
+}
+
+
+/*agrostemin header styling*/
+.agrostemin-text-header {
+    color: #fff;
+    font-size: 100px;
+    font-family: "Cardo";
+    font-weight: bolder;
+    letter-spacing: 5px;
+    text-align: center;
+    margin-right: 120px;
+}
+
+/*agrostemin complete header push a little down under navbar*/
+.agro-text {
+    margin-top: 150px;
+}
+
+/*agrostemin text description styling*/
+.agrostemin-text-rest {
+    color: #fff;
+    font-size: 30px;
+    text-transform: uppercase;
+    text-align: center;
+    margin-right: 100px;
+}
+
+/*More info button styling from outline to full*/
+.btn-more-info {
+    border: 2px solid black;
+    background-color: transparent;
+    color: black;
+    padding: 12px 25px;
+    font-size: 20px;
+    cursor: pointer;
+    border-radius: 10px;
+    margin-top: 50px;
+    margin-left: 430px;
+    letter-spacing: 3px;
+    font-family: "Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+    text-align: center;
+    transition-duration: 0.4s;
+}
+
+/*More info button styling from outline to full*/
+.success {
+    border-color: #2A7B40;
+    color: #fff;
+}
+
+/*More info button styling from outline to full*/
+.btn-more-info:hover {
+    background-color: #2A7B40;
+}
+/*************************************************************************/
+/*Uses section*/
+.uses-about {
+    background-color: #DBF6E3;
+    padding-bottom: 100px;
+}
+
+/*for cards to have the same background color as the div that they are in - by boostrap it is white, with a border*/
+.card-deck .card {
+    background-color: #DBF6E3;
+    margin: 0 0 1rem;
+
+}
+
+.card-deck {
+    width: 80%;
+    margin: auto !important;
+    margin-top: 100px;
+}
+
+
+/********************************************************************/
+/*Contact us section*/
+.h3-contact-text {
+    font-size: 50px;
+    font-family: "Cardo";
+    letter-spacing: 1.5px;
+    font-weight: bold;
+}
+/*
+*/.contact-text {
+    margin-top: 35px;
+    margin-bottom: 35px;
+}
+
+.btn-send-custom {
+    border: 2px solid #000;
+    background-color: transparent;
+    color: #000;
+    padding: 12px 18px;
+    font-size: 16px;
+    cursor: pointer;
+    border-color: #2A7B40;
+    color: #2A7B40;
+    display: block;
+    width: 100%;
+    border-radius: 25px;
+    font-weight: bolder;
+    letter-spacing: 1px;
+}
+
+.btn-send-custom:hover {
+    background-color: #2A7B40;
+    color: #fff;
+    transition: 0.8s;
+
+}
+
+/*Contact form*/
+.custom-form {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    max-width: 1000px;
+    margin: 40px auto 40px;
+    background: #fff;
+    padding: 40px;
+    border-radius: 4px;
+    /*    border: 2px solid #2A7B40;*/
+    position: relative;
+
+}
+.form-group {
+    position: relative;
+    padding-top: 16px;
+    padding-bottom: 16px;
+}
+:focus {
+    outline: none;
+}
+.form-control {
+    border-radius: 0% !important;
+}
+.form-control-custom {
+    border: none !important;
+    box-shadow: none !important;
+    border-width: 0 !important; 
+    outline: 0 !important;
+    border-bottom: 1px solid #73716c !important;
+}
+.form-control-custom ~ .underline {
+    position: absolute;
+    width: 0;
+    height: 1px;
+}
+.form-control-custom:focus ~ .underline {
+    width: 98%;
+    transition: 0.5s;
+}
+
+.underline {
+    border: 1px solid #2A7B40 !important;
+}
+
+.form-control-custom ~ .underline-message {
+    position: absolute;
+    width: 0;
+    height: 1px;
+}
+.form-control-custom:focus ~ .underline-message {
+    width: 100%;
+    transition: 0.5s;
+}
+
+.underline-message {
+    border: 1px solid #2A7B40 !important;
+
+}
+
+
+
+
+
+/********************************************************************/
+/*footer*/
+
+footer {
+    padding-bottom: 30px;
+}
+
+.h5-agrostemin-footer {
+    font-size: calc(20px + (28 - 20) * ((100vw - 360px) / (1600 - 360))) !important
+}
+
+footer .fa {
+    cursor: pointer;
+    font-size: 21px;
+    margin: 5px 10px 5px 10px !important
+}
+
+footer li {
+    margin-top: 10px;
+    margin-bottom: 10px
+}
+
+.img-footer-logo {
+    vertical-align: middle !important;
+    width: 100%;
+    height: auto;
+    width: calc(17px + 6 * ((100vw - 320px) / 680))
+}
+
+footer li:first-child {
+    font-size: 21px !important;
+    font-weight: bold;
+    margin-bottom: calc(40px + (48 - 40) * ((100vw - 360px) / (1600 - 360))) !important;
+    color: #757575 !important
+}
+
+footer {
+    color: #757575 !important;
+    background-color: #DBF6E3;
+}
+
+.social {
+    position: relative;
+    left: -10px
+}
+
+.cursor-pointer {
+    cursor: pointer !important;
+    color: #2A7B40;
+    font-weight: bold
+}
+
+footer a {
+    color: #757575 !important;
+}
+
+footer a:hover {
+    text-decoration: none;
+    color: #2A7B40 !important;
+}
+
+.fa-facebook-custom, .fa-instagram-custom, .fa-twitter-custom, .fa-contact-custom {
+    color: #757575;
+}
+
+.fa-facebook-custom:hover, .fa-instagram-custom:hover, .fa-twitter-custom:hover, .fa-contact-custom:hover {
+    color:#2A7B40;
+}
+
+/*back to top "button"*/
+.backToTop{
+    display: none;
+    position: fixed;
+    bottom: 80px;
+    right: 100px;
+    z-index: 9999;
+    height: 50px;
+    width: 50px;
+}
+.backToTop i{
+    position: absolute;
+    top: 0px;
+    left: 10px;
+    color: #2A7B40;
+}
+.backToTop i:hover{
+    color: #33914d;
+}
+
+
+
+
+/*background fade in right*/
+/*=== Trigger  ===*/
+.animate {
+    -webkit-animation-duration: 1s;
+    animation-duration: 7.5;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+}
+
+/*=== Optional Delays, change values here  ===*/
+
+.four {
+    -webkit-animation-delay: 0.5s;
+    -moz-animation-delay: 0.5s;
+    animation-delay: 0.5s;
+}
+
+/*=== Animations start here  ===*/
+/*==== FADE IN RIGHT ===*/
+@-webkit-keyframes fadeInRight {
+    from {
+        opacity: 0;
+        -webkit-transform: translate3d(100%, 0, 0);
+        transform: translate3d(100%, 0, 0);
+    }
+
+    to {
+        opacity: 1;
+        -webkit-transform: none;
+        transform: none;
+    }
+}
+@keyframes fadeInRight {
+    from {
+        opacity: 0;
+        -webkit-transform: translate3d(100%, 0, 0);
+        transform: translate3d(100%, 0, 0);
+    }
+
+    to {
+        opacity: 1;
+        -webkit-transform: none;
+        transform: none;
+    }
+}
+
+.fadeInRight {
+    -webkit-animation-name: fadeInRight;
+    animation-name: fadeInRight;
+}
+
+
+
+
+
+/*div agrostemin fade in*/
+.fadein {
+    color: #ffffff;
+    font-size: large;
+    font-family: helvetica;
+    text-align: center;
+    opacity: 1;
+    -webkit-animation: fadein 5s;
+    /* Safari, Chrome and Opera > 12.1 */
+    -moz-animation: fadein 5s;
+    /* Firefox < 16 */
+    -ms-animation: fadein 5s;
+    /* Internet Explorer */
+    -o-animation: fadein 5s;
+    /* Opera < 12.1 */
+    animation: fadein 5s;
+}
+
+@keyframes fadein {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+
+
+/*
+html {
+    height: 100%;
+}
+body {
+    margin: 0;
+    min-height: 100%;
+    position: relative;
+}*/
+
+/*html, body {
+    margin:0;
+    padding:0;
+    height:118%;
+}*/

@@ -1,26 +1,34 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
-    <head>
-        <th:block th:include="fragments/head :: head" />
-    </head>
-    <body class="dashboard">
-        <th:block th:insert="fragments/navigation :: navigation-supervisor" />
+<head>
+     <th:block th:include="fragments/head :: head" />
+</head>
+
+   
+     <body class="dashboard">
+
+     <th:block th:insert="fragments/navigation-publicaccess :: navigation"></th:block>
 
         <!-- Content -->
         <div class="px-content contentmali">
 
-            <div th:replace="fragments/page :: title (icon='fa fa-area-chart', title='Супервизорски панел')"></div>
 
-
-            <!--
-                    <th:block th:insert="fragments/page :: contact" />
-            -->
+                <p class="maketextsmaller" >Јавни приступ</p>
+                <a class="maketextsmaller" style="color:darkslateblue" th:href="@{/publicaccess/clients}"><i class="fa fa-institution m-r-1"></i>Избор јединице локалне самоуправе</a>
+                
+               <!--    Корисничко упутство за рад у СИВУС апликацији можете преузети <a href="https://siuvs.rs/img/Manual.pdf">ОВДЕ.</a>-->
+                </p>
+           
         
-<th:block th:insert="fragments/investitori :: investors" />
+        
+        <th:block th:insert="fragments/investitori :: investors" />
+   
 </div>
+
         <th:block th:insert="fragments/footer :: footer-standard" />
 
         <th:block th:insert="fragments/scripts :: standard" />
     </body>
+ 
 </html>

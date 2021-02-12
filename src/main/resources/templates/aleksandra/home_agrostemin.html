@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+    <head>
+        <title>Agrostemin</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+        <!-- <th:block th:include="fragments/head :: head" />-->
+        <link th:href="@{/css/aleksandrinCss.css}" rel="stylesheet" type="text/css" />
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+
+            <!--                    font awesome-->
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+                <!--css-->
+                <link th:href="@{/css/aleksandrinCss_agrostemin.css}" rel="stylesheet" type="text/css" />
+
+
+
+                <!--bootstrap-->
+                <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+
+
+                    </head>
+
+                    <body>
+                        <!--Top section-->
+                        <div id="home-agro">
+                            <div class="agro-section">
+                                <header class="box animate fadeInRight four">
+                                    <!--Navigation-->
+                                    <nav class="navbar navbar-expand-lg navbar-light navbar-custom">
+                                        <a class="navbar-brand" href="#">AGROSTEMIN</a>
+
+                                        <button class="navbar-toggler" type="button" data-toggle="collapse"data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                                            <span class="navbar-toggler-icon"></span>
+                                        </button>
+
+                                        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                                            <ul class="navbar-nav mr-auto">
+                                                <li class="nav-item active">
+                                                    <a class="nav-link" href="#">HOME<span class="sr-only">(current)</span></a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a class="nav-link text-light" href="#">O NAMA</a>
+                                                </li>
+                                                <li class="nav-item dropdown">
+                                                    <a class="nav-link text-light" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> AGROSTEMIN&nbsp;<i class="fa fa-chevron-down fa-chevron-down-custom"></i>
+                                                    </a>
+                                                    <ul class="dropdown-menu" role="menu">
+                                                        <li class="dropdown">
+                                                            <a  href="#" class="dropdown-item text-light">PRIMENA&nbsp;<i class="fa fa-chevron-right fa-chevron-right-custom"></i></a>
+                                                            <ul class="dropdown-menu dropdown-menu-custom-multi" role="menu">
+                                                                <li><a href="#" class="dropdown-item text-light">RATARSTVO</a></li>
+                                                                <li><a href="#" class="dropdown-item text-light">VOĆARSTVO</a></li>
+                                                                <li><a href="#" class="dropdown-item text-light">POVRTARSTVO</a></li>
+                                                            </ul>
+                                                        </li>
+                                                        <li><a href="#" class="js-ajax-menu-item dropdown-item text-light">UPUTSTVO</a></li>
+                                                        <li><a href="#" class="js-ajax-menu-item dropdown-item text-light">PREPORUKE</a></li>
+                                                        <li><a href="#" class="js-ajax-menu-item dropdown-item text-light">SERTIFIKAT</a></li>
+                                                    </ul>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a class="nav-link text-light" href="#">GALERIJA</a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a class="nav-link text-light" href="#">PRIMENA DRONA</a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a class="nav-link text-light" href="#">KONTAKT</a>
+                                                </li>
+                                            </ul>
+
+                                            <ul class="navbar-nav ml-auto">
+                                                <li class="nav-item">
+                                                    <a class="nav-link-c text-light" href="#"><i class="fa fa-shopping-cart fa-shopping-cart-custom"></i></img></a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a class="nav-link-c text-light" href="#"><i class="fa fa-user fa-user-custom"></i></a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a class="nav-link-c" href="#"><button class="">SR</button></a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </nav>
+                                    <div class="agro-text">
+                                        <div class="fadein">
+                                            <p class="agrostemin-text-header">AGROSTEMIN</p>
+                                        </div>
+                                        <p class="agrostemin-text-rest">Lorem Ipsum is simply dummy text of the printing.</p>
+                                        <button class="btn-more-info success">Više informacija</button>
+                                    </div>
+                                </header>
+                            </div>
+                        </div>
+
+                        <!--Uses-->
+                        <div id="uses" class="uses-about">
+                            <div class="card-deck">
+                                <div class="card certificate">
+                                    <img src="" class="card-img-top certificate-img-custom" alt=""></img>
+                                    <div class="card-body">
+                                        <h5 class="card-title">Sertifikacija</h5>
+                                        <p class="card-text">Lorem Ipsum is simply dummy text of the printing and typesetting industry. 
+                                            Lorem Ipsum has been the industry's standard.</p>
+                                        <button class="btn btn-outline-success">Detaljnije</button>
+                                    </div>
+                                </div>
+                                <div class="card dron">
+                                    <img src="" class="card-img-top drone-img-custom" alt=""></img>
+                                    <div class="card-body">
+                                        <h5 class="card-title">Primena drona</h5>
+                                        <p class="card-text">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard.</p>
+                                        <button class="btn btn-outline-success">Detaljnije</button>
+                                    </div>
+                                </div>
+                                <div class="card wide-use">
+                                    <img src="" class="card-img-top" alt=""></img>
+                                    <div class="card-body">
+                                        <h5 class="card-title">Široka upotreba</h5>
+                                        <p class="card-text">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard.</p>
+                                        <button class="btn btn-outline-success">Detaljnije</button>
+                                    </div>
+                                </div>
+                                <div class="card wide-use">
+                                    <img src="" class="card-img-top" alt=""></img>
+                                    <div class="card-body">
+                                        <h5 class="card-title">Široka upotreba</h5>
+                                        <p class="card-text">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard.</p>
+                                        <button class="btn btn-outline-success">Detaljnije</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <section id="experience">
+
+
+
+                        </section>
+
+                        <!--Contact us section-->
+                        <div id="kontaktiraj-nas">
+                            <div>
+
+                                <form action="#" class="custom-form">
+                                    <h3 class="text-center h3-contact-text">KONTAKTIRAJTE NAS</h3>
+                                    <p class="text-center contact-text">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum 
+                                        has been the industry's standard dummy text ever since the 1500s, when an unknown printer 
+                                        took a galley of type and scrambled it to make a type specimen book.</p>
+
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <input type="text" class="form-control form-control-custom"  placeholder="Ime i prezime"><span class="underline"></span>
+
+
+                                                <!--                                                <label for="user" class="animated-label">Ime i prezime</label>-->
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <input type="email" class="form-control form-control-custom" placeholder="Email"><span class="underline"></span>
+                                                <!--                                                <label for="pass" class="animated-label">Email</label>-->
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <textarea type="textarea" name="textarea" class="form-control form-control-custom" id="inputMessage" placeholder="Poruka" ></textarea><span class="underline-message"></span>
+                                        <!--                                            <label for="pass" class="animated-label">Message</label>-->
+                                    </div>
+                                    <div class="submit">
+                                        <button class=" btn-send-custom">Pošalji</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                        <!--Footer-->
+                        <footer>
+                            <div class="row justify-content-around mb-0 pt-5 pb-0 ">
+                                <div class=" col-11">
+                                    <div class="row justify-content-center">
+                                        <div class="col-md-3 col-12 font-italic align-items-center mt-md-3 mt-4">
+                                            <h5 class="h5-agrostemin-footer"><span> <img src="https://extendthemes.com/wp-content/uploads/2018/06/xbox-green-min.png" class="img-fluid mb-1 img-footer-logo"></span><b class="text-dark"> Agrostemin</b></h5>
+                                            <p class="social mt-md-3 mt-2"> <span><i class="fa fa-facebook fa-facebook-custom" aria-hidden="true"></i></span> <span><i class="fa fa-instagram fa-instagram-custom" aria-hidden="true"></i></span> <span><i class="fa fa-twitter fa-twitter-custom" aria-hidden="true"></i></span> </p> <small class="copy-rights cursor-pointer">&#9400; 2021 CMI</small><br> <small>Copyright.All Rights Resered. </small>
+                                        </div>
+                                        <div class="col-md-3 col-12 my-sm-0 mt-5">
+                                            <ul class="list-unstyled">
+                                                <li class="mt-md-3 mt-4">Meni</li>
+                                                <li><a href="">Home</a></li>
+                                                <li><a href="">O nama</a></li>
+                                                <li><a href="">Agrostemin</a></li>
+                                                <li><a href="">Galerija</a></li>
+                                                <li><a href="">Primena drona</a></li>
+                                            </ul>
+                                        </div>
+                                        <div class="col-md-3 col-12 my-sm-0 mt-5">
+                                            <ul class="list-unstyled">
+                                                <li class="mt-md-3 mt-4">Informacije</li>
+                                                <li><a href="">Dostava</a></li>
+                                                <li><a href="">Uslovi korišćenja</a></li>
+                                                <li><a href="">Načini plaćanja</a></li>
+                                                <li><a href="">Načini isporuke</a></li>
+                                                <li><a href="">Partneri</a></li>
+
+                                            </ul>
+                                        </div>
+                                        <div class="col-xl-auto col-md-3 col-12 my-sm-0 mt-5">
+                                            <ul class="list-unstyled">
+                                                <li class="mt-md-3 mt-4">Kontakt</li>
+                                                <li><i class="fa fa-location-arrow fa-contact-custom"></i> Kumodraška 166/2511020 Beograd, Srbija</li>
+                                                <li><i class="fa fa-phone fa-contact-custom"></i> +381 69 23 98 293</li>
+                                                <li><i class="fa fa-envelope fa-contact-custom"></i> info@ceffair.com</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </footer>
+
+
+
+                        <!--back to top button-->
+                        <div id="backToTop"></div>
+
+
+
+                        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+                        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+                        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+                        <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+                        <script src="/js/aleksandrinJS_agrostemin.js" type="text/javascript"></script>
+                    </body>
+
+                    </html>

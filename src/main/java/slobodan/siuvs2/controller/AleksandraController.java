@@ -21,7 +21,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.thymeleaf.context.WebContext;
+import slobodan.siuvs2.model.Biblioteka;
 import slobodan.siuvs2.model.Client;
+import slobodan.siuvs2.model.Knjiga;
+
 import slobodan.siuvs2.model.Mobileappdata;
 import slobodan.siuvs2.model.Volonter;
 import slobodan.siuvs2.service.ClientService;
@@ -53,6 +56,20 @@ public class AleksandraController {
 
     }
 
+    @GetMapping(value = "/liste")
+    public String publicListe(final Model model) {
+        model.addAttribute("test", "tekst koji prosledjujemo modelu");
+        model.addAttribute("test2", "tekst2 koji prosledjujemo modelu");
+
+        Biblioteka nekabiblioteka = Biblioteka.test();
+        Knjiga josjedna = new Knjiga();
+        nekabiblioteka.dodajKnjigu(josjedna);
+        model.addAttribute("biblioteka", nekabiblioteka);
+
+        return "aleksandra/liste";
+
+    }
+
     @GetMapping(value = "/home1")
     public String publicHome1(final Model model) {
 
@@ -64,6 +81,13 @@ public class AleksandraController {
     public String publicHome2(final Model model) {
 
         return "aleksandra/home_2";
+
+    }
+    
+    @GetMapping(value = "/home_agrostemin")
+    public String publicHomeAgrostemin(final Model model) {
+
+        return "aleksandra/home_agrostemin";
 
     }
 
@@ -93,7 +117,7 @@ public class AleksandraController {
 
     @Autowired
     private MobileappdataService mobileappdataService;
-  //  prvi nacin
+    //  prvi nacin
 
     @PostMapping(value = "/home/proceneRizika/prikazi")
     public String publicHomeProceneRizika(
@@ -101,33 +125,33 @@ public class AleksandraController {
             @RequestParam(name = "opasnost") String opasnost,
             final Model model
     ) {
-        
-        model.addAttribute("opstine", opstinaService.findAllOrderByNameAsc());
-        
-        Mobileappdata map = mobileappdataService.findFirstByOpstinaAndOpasnost(imeopstine, opasnost);
-        
-       
-        if(map == null){
-             map=null;
-          }else{
-      
-        String poruka1 = "Izabrana opstina je " + map.getOpstina() + "\n";
-        String poruka2 = "Procena rizika od " + map.getOpasnost() + "\n";
-        String poruka3 = "Klasifikacija: " + map.getKlasifikacija() + "\n";
-        String poruka4 = "Tekst: " + map.getTekst() + "\n";
-        String poruka5 = "Link: " + map.getLink();
 
-        model.addAttribute("prvaporuka", poruka1);
-        model.addAttribute("drugaporuka", poruka2);
-        model.addAttribute("trecaporuka", poruka3);
-        model.addAttribute("cetvrtaporuka", poruka4);
-        model.addAttribute("petaporuka", poruka5);
-       
+        model.addAttribute("opstine", opstinaService.findAllOrderByNameAsc());
+
+        Mobileappdata map = mobileappdataService.findFirstByOpstinaAndOpasnost(imeopstine, opasnost);
+
+        if (map == null) {
+            map = null;
+        } else {
+
+            String poruka1 = "Izabrana opstina je " + map.getOpstina() + "\n";
+            String poruka2 = "Procena rizika od " + map.getOpasnost() + "\n";
+            String poruka3 = "Klasifikacija: " + map.getKlasifikacija() + "\n";
+            String poruka4 = "Tekst: " + map.getTekst() + "\n";
+            String poruka5 = "Link: " + map.getLink();
+
+            model.addAttribute("prvaporuka", poruka1);
+            model.addAttribute("drugaporuka", poruka2);
+            model.addAttribute("trecaporuka", poruka3);
+            model.addAttribute("cetvrtaporuka", poruka4);
+            model.addAttribute("petaporuka", poruka5);
+
         }
-         model.addAttribute("mobileappdata", map); //opis opasnosti
+        model.addAttribute("mobileappdata", map); //opis opasnosti
         return "aleksandra/proceneRizika";
     }
 //drugi nacin
+
     @PostMapping(value = "/home/proceneRizika/prikazi2")
     public String publicHomeProceneRizika2(
             @RequestParam(name = "opstinanamelatinica") String imeopstine,
@@ -135,7 +159,7 @@ public class AleksandraController {
             final Model model
     ) {
         model.addAttribute("opstine", opstinaService.findAllOrderByNameAsc());
-                Mobileappdata map = mobileappdataService.findFirstByOpstinaAndOpasnost(imeopstine, opasnost);
+        Mobileappdata map = mobileappdataService.findFirstByOpstinaAndOpasnost(imeopstine, opasnost);
 
         model.addAttribute("mobileappdata2", map);
 

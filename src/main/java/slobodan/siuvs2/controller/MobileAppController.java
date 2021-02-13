@@ -1,6 +1,8 @@
 package slobodan.siuvs2.controller;
 
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -53,6 +55,7 @@ import slobodan.siuvs2.valueObject.ClientId;
 
 @Controller
 public class MobileAppController {
+    private String sviServisi="Svi servisi";
  private Integer howManyTimes = 5;// how many times notifications are resent to ensure delivery resend obavestenja obaveštenja
     @Autowired
     private UserService userService;
@@ -370,13 +373,46 @@ public class MobileAppController {
 
     @Autowired
     private NotifikacijeService notifikacijeService;
+    
+       @Autowired
+    private MobileAppUniqService mobileAppUniqService;
 
     @GetMapping("/admin/mobileapp/prijavljeniZaNotifikacije")
     public String mobileappPrijavljeniZaNotifikacije(final Model model) {
         List<Notifikacije> notifikacije = notifikacijeService.findAllByOrderByOpstinaAsc();
-        model.addAttribute("notifikacije", notifikacije);
+        int UkupnoBrojKorisnika=0;
+        
+        LinkedHashMap < String,Integer> hm2  = new LinkedHashMap <String,Integer>();
+       //  hm2.put(notifikacije.get(0).getOpstina(), 1);
+       
+         for (Notifikacije notifikacija : notifikacije){
+             UkupnoBrojKorisnika++;
+         
+               hm2.merge(notifikacija.getOpstina(), 1, Integer::sum) ;
+        
+      /*  if (hm2.containsKey(notifikacija.getOpstina())){
+           
+        hm2.replace(notifikacija.getOpstina(), hm2.get(notifikacija.getOpstina())+1);
+      
+        }
+        {
+          hm2.put(notifikacija.getOpstina(), 1);
+        }*/
+        
+        }
+
+        System.out.println(hm2.toString());
+      model.addAttribute("SviServisiBrojKorisnika", hm2.get(sviServisi));
+      
+               model.addAttribute("UkupnoBrojKorisnika", UkupnoBrojKorisnika);
+               hm2.remove(sviServisi);//sklanjamo ga iz liste jer ga prikazujemo odvojeno
+        model.addAttribute("notifikacije", hm2);
+          model.addAttribute("UkupnoBrojKorisnikaSistemski", mobileAppUniqService.count());
         return "admin/mobileapp/prijavljeniZaNotifikacije";
     }
+
+   //MojObjekat mojobjekat
+    
 
     @GetMapping("/client/mobileapp/prijavljeniZaNotifikacije")
     public String mobileappPrijavljeniZaNotifikacijeClient(final Model model) {
@@ -385,8 +421,11 @@ public class MobileAppController {
         User user = ((SiuvsUserPrincipal) authentication.getPrincipal()).getUser();
         Client client = user.getClient();
         model.addAttribute("client", client);
-        List<Notifikacije> notifikacije = notifikacijeService.findAllByOpstina(client.getOpstina());
-        model.addAttribute("notifikacije", notifikacije);
+   
+        
+        
+        model.addAttribute("BrojPrijavljenihZaServis", notifikacijeService.countByOpstina(client.getOpstina().getNamelatinica()));
+         model.addAttribute("BrojPrijavljenihZaSveServise", notifikacijeService.countByOpstina(sviServisi));
         return "client/mobileapp/prijavljeniZaNotifikacije";
     }
 
@@ -408,7 +447,7 @@ public class MobileAppController {
         User user = ((SiuvsUserPrincipal) authentication.getPrincipal()).getUser();
         Client client = user.getClient();
 
-        if (opstinanamelatinica.equals("Sve Opštine")) {
+        if (opstinanamelatinica.equals(sviServisi)) {
             primaoci = notifikacijeService.findDistinctByToken();
         } else {
             primaoci = notifikacijeService.findAllByOpstina(opstinanamelatinica);
@@ -718,9 +757,7 @@ String payload = jsonPoruka.toString();
                 .body(file);
     }
      */
-    @Autowired
-    MobileAppUniqService mobileAppUniqService;
-    
+  
     @PostMapping("/admin/mobileapp/slanje/posalji/all")
     public String mobileappSlanjeNotifikacijeSvima(
             @RequestParam(name = "titleText", defaultValue = " ") String titleText,
@@ -738,12 +775,7 @@ String payload = jsonPoruka.toString();
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = ((SiuvsUserPrincipal) authentication.getPrincipal()).getUser();
         Client client = user.getClient();
-/*
-        if (opstinanamelatinica.equals("Sve Opštine")) {
-            primaoci = notifikacijeService.findDistinctByToken();
-        } else {
-            primaoci = notifikacijeService.findAllByOpstina(opstinanamelatinica);
-        }*/
+
 primaoci= mobileAppUniqService.findDistinctToken();
         
        // String registration_ids = buildRegistrationIds(primaoci);

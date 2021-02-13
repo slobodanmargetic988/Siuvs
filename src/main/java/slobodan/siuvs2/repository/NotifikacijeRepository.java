@@ -25,7 +25,7 @@ public interface NotifikacijeRepository extends JpaRepository<Notifikacije, Inte
     List<String> findDistinctToken();
      
     
-    @Query(value = "SELECT DISTINCT token  FROM notifikacije WHERE opstina=:opstina OR opstina='Sve opštine'", nativeQuery = true)
+    @Query(value = "SELECT DISTINCT token  FROM notifikacije WHERE opstina=:opstina OR opstina='Svi servisi'", nativeQuery = true)
     List<String> findAllByOpstina(@Param("opstina") String opstina);
     
     @Query(value = "SELECT * FROM notifikacije WHERE opstina=:opstina ", nativeQuery = true)
@@ -38,5 +38,5 @@ public interface NotifikacijeRepository extends JpaRepository<Notifikacije, Inte
     @Query(value = "UPDATE notifikacije set token=:token WHERE token=:staritoken", nativeQuery = true)
     void updateToken(@Param("staritoken") String token,@Param("token") String staritoken);
 
-     
+        long countByOpstina(String opstinaName);
 }

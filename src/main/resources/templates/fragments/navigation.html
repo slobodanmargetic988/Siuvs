@@ -78,7 +78,7 @@
                     </li>
                  
                    <li class="px-nav-item" sec:authorize="hasAnyAuthority('ADMIN')">
-                        <a th:href="@{/admin/mobileapp}"><i class="fa fa-users m-r-1"></i>Mobilna aplikacija</a>
+                        <a th:href="@{/admin/mobileapp}"><i class="fa fa-users m-r-1"></i>Мобилна апликација</a>
                     </li>
                 </ul>
             </nav>
@@ -221,7 +221,9 @@
                     <li th:each="topMenuItem: ${globalMenuItems}" class="px-nav-item" th:classappend="${topMenuItem.hasChildren()} ? 'px-nav-dropdown' : ''">
                         <th:block th:insert="fragments/navigation :: nav-item(${topMenuItem},${'/admin/clients/' + client.id})" />
                     </li>
-                   
+                     <li class="px-nav-item" sec:authorize="hasAnyAuthority('ADMIN','RIS')">
+                        <a th:href="@{/admin/clients/{clientID}/calendar (clientID=${client.id})}"><i class="fa fa-calendar m-r-1"></i>5. Период важења докумената</a>
+                    </li>
                 </ul>
 
             </nav>

@@ -94,7 +94,7 @@ public class MobileAppRestController {
           @GetMapping("/php/notifikacije/addSve/{token}")
  String notifikacijeAddSveByToken(@PathVariable final String token) {
      Notifikacije notifikacije= new Notifikacije();
-     notifikacije.setOpstina("Sve opštine");
+     notifikacije.setOpstina("Svi servisi");
      notifikacije.setToken(token);
      notifikacijeService.save(notifikacije);
     return "Uspešno ste se prijavili za sve notifikacije";     

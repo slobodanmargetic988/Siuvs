@@ -24,4 +24,7 @@ public interface NotifikacijeService {
      Long deleteByTokenAndOpstina(String token,String opstina);
      void save(Notifikacije notifikacije);
    void updateToken(String stariToken,String token);
+   
+        long countByOpstina(String opstinaName);
+   
 }

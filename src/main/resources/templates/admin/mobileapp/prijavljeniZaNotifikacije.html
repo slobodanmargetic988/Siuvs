@@ -21,27 +21,33 @@
 
                 <div class="panel" >
                     <div class="panel-body data-panel-body">
-
-                        <p>Преглед пријављених за нотификације по општинама: </p>
+                        <p>Укупан број корисника којима може да се пошаље системско обавештење:  <span th:text="${UkupnoBrojKorisnikaSistemski}"></span></p>
+<p>Укупан број корисника пријављених за обавештења је:  <span th:text="${UkupnoBrojKorisnika}"></span></p>
+<p>Број корисника пријављених за сва обавештења је:   <span th:text="${SviServisiBrojKorisnika}"></span></p>
+                        <p>Преглед броја корисника пријављених за обавештења по општинама/сервисима: </p>
                         <table class="table table-striped" style="background-color: white">
                             <!-- plan-->
                             <th:block th:if="${notifikacije != null}">
                                 <thead>
                                     <tr >
 
-                                        <td  >#</td>
-                                        <td >Општина</td>
-                                        <td >Токен</td>
-
+                                       
+                                        <td >Општина/сервис</td>
+                                        <td >Број корисника</td>
+ <td >Број корисника који примају обавештење (сви сервиси + само овај)</td>
 
                                     </tr>
                                 </thead>
-                                <!-- -->
+                                <!--<tr th:each="instance : ${analysis.instanceMap}">
+    <td th:text="${instance.key}">keyvalue</td>
+    <td th:text="${instance.value.numOfData}">num</td>
+</tr> -->
                                 <th:block th:each="notifikacija : ${notifikacije}">
                                     <tr >
-                                        <td><span th:text="${notifikacija.id}"></span></td>
-                                        <td><span th:text="${notifikacija.opstina}"></span></td>
-                                        <td><span th:text="${notifikacija.token}"></span></td>
+                                       
+                                        <td><span th:text="${notifikacija.key}"></span></td>
+                                        <td><span th:text="${notifikacija.value}"></span></td>
+                                         <td><span th:text="${notifikacija.value+SviServisiBrojKorisnika}"></span></td>
                                     </tr>
                                 </th:block>
 

@@ -29,5 +29,9 @@ public class MobileAppUniqServiceImpl implements MobileAppUniqService {
     return mobileAppUniqRepository.findDistinctToken();
     };
 
+    @Override
+    public  long count(){
+    return mobileAppUniqRepository.count();
+    };
 
 }

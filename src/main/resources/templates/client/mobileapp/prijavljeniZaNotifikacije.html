@@ -22,33 +22,8 @@
                 <div class="panel" >
                     <div class="panel-body data-panel-body">
 
-                        <p>Преглед корисника пријављених за обавештења : </p>
-                        <table class="table table-striped" style="background-color: white">
-                            <!-- plan-->
-                            <th:block th:if="${notifikacije != null}">
-                                <thead>
-                                    <tr >
-
-                                        <td  >#</td>
-                                        <td >Општина</td>
-                                        <td >Токен</td>
-
-
-                                    </tr>
-                                </thead>
-                                <!-- -->
-                                <th:block th:each="notifikacija : ${notifikacije}">
-                                    <tr >
-                                        <td><span th:text="${notifikacija.id}"></span></td>
-                                        <td><span th:text="${notifikacija.opstina}"></span></td>
-                                        <td><span th:text="${notifikacija.token}"></span></td>
-                                    </tr>
-                                </th:block>
-
-                            </th:block>
-
-
-                        </table>
+                        <p>Број корисника пријављених за обавештења :   <span th:text="${BrojPrijavljenihZaServis}"></span></p>
+                       <p>Број корисника који примају обавештења (пријављени за овај сервис + пријављени за све сервисе):   <span th:text="${BrojPrijavljenihZaSveServise+BrojPrijavljenihZaServis}"></span></p>
 
 
                     </div>

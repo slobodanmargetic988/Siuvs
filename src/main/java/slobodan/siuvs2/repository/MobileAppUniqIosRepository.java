@@ -8,20 +8,20 @@ import org.springframework.data.repository.query.Param;
 
 import org.springframework.stereotype.Repository;
 import slobodan.siuvs2.model.MobileAppUniq;
+import slobodan.siuvs2.model.MobileAppUniqIos;
 
 import slobodan.siuvs2.model.Volonter;
 
 @Repository
-public interface MobileAppUniqRepository extends JpaRepository<MobileAppUniq, Integer> {
+public interface MobileAppUniqIosRepository extends JpaRepository<MobileAppUniqIos, Integer> {
 
-    List<MobileAppUniq> findAllBy();
- //@Modifying
-     @Query(value = "SELECT DISTINCT token  FROM mobileapp_unique_users", nativeQuery = true)
-    List<String> findDistinctToken();
+    List<MobileAppUniqIos> findAllBy();
 
     @Modifying
-    @Query(value = "UPDATE mobileapp_unique_users set token=:token WHERE token=:staritoken", nativeQuery = true)
+    @Query(value = "UPDATE mobileapp_unique_users_ios set token=:token WHERE token=:staritoken", nativeQuery = true)
     void updateToken(@Param("staritoken") String token,@Param("token") String staritoken);
 
-
+//@Modifying
+     @Query(value = "SELECT DISTINCT token  FROM mobileapp_unique_users_ios", nativeQuery = true)
+    List<String> findDistinctToken();
 }

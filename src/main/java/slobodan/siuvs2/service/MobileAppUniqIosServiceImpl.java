@@ -5,30 +5,32 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import slobodan.siuvs2.model.MobileAppUniq;
+import slobodan.siuvs2.model.MobileAppUniqIos;
+import slobodan.siuvs2.repository.MobileAppUniqIosRepository;
 import slobodan.siuvs2.repository.MobileAppUniqRepository;
 @Service
-public class MobileAppUniqServiceImpl implements MobileAppUniqService {
+public class MobileAppUniqIosServiceImpl implements MobileAppUniqIosService {
 
     @Autowired
-    private MobileAppUniqRepository mobileAppUniqRepository;
+    private MobileAppUniqIosRepository mobileAppUniqRepository;
 
     @Override
-    public List<MobileAppUniq> findAllBy(){
+    public List<MobileAppUniqIos> findAllBy(){
        return mobileAppUniqRepository.findAllBy();
     }
     
     
     
      @Override
-    public void save(MobileAppUniq mobileAppUniq){
+    public void save(MobileAppUniqIos mobileAppUniq){
     mobileAppUniqRepository.save(mobileAppUniq);
     }
       
-                  @Override
+              @Override
     public void updateToken(String stariToken,String token){
     mobileAppUniqRepository.updateToken(stariToken,token);
     }
-    
+
      @Override
     public List<String> findDistinctToken(){
     return mobileAppUniqRepository.findDistinctToken();
@@ -38,7 +40,4 @@ public class MobileAppUniqServiceImpl implements MobileAppUniqService {
     public  long count(){
     return mobileAppUniqRepository.count();
     };
-
-    
-    
 }

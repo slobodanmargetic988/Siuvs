@@ -84,7 +84,7 @@
                                 </tr>
                             </thead>
                             <tbody >
-                                <tr  th:each="client: ${clients}" th:attr="data-href=@{/admin/clients/{id}(id=${client.id})}">
+                                <tr th:each="client: ${clients}" th:attr="data-href=@{/publicaccess/clients/{id}(id=${client.id})}">
                                     <th class="table-border-custom" scope="row" th:text="${client.id}"></th>
                                     <td class="table-border-custom" th:text="${client.name}"></td>
                                     <td class="table-border-custom" th:text="${client.isActive()} ? 'ДА' : 'НЕ'"></td>

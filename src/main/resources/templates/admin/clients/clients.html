@@ -86,23 +86,43 @@
                     </select>
 
                     <div class="panel-body">
+                                  <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                 <th >Назив корисника</th>
+                                <th >Индикатор</th>
+                                <th>Датум истека за документ који најраније истиче</th>
+                                <th>Назив документа</th>
+                                <th>Активан</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="client: ${clients}" th:attr="data-href=@{/admin/clients/{id}(id=${client.id})}">
+                                <th class="table-border-custom" scope="row" th:text="${client.id}"></th>
+                                 <td class="table-border-custom" th:text="${client.name}"></td>
+                                 
+                                 <th:block th:if="${client.calendar != null}">
+                                     <th:block th:switch="${komparator.uporedi(currentDate,client.calendar.vazido)}">
+                                     <td class="table-border-custom" th:case="'2'"><a data-toggle="tooltip" data-placement="right" title="Документу истиче период важења за мање од 3 месеца" > <i class="fa fa-circle" style="color: red"></i></a></td>
+                                     <td class="table-border-custom" th:case="'3'"><a data-toggle="tooltip" data-placement="right" title="Документу истиче период важења за мање од 6 месеци" > <i class="fa fa-circle" style="color: orange"></i></a></td>
+                                     <td class="table-border-custom" th:case="'4'"><a data-toggle="tooltip" data-placement="right" title="Документу истиче период важења за више од 6 месеци" > <i class="fa fa-circle" style="color: green"></i> </a></td>
+                                         </th:block>
+                                <td class="table-border-custom" th:text="${client.calendar.vazido}"></td>
+                                <td class="table-border-custom" th:text="${client.calendar.dokument}"></td>
+                                </th:block>
+                                <th:block th:if="${client.calendar == null}">
+                                    <td class="table-border-custom" > <a data-toggle="tooltip" data-placement="right" title="Није унет период важења" > <i class="fa fa-circle" style="color: black"> </i>  </a></td>
+                                <td class="table-border-custom" >Није унето</td>
+                                <td class="table-border-custom" >Није унето</td> 
+                                </th:block> 
+                                
+                             
+        <td class="table-border-custom" th:text="${client.isActive()} ? 'ДА' : 'НЕ'"></td>
+                            </tr>
+                        </tbody>
+                    </table>
 
-                        <table class="table table-striped table-hover">
-                            <thead class="thead-custom">
-                                <tr>
-                                    <th>#</th>
-                                    <th>Назив корисника</th>
-                                    <th>Активан</th>
-                                </tr>
-                            </thead>
-                            <tbody >
-                                <tr  th:each="client: ${clients}" th:attr="data-href=@{/admin/clients/{id}(id=${client.id})}">
-                                    <th class="table-border-custom" scope="row" th:text="${client.id}"></th>
-                                    <td class="table-border-custom" th:text="${client.name}"></td>
-                                    <td class="table-border-custom" th:text="${client.isActive()} ? 'ДА' : 'НЕ'"></td>
-                                </tr>
-                            </tbody>
-                        </table>
 
                     </div>
             </div>

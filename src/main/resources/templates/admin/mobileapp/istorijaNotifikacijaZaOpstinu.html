@@ -18,16 +18,6 @@
                 <div class="panel-body data-panel-body">
 
                     <p>Преглед свих обавештења: </p>
-                    
-                                     
-                    <select class="select-opstina-custom"  name="forma" onchange="location = '/admin/mobileapp/istorijaNotifikacijaZaOpstinu/' + this.value;">
-<!--                        <select class="select-opstina-custom"  name="forma" onchange="location = '/admin/mobileapp/istorijaNotifikacijaZaOpstinu/{clientId} (clientId=' + this.value+')';">-->
-                        <option  value="">Изаберите ЈЛС за приказ само њихових обавештења </option>
-                        <th:block th:each="client : ${allclients}">
-                            <option class="custom-option-style" th:value="${client.id}" th:text="${client.name}"></option>
-                        </th:block>
-                    </select>
-                                        <br> </br>                
                     <table class="table table-striped" style="background-color: white">
                       
                         <th:block th:if="${notifikacije != null}">

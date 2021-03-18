@@ -31,8 +31,8 @@
                         <ul class="pagination pagination-xs" >
                             <li th:class="${clients.isFirst()} ? 'disabled' : ''">
                                 <a th:if="${clients.isFirst()}" href="#">«</a>
-                                <a style="color:#fff" th:if="${clients.getNumber() == 1}" th:href="@{/admin/clients}">«</a>
-                                <a style="color:#fff" th:if="${clients.getNumber() > 1}" th:href="@{/admin/clients(page=${clients.getNumber()-1})}">«</a>
+                                <a style="color:#fff" th:if="${clients.getNumber() == 1}" th:href="@{/publicaccess/clients}">«</a>
+                                <a style="color:#fff" th:if="${clients.getNumber() > 1}" th:href="@{/publicaccess/clients(page=${clients.getNumber()-1})}">«</a>
                             </li>
                             <th:block th:with="startPage = ${clients.getNumber() - 2}">
                                 <th:block th:with="startPage = ${startPage < 0} ? 0 : ${startPage}">
@@ -46,8 +46,8 @@
                                                                 <a  th:text="${pageNo + 1}" href="#"></a>
                                                             </li>
                                                             <li  th:if="${pageNo != clients.getNumber()}">
-                                                                <a  style="color:#fff" th:if="${pageNo > 0}" th:text="${pageNo + 1}" th:href="@{/admin/clients(page=${pageNo})}"></a>
-                                                                <a style="color:#fff"  th:if="${pageNo == 0}" th:text="${pageNo + 1}" th:href="@{/admin/clients}"></a>
+                                                                <a  style="color:#fff" th:if="${pageNo > 0}" th:text="${pageNo + 1}" th:href="@{/publicaccess/clients(page=${pageNo})}"></a>
+                                                                <a style="color:#fff"  th:if="${pageNo == 0}" th:text="${pageNo + 1}" th:href="@{/publicaccess/clients}"></a>
                                                             </li>
                                                         </th:block>
                                                     </th:block>
@@ -59,7 +59,7 @@
                             </th:block>
                             <li th:class="${clients.isLast()} ? 'disabled' : ''">
                                 <a style="color:#fff" th:if="${clients.isLast()}" href="#">»</a>
-                                <a style="color:#fff" th:if="${not clients.isLast()}" th:href="@{/admin/clients(page=${clients.getNumber()+1})}">»</a>
+                                <a style="color:#fff" th:if="${not clients.isLast()}" th:href="@{/publicaccess/clients(page=${clients.getNumber()+1})}">»</a>
                             </li>
                         </ul>
                     </div>

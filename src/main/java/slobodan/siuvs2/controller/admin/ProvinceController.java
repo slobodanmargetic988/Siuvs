@@ -71,7 +71,7 @@ public class ProvinceController {
 
     @GetMapping(value = "/province/{provincijaID}")
     public String viewOne(final Model model,
-            @PathVariable final ProvincijaID provincijaID) {
+                @PathVariable final ProvincijaID provincijaID) {
         model.addAttribute("provincija", provincijaService.findOne(provincijaID));
         return "admin/province/view";
     }

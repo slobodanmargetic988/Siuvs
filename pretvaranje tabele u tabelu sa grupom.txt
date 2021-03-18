@@ -1,0 +1,33 @@
+SELECT * FROM table_column where table_definition_id='34';
+
+promeni se string u aggregate i onda pravi grupu.
+sve oznaceno sa PART spada u grupu.
+
+kad smo pretvorili kolonu u grupu treba spasiti stare podatke.
+
+
+SELECT * FROM table_column where table_definition_id=106;
+
+promeniim string u agregate;
+
+izvrsavam samo >-->
+
+update table_column set `type`='AGGREGATE' where column_id=720;
+
+SELECT * FROM dynamic_table where table_definition_id=106 order by client_id;
+dobijemo 23 idja
+
+id 28 ima dve 
+СТРУЧНО – ОПЕРАТИВНИ ТИМ ЗА ЗАШТИТУ И СПАСАВАЊЕ ОД ПОПЛАВА И НЕСРЕЋА НА ВОДИ И ПОД ВОДОМ
+od 12 pa nadalje
+	СТРУЧНО – ОПЕРАТИВНИ ТИМ ЗА ПРЕВЕНЦИЈУ И ПРАЋЕЊЕ ЗАРАЗНЕ БОЛЕСТИ НОДУЛАРНИ ДЕРМАТИТИС
+
+
+update dynamic_row set group_row_id=9349 where table_id=7649;
+
+ova naredba mi sredjuje sve unose da budu kako treba ali group_row_id moram da nadjem na osnovu 
+SELECT * FROM dynamic_row where table_id=7649; 
+pri cemu ya svaki table id radim isto.
+
+da bi imao ista u group row id moram prvo rucno da unesem svakom klijentu po jedan.
+i na clijentu 28 moram da pazim da unesem razlicite

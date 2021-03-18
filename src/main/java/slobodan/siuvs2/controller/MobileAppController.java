@@ -705,10 +705,20 @@ String payload = jsonPoruka.toString();
 
     @GetMapping("/admin/mobileapp/istorijaNotifikacija")
     public String mobileappIstorijaNotifikacija(final Model model) {
+               model.addAttribute("allclients",clientService.findAllByOrderByNameAsc());
         List<IstorijaNotifikacija> istorijaNotifikacija = istorijaNotifikacijaService.findAllBy();
         model.addAttribute("notifikacije", istorijaNotifikacija);
         return "admin/mobileapp/istorijaNotifikacija";
     }
+        @GetMapping("/admin/mobileapp/istorijaNotifikacijaZaOpstinu/{clientId}")
+    public String mobileappIstorijaNotifikacijaZaOpstinu(final Model model,
+            @PathVariable final ClientId clientId) {
+         Client client= clientService.findOne(clientId);
+        List<IstorijaNotifikacija> istorijaNotifikacija = istorijaNotifikacijaService.findAllByClient(client);;
+        model.addAttribute("notifikacije", istorijaNotifikacija);
+        return "admin/mobileapp/istorijaNotifikacijaZaOpstinu";
+    }
+
 
     @GetMapping("/client/mobileapp/istorijaNotifikacija")
     public String mobileappIstorijaNotifikacijaClient(final Model model) {

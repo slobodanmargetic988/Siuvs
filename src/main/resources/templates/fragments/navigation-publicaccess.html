@@ -148,15 +148,19 @@
         </th:block>
 
         <th:block th:case="TABLE">
-             Тренутно није јавно доступно
+        <a title="Тренутно није јавно доступно" ><span th:text="${menuItem.title}" class="px-nav-label" ></span>
+            <i class="fa fa-ban" style="color:red" aria-hidden="true"></i>
+            </a>
         </th:block>
                     
 <th:block th:case="PLAN">
                    <!--  <a th:href="@{{baseMenuUrl}/plan/{pageId}(baseMenuUrl=${baseMenuUrl},pageId=${menuItem.id})}"><span th:text="${menuItem.title}" class="px-nav-label"></span></a> -->
                 </th:block>
                     <th:block th:case="OPSTIPLAN">
-                        Тренутно није јавно доступно
-                 <!--     <a th:href="@{{baseMenuUrl}/plan/opstideo/{pageId}(baseMenuUrl=${baseMenuUrl},pageId=${menuItem.id})}"><span th:text="${menuItem.title}" class="px-nav-label"></span></a>  <!-->
+                    
+               <a title="Тренутно није јавно доступно" >Цео план</span>
+            <i class="fa fa-ban" style="color:red" aria-hidden="true"></i>
+            </a>
                 </th:block>
                 <th:block th:case="CEOPLAN">
                  <a th:href="@{{baseMenuUrl}/plan/ceo/{pageId}(baseMenuUrl=${baseMenuUrl},pageId=${menuItem.id})}"><span th:text="${menuItem.title}" class="px-nav-label"></span></a> 

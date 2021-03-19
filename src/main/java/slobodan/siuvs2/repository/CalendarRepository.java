@@ -14,5 +14,5 @@ public interface CalendarRepository extends JpaRepository<Calendar, Integer> {
     List<Calendar> findAllByClient(Client client);
 
     Calendar findById(Integer id);
-
+Calendar findFirstByClientAndDokument(Client client, String dokument);
 }

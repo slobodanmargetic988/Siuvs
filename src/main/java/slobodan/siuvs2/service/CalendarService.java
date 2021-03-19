@@ -16,4 +16,6 @@ List<Calendar> findAllBy();
     List<Calendar> findAllByClient(Client client);
 
     Calendar findById(CalendarId calendarId);
+    
+    Calendar findFirstByClientAndDokument(Client client, String dokument);
 }

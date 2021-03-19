@@ -127,7 +127,7 @@ public class ClientsCalendarController {
     @PostMapping(value = "/clients/{clientId}/calendar/edit")
     public String saveEdit(
             @PathVariable final ClientId clientId,
-            @RequestParam(name = "brojresenja1", defaultValue = " ") String brojresenja1,
+     @RequestParam(name = "brojresenja1", defaultValue = " ") String brojresenja1,
             @RequestParam(name = "datumdonosenja1", defaultValue = "2020-01-01") String datumdonosenja1,
             @RequestParam(name = "vazido1", defaultValue = "2020-01-01") String vazido1,
             @RequestParam(name = "brojresenja2", defaultValue = " ") String brojresenja2,
@@ -144,15 +144,30 @@ public class ClientsCalendarController {
     ) {
         Client client = clientService.findOne(clientId);
         model.addAttribute("client", client);
-       
         Calendar calendar1 = new Calendar();
         Calendar calendar2 = new Calendar();
         Calendar calendar3 = new Calendar();
         Calendar calendar4 = new Calendar();
-
-        DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-M-dd");
-  
+      Calendar calendartemp= calendarService.findFirstByClientAndDokument(client, "Процена ризика");
+      if (calendartemp!=null){
+          calendar1=calendartemp;
+      }
+      calendartemp= calendarService.findFirstByClientAndDokument(client, "План заштите и спасавања");
+      if (calendartemp!=null){
+          calendar2=calendartemp;
+      }
+      calendartemp= calendarService.findFirstByClientAndDokument(client, "План смањења ризика");
+      if (calendartemp!=null){
+          calendar3=calendartemp;
+      }
+      calendartemp= calendarService.findFirstByClientAndDokument(client, "Оперативни план за одбрану од поплава");
+      if (calendartemp!=null){
+          calendar4=calendartemp;
+      }
         
+
+DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
         calendar1.setClient(client);
         calendar1.setDokument("Процена ризика");
         calendar1.setResenje(brojresenja1);
@@ -178,23 +193,23 @@ public class ClientsCalendarController {
         calendar4.setVazido(LocalDate.parse(vazido4, dateFormat));
 List<Calendar> calendarList = new ArrayList<Calendar>();
 
-calendarList.add(calendar1);
-calendarList.add(calendar2);
-calendarList.add(calendar3);
-calendarList.add(calendar4);
+if (!datumdonosenja1.equals("2020-01-01")) calendarList.add(calendar1);
+if (!datumdonosenja2.equals("2020-01-01"))calendarList.add(calendar2);
+if (!datumdonosenja3.equals("2020-01-01"))calendarList.add(calendar3);
+if (!datumdonosenja4.equals("2020-01-01"))calendarList.add(calendar4);
+
         try {
 
-            calendarService.save(calendar1);
-           calendarService.save(calendar2);
-           calendarService.save(calendar3);
-           calendarService.save(calendar4);
-          setFirstExpireingCalendar( client,calendarList);  
+       if (!datumdonosenja1.equals("2020-01-01"))     calendarService.save(calendar1);
+          if (!datumdonosenja2.equals("2020-01-01"))  calendarService.save(calendar2);
+          if (!datumdonosenja3.equals("2020-01-01"))  calendarService.save(calendar3);
+          if (!datumdonosenja4.equals("2020-01-01"))  calendarService.save(calendar4);
+             setFirstExpireingCalendar( client,calendarList);  
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
             return "redirect:/admin/clients/" + clientId + "/calendar/edit";
         }
         redirectAttributes.addFlashAttribute("successMessage", "Измене су успешно сачуване");
-
         return "redirect:/admin/clients/" + clientId + "/calendar";
     }
     

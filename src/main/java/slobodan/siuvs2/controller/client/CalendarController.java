@@ -136,7 +136,7 @@ public class CalendarController {
 
     @PostMapping(value = "/calendar/edit")
     public String saveEdit(
-             @RequestParam(name = "brojresenja1", defaultValue = " ") String brojresenja1,
+           @RequestParam(name = "brojresenja1", defaultValue = " ") String brojresenja1,
             @RequestParam(name = "datumdonosenja1", defaultValue = "2020-01-01") String datumdonosenja1,
             @RequestParam(name = "vazido1", defaultValue = "2020-01-01") String vazido1,
             @RequestParam(name = "brojresenja2", defaultValue = " ") String brojresenja2,
@@ -161,9 +161,10 @@ public class CalendarController {
         Calendar calendar3 = new Calendar();
         Calendar calendar4 = new Calendar();
 
-    DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-M-dd");
-  
-        
+    
+
+DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+
         calendar1.setClient(client);
         calendar1.setDokument("Процена ризика");
         calendar1.setResenje(brojresenja1);
@@ -190,17 +191,17 @@ public class CalendarController {
         
 List<Calendar> calendarList = new ArrayList<Calendar>();
 
-calendarList.add(calendar1);
-calendarList.add(calendar2);
-calendarList.add(calendar3);
-calendarList.add(calendar4);
+if (!datumdonosenja1.equals("2020-01-01")) calendarList.add(calendar1);
+if (!datumdonosenja2.equals("2020-01-01"))calendarList.add(calendar2);
+if (!datumdonosenja3.equals("2020-01-01"))calendarList.add(calendar3);
+if (!datumdonosenja4.equals("2020-01-01"))calendarList.add(calendar4);
 
         try {
 
-            calendarService.save(calendar1);
-            calendarService.save(calendar2);
-            calendarService.save(calendar3);
-            calendarService.save(calendar4);
+       if (!datumdonosenja1.equals("2020-01-01"))     calendarService.save(calendar1);
+          if (!datumdonosenja2.equals("2020-01-01"))  calendarService.save(calendar2);
+          if (!datumdonosenja3.equals("2020-01-01"))  calendarService.save(calendar3);
+          if (!datumdonosenja4.equals("2020-01-01"))  calendarService.save(calendar4);
              setFirstExpireingCalendar( client,calendarList);
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());

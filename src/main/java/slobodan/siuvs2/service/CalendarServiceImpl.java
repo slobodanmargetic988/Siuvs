@@ -40,6 +40,8 @@ public class CalendarServiceImpl implements CalendarService {
             
          
     }
-    
-    
+        @Override
+   public Calendar findFirstByClientAndDokument(Client client, String dokument){
+     return calendarRepository.findFirstByClientAndDokument( client, dokument);
+    }
 }

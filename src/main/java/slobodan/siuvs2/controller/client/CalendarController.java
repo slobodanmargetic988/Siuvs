@@ -156,10 +156,26 @@ public class CalendarController {
         Client client = user.getClient();
         model.addAttribute("client", client);
         
-        Calendar calendar1 = new Calendar();
+      Calendar calendar1 = new Calendar();
         Calendar calendar2 = new Calendar();
         Calendar calendar3 = new Calendar();
         Calendar calendar4 = new Calendar();
+      Calendar calendartemp= calendarService.findFirstByClientAndDokument(client, "Процена ризика");
+      if (calendartemp!=null){
+          calendar1=calendartemp;
+      }
+      calendartemp= calendarService.findFirstByClientAndDokument(client, "План заштите и спасавања");
+      if (calendartemp!=null){
+          calendar2=calendartemp;
+      }
+      calendartemp= calendarService.findFirstByClientAndDokument(client, "План смањења ризика");
+      if (calendartemp!=null){
+          calendar3=calendartemp;
+      }
+      calendartemp= calendarService.findFirstByClientAndDokument(client, "Оперативни план за одбрану од поплава");
+      if (calendartemp!=null){
+          calendar4=calendartemp;
+      }
 
     
 

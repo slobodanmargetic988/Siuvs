@@ -35,6 +35,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
         authenticationProvider.setUserDetailsService(siuvsUserDetailsService);
         authenticationProvider.setPasswordEncoder(bCryptPasswordEncoder);
+       //   System.out.println("postavlja se user details");
         return authenticationProvider;
     }
 

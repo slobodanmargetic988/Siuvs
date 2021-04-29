@@ -1,6 +1,8 @@
 package slobodan.siuvs2.controller;
 
-import java.util.HashMap;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -18,10 +20,6 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClients;
 import org.springframework.boot.configurationprocessor.json.JSONArray;
 import org.springframework.boot.configurationprocessor.json.JSONObject;
-
-import org.springframework.core.io.Resource;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -37,15 +35,16 @@ import slobodan.siuvs2.model.IstorijaNotifikacija;
 import slobodan.siuvs2.model.Mobileappdata;
 import slobodan.siuvs2.model.Notifikacije;
 import slobodan.siuvs2.model.Opstina;
-import slobodan.siuvs2.model.Page;
 import slobodan.siuvs2.model.SiuvsUserPrincipal;
 import slobodan.siuvs2.model.User;
 import slobodan.siuvs2.model.Volonter;
 import slobodan.siuvs2.service.ClientService;
 import slobodan.siuvs2.service.IstorijaNotifikacijaService;
+import slobodan.siuvs2.service.MobileAppUniqIosService;
 import slobodan.siuvs2.service.MobileAppUniqService;
 import slobodan.siuvs2.service.MobileappdataFactory;
 import slobodan.siuvs2.service.MobileappdataService;
+import slobodan.siuvs2.service.NotifikacijeIosService;
 import slobodan.siuvs2.service.NotifikacijeService;
 import slobodan.siuvs2.service.OpstinaService;
 import slobodan.siuvs2.service.PhotoService;
@@ -55,8 +54,9 @@ import slobodan.siuvs2.valueObject.ClientId;
 
 @Controller
 public class MobileAppController {
-    private String sviServisi="Svi servisi";
- private Integer howManyTimes = 5;// how many times notifications are resent to ensure delivery resend obavestenja obaveštenja
+
+    private String sviServisi = "Svi servisi";
+    private Integer howManyTimes = 2;// how many times notifications are resent to ensure delivery resend obavestenja obaveštenja
     @Autowired
     private UserService userService;
     @Autowired
@@ -373,47 +373,47 @@ public class MobileAppController {
 
     @Autowired
     private NotifikacijeService notifikacijeService;
-    
-       @Autowired
+    @Autowired
+    private NotifikacijeIosService notifikacijeIosService;
+    @Autowired
     private MobileAppUniqService mobileAppUniqService;
+    @Autowired
+    private MobileAppUniqIosService mobileAppUniqIosService;
 
     @GetMapping("/admin/mobileapp/prijavljeniZaNotifikacije")
     public String mobileappPrijavljeniZaNotifikacije(final Model model) {
         List<Notifikacije> notifikacije = notifikacijeService.findAllByOrderByOpstinaAsc();
-        int UkupnoBrojKorisnika=0;
-        
-        LinkedHashMap < String,Integer> hm2  = new LinkedHashMap <String,Integer>();
-       //  hm2.put(notifikacije.get(0).getOpstina(), 1);
-       
-         for (Notifikacije notifikacija : notifikacije){
-             UkupnoBrojKorisnika++;
-         
-               hm2.merge(notifikacija.getOpstina(), 1, Integer::sum) ;
-        
-      /*  if (hm2.containsKey(notifikacija.getOpstina())){
-           
+        int UkupnoBrojKorisnika = 0;
+
+        LinkedHashMap< String, Integer> hm2 = new LinkedHashMap<String, Integer>();
+        //  hm2.put(notifikacije.get(0).getOpstina(), 1);
+
+        for (Notifikacije notifikacija : notifikacije) {
+            UkupnoBrojKorisnika++;
+
+            hm2.merge(notifikacija.getOpstina(), 1, Integer::sum);
+
+            /*  if (hm2.containsKey(notifikacija.getOpstina())){
+
         hm2.replace(notifikacija.getOpstina(), hm2.get(notifikacija.getOpstina())+1);
-      
+
         }
         {
           hm2.put(notifikacija.getOpstina(), 1);
         }*/
-        
         }
 
         System.out.println(hm2.toString());
-      model.addAttribute("SviServisiBrojKorisnika", hm2.get(sviServisi));
-      
-               model.addAttribute("UkupnoBrojKorisnika", UkupnoBrojKorisnika);
-               hm2.remove(sviServisi);//sklanjamo ga iz liste jer ga prikazujemo odvojeno
+        model.addAttribute("SviServisiBrojKorisnika", hm2.get(sviServisi));
+
+        model.addAttribute("UkupnoBrojKorisnika", UkupnoBrojKorisnika);
+        hm2.remove(sviServisi);//sklanjamo ga iz liste jer ga prikazujemo odvojeno
         model.addAttribute("notifikacije", hm2);
-          model.addAttribute("UkupnoBrojKorisnikaSistemski", mobileAppUniqService.count());
+        model.addAttribute("UkupnoBrojKorisnikaSistemski", mobileAppUniqService.count());
         return "admin/mobileapp/prijavljeniZaNotifikacije";
     }
 
-   //MojObjekat mojobjekat
-    
-
+    //MojObjekat mojobjekat
     @GetMapping("/client/mobileapp/prijavljeniZaNotifikacije")
     public String mobileappPrijavljeniZaNotifikacijeClient(final Model model) {
 
@@ -421,11 +421,9 @@ public class MobileAppController {
         User user = ((SiuvsUserPrincipal) authentication.getPrincipal()).getUser();
         Client client = user.getClient();
         model.addAttribute("client", client);
-   
-        
-        
+
         model.addAttribute("BrojPrijavljenihZaServis", notifikacijeService.countByOpstina(client.getOpstina().getNamelatinica()));
-         model.addAttribute("BrojPrijavljenihZaSveServise", notifikacijeService.countByOpstina(sviServisi));
+        model.addAttribute("BrojPrijavljenihZaSveServise", notifikacijeService.countByOpstina(sviServisi));
         return "client/mobileapp/prijavljeniZaNotifikacije";
     }
 
@@ -442,17 +440,19 @@ public class MobileAppController {
             final RedirectAttributes redirectAttributes) {
 
         List<String> primaoci;
-
+        List<String> primaociIos;
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = ((SiuvsUserPrincipal) authentication.getPrincipal()).getUser();
         Client client = user.getClient();
 
         if (opstinanamelatinica.equals(sviServisi)) {
             primaoci = notifikacijeService.findDistinctByToken();
+            primaociIos = notifikacijeIosService.findDistinctByToken();
         } else {
             primaoci = notifikacijeService.findAllByOpstina(opstinanamelatinica);
+            primaociIos = notifikacijeIosService.findAllByOpstina(opstinanamelatinica);
         }
-       // String registration_ids = buildRegistrationIds(primaoci);
+        // String registration_ids = buildRegistrationIds(primaoci);
 
         String titleTextV = " ";
         String bodyTextV = " ";
@@ -502,7 +502,7 @@ public class MobileAppController {
         IstorijaNotifikacija istorijaNotifikacija = new IstorijaNotifikacija();
         istorijaNotifikacija.setTitle(titleTextV);
         istorijaNotifikacija.setBody(bodyTextV);
-     
+
         istorijaNotifikacija.setMessage(messageTextV);
         istorijaNotifikacija.setLink(linkTextV);
         istorijaNotifikacija.setLink_text(linkTextV);
@@ -512,27 +512,94 @@ public class MobileAppController {
         istorijaNotifikacija.setImg_link(imageTextV);
         istorijaNotifikacijaService.save(istorijaNotifikacija);
 
-        String JSON_Body = buildJSONBody(istorijaNotifikacija, titleTextV, bodyTextV, imageTextV, messageTextV, linkTextV, linkTextTextV, primaoci);
+        List<String> primaociPravi = new ArrayList();
+        primaociPravi.addAll(primaoci);
 
-        HttpClient httpclient = HttpClients.createDefault();
-        StringEntity requestEntity = new StringEntity(JSON_Body, ContentType.APPLICATION_JSON);
-        String HOST = "https://fcm.googleapis.com/fcm/send";
-        HttpPost post = new HttpPost(HOST);
-        post.setHeader("Authorization", "key=AAAAxbbCok8:APA91bGMZcat_HhLBi5lcx_k0NBLfNcEGDBj8HAyY6GNRaCIggaDqw-tqpn4yGeagxUojem408qkbkUbTZK6mt0TpFsGp56gGj-pvFGbpxtwkgjCuh8o2Y-2LFMjOFm203DDieSA1CI8");
-        post.setEntity(requestEntity);
-        try {
-            HttpResponse rawResponse = httpclient.execute(post);
-            
-// System.out.println("odgovor od googla je      "+rawResponse);
+        //  System.out.println("broj primaoca je :" + primaociPravi.size());
+        //System.out.println("send android notifications in batches");
+        //send android notifications in batches
+        while (!primaociPravi.isEmpty()) {
+            Integer chunksize = 800;
+            if (chunksize > primaociPravi.size()) {
+                chunksize = primaociPravi.size();
+                //   System.out.println("chunksize je :" + chunksize);
+            }
+            List<String> primaociDeo = primaociPravi.subList(0, chunksize);
+            // primaociPravi.removeAll(primaociDeo);
 
-            redirectAttributes.addFlashAttribute("successMessage", "Нотификација успешно послата! \n " /*+ rawResponse*/);
+            String JSON_Body = buildJSONBody(istorijaNotifikacija, titleTextV, bodyTextV, imageTextV, messageTextV, linkTextV, linkTextTextV, primaociDeo, opstinanamelatinica);
+            primaociPravi.removeAll(primaociDeo);
 
-        } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("errorMessage", "Грешка приликом слања нотификације!");
+            System.out.println("body :" + JSON_Body);
+
+            HttpClient httpclient = HttpClients.createDefault();
+            StringEntity requestEntity = new StringEntity(JSON_Body, ContentType.APPLICATION_JSON);
+            String HOST = "https://fcm.googleapis.com/fcm/send";
+            HttpPost post = new HttpPost(HOST);
+            post.setHeader("Authorization", "key=AAAAxbbCok8:APA91bGMZcat_HhLBi5lcx_k0NBLfNcEGDBj8HAyY6GNRaCIggaDqw-tqpn4yGeagxUojem408qkbkUbTZK6mt0TpFsGp56gGj-pvFGbpxtwkgjCuh8o2Y-2LFMjOFm203DDieSA1CI8");
+            //  post.setHeader("Content-Length","0");
+            post.setEntity(requestEntity);
+            try {
+
+                HttpResponse rawResponse = httpclient.execute(post);
+                // System.out.println("odgovor od googla je      "+rawResponse);
+//String odgovorContent=rawResponse.getEntity().getContent().toString();
+                //  System.out.println("odgovor od googla je      "+odgovorContent);
+                //  System.out.println("sta on ovde u odgovoru cita");
+
+                redirectAttributes.addFlashAttribute("successMessage", "Нотификација успешно послата! \n " /*+ rawResponse*/);
+
+            } catch (Exception e) {
+                redirectAttributes.addFlashAttribute("errorMessage", "Грешка приликом слања нотификације!" + e);
+            }
+            //repeat notification 5 times every 20 minutes
+
+            repeatNotification(howManyTimes, post);
+
         }
-        //repeat notification 5 times every 20 minutes
+        //System.out.println("send ios notifications in batches");
 
-        repeatNotification(howManyTimes, post);
+        //send ios notifications in batches
+        List<String> primaociPraviIOS = new ArrayList();
+        primaociPraviIOS.addAll(primaociIos);
+        //  System.out.println("broj primaoca je :" + primaociPraviIOS.size());
+        while (!primaociPraviIOS.isEmpty()) {
+            Integer chunksize = 800;
+            if (chunksize > primaociPraviIOS.size()) {
+                chunksize = primaociPraviIOS.size();
+                //  System.out.println("chunksize je :" + chunksize);
+            }
+            List<String> primaociDeoIOS = primaociPraviIOS.subList(0, chunksize);
+
+            //  primaociPraviIOS.removeAll(primaociDeoIOS);
+            String JSON_Body1 = buildJSONBodyIOS(istorijaNotifikacija, titleTextV, bodyTextV, imageTextV, messageTextV, linkTextV, linkTextTextV, primaociDeoIOS, opstinanamelatinica);
+
+            primaociPraviIOS.removeAll(primaociDeoIOS);
+
+            HttpClient httpclient1 = HttpClients.createDefault();
+            StringEntity requestEntity1 = new StringEntity(JSON_Body1, ContentType.APPLICATION_JSON);
+            String HOST1 = "https://fcm.googleapis.com/fcm/send";
+            HttpPost post1 = new HttpPost(HOST1);
+            post1.setHeader("Authorization", "key=AAAAxbbCok8:APA91bGMZcat_HhLBi5lcx_k0NBLfNcEGDBj8HAyY6GNRaCIggaDqw-tqpn4yGeagxUojem408qkbkUbTZK6mt0TpFsGp56gGj-pvFGbpxtwkgjCuh8o2Y-2LFMjOFm203DDieSA1CI8");
+            //      post1.setHeader("Content-Length","0");
+            post1.setEntity(requestEntity1);
+            try {
+                HttpResponse rawResponse = httpclient1.execute(post1);
+
+                //System.out.println("odgovor od googla je      "+rawResponse);
+//String odgovorContent=rawResponse.getEntity().getContent().toString();
+                //   System.out.println("odgovor od googla je      "+odgovorContent);
+                //    System.out.println("sta on ovde u odgovoru cita");
+                redirectAttributes.addFlashAttribute("successMessage", "Нотификација успешно послата! \n " /*+ rawResponse*/);
+
+            } catch (Exception e) {
+                redirectAttributes.addFlashAttribute("errorMessage", "Грешка приликом слања нотификације!" + e.getMessage());
+            }
+            //repeat notification 5 times every 20 minutes
+
+            repeatNotification(howManyTimes, post1);
+
+        }
         return "redirect:/admin/mobileapp/slanje";
 
     }
@@ -549,13 +616,13 @@ public class MobileAppController {
             final RedirectAttributes redirectAttributes) {
 
         List<String> primaoci;
-
+        List<String> primaociIos;
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = ((SiuvsUserPrincipal) authentication.getPrincipal()).getUser();
         Client client = user.getClient();
 
         primaoci = notifikacijeService.findAllByOpstina(client.getOpstina().getNamelatinica());
-
+        primaociIos = notifikacijeIosService.findAllByOpstina(client.getOpstina().getNamelatinica());
         //String registration_ids = buildRegistrationIds(primaoci);
 
         String titleTextV = " ";
@@ -609,70 +676,150 @@ public class MobileAppController {
         istorijaNotifikacija.setImg_link(imageTextV);
         istorijaNotifikacijaService.save(istorijaNotifikacija);
 
-        String JSON_Body = buildJSONBody(istorijaNotifikacija, titleTextV, bodyTextV, imageTextV, messageTextV, linkTextV, linkTextTextV, primaoci);
+        List<String> primaociPravi = new ArrayList();
+        primaociPravi.addAll(primaoci);
+        //  primaociPravi.addAll(primaociIos);
 
-        HttpClient httpclient = HttpClients.createDefault();
-        StringEntity requestEntity = new StringEntity(JSON_Body, ContentType.APPLICATION_JSON);
-        String HOST = "https://fcm.googleapis.com/fcm/send";
-        HttpPost post = new HttpPost(HOST);
-        post.setHeader("Authorization", "key=AAAAxbbCok8:APA91bGMZcat_HhLBi5lcx_k0NBLfNcEGDBj8HAyY6GNRaCIggaDqw-tqpn4yGeagxUojem408qkbkUbTZK6mt0TpFsGp56gGj-pvFGbpxtwkgjCuh8o2Y-2LFMjOFm203DDieSA1CI8");
-        post.setEntity(requestEntity);
-        try {
-            HttpResponse rawResponse = httpclient.execute(post);
+//send android notifications
+        while (!primaociPravi.isEmpty()) {
+            Integer chunksize = 800;
+            if (chunksize > primaociPravi.size()) {
+                chunksize = primaociPravi.size();
+            }
+            List<String> primaociDeo = primaociPravi.subList(0, chunksize);
+            //   primaociPravi.removeAll(primaociDeo);
 
-            redirectAttributes.addFlashAttribute("successMessage", "Нотификација успешно послата! \n " /*+ rawResponse*/);
+            String JSON_Body = buildJSONBody(istorijaNotifikacija, titleTextV, bodyTextV, imageTextV, messageTextV, linkTextV, linkTextTextV, primaociDeo, client.getOpstina().getNamelatinica());
+            //java.util.concurrentmodificationexception ako se ovo obrise pre nego sto se primaoci deo iskoristi u buildjsonbody
+            primaociPravi.removeAll(primaociDeo);
 
-        } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("errorMessage", "Грешка приликом слања нотификације!");
+            HttpClient httpclient = HttpClients.createDefault();
+            StringEntity requestEntity = new StringEntity(JSON_Body, ContentType.APPLICATION_JSON);
+            String HOST = "https://fcm.googleapis.com/fcm/send";
+            HttpPost post = new HttpPost(HOST);
+            post.setHeader("Authorization", "key=AAAAxbbCok8:APA91bGMZcat_HhLBi5lcx_k0NBLfNcEGDBj8HAyY6GNRaCIggaDqw-tqpn4yGeagxUojem408qkbkUbTZK6mt0TpFsGp56gGj-pvFGbpxtwkgjCuh8o2Y-2LFMjOFm203DDieSA1CI8");
+            post.setEntity(requestEntity);
+            try {
+                HttpResponse rawResponse = httpclient.execute(post);
+
+                redirectAttributes.addFlashAttribute("successMessage", "Нотификација успешно послата! \n " /*+ rawResponse*/);
+
+            } catch (Exception e) {
+                redirectAttributes.addFlashAttribute("errorMessage", "Грешка приликом слања нотификације!");
+            }
+            //repeat notification 5 times every 20 minutes
+
+            repeatNotification(howManyTimes, post);
+
         }
-        //repeat notification 5 times every 20 minutes
-   
-        repeatNotification(howManyTimes, post);
+
+        //send ios notifications
+        List<String> primaociPraviIos = new ArrayList();
+        primaociPravi.addAll(primaociIos);
+        while (!primaociPraviIos.isEmpty()) {
+            Integer chunksize = 800;
+            if (chunksize > primaociPraviIos.size()) {
+                chunksize = primaociPraviIos.size();
+            }
+            List<String> primaociDeo = primaociPraviIos.subList(0, chunksize);
+
+            String JSON_Body = buildJSONBodyIOS(istorijaNotifikacija, titleTextV, bodyTextV, imageTextV, messageTextV, linkTextV, linkTextTextV, primaociDeo, client.getOpstina().getNamelatinica());
+            primaociPraviIos.removeAll(primaociDeo);
+
+            HttpClient httpclient = HttpClients.createDefault();
+            StringEntity requestEntity = new StringEntity(JSON_Body, ContentType.APPLICATION_JSON);
+            String HOST = "https://fcm.googleapis.com/fcm/send";
+            HttpPost post = new HttpPost(HOST);
+            post.setHeader("Authorization", "key=AAAAxbbCok8:APA91bGMZcat_HhLBi5lcx_k0NBLfNcEGDBj8HAyY6GNRaCIggaDqw-tqpn4yGeagxUojem408qkbkUbTZK6mt0TpFsGp56gGj-pvFGbpxtwkgjCuh8o2Y-2LFMjOFm203DDieSA1CI8");
+            post.setEntity(requestEntity);
+            try {
+                HttpResponse rawResponse = httpclient.execute(post);
+
+                redirectAttributes.addFlashAttribute("successMessage", "Нотификација успешно послата! \n " /*+ rawResponse*/);
+
+            } catch (Exception e) {
+                redirectAttributes.addFlashAttribute("errorMessage", "Грешка приликом слања нотификације!");
+            }
+            //repeat notification 5 times every 20 minutes
+
+            repeatNotification(howManyTimes, post);
+
+        }
+
         return "redirect:/client/mobileapp/slanje";
 
     }
 
-    private String buildJSONBody(IstorijaNotifikacija istorijaNotifikacija, String title, String body, String image, String message, String link, String linkText, List<String> primaoci) {
-
-JSONObject jsonPoruka = new JSONObject();
-JSONObject jsonData = new JSONObject();
-JSONArray jsonRegistrationIdsArray = new JSONArray();
-
-try{
-    //build data json
-jsonData.put("title", title);
-jsonData.put("body", body);
-jsonData.put("image", image);
-jsonData.put("message", message);
-jsonData.put("link", link);
-jsonData.put("linkText", linkText);
-jsonData.put("serverNotificationId", istorijaNotifikacija.getId());
-
+    private String buildJSONBody(IstorijaNotifikacija istorijaNotifikacija, String title, String body, String image, String message, String link, String linkText, List<String> primaoci, String posiljalac) {
+        JSONObject jsonPoruka = new JSONObject();
+        JSONObject jsonData = new JSONObject();
+        JSONArray jsonRegistrationIdsArray = new JSONArray();
+        try {//build data json
+            jsonData.put("title", title);
+            jsonData.put("body", body);
+            jsonData.put("image", image);
+            jsonData.put("message", message);
+            jsonData.put("link", link);
+            jsonData.put("linkText", linkText);
+            jsonData.put("serverNotificationId", istorijaNotifikacija.getId());
+            jsonData.put("posiljalac", posiljalac);
+            DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+            jsonData.put("datum", LocalDate.now().format(dateFormat));
 //build registration ids json
-Iterator<String> iterator = primaoci.iterator();
-        while (iterator.hasNext()) {
-jsonRegistrationIdsArray.put(iterator.next());
-        }
-
+            Iterator<String> iterator = primaoci.iterator();
+            while (iterator.hasNext()) {
+                jsonRegistrationIdsArray.put(iterator.next());
+            }
 //build payload json
-jsonPoruka.put("data",jsonData);
-jsonPoruka.put("registration_ids",jsonRegistrationIdsArray);
-}catch(Exception e){}
-
-
-
-
-String payload = jsonPoruka.toString();
-
-        System.out.println("jsonPoruka je evo je :   "+jsonPoruka+ "  ");
-        System.out.println("payload je evo je :   "+payload+ "  ");
-        
-       return payload;
+            jsonPoruka.put("data", jsonData);
+            jsonPoruka.put("registration_ids", jsonRegistrationIdsArray);
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        String payload = jsonPoruka.toString();
+        return payload;
     }
-    
-   
 
-    
+    private String buildJSONBodyIOS(IstorijaNotifikacija istorijaNotifikacija, String title, String body, String image, String message, String link, String linkText, List<String> primaoci, String posiljalac) {
+        JSONObject jsonPoruka2 = new JSONObject();
+        JSONObject jsonNotification2 = new JSONObject();
+        JSONObject jsonData2 = new JSONObject();
+        JSONArray jsonRegistrationIdsArray2 = new JSONArray();
+        try {//build data json
+            jsonNotification2.put("title", title);
+            jsonNotification2.put("body", body);
+            jsonNotification2.put("badge", 1);
+            jsonNotification2.put("sound", "default");
+            jsonNotification2.put("click_action", "READABLE");
+            jsonNotification2.put("content_available", true);
+            jsonNotification2.put("priority", "high");
+
+            jsonData2.put("title", title);
+            jsonData2.put("body", body);
+            jsonData2.put("image", image);
+            jsonData2.put("message", message);
+            jsonData2.put("link", link);
+            jsonData2.put("linkText", linkText);
+            jsonData2.put("serverNotificationId", istorijaNotifikacija.getId());
+            jsonData2.put("posiljalac", posiljalac);
+            DateTimeFormatter dateFormat2 = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+            jsonData2.put("datum", LocalDate.now().format(dateFormat2));
+//build registration ids json
+            Iterator<String> iterator = primaoci.iterator();
+            while (iterator.hasNext()) {
+                jsonRegistrationIdsArray2.put(iterator.next());
+            }
+//build payload json
+            jsonPoruka2.put("notification", jsonNotification2);
+            jsonPoruka2.put("data", jsonData2);
+            jsonPoruka2.put("registration_ids", jsonRegistrationIdsArray2);
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        String payload2 = jsonPoruka2.toString();
+        return payload2;
+    }
+
     private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 
     private void repeatNotification(Integer howManyTimes, HttpPost post) {
@@ -684,7 +831,7 @@ String payload = jsonPoruka.toString();
                 HttpClient httpclient = HttpClients.createDefault();
                 try {
                     HttpResponse rawResponse = httpclient.execute(post);
-                   // System.out.println(rawResponse);
+                    // System.out.println(rawResponse);
                 } catch (Exception e) {
                 }
             }
@@ -705,20 +852,22 @@ String payload = jsonPoruka.toString();
 
     @GetMapping("/admin/mobileapp/istorijaNotifikacija")
     public String mobileappIstorijaNotifikacija(final Model model) {
-               model.addAttribute("allclients",clientService.findAllByOrderByNameAsc());
+        model.addAttribute("allclients", clientService.findAllByOrderByNameAsc());
         List<IstorijaNotifikacija> istorijaNotifikacija = istorijaNotifikacijaService.findAllBy();
         model.addAttribute("notifikacije", istorijaNotifikacija);
         return "admin/mobileapp/istorijaNotifikacija";
     }
-        @GetMapping("/admin/mobileapp/istorijaNotifikacijaZaOpstinu/{clientId}")
+
+    @GetMapping("/admin/mobileapp/istorijaNotifikacijaZaOpstinu/{clientId}")
     public String mobileappIstorijaNotifikacijaZaOpstinu(final Model model,
             @PathVariable final ClientId clientId) {
-         Client client= clientService.findOne(clientId);
+        Client client = clientService.findOne(clientId);
         List<IstorijaNotifikacija> istorijaNotifikacija = istorijaNotifikacijaService.findAllByClient(client);;
         model.addAttribute("notifikacije", istorijaNotifikacija);
+        model.addAttribute("poslatoUprethodnomMesecu", istorijaNotifikacijaService.countLastMonthPoslateForClientID(client.getId()));
+
         return "admin/mobileapp/istorijaNotifikacijaZaOpstinu";
     }
-
 
     @GetMapping("/client/mobileapp/istorijaNotifikacija")
     public String mobileappIstorijaNotifikacijaClient(final Model model) {
@@ -728,6 +877,7 @@ String payload = jsonPoruka.toString();
         List<IstorijaNotifikacija> istorijaNotifikacija = istorijaNotifikacijaService.findAllByClient(client);
         model.addAttribute("client", client);
         model.addAttribute("notifikacije", istorijaNotifikacija);
+        model.addAttribute("poslatoUprethodnomMesecu", istorijaNotifikacijaService.countLastMonthPoslateForClientID(client.getId()));
         return "client/mobileapp/istorijaNotifikacija";
     }
 
@@ -753,6 +903,7 @@ String payload = jsonPoruka.toString();
         model.addAttribute("notifikacija", notifikacija);
         return "client/mobileapp/pregledNotifikacije";
     }
+
     /*
      @GetMapping(value = "/{id}/notificationPhoto/{filename}")
     public ResponseEntity<Resource> servePhoto(
@@ -767,7 +918,6 @@ String payload = jsonPoruka.toString();
                 .body(file);
     }
      */
-  
     @PostMapping("/admin/mobileapp/slanje/posalji/all")
     public String mobileappSlanjeNotifikacijeSvima(
             @RequestParam(name = "titleText", defaultValue = " ") String titleText,
@@ -775,20 +925,19 @@ String payload = jsonPoruka.toString();
             @RequestParam(name = "messageText", defaultValue = " ") String messageText,
             @RequestParam(name = "linkText", defaultValue = " ") String linkText,
             @RequestParam(name = "linkTextText", defaultValue = " ") String linkTextText,
-            
             @RequestParam(name = "file", required = false) MultipartFile file,
             final Model model,
             final RedirectAttributes redirectAttributes) {
 
-        List<String> primaoci;
-
+    
+        List<String> primaociIos;
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = ((SiuvsUserPrincipal) authentication.getPrincipal()).getUser();
         Client client = user.getClient();
 
-primaoci= mobileAppUniqService.findDistinctToken();
-        
-       // String registration_ids = buildRegistrationIds(primaoci);
+            primaociIos = notifikacijeIosService.findDistinctByToken();
+
+        // String registration_ids = buildRegistrationIds(primaoci);
 
         String titleTextV = " ";
         String bodyTextV = " ";
@@ -838,6 +987,7 @@ primaoci= mobileAppUniqService.findDistinctToken();
         IstorijaNotifikacija istorijaNotifikacija = new IstorijaNotifikacija();
         istorijaNotifikacija.setTitle(titleTextV);
         istorijaNotifikacija.setBody(bodyTextV);
+
         istorijaNotifikacija.setMessage(messageTextV);
         istorijaNotifikacija.setLink(linkTextV);
         istorijaNotifikacija.setLink_text(linkTextV);
@@ -847,25 +997,48 @@ primaoci= mobileAppUniqService.findDistinctToken();
         istorijaNotifikacija.setImg_link(imageTextV);
         istorijaNotifikacijaService.save(istorijaNotifikacija);
 
-        String JSON_Body = buildJSONBody(istorijaNotifikacija, titleTextV, bodyTextV, imageTextV, messageTextV, linkTextV, linkTextTextV, primaoci);
+      
+        //send ios notifications in batches
+        List<String> primaociPraviIOS = new ArrayList();
+        primaociPraviIOS.addAll(primaociIos);
+        //  System.out.println("broj primaoca je :" + primaociPraviIOS.size());
+        while (!primaociPraviIOS.isEmpty()) {
+            Integer chunksize = 800;
+            if (chunksize > primaociPraviIOS.size()) {
+                chunksize = primaociPraviIOS.size();
+                //  System.out.println("chunksize je :" + chunksize);
+            }
+            List<String> primaociDeoIOS = primaociPraviIOS.subList(0, chunksize);
 
-        HttpClient httpclient = HttpClients.createDefault();
-        StringEntity requestEntity = new StringEntity(JSON_Body, ContentType.APPLICATION_JSON);
-        String HOST = "https://fcm.googleapis.com/fcm/send";
-        HttpPost post = new HttpPost(HOST);
-        post.setHeader("Authorization", "key=AAAAxbbCok8:APA91bGMZcat_HhLBi5lcx_k0NBLfNcEGDBj8HAyY6GNRaCIggaDqw-tqpn4yGeagxUojem408qkbkUbTZK6mt0TpFsGp56gGj-pvFGbpxtwkgjCuh8o2Y-2LFMjOFm203DDieSA1CI8");
-        post.setEntity(requestEntity);
-        try {
-            HttpResponse rawResponse = httpclient.execute(post);
+            //  primaociPraviIOS.removeAll(primaociDeoIOS);
+            String JSON_Body1 = buildJSONBodyIOS(istorijaNotifikacija, titleTextV, bodyTextV, imageTextV, messageTextV, linkTextV, linkTextTextV, primaociDeoIOS, "Ada");
 
-            redirectAttributes.addFlashAttribute("successMessage", "Нотификација успешно послата! \n " /*+ rawResponse*/);
+            primaociPraviIOS.removeAll(primaociDeoIOS);
 
-        } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("errorMessage", "Грешка приликом слања нотификације!");
+            HttpClient httpclient1 = HttpClients.createDefault();
+            StringEntity requestEntity1 = new StringEntity(JSON_Body1, ContentType.APPLICATION_JSON);
+            String HOST1 = "https://fcm.googleapis.com/fcm/send";
+            HttpPost post1 = new HttpPost(HOST1);
+            post1.setHeader("Authorization", "key=AAAAxbbCok8:APA91bGMZcat_HhLBi5lcx_k0NBLfNcEGDBj8HAyY6GNRaCIggaDqw-tqpn4yGeagxUojem408qkbkUbTZK6mt0TpFsGp56gGj-pvFGbpxtwkgjCuh8o2Y-2LFMjOFm203DDieSA1CI8");
+            //      post1.setHeader("Content-Length","0");
+            post1.setEntity(requestEntity1);
+            try {
+                HttpResponse rawResponse = httpclient1.execute(post1);
+
+                //System.out.println("odgovor od googla je      "+rawResponse);
+//String odgovorContent=rawResponse.getEntity().getContent().toString();
+                //   System.out.println("odgovor od googla je      "+odgovorContent);
+                //    System.out.println("sta on ovde u odgovoru cita");
+                redirectAttributes.addFlashAttribute("successMessage", "Нотификација успешно послата! \n " /*+ rawResponse*/);
+
+            } catch (Exception e) {
+                redirectAttributes.addFlashAttribute("errorMessage", "Грешка приликом слања нотификације!" + e.getMessage());
+            }
+            //repeat notification 5 times every 20 minutes
+
+            repeatNotification(howManyTimes, post1);
+
         }
-        //repeat notification 5 times every 20 minutes
- 
-       repeatNotification(howManyTimes, post);
         return "redirect:/admin/mobileapp/slanje";
 
     }

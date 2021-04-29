@@ -11,4 +11,8 @@ public interface IstorijaNotifikacijaService {
      void save(IstorijaNotifikacija in);
         List<IstorijaNotifikacija> findAllBy();
     List<IstorijaNotifikacija> findAllByClient(Client client);
+     Integer countLastMonthPoslateForClientID(Integer client_id); 
+     List<IstorijaNotifikacija> selectLastMonthPoslateForClientID(Integer client_id); 
+    
+    
 }

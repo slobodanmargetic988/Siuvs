@@ -33,18 +33,21 @@
                         <th:block th:if="${notifikacije != null}">
                             <thead>
                                 <tr>
-                                    <td colspan="1">Примаоци</td>
-                                    <td colspan="1">Наслов</td>
-                                    <td colspan="1">Датум</td>
+                                     <td >Редни број</td>
+                                    <td >Примаоци</td>
+                                    <td >Наслов</td>
+                                    <td >Датум</td>
                                 </tr>
                             </thead>
                          
-                            <th:block th:each="notifikacija: ${notifikacije}">
+                            <th:block th:each="notifikacija, iterator: ${notifikacije}">
                                 <tr th:attr="data-href=@{/admin/mobileapp/pregledNotifikacije/{id}(id=${notifikacija.id})}">
                                     <th:block th:if="${notifikacija.client != null}">
-                                    <td >    <span th:text="${notifikacija.client.opstina.name}"></span> </td>
+                                    <td > <span th:text="${iterator.index} "></span>  </td > 
+                                        <td >    <span th:text="${notifikacija.client.opstina.name}"></span> </td>
                                     </th:block>
                                       <th:block th:if="${notifikacija.client == null}">
+                                              <td > <span th:text="${iterator.index} "></span>  </td > 
                                     <td >   Све општине</td>
                                     </th:block>
                                     <td >    <span th:text="${notifikacija.title}"></span> </td>

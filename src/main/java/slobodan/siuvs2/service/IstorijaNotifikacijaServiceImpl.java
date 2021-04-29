@@ -36,5 +36,12 @@ public class IstorijaNotifikacijaServiceImpl implements IstorijaNotifikacijaServ
         return istorijaNotifikacijaRepository.findAllByClient(client);
     }
 
-
+  @Override
+    public Integer countLastMonthPoslateForClientID(Integer client_id){
+     return istorijaNotifikacijaRepository.countLastMonthPoslateForClientID(client_id);
+    } 
+      @Override
+    public List<IstorijaNotifikacija> selectLastMonthPoslateForClientID(Integer client_id){
+     return istorijaNotifikacijaRepository.selectLastMonthPoslateForClientID(client_id);
+    }
 }

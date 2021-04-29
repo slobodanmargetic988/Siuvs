@@ -31,6 +31,7 @@ import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBo
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import slobodan.siuvs2.facade.TableFacade;
 import slobodan.siuvs2.model.Assessment;
+import slobodan.siuvs2.model.Calendar;
 import slobodan.siuvs2.model.DateKomparator;
 import slobodan.siuvs2.model.Distrikt;
 import slobodan.siuvs2.model.Dokument;
@@ -50,6 +51,7 @@ import slobodan.siuvs2.model.TableDefinition;
 import slobodan.siuvs2.model.User;
 import slobodan.siuvs2.service.AssessmentFactory;
 import slobodan.siuvs2.service.AssessmentService;
+import slobodan.siuvs2.service.CalendarService;
 import slobodan.siuvs2.service.CustomTableDefinitionService;
 import slobodan.siuvs2.service.DokumentService;
 import slobodan.siuvs2.service.DynamicGroupRowFactory;
@@ -543,5 +545,52 @@ return total;
                 redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
                 return null;
             }
+    }
+    @Autowired
+     CalendarService calendarService;
+    
+    @GetMapping(value = "/clients/{clientId}/calendar")
+    public String list(@PathVariable final ClientId clientId,
+            final Model model) {
+        Client client = clientService.findOne(clientId);
+        model.addAttribute("client", client);
+        List<Calendar> calendarList = calendarService.findAllByClient(client);
+        Calendar calendar1 = new Calendar();
+        Calendar calendar2 = new Calendar();
+        Calendar calendar3 = new Calendar();
+        Calendar calendar4 = new Calendar();
+
+        if (!calendarList.isEmpty()) {
+            for (Calendar calendar : calendarList) {
+                if (calendar.getDokument().equals("Процена ризика")) {
+                    calendar1 = calendar;
+                } else {
+                    if (calendar.getDokument().equals("План заштите и спасавања")) {
+                        calendar2 = calendar;
+                    } else {
+                        if (calendar.getDokument().equals("План смањења ризика")) {
+                            calendar3 = calendar;
+                        } else {
+                            if (calendar.getDokument().equals("Оперативни план за одбрану од поплава")) {
+                                calendar4 = calendar;
+                            }
+
+                        }
+
+                    }
+
+                }
+            }
+            model.addAttribute("calendar1", calendar1);
+            model.addAttribute("calendar2", calendar2);
+            model.addAttribute("calendar3", calendar3);
+            model.addAttribute("calendar4", calendar4);
+
+        } else {
+            model.addAttribute("calendarprazan", "Нису унети детаљи везани за период важења за ниједан документ.");
+
+        }
+
+        return "supervisor/calendar";
     }
 }

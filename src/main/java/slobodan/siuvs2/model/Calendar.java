@@ -9,7 +9,6 @@ package slobodan.siuvs2.model;
 
 
 import java.time.LocalDate;
-import java.util.List;
 import javax.persistence.*;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -22,10 +21,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @EntityListeners(AuditingEntityListener.class)
 public class Calendar {
 
-    /*
-    public void copyDataFieldsFromPlan(Plan plan) {
-    }
-     */
+   
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")

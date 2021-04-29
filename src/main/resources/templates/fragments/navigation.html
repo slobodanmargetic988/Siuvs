@@ -221,7 +221,7 @@
                     <li th:each="topMenuItem: ${globalMenuItems}" class="px-nav-item" th:classappend="${topMenuItem.hasChildren()} ? 'px-nav-dropdown' : ''">
                         <th:block th:insert="fragments/navigation :: nav-item(${topMenuItem},${'/admin/clients/' + client.id})" />
                     </li>
-                     <li class="px-nav-item" sec:authorize="hasAnyAuthority('ADMIN','RIS')">
+                     <li class="px-nav-item" >
                         <a th:href="@{/admin/clients/{clientID}/calendar (clientID=${client.id})}"><i class="fa fa-calendar m-r-1"></i>5. Период важења докумената</a>
                     </li>
                 </ul>
@@ -237,7 +237,9 @@
                     <li th:each="topMenuItem: ${globalMenuItems}" class="px-nav-item" th:classappend="${topMenuItem.hasChildren()} ? 'px-nav-dropdown' : ''">
                         <th:block th:insert="fragments/navigation :: nav-item(${topMenuItem},${'/supervisor/clients/' + client.id})" />
                     </li>
-                      
+                       <li class="px-nav-item" >
+                        <a th:href="@{/supervisor/clients/{clientID}/calendar (clientID=${client.id})}"><i class="fa fa-calendar m-r-1"></i>5. Период важења докумената</a>
+                    </li>
                 </ul>
 
             </nav>

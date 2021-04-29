@@ -204,7 +204,9 @@ if (!datumdonosenja4.equals("2020-01-01"))calendarList.add(calendar4);
           if (!datumdonosenja2.equals("2020-01-01"))  calendarService.save(calendar2);
           if (!datumdonosenja3.equals("2020-01-01"))  calendarService.save(calendar3);
           if (!datumdonosenja4.equals("2020-01-01"))  calendarService.save(calendar4);
-             setFirstExpireingCalendar( client,calendarList);  
+             client.setCalendar(calendarList);
+            clientService.save(client);
+         
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
             return "redirect:/admin/clients/" + clientId + "/calendar/edit";
@@ -213,17 +215,5 @@ if (!datumdonosenja4.equals("2020-01-01"))calendarList.add(calendar4);
         return "redirect:/admin/clients/" + clientId + "/calendar";
     }
     
-    
-private void setFirstExpireingCalendar(Client client, List<Calendar>calendarList) {
-       
-        if (!calendarList.isEmpty()) {
-            Calendar calendarTemp = calendarList.get(0);
-            for (Calendar calendar : calendarList) {
-                if (calendarTemp.getVazido().compareTo(calendar.getVazido()) > 0) {
-                    calendarTemp = calendar;
-                }
-            }
-            client.setCalendar(calendarTemp);
-            clientService.save(client);
-        }}
+
 }

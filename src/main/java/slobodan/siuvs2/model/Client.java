@@ -1,6 +1,5 @@
 package slobodan.siuvs2.model;
 
-import java.sql.Date;
 import slobodan.siuvs2.valueObject.ClientId;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.data.annotation.CreatedBy;
@@ -35,9 +34,8 @@ public class Client {
     @OneToMany(mappedBy = "client")
     private List<User> users = new ArrayList<>();
     
-    @ManyToOne
-    @JoinColumn(name = "calendar_id")
-    private Calendar calendar;
+     @OneToMany(mappedBy = "client")
+    private List<Calendar> calendar= new ArrayList<>();
 
     @CreatedBy
     @ManyToOne
@@ -60,14 +58,31 @@ public class Client {
     @Column(name = "active")
     private boolean active;
 
-    public Calendar getCalendar() {
+    public List<Calendar> getCalendar() {
         return calendar;
     }
+        public List<Calendar> getCalendarSorted() {
+            List<Calendar> calendarSorted= new ArrayList<>();;
+          Calendar  calendarPR= new Calendar();
+           Calendar  calendarPZS= new Calendar();
+           Calendar  calendarPSR= new Calendar();
+          for(Calendar k : calendar){
+          if (k.getDokument().equals("Процена ризика")){calendarPR=k; }
+            if (k.getDokument().equals("План заштите и спасавања")){calendarPZS=k; }
+              if (k.getDokument().equals("План смањења ризика")){calendarPSR=k; }
+          }
+           
+           
+            calendarSorted.add(calendarPR);
+            calendarSorted.add(calendarPZS);
+            calendarSorted.add(calendarPSR);
+        return calendarSorted;
+    }
 
-    public void setCalendar(Calendar calendar) {
+    public void setCalendar(List<Calendar> calendar) {
         this.calendar = calendar;
     }
-    
+
   
 
     public Opstina getOpstina() {

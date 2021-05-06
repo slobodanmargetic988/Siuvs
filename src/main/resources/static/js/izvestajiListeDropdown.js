@@ -66,7 +66,26 @@ function resetElementPPDImaHide() {
     document.getElementById("listaPPDIma").style.display = "none";
 }
 
+/*calendar*/
 
+function resetElementKalendarCrveno() {
+    document.getElementById("listaCalendarCrveno").style.display = "block";
+}
+function resetElementKalendarCrvenoHide() {
+    document.getElementById("listaCalendarCrveno").style.display = "none";
+}
+function resetElementKalendarZuto() {
+    document.getElementById("listaCalendarZuto").style.display = "block";
+}
+function resetElementKalendarZutoHide() {
+    document.getElementById("listaCalendarZuto").style.display = "none";
+}
+function resetElementKalendarZeleno() {
+    document.getElementById("listaCalendarZeleno").style.display = "block";
+}
+function resetElementKalendarZelenoHide() {
+    document.getElementById("listaCalendarZeleno").style.display = "none";
+}
 
 
 

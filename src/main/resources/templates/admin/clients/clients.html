@@ -106,19 +106,19 @@
                                  
                                  <th:block  th:with="kalendari=${client.getCalendarSorted()}">
                                       
-                                    <th:block th:switch="${komparator.uporedi(currentDate,kalendari.get(0).vazido)}">
+                                    <th:block th:switch="${komparator.uporedi(kalendari.get(0).vazido)}">
                                     <td class="table-border-custom col-md-1" th:case="'1'" data-toggle="tooltip" data-placement="right" title="Није унет период важења"><a  > <i class="fa fa-circle" style="color: black"> </i>  </a></td>
                                      <td class="table-border-custom col-md-1" th:case="'2'" data-toggle="tooltip" data-placement="right" th:title="${'Документу истиче период важења за мање од 3 месеца, датум истека: '+kalendari.get(0).vazido}"><a  > <i class="fa fa-circle" style="color: red"></i></a></td>
                                      <td class="table-border-custom col-md-1" th:case="'3'" data-toggle="tooltip" data-placement="right" th:title="${'Документу истиче период важења за мање од 6 месеци, датум истека: '+kalendari.get(0).vazido}"><a  > <i class="fa fa-circle" style="color: orange"></i></a></td>
                                      <td class="table-border-custom col-md-1" th:case="'4'" data-toggle="tooltip" data-placement="right" th:title="${'Документу истиче период важења за више од 6 месеци, датум истека: '+kalendari.get(0).vazido}"><a  > <i class="fa fa-circle" style="color: green"></i> </a></td>
                                      </th:block>
-                                       <th:block th:switch="${komparator.uporedi(currentDate,kalendari.get(1).vazido)}">
+                                       <th:block th:switch="${komparator.uporedi(kalendari.get(1).vazido)}">
                                   <td class="table-border-custom col-md-1" th:case="'1'" data-toggle="tooltip" data-placement="right" title="Није унет период важења"><a  > <i class="fa fa-circle" style="color: black"> </i>  </a></td>
                                      <td class="table-border-custom col-md-1" th:case="'2'" data-toggle="tooltip" data-placement="right" th:title="${'Документу истиче период важења за мање од 3 месеца, датум истека: '+kalendari.get(1).vazido}"><a  > <i class="fa fa-circle" style="color: red"></i></a></td>
                                      <td class="table-border-custom col-md-1" th:case="'3'" data-toggle="tooltip" data-placement="right" th:title="${'Документу истиче период важења за мање од 6 месеци, датум истека: '+kalendari.get(1).vazido}"><a  > <i class="fa fa-circle" style="color: orange"></i></a></td>
                                      <td class="table-border-custom col-md-1" th:case="'4'" data-toggle="tooltip" data-placement="right" th:title="${'Документу истиче период важења за више од 6 месеци, датум истека: '+kalendari.get(1).vazido}"><a  > <i class="fa fa-circle" style="color: green"></i> </a></td>
                                      </th:block>
-                                      <th:block th:switch="${komparator.uporedi(currentDate,kalendari.get(2).vazido)}">
+                                      <th:block th:switch="${komparator.uporedi(kalendari.get(2).vazido)}">
                                   <td class="table-border-custom col-md-1" th:case="'1'" data-toggle="tooltip" data-placement="right" title="Није унет период важења"><a  > <i class="fa fa-circle" style="color: black"> </i>  </a></td>
                                      <td class="table-border-custom col-md-1" th:case="'2'" data-toggle="tooltip" data-placement="right" th:title="${'Документу истиче период важења за мање од 3 месеца, датум истека: '+kalendari.get(2).vazido}"><a  > <i class="fa fa-circle" style="color: red"></i></a></td>
                                      <td class="table-border-custom col-md-1" th:case="'3'" data-toggle="tooltip" data-placement="right" th:title="${'Документу истиче период важења за мање од 6 месеци, датум истека: '+kalendari.get(2).vazido}"><a  > <i class="fa fa-circle" style="color: orange"></i></a></td>

@@ -106,8 +106,8 @@ public class ClientsController {
         model.addAttribute("clients", clientService.findAllOrderByActiveDescNameAsc(pageable));
         model.addAttribute("allclients",clientService.findAllByOrderByNameAsc());
     
-        LocalDate currentDate = LocalDate.now();
-        model.addAttribute("currentDate",currentDate);
+//        LocalDate currentDate = LocalDate.now();
+//        model.addAttribute("currentDate",currentDate);
         DateKomparator komparator= new DateKomparator();
         model.addAttribute("komparator",komparator);
         

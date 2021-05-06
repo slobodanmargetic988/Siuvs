@@ -3,37 +3,26 @@
  */
 package slobodan.siuvs2.controller.admin;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.context.WebApplicationContext;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import slobodan.siuvs2.model.Calendar;
 import slobodan.siuvs2.model.Client;
-import slobodan.siuvs2.model.Distrikt;
 import slobodan.siuvs2.model.DynamicData;
-import slobodan.siuvs2.model.DynamicRow;
-import slobodan.siuvs2.model.DynamicTable;
 import slobodan.siuvs2.model.PodRezultat;
 import slobodan.siuvs2.service.AssessmentService;
+import slobodan.siuvs2.service.CalendarService;
 import slobodan.siuvs2.service.ClientService;
-import slobodan.siuvs2.service.DistriktService;
 import slobodan.siuvs2.service.DynamicDataService;
-import slobodan.siuvs2.service.DynamicRowService;
-import slobodan.siuvs2.service.DynamicTableService;
 import slobodan.siuvs2.service.PodRezultatService;
 import slobodan.siuvs2.service.PosebanCiljService;
-import slobodan.siuvs2.valueObject.DistriktID;
-import slobodan.siuvs2.valueObject.TableDefinitionId;
 
 /**
  *
@@ -46,6 +35,9 @@ public class ReportsController {
 
     @Autowired
     private ClientService clientService;
+    
+    @Autowired
+    private CalendarService calendarService;
 
     @Autowired
     private PodRezultatService podRezultatService;
@@ -185,7 +177,33 @@ public class ReportsController {
         model.addAttribute("brojAktivnostiOdustalih", brojAktivnostiOdustalih);
         model.addAttribute("brojAktivnostiUToku", brojAktivnostiUToku);
 //number of clients who uploaded a public document.
+//calendar
+List<Calendar> calendarList = calendarService.findAllBy();
 
+List<Calendar> calendarListCrvena = new ArrayList();
+List<Calendar> calendarListZuta = new ArrayList();
+List<Calendar> calendarListZelena = new ArrayList();
+
+LocalDate zelenidatum = LocalDate.now().plusMonths(6);
+LocalDate zutidatum= LocalDate.now().plusMonths(3);
+calendarList.forEach((calendar) -> {
+    if (calendar.getVazido().isAfter(zelenidatum)){
+        calendarListZelena.add(calendar);
+    }else{
+        if (calendar.getVazido().isAfter(zutidatum)){
+            calendarListZuta.add(calendar);
+        }else{
+            calendarListCrvena.add(calendar);
+            
+        }
+        
+    }     });
+  
+   model.addAttribute("calendarListZelena", calendarListZelena);
+        model.addAttribute("calendarListZuta", calendarListZuta);
+        model.addAttribute("calendarListCrvena", calendarListCrvena);
+  
+//calendar
         return "admin/reports/report";
     }
 
@@ -296,7 +314,33 @@ public class ReportsController {
         model.addAttribute("brojAktivnostiOdustalih", brojAktivnostiOdustalih);
         model.addAttribute("brojAktivnostiUToku", brojAktivnostiUToku);
 //number of clients who uploaded a public document.
+//calendar
+List<Calendar> calendarList = calendarService.findAllBy();
 
+List<Calendar> calendarListCrvena = new ArrayList();
+List<Calendar> calendarListZuta = new ArrayList();
+List<Calendar> calendarListZelena = new ArrayList();
+
+LocalDate zelenidatum = LocalDate.now().plusMonths(6);
+LocalDate zutidatum= LocalDate.now().plusMonths(3);
+calendarList.forEach((calendar) -> {
+    if (calendar.getVazido().isAfter(zelenidatum)){
+        calendarListZelena.add(calendar);
+    }else{
+        if (calendar.getVazido().isAfter(zutidatum)){
+            calendarListZuta.add(calendar);
+        }else{
+            calendarListCrvena.add(calendar);
+            
+        }
+        
+    }     });
+  
+   model.addAttribute("calendarListZelena", calendarListZelena);
+        model.addAttribute("calendarListZuta", calendarListZuta);
+        model.addAttribute("calendarListCrvena", calendarListCrvena);
+  
+//calendar
 
         return "supervisor/report";
     }

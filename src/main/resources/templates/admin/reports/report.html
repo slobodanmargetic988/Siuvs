@@ -30,66 +30,131 @@
                     <br><br/>
                         Број отворених  и активних налога ЈЛС у систему је: <span th:text="${brojOpstina}"></span>
                         <br><br/>
-<!--                            <div     sec:authorize="hasAnyAuthority('ADMIN')">
+ Преглед унетих докумената по датуму истека: 
+                        <br><br/>
+                            
+Период важења истиче за мање од 3 месеци / истекао:   <br><br/>
+<button class="button-custom-first" style="border-color: red" onclick="resetElementKalendarCrveno()" ><b> Прикажи листу</b></button>   <br><br/>
+<div class="form-group" id="listaCalendarCrveno" style="display:none">
+<!-- <br><br/>-->     <button class="button-custom-second" onclick="resetElementKalendarCrvenoHide()" ><b> Уклони листу</b></button> 
+<br><br/>       <th:block th:if="${!calendarListCrvena.empty}"> 
+<table class="table table-striped table-hover">
+<thead class="thead-custom">
+<tr>
 
-                                Листа клијената које се не сматрају општинама. <br> <br>  <button class="button-custom-first" onclick="resetElementLО()" ><b> Прикажи листу</b></button> 
+<th>Назив корисника</th>
+<th>Назив документа</th> 
+<th>Важи до</th>
+</tr>
+</thead>
+<tbody>
+<tr th:each="calendarC: ${calendarListCrvena}" th:attr="data-href=@{/admin/clients/{id}(id=${calendarC.client.id})}">
+
+<td class="table-border-custom" th:text="${calendarC.client.name}"></td>
+<td class="table-border-custom" th:text="${calendarC.dokument}"></td>
+<td class="table-border-custom" th:text="${calendarC.vazido}"></td>
+</tr>
+</tbody>
+</table>
+<br><br/>
+</th:block>
+
+
+</div>
+                              
+Период важења истиче за 3-6 месеци:   <br><br/>
+<button class="button-custom-first" style="border-color: yellow" onclick="resetElementKalendarZuto()" ><b> Прикажи листу</b></button>   <br><br/>
+
+<div class="form-group" id="listaCalendarZuto" style="display:none">
+<!-- <br><br/>-->     <button class="button-custom-second" onclick="resetElementKalendarZutoHide()" ><b> Уклони листу</b></button> 
+<br><br/>       <th:block th:if="${!calendarListZuta.empty}"> 
+<table class="table table-striped table-hover">
+<thead class="thead-custom">
+<tr>
+
+<th>Назив корисника</th>
+<th>Назив документа</th> 
+<th>Важи до</th>
+</tr>
+</thead>
+<tbody>
+<tr th:each="calendarZ: ${calendarListZuta}" th:attr="data-href=@{/admin/clients/{id}(id=${calendarZ.client.id})}">
+
+<td class="table-border-custom" th:text="${calendarZ.client.name}"></td>
+<td class="table-border-custom" th:text="${calendarZ.dokument}"></td>
+<td class="table-border-custom" th:text="${calendarZ.vazido}"></td>
+</tr>
+</tbody>
+</table>
+<br><br/>
+</th:block>
+
+
+</div>
+                              
+Период важења истиче за више од 6 месеци:   <br><br/>
+<button class="button-custom-first" style="border-color: green" onclick="resetElementKalendarZeleno()" ><b> Прикажи листу</b></button>   <br><br/>
+
+<div class="form-group" id="listaCalendarZeleno" style="display:none">
+<!-- <br><br/>-->     <button class="button-custom-second" onclick="resetElementKalendarZelenoHide()" ><b> Уклони листу</b></button> 
+<br><br/>       <th:block th:if="${!calendarListZelena.empty}"> 
+<table class="table table-striped table-hover">
+<thead class="thead-custom">
+<tr>
+
+<th>Назив корисника</th>
+<th>Назив документа</th> 
+<th>Важи до</th>
+</tr>
+</thead>
+<tbody>
+<tr th:each="calendarZe: ${calendarListZelena}" th:attr="data-href=@{/admin/clients/{id}(id=${calendarZe.client.id})}">
+
+<td class="table-border-custom" th:text="${calendarZe.client.name}"></td>
+<td class="table-border-custom" th:text="${calendarZe.dokument}"></td>
+<td class="table-border-custom" th:text="${calendarZe.vazido}"></td>
+</tr>
+</tbody>
+</table>
+<br><br/>
+</th:block>
+
+
+</div>
+
+
+
+                                    <div class="panel-heading">
+                                        <span class="panel-title">Процене ризика</span>
+                                    </div> <br><br/>
+                                        Број ЈЛС са унетом Проценом ризика је: <span th:text="${brojProcena}"></span>
                                         <br><br/>
-                                            <div class="form-group" id="listaOpstina" style="display:none">
-                                                 <br><br/>     <button class="button-custom-second" onclick="resetElementLОHide()" ><b> Уклони листу</b></button> 
-                                                <br><br/>  <th:block th:if="${!clientBezOpstina.empty}"> 
-                                                        <table class="table table-striped table-hover">
-                                                            <thead class="thead-custom">
-                                                                <tr>
-                                                                    <th>#</th>
-                                                                    <th>Назив корисника</th>
 
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                                <tr th:each="clientA: ${clientBezOpstina}" th:attr="data-href=@{/admin/clients/{id}(id=${clientA.id})}">
-                                                                    <th  scope="row" th:text="${clientA.id}"></th>
-                                                                    <td  th:text="${clientA.name}"></td>
+                                            Листа ЈЛС које имају унету Процену ризика за макар једну врсту опасности. <br> <br>    <button class="button-custom-first" onclick="resetElementLAIma()" ><b> Прикажи листу</b></button>   <br><br/>
+                                                        <div class="form-group" id="listaAssesmentIma" style="display:none">
+                                                            <!-- <br><br/>-->     <button class="button-custom-second" onclick="resetElementLAImaHide()" ><b> Уклони листу</b></button> 
+                                                            <br><br/>       <th:block th:if="${!clientSaAssessment.empty}"> 
+                                                                    <table class="table table-striped table-hover">
+                                                                        <thead class="thead-custom">
+                                                                            <tr>
+                                                                                <th>#</th>
+                                                                                <th>Назив корисника</th>
 
-                                                                </tr>
-                                                            </tbody>
-                                                        </table>
-                                                    </th:block>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                            <tr th:each="clientA: ${clientSaAssessment}" th:attr="data-href=@{/admin/clients/{id}(id=${clientA.id})}">
+                                                                                <th class="table-border-custom" scope="row" th:text="${clientA.id}"></th>
+                                                                                <td class="table-border-custom" th:text="${clientA.name}"></td>
 
-
-                                            </div>
-                                            </div>-->
-
-                                            <div class="panel-heading">
-                                                <span class="panel-title">Процене ризика</span>
-                                            </div> <br><br/>
-                                                Број ЈЛС са унетом Проценом ризика је: <span th:text="${brojProcena}"></span>
-                                                <br><br/>
-
-                                                    Листа ЈЛС које имају унету Процену ризика за макар једну врсту опасности. <br> <br>    <button class="button-custom-first" onclick="resetElementLAIma()" ><b> Прикажи листу</b></button>   <br><br/>
-                                                                <div class="form-group" id="listaAssesmentIma" style="display:none">
-                                                                    <!-- <br><br/>-->     <button class="button-custom-second" onclick="resetElementLAImaHide()" ><b> Уклони листу</b></button> 
-                                                                    <br><br/>       <th:block th:if="${!clientSaAssessment.empty}"> 
-                                                                            <table class="table table-striped table-hover">
-                                                                                <thead class="thead-custom">
-                                                                                    <tr>
-                                                                                        <th>#</th>
-                                                                                        <th>Назив корисника</th>
-
-                                                                                    </tr>
-                                                                                </thead>
-                                                                                <tbody>
-                                                                                    <tr th:each="clientA: ${clientSaAssessment}" th:attr="data-href=@{/admin/clients/{id}(id=${clientA.id})}">
-                                                                                        <th class="table-border-custom" scope="row" th:text="${clientA.id}"></th>
-                                                                                        <td class="table-border-custom" th:text="${clientA.name}"></td>
-
-                                                                                    </tr>
-                                                                                </tbody>
-                                                                            </table>
-                                                                            <br><br/>
-                                                                        </th:block>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                    <br><br/>
+                                                                </th:block>
 
 
-                                                                </div>
+                                                        </div>
                                                                 <br><br/>       Листа ЈЛС које нeмају унету Процену ризика за ниједну врсту опасности.  <br> <br>   <button class="button-custom-first" onclick="resetElementLA()" ><b> Прикажи листу</b></button>  <br><br/> 
                                                                                 <div class="form-group" id="listaAssesment" style="display:none">
                                                                                     <!-- <br><br/>  -->   <button class="button-custom-second" onclick="resetElementLAHide()" ><b> Уклони листу</b></button>  <br><br/> 

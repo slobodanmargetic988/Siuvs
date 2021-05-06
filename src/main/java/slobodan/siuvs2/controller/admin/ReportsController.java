@@ -5,6 +5,8 @@ package slobodan.siuvs2.controller.admin;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -178,7 +180,7 @@ public class ReportsController {
         model.addAttribute("brojAktivnostiUToku", brojAktivnostiUToku);
 //number of clients who uploaded a public document.
 //calendar
-List<Calendar> calendarList = calendarService.findAllBy();
+List<Calendar> calendarList = calendarService.findAllBySorted();
 
 List<Calendar> calendarListCrvena = new ArrayList();
 List<Calendar> calendarListZuta = new ArrayList();
@@ -315,8 +317,8 @@ calendarList.forEach((calendar) -> {
         model.addAttribute("brojAktivnostiUToku", brojAktivnostiUToku);
 //number of clients who uploaded a public document.
 //calendar
-List<Calendar> calendarList = calendarService.findAllBy();
-
+List<Calendar> calendarList = calendarService.findAllBySorted();
+       
 List<Calendar> calendarListCrvena = new ArrayList();
 List<Calendar> calendarListZuta = new ArrayList();
 List<Calendar> calendarListZelena = new ArrayList();
@@ -324,6 +326,7 @@ List<Calendar> calendarListZelena = new ArrayList();
 LocalDate zelenidatum = LocalDate.now().plusMonths(6);
 LocalDate zutidatum= LocalDate.now().plusMonths(3);
 calendarList.forEach((calendar) -> {
+    // System.out.println(calendar.getVazido().toString());
     if (calendar.getVazido().isAfter(zelenidatum)){
         calendarListZelena.add(calendar);
     }else{
@@ -331,11 +334,10 @@ calendarList.forEach((calendar) -> {
             calendarListZuta.add(calendar);
         }else{
             calendarListCrvena.add(calendar);
-            
         }
         
     }     });
-  
+ 
    model.addAttribute("calendarListZelena", calendarListZelena);
         model.addAttribute("calendarListZuta", calendarListZuta);
         model.addAttribute("calendarListCrvena", calendarListCrvena);

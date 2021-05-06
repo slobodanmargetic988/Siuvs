@@ -29,6 +29,10 @@ public class CalendarServiceImpl implements CalendarService {
     return calendarRepository.findAll();
     }
 
+ @Override
+    public List<Calendar> findAllBySorted(){
+    return calendarRepository.findAllByOrderByVazidoAsc();
+    }
     @Override
     public  List<Calendar> findAllByClient(Client client){
     return calendarRepository.findAllByClient(client);

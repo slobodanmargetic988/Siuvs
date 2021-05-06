@@ -10,6 +10,8 @@ import slobodan.siuvs2.model.Calendar;
 public interface CalendarRepository extends JpaRepository<Calendar, Integer> {
 
     List<Calendar> findAllBy();
+    
+List<Calendar> findAllByOrderByVazidoAsc();
 
     List<Calendar> findAllByClient(Client client);
 

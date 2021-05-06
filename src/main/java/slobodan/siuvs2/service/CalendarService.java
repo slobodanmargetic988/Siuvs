@@ -12,7 +12,7 @@ public interface CalendarService {
     void save(Calendar calendar);
 
 List<Calendar> findAllBy();
-
+List<Calendar> findAllBySorted();
     List<Calendar> findAllByClient(Client client);
 
     Calendar findById(CalendarId calendarId);

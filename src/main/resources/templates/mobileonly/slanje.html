@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+    <head>
+        <th:block th:include="fragments/head :: head" />
+    </head>
+    <body class="dashboard">
+        <!-- Content -->
+        <th:block th:insert="fragments/navigation :: navigation-mobileOnly" />
+        <!-- Content -->
+        <!-- Content -->
+        <div class="px-content contentmali">
+            <!-- Content -->
+            <div th:replace="fragments/page :: title (icon='fa fa-area-chart', title='Слање нотификације')"></div>
+            <!-- Content -->
+
+            <div class="panel" >
+               
+
+                <div class="panel-body data-panel-body">
+                    <div th:replace="fragments/alert :: success (${successMessage})"></div>
+
+                    <div th:replace="fragments/alert :: error (${errorMessage})"></div>
+
+
+                    <div class="panel-body">
+
+                        <form th:action="@{/mobileonly/slanje/posalji}" enctype="multipart/form-data"  method="post" class="form-horizontal" autocomplete="off">
+                            <div class="form-group col-md-12">
+ <div class="col-md-12" >
+                                <label  class="col-md-3 " >Сервис : </label>
+
+                                   
+                                        <select class="col-md-9 "  name="opstinanamelatinica"  >
+                                             <option th:value="${servis}" th:text="${servis}">gss</option>
+                                          
+                                        </select> 
+                                    </div>
+                                    <br> </br>
+                                
+                                <div class="col-md-12" >
+                                    <label  class="col-md-3 " >Наслов нотификације: </label>
+                                    <input type="text"   class="col-md-9"  name="titleText" > 
+                                </div>
+                                <br> </br>
+
+                                <div class="col-md-12" >
+                                    <label  class="col-md-3 " >Кратак описни текст: </label>                              
+                                    <input type="text"   class="col-md-9"  name="bodyText" > 
+                                </div>
+                                <br> </br>
+
+                                <div class="col-md-12" >
+                                    <label  class="col-md-3 " >Дужи текст: </label>
+
+                                    <textarea rows="5" class="col-md-9" name="messageText"></textarea>
+                                    <!--  <input type="text"   class="col-md-9"  name="messageText" > -->
+                                </div>
+                                <br> </br>
+ <br> </br> <br> </br> <br> 
+                                
+                        <div class="col-md-12">
+                            <label class="col-md-3 ">Слика уз нотификацију (*.jpg, макс. 20 MB)</label>
+                            <div class="col-md-9">
+                                <input type="file" name="file">
+                            </div>
+                        </div>
+
+                                <br> </br>
+
+                                <div class="col-md-12" >
+                                    <label  class="col-md-3 " >Веб линк уз нотификацију (адреса на коју линк шаље када се кликне)*: </label>
+                                    <input type="text"   class="col-md-9"  name="linkText" > 
+                                </div>
+                                <br> </br>
+                                <div class="col-md-12" >
+                                    <label class="col-md-3"  >Текст веб линка (описни текст који ће корисник видети уместо адресе)**: </label>                         
+                                    <input type="text"  class="col-md-9"  name="linkTextText" > 
+                                </div>
+                                <br> </br>
+
+                                <div class="col-md-offset-3 col-md-9">
+                                    <button type="submit" class="btn btn-primary">Пошаљи</button>
+                                    <a th:href="@{/mobileonly}" class="btn">Одустани</a>
+                                </div> 
+                            </div> 
+                        </form>
+ <div class="col-md-12" >
+                                 <br> </br>
+                             <label   >* http://www.link.com/primer/ </label>    <br> </br>
+                                    <label   >** Више информација можете видети на "овом линку" </label>
+                              
+                                </div>
+                         <br> </br>
+                       
+
+                    </div>
+
+
+                </div> 
+
+            </div>
+
+        </div>
+
+        <th:block th:insert="fragments/footer :: footer-standard" />
+
+        <th:block th:insert="fragments/scripts :: standard" />
+    </body>
+</html>

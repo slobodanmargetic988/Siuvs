@@ -49,11 +49,25 @@ public class HomeController {
                     || userService.hasRole(user, Roles.PROVINCE)) {
                 return "redirect:/supervisor";
             } else {
-                return "redirect:/client";
+
+                if (userService.hasRole(user, Roles.MOBILE_ONLY) ) {
+                    return "redirect:/mobileonly";
+                } else {
+
+                    return "redirect:/client";
+                }
             }
         }
     }
-
+    
+   @GetMapping(value = "/mobileonly")
+    public String mobileonly(final Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = ((SiuvsUserPrincipal) authentication.getPrincipal()).getUser();
+       
+        return "mobileonly/home";
+    }
+    
     @GetMapping(value = "/supervisor")
     public String supervisor(final Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

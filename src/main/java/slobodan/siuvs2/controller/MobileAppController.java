@@ -88,6 +88,17 @@ public class MobileAppController {
         return "admin/mobileapp/slanje";
     }
 
+ 
+        @GetMapping("/mobileonly/slanje")
+    public String mobileappOnlySlanje(final Model model) {
+         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = ((SiuvsUserPrincipal) authentication.getPrincipal()).getUser();
+        model.addAttribute("servis", user.getMobileonlyservis());
+        return "mobileonly/slanje";
+    }
+    
+    
+    
     @GetMapping("/client/mobileapp/slanje")
     public String mobileappSlanjeClient(final Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -425,6 +436,19 @@ public class MobileAppController {
         model.addAttribute("BrojPrijavljenihZaServis", notifikacijeService.countByOpstina(client.getOpstina().getNamelatinica()));
         model.addAttribute("BrojPrijavljenihZaSveServise", notifikacijeService.countByOpstina(sviServisi));
         return "client/mobileapp/prijavljeniZaNotifikacije";
+    }
+    
+      @GetMapping("/mobileonly/prijavljeniZaNotifikacije")
+    public String mobileOnlyPrijavljeniZaNotifikacije(final Model model) {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = ((SiuvsUserPrincipal) authentication.getPrincipal()).getUser();
+
+
+        model.addAttribute("BrojPrijavljenihZaServis", notifikacijeService.countByOpstina(user.getMobileonlyservis()));
+        model.addAttribute("BrojPrijavljenihZaSveServise", notifikacijeService.countByOpstina(sviServisi));
+        
+        return "mobileonly/prijavljeniZaNotifikacije";
     }
 
     @PostMapping("/admin/mobileapp/slanje/posalji")
@@ -880,6 +904,24 @@ public class MobileAppController {
         model.addAttribute("poslatoUprethodnomMesecu", istorijaNotifikacijaService.countLastMonthPoslateForClientID(client.getId()));
         return "client/mobileapp/istorijaNotifikacija";
     }
+        @GetMapping("/mobileonly/istorijaNotifikacija")
+    public String mobileonlyIstorijaNotifikacija(final Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = ((SiuvsUserPrincipal) authentication.getPrincipal()).getUser();
+     
+   
+         List<User> useriistogservisa=userService.findAllByMobileonlyservis(user.getMobileonlyservis());
+    
+        
+        
+        List<IstorijaNotifikacija> istorijaNotifikacija = istorijaNotifikacijaService.findAllByCreatedByIn(useriistogservisa);
+
+        model.addAttribute("notifikacije", istorijaNotifikacija);
+         model.addAttribute("user", user);
+       // model.addAttribute("poslatoUprethodnomMesecu", istorijaNotifikacijaService.countLastMonthPoslateForClientID(client.getId()));
+       
+        return "mobileonly/istorijaNotifikacija";
+    }
 
     @GetMapping("/admin/mobileapp/pregledNotifikacije/{id}")
     public String mobileappPregledNotifikacije(
@@ -902,6 +944,22 @@ public class MobileAppController {
         model.addAttribute("client", client);
         model.addAttribute("notifikacija", notifikacija);
         return "client/mobileapp/pregledNotifikacije";
+    }
+    
+        @GetMapping("/mobileonly/pregledNotifikacije/{id}")
+    public String mobileonlyPregledNotifikacije(
+            @PathVariable final Integer id,
+            final Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = ((SiuvsUserPrincipal) authentication.getPrincipal()).getUser();
+   try{
+        IstorijaNotifikacija notifikacija = istorijaNotifikacijaService.findById(id);
+        model.addAttribute("user", user);
+        model.addAttribute("notifikacija", notifikacija);
+   }catch (Exception e){
+       System.out.println(e);
+   }
+        return "mobileonly/pregledNotifikacije";
     }
 
     /*
@@ -1042,4 +1100,180 @@ public class MobileAppController {
         return "redirect:/admin/mobileapp/slanje";
 
     }
+    
+    
+     @PostMapping("/mobileonly/slanje/posalji")
+    public String mobilonlySlanjeNotifikacije(
+            @RequestParam(name = "titleText", defaultValue = " ") String titleText,
+            @RequestParam(name = "bodyText", defaultValue = " ") String bodyText,
+            @RequestParam(name = "messageText", defaultValue = " ") String messageText,
+            @RequestParam(name = "linkText", defaultValue = " ") String linkText,
+            @RequestParam(name = "linkTextText", defaultValue = " ") String linkTextText,
+            @RequestParam(name = "opstinanamelatinica", defaultValue = " ") String opstinanamelatinica,
+            @RequestParam(name = "file", required = false) MultipartFile file,
+            final Model model,
+            final RedirectAttributes redirectAttributes) {
+
+        List<String> primaoci;
+        List<String> primaociIos;
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = ((SiuvsUserPrincipal) authentication.getPrincipal()).getUser();
+        Client client = user.getClient();
+
+    
+            primaoci = notifikacijeService.findAllByOpstina(opstinanamelatinica);
+            primaociIos = notifikacijeIosService.findAllByOpstina(opstinanamelatinica);
+        
+        // String registration_ids = buildRegistrationIds(primaoci);
+
+        String titleTextV = " ";
+        String bodyTextV = " ";
+        String imageTextV = " ";
+        String messageTextV = " ";
+        String linkTextV = " ";
+        String linkTextTextV = " ";
+
+        if (!titleText.equals("") && !titleText.equals(" ")) {
+            titleTextV = titleText;
+        }
+
+        if (!bodyText.equals("") && !bodyText.equals(" ")) {
+            bodyTextV = bodyText;
+        }
+
+        if (!messageText.equals("") && !messageText.equals(" ")) {
+            messageTextV = messageText;
+        }
+        if (!linkText.equals("") && !linkText.equals(" ") && linkText.startsWith("http")) {
+            linkTextV = linkText;
+            if (!linkTextText.equals("") && !linkTextText.equals(" ")) {
+                linkTextTextV = linkTextText;
+            }
+        }
+
+        ClientId id;
+        if (client == null) {
+            id = new ClientId(0);
+        } else {
+            id = client.getClientId();
+        }
+        String filename = "";
+        if (file.isEmpty()) {
+            imageTextV = " ";
+
+        } else {
+
+            try {
+
+                filename = storageService.store(file, id);
+                imageTextV = "https://www.siuvs.rs/php/getimg/" + id + "/" + filename + ".";
+            } catch (Exception e) {
+                redirectAttributes.addFlashAttribute("errorMessage", "Грешка приликом чувања слике!");
+            }
+        }
+        IstorijaNotifikacija istorijaNotifikacija = new IstorijaNotifikacija();
+        istorijaNotifikacija.setTitle(titleTextV);
+        istorijaNotifikacija.setBody(bodyTextV);
+
+        istorijaNotifikacija.setMessage(messageTextV);
+        istorijaNotifikacija.setLink(linkTextV);
+        istorijaNotifikacija.setLink_text(linkTextV);
+        istorijaNotifikacija.setImg_file_name(filename);
+        istorijaNotifikacija.setClient(client);
+        istorijaNotifikacija.setCreatedBy(user);
+        istorijaNotifikacija.setImg_link(imageTextV);
+        istorijaNotifikacijaService.save(istorijaNotifikacija);
+
+        List<String> primaociPravi = new ArrayList();
+        primaociPravi.addAll(primaoci);
+
+        //  System.out.println("broj primaoca je :" + primaociPravi.size());
+        //System.out.println("send android notifications in batches");
+        //send android notifications in batches
+        while (!primaociPravi.isEmpty()) {
+            Integer chunksize = 800;
+            if (chunksize > primaociPravi.size()) {
+                chunksize = primaociPravi.size();
+                //   System.out.println("chunksize je :" + chunksize);
+            }
+            List<String> primaociDeo = primaociPravi.subList(0, chunksize);
+            // primaociPravi.removeAll(primaociDeo);
+
+            String JSON_Body = buildJSONBody(istorijaNotifikacija, titleTextV, bodyTextV, imageTextV, messageTextV, linkTextV, linkTextTextV, primaociDeo, opstinanamelatinica);
+            primaociPravi.removeAll(primaociDeo);
+
+            System.out.println("body :" + JSON_Body);
+
+            HttpClient httpclient = HttpClients.createDefault();
+            StringEntity requestEntity = new StringEntity(JSON_Body, ContentType.APPLICATION_JSON);
+            String HOST = "https://fcm.googleapis.com/fcm/send";
+            HttpPost post = new HttpPost(HOST);
+            post.setHeader("Authorization", "key=AAAAxbbCok8:APA91bGMZcat_HhLBi5lcx_k0NBLfNcEGDBj8HAyY6GNRaCIggaDqw-tqpn4yGeagxUojem408qkbkUbTZK6mt0TpFsGp56gGj-pvFGbpxtwkgjCuh8o2Y-2LFMjOFm203DDieSA1CI8");
+            //  post.setHeader("Content-Length","0");
+            post.setEntity(requestEntity);
+            try {
+
+                HttpResponse rawResponse = httpclient.execute(post);
+                // System.out.println("odgovor od googla je      "+rawResponse);
+//String odgovorContent=rawResponse.getEntity().getContent().toString();
+                //  System.out.println("odgovor od googla je      "+odgovorContent);
+                //  System.out.println("sta on ovde u odgovoru cita");
+
+                redirectAttributes.addFlashAttribute("successMessage", "Нотификација успешно послата! \n " /*+ rawResponse*/);
+
+            } catch (Exception e) {
+                redirectAttributes.addFlashAttribute("errorMessage", "Грешка приликом слања нотификације!" + e);
+            }
+            //repeat notification 5 times every 20 minutes
+
+            repeatNotification(howManyTimes, post);
+
+        }
+        //System.out.println("send ios notifications in batches");
+
+        //send ios notifications in batches
+        List<String> primaociPraviIOS = new ArrayList();
+        primaociPraviIOS.addAll(primaociIos);
+        //  System.out.println("broj primaoca je :" + primaociPraviIOS.size());
+        while (!primaociPraviIOS.isEmpty()) {
+            Integer chunksize = 800;
+            if (chunksize > primaociPraviIOS.size()) {
+                chunksize = primaociPraviIOS.size();
+                //  System.out.println("chunksize je :" + chunksize);
+            }
+            List<String> primaociDeoIOS = primaociPraviIOS.subList(0, chunksize);
+
+            //  primaociPraviIOS.removeAll(primaociDeoIOS);
+            String JSON_Body1 = buildJSONBodyIOS(istorijaNotifikacija, titleTextV, bodyTextV, imageTextV, messageTextV, linkTextV, linkTextTextV, primaociDeoIOS, opstinanamelatinica);
+
+            primaociPraviIOS.removeAll(primaociDeoIOS);
+
+            HttpClient httpclient1 = HttpClients.createDefault();
+            StringEntity requestEntity1 = new StringEntity(JSON_Body1, ContentType.APPLICATION_JSON);
+            String HOST1 = "https://fcm.googleapis.com/fcm/send";
+            HttpPost post1 = new HttpPost(HOST1);
+            post1.setHeader("Authorization", "key=AAAAxbbCok8:APA91bGMZcat_HhLBi5lcx_k0NBLfNcEGDBj8HAyY6GNRaCIggaDqw-tqpn4yGeagxUojem408qkbkUbTZK6mt0TpFsGp56gGj-pvFGbpxtwkgjCuh8o2Y-2LFMjOFm203DDieSA1CI8");
+            //      post1.setHeader("Content-Length","0");
+            post1.setEntity(requestEntity1);
+            try {
+                HttpResponse rawResponse = httpclient1.execute(post1);
+
+                //System.out.println("odgovor od googla je      "+rawResponse);
+//String odgovorContent=rawResponse.getEntity().getContent().toString();
+                //   System.out.println("odgovor od googla je      "+odgovorContent);
+                //    System.out.println("sta on ovde u odgovoru cita");
+                redirectAttributes.addFlashAttribute("successMessage", "Нотификација успешно послата! \n " /*+ rawResponse*/);
+
+            } catch (Exception e) {
+                redirectAttributes.addFlashAttribute("errorMessage", "Грешка приликом слања нотификације!" + e.getMessage());
+            }
+            //repeat notification 5 times every 20 minutes
+
+            repeatNotification(howManyTimes, post1);
+
+        }
+        return "redirect:/mobileonly/slanje";
+
+    }
+    
 }

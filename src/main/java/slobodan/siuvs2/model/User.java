@@ -72,7 +72,20 @@ public class User {
     @LastModifiedDate
     @Column(name = "modified_on")
     private LocalDateTime modifiedOn;
+    
+    @Column(name = "mobileonlyservis")
+    private String mobileonlyservis ;
 
+    public String getMobileonlyservis() {
+        return mobileonlyservis;
+    }
+
+    public void setMobileonlyservis(String mobileonlyservis) {
+        this.mobileonlyservis = mobileonlyservis;
+    }
+
+    
+    
     public Supervising getSupervising() {
         return supervising;
     }

@@ -19,6 +19,10 @@ public interface UserRepository extends JpaRepository<User, Long> {
     User findByEmail(String email);
 
     User findById(Integer userId);
+    
+   List<User> findAllByMobileonlyservis( String servis);
+
+
 
     Page<User> findAllByClientIsNullOrderByIdAsc(Pageable pageable);
 

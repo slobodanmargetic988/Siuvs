@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import slobodan.siuvs2.model.Client;
 import slobodan.siuvs2.model.IstorijaNotifikacija;
+import slobodan.siuvs2.model.User;
 
 import slobodan.siuvs2.repository.IstorijaNotifikacijaRepository;
 
@@ -20,7 +21,18 @@ public class IstorijaNotifikacijaServiceImpl implements IstorijaNotifikacijaServ
     public IstorijaNotifikacija findById(Integer istorijaNotifikacijaId) {
         return istorijaNotifikacijaRepository.findById(istorijaNotifikacijaId);
     }
-
+    
+   @Override
+    public List<IstorijaNotifikacija> findAllByCreatedBy(Integer id){
+     return  istorijaNotifikacijaRepository.findAllByCreatedBy( id);
+    };
+    
+       @Override
+    public List<IstorijaNotifikacija> findAllByCreatedByIn( List<User> useriistogservisa){
+     return istorijaNotifikacijaRepository.findAllByCreatedByIn(useriistogservisa);
+    };
+    
+    
     @Override
     public void save(IstorijaNotifikacija istorijaNotifikacija) {
        istorijaNotifikacijaRepository.save(istorijaNotifikacija);

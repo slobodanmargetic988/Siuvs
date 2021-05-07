@@ -1,0 +1,2 @@
+kad se dodaje mobile only korisnik. doda se kao ris korisnik
+pa mu se promeni rola u 8 u bazi. pa mu se rucno popuni polje mobileonlyservis. i onda radi sve

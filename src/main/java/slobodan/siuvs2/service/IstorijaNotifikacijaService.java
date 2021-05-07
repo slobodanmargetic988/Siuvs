@@ -4,6 +4,7 @@ package slobodan.siuvs2.service;
 import java.util.List;
 import slobodan.siuvs2.model.Client;
 import slobodan.siuvs2.model.IstorijaNotifikacija;
+import slobodan.siuvs2.model.User;
 
 public interface IstorijaNotifikacijaService {
 
@@ -14,5 +15,6 @@ public interface IstorijaNotifikacijaService {
      Integer countLastMonthPoslateForClientID(Integer client_id); 
      List<IstorijaNotifikacija> selectLastMonthPoslateForClientID(Integer client_id); 
     
-    
+       List<IstorijaNotifikacija> findAllByCreatedBy(Integer id);
+          List<IstorijaNotifikacija> findAllByCreatedByIn( List<User> useriistogservisa);
 }

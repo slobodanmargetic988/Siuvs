@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+    <head>
+        <th:block th:include="fragments/head :: head" />
+    </head>
+    <body class="dashboard">
+                <!-- Content -->
+        <th:block th:insert="fragments/navigation :: navigation-mobileOnly" />
+        <!-- Content -->
+        <!-- Content -->
+        <div class="px-content contentmali">
+  <!-- Content -->
+  <div th:replace="fragments/page :: title (icon='fa fa-area-chart', title='Историја послатих обавештења')"></div>
+             <!-- Content -->
+             
+        <div class="panel" >
+                <div class="panel-body data-panel-body">
+<!--                    <p>У претходном месецу послато је <b><span th:text="${poslatoUprethodnomMesecu}"></span></b> обавештења. </p>-->
+                    <p>Преглед обавештења: </p>
+                    <table class="table table-striped" style="background-color: white">
+                      
+                        <th:block th:if="${notifikacije != null}">
+                            <thead>
+                                <tr>
+                                    <td >Редни број</td>
+                                    <td colspan="1">Примаоци</td>
+                                    <td colspan="1">Наслов</td>
+                                    <td colspan="1">Датум</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            <th:block th:each="notifikacija, iterator: ${notifikacije}">
+                                <tr th:attr="data-href=@{/mobileonly/pregledNotifikacije/{id}(id=${notifikacija.id})}">
+                                     <td > <span th:text="${iterator.index} "></span>  </td > 
+                                  
+                                     
+                                    <td >    <span th:text="${user.mobileonlyservis} "></span></td>
+                                    
+                                    <td >    <span th:text="${notifikacija.title}"></span> </td>
+                                    <td >    <span th:text="${notifikacija.createdOn}"></span> </td>
+             
+                                </tr>
+                            </th:block>
+</tbody>
+                        </th:block>
+
+
+                    </table>
+
+
+                </div>
+</div>
+            
+ </div>
+
+        <th:block th:insert="fragments/footer :: footer-standard" />
+
+        <th:block th:insert="fragments/scripts :: standard" />
+    </body>
+</html>

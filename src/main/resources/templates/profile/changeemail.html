@@ -9,6 +9,7 @@
         <th:block sec:authorize="hasAnyAuthority('ADMIN','RIS', 'MUP')" th:insert="fragments/navigation :: navigation" />
         <th:block sec:authorize="hasAnyAuthority('CLIENT','CLIENT_READ_ONLY')" th:insert="fragments/navigation :: navigation-end-user" />
         <th:block sec:authorize="hasAnyAuthority('DISTRIKT','PROVINCE')" th:insert="fragments/navigation :: navigation-supervisor" />
+          <th:block sec:authorize="hasAnyAuthority('MOBILE_ONLY')" th:insert="fragments/navigation :: navigation-mobileOnly" />
         <!-- Content -->
         <div class="px-content">
 

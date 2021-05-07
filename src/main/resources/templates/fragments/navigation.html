@@ -9,7 +9,12 @@
 
             <th:block th:insert="fragments/navigation :: top" />
         </th:block>
+ <th:block th:fragment="navigation-mobileOnly">
+            <th:block th:insert="fragments/navigation :: left-mobileOnly" />
 
+            <th:block th:insert="fragments/navigation :: top-mobileOnly" />
+        </th:block>
+            
         <th:block th:fragment="navigation-supervisor">
             <th:block th:insert="fragments/navigation :: left-supervisor" />
 
@@ -80,9 +85,35 @@
                    <li class="px-nav-item" sec:authorize="hasAnyAuthority('ADMIN','RIS')">
                         <a th:href="@{/admin/mobileapp}"><i class="fa fa-users m-r-1"></i>Мобилна апликација</a>
                     </li>
+                   <li class="px-nav-item" sec:authorize="hasAnyAuthority('ADMIN','RIS')">
+                        <a th:href="@{/admin/mobileonly}"><i class="fa fa-users m-r-1"></i>Корисници само мобилне апликација</a>
+                    </li>
                 </ul>
             </nav>
         </th:block>
+                
+                   <th:block th:fragment="left-mobileOnly">
+            <!-- Nav -->
+            <nav class="px-nav px-nav-left " id="px-nav-dropdowns-left" >
+                <th:block th:insert="fragments/navigation :: toggle-menu-button" />
+
+                <ul class="px-nav-content ">
+                   
+                 
+                   <li class="px-nav-item" sec:authorize="hasAnyAuthority('MOBILE_ONLY')">
+                        <a th:href="@{/mobileonly/slanje}"><i class="fa fa-users m-r-1"></i>Слање обавештења</a>
+                    </li>
+                     <li class="px-nav-item" sec:authorize="hasAnyAuthority('MOBILE_ONLY')">
+                        <a th:href="@{/mobileonly/prijavljeniZaNotifikacije}"><i class="fa fa-users m-r-1"></i>Преглед корисника пријављених за обавештења</a>
+                    </li>
+                     <li class="px-nav-item" sec:authorize="hasAnyAuthority('MOBILE_ONLY')">
+                        <a th:href="@{/mobileonly/istorijaNotifikacija}"><i class="fa fa-users m-r-1"></i>Историја послатих обавештења</a>
+                    </li>
+                </ul>
+            </nav>
+        </th:block>
+                
+                
         <th:block th:fragment="left-supervisor">
             <!-- Nav -->
             <nav class="px-nav px-nav-left" id="px-nav-dropdowns-left">
@@ -166,7 +197,30 @@
                 </div>
             </nav>
         </th:block>
-
+ <th:block th:fragment="top-mobileOnly">
+            <!-- Navbar -->
+            <nav class="navbar px-navbar">
+                <!-- Header -->
+                <div class="navbar-header">
+                    <a class="navbar-brand" th:href="@{/mobileonly}"> <img th:src="@{/img/logo_white.png}" alt="СИУВС 2.0" /></a>
+                          </div>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true">
+                                <span sec:authentication="principal.user.name"></span>
+                                <span sec:authentication="principal.user.lastName"></span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a th:href="@{/profile}">Профил</a></li>
+                                <li role="separator" class="divider"></li>
+                                <li><a th:href="@{/logout}"><i class="dropdown-icon fa fa-power-off"></i>&nbsp;&nbsp;Одјава</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </th:block>
+            
         <th:block th:fragment="nav-item(menuItem,baseMenuUrl)">
 
             <th:block th:switch="${menuItem.type.toString()}">

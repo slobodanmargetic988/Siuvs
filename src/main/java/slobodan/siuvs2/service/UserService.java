@@ -24,6 +24,9 @@ public interface UserService {
     void addRole(User user, Roles newRole);
 
     void setSupervising(User user, Supervising supervising);
+    
+List<User> findAllByMobileonlyservis(String servis);
+
 
     void clearRoles(User user);
 

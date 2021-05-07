@@ -150,5 +150,11 @@ public class UserServiceImpl implements UserService {
             throw new SiuvsException("Невалидан захтев за промену имејл адресе");
         }
     }
+    
+@Override
+    public List<User> findAllByMobileonlyservis(String servis){
+     return userRepository.findAllByMobileonlyservis( servis);
+    };
+    
 
 }

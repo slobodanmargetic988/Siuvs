@@ -56,7 +56,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/admin/**").hasAnyAuthority(Roles.ADMIN.toString(), Roles.RIS.toString(), Roles.MUP.toString())
                 .antMatchers("/supervisor/**").hasAnyAuthority(Roles.DISTRIKT.toString(), Roles.PROVINCE.toString())
                 .antMatchers("/client/**").hasAnyAuthority(Roles.CLIENT.toString(), Roles.CLIENT_READ_ONLY.toString())
-                .antMatchers("/profile/**").hasAnyAuthority(Roles.ADMIN.toString(), Roles.RIS.toString(), Roles.MUP.toString(), Roles.CLIENT.toString(), Roles.CLIENT_READ_ONLY.toString(), Roles.DISTRIKT.toString(), Roles.PROVINCE.toString())
+                .antMatchers("/profile/**").hasAnyAuthority(Roles.ADMIN.toString(), Roles.RIS.toString(), Roles.MUP.toString(), Roles.CLIENT.toString(), Roles.CLIENT_READ_ONLY.toString(), Roles.DISTRIKT.toString(), Roles.PROVINCE.toString(),Roles.MOBILE_ONLY.toString())
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()

@@ -31,9 +31,14 @@
                                 <label  class="col-md-3 " >Изабери сервис : </label>
 
                                    
-                                        <select class="col-md-9 "  name="opstinanamelatinica"  >
+                                        <select class="col-md-9 "  name="opstinanamelatinica" sec:authorize="hasAnyAuthority('ADMIN','RIS')"  >
                                              <option value="Svi servisi" >Сви сервиси</option>
                                             <option  th:each="opstina : ${opstine}" th:value="${opstina.namelatinica}" th:text="${opstina.namelatinica}">Текст</option>
+
+                                        </select> 
+                                     <select class="col-md-9 "  name="opstinanamelatinica" sec:authorize="hasAnyAuthority('MUP')"  >
+                                             <option value="MUP - sektor za vanredne situacije" >MUP - sektor za vanredne situacije</option>
+                                           
 
                                         </select> 
                                     </div>

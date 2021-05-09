@@ -621,7 +621,7 @@ public class MobileAppController {
             }
             //repeat notification 5 times every 20 minutes
 
-            repeatNotification(howManyTimes, post1);
+          //  repeatNotification(howManyTimes, post1);
 
         }
         return "redirect:/admin/mobileapp/slanje";
@@ -753,11 +753,11 @@ public class MobileAppController {
             HttpClient httpclient = HttpClients.createDefault();
             StringEntity requestEntity = new StringEntity(JSON_Body, ContentType.APPLICATION_JSON);
             String HOST = "https://fcm.googleapis.com/fcm/send";
-            HttpPost post = new HttpPost(HOST);
-            post.setHeader("Authorization", "key=AAAAxbbCok8:APA91bGMZcat_HhLBi5lcx_k0NBLfNcEGDBj8HAyY6GNRaCIggaDqw-tqpn4yGeagxUojem408qkbkUbTZK6mt0TpFsGp56gGj-pvFGbpxtwkgjCuh8o2Y-2LFMjOFm203DDieSA1CI8");
-            post.setEntity(requestEntity);
+            HttpPost post1 = new HttpPost(HOST);
+            post1.setHeader("Authorization", "key=AAAAxbbCok8:APA91bGMZcat_HhLBi5lcx_k0NBLfNcEGDBj8HAyY6GNRaCIggaDqw-tqpn4yGeagxUojem408qkbkUbTZK6mt0TpFsGp56gGj-pvFGbpxtwkgjCuh8o2Y-2LFMjOFm203DDieSA1CI8");
+            post1.setEntity(requestEntity);
             try {
-                HttpResponse rawResponse = httpclient.execute(post);
+                HttpResponse rawResponse = httpclient.execute(post1);
 
                 redirectAttributes.addFlashAttribute("successMessage", "Нотификација успешно послата! \n " /*+ rawResponse*/);
 
@@ -766,7 +766,7 @@ public class MobileAppController {
             }
             //repeat notification 5 times every 20 minutes
 
-            repeatNotification(howManyTimes, post);
+         //   repeatNotification(howManyTimes, post1);
 
         }
 
@@ -1094,7 +1094,7 @@ public class MobileAppController {
             }
             //repeat notification 5 times every 20 minutes
 
-            repeatNotification(howManyTimes, post1);
+          //  repeatNotification(howManyTimes, post1);
 
         }
         return "redirect:/admin/mobileapp/slanje";
@@ -1269,7 +1269,7 @@ public class MobileAppController {
             }
             //repeat notification 5 times every 20 minutes
 
-            repeatNotification(howManyTimes, post1);
+           // repeatNotification(howManyTimes, post1);
 
         }
         return "redirect:/mobileonly/slanje";

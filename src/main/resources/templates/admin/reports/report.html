@@ -52,7 +52,7 @@
 
 <td class="table-border-custom" th:text="${calendarC.client.name}"></td>
 <td class="table-border-custom" th:text="${calendarC.dokument}"></td>
-<td class="table-border-custom" th:text="${calendarC.vazido}"></td>
+<td class="table-border-custom" th:text="${#temporals.format(calendarC.vazido, 'dd-MM-yyyy')}"></td>
 </tr>
 </tbody>
 </table>
@@ -82,7 +82,7 @@
 
 <td class="table-border-custom" th:text="${calendarZ.client.name}"></td>
 <td class="table-border-custom" th:text="${calendarZ.dokument}"></td>
-<td class="table-border-custom" th:text="${calendarZ.vazido}"></td>
+<td class="table-border-custom" th:text="${#temporals.format(calendarZ.vazido, 'dd-MM-yyyy')}"></td>
 </tr>
 </tbody>
 </table>
@@ -112,7 +112,7 @@
 
 <td class="table-border-custom" th:text="${calendarZe.client.name}"></td>
 <td class="table-border-custom" th:text="${calendarZe.dokument}"></td>
-<td class="table-border-custom" th:text="${calendarZe.vazido}"></td>
+<td class="table-border-custom" th:text="${#temporals.format(calendarZe.vazido, 'dd-MM-yyyy')}"></td>
 </tr>
 </tbody>
 </table>

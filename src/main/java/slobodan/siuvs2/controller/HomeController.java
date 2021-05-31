@@ -1,8 +1,6 @@
 package slobodan.siuvs2.controller;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import javax.servlet.http.HttpServletRequest;
+
 import slobodan.siuvs2.model.Roles;
 import slobodan.siuvs2.model.SiuvsUserPrincipal;
 import slobodan.siuvs2.model.User;
@@ -13,13 +11,13 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
 public class HomeController {
-
+   
+    
     @Autowired
     private UserService userService;
     
@@ -35,6 +33,7 @@ public class HomeController {
 
     @GetMapping(value = "/home")
     public String home() {
+      
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null || !authentication.isAuthenticated()) {
             return "redirect:/logout";

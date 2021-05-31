@@ -57,24 +57,28 @@
                                             <br><br/>
 
                                                 <label  >Листа међународних докумената: </label>
-                                                <th:block th:each="internationalAgreements : ${client.opstina.internationalAgreements}">
+<!--                                                <th:block th:each="internationalAgreements : ${client.opstina.internationalAgreements}">
                                                     <br><br/>
                                                         <span  th:text="${internationalAgreements.name}"></span> 
                                                         <th:block th:if="${docIAlist.contains(internationalAgreements) }">
                                                             <a  th:href="@{/publicaccess/clients/{id}/downloadIA/{IAid} (id=${client.id},IAid=${internationalAgreements.id})}" class=" btn-xs btn-info btn-outline"><i class="fa fa-download"></i></a>
                                                     </th:block>
-                                                </th:block>
-
+                                                </th:block>-->
+<p  >Тренутно није јавно доступно
+            <i class="fa fa-ban" style="color:red" aria-hidden="true"></i>
+            </p>
                                                 <br><br/>
 
                                                     <label   >Листа јавних докумената: </label>
-                                                    <th:block th:each="publicPolicyDocuments : ${client.opstina.publicPolicyDocuments}">
+<!--                                                    <th:block th:each="publicPolicyDocuments : ${client.opstina.publicPolicyDocuments}">
                                                         <br><br/> <span  th:text="${publicPolicyDocuments.name}"></span> 
                                                                <th:block th:if="${docPPDlist.contains(publicPolicyDocuments) }">
                                                                 <a  th:href="@{/publicaccess/clients/{id}/downloadPPD/{PPDid} (id=${client.id},PPDid=${publicPolicyDocuments.id})}" target="_blank" class=" btn-xs btn-info btn-outline"><i class="fa fa-download"></i></a>
                                                                 </th:block>
-                                                    </th:block>
-
+                                                    </th:block>-->
+<p>Тренутно није јавно доступно
+            <i class="fa fa-ban" style="color:red" aria-hidden="true"></i>
+            </p>
                                                     <br><br/>
                                                         </th:block>
                                                         </div>

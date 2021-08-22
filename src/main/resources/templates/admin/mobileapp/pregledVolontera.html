@@ -47,7 +47,15 @@
                                     <td >    <span th:text="${volonter.telefon}"></span> </td>
                                 </tr>
                             </th:block>
-
+     <th:block th:each="volonter2: ${volonteriIOS}">
+                                <tr >
+                                    <td >    <span th:text="${volonter2.ime}"></span> </td>
+                                    <td >    <span th:text="${volonter2.prezime}"></span> </td>
+                                    <td >    <span th:text="${volonter2.email}"></span> </td>
+                           
+                                    <td >    <span th:text="${volonter2.telefon}"></span> </td>
+                                </tr>
+                            </th:block>
                         </th:block>
 
 

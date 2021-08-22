@@ -61,7 +61,7 @@
         </div>
     </div>
 
-    <th:block th:with="photoUrl=@{/publicaccess/home/{clientId}/photo/(clientId=${client.id})}">
+    <th:block th:with="photoUrl=@{/publicaccess/clients/{clientId}/photo/(clientId=${client.id})}">
         <th:block th:insert="fragments/forms/photo :: view_photos(${photoUrl})" />
     </th:block>
         

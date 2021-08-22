@@ -82,7 +82,7 @@ public class MobileAppRestController {
      volonter.setEmail(email);
      volonter.setOpstina(opstina);
      volonter.setTelefon(telefon);
-     
+     volonter.setToken(token);
      volonterService.save(volonter);
     return "Uspešno ste se prijavili za volontiranje u slučaju vanredne situacije";
   }
@@ -154,7 +154,7 @@ public class MobileAppRestController {
      volonter.setEmail(email);
      volonter.setOpstina(opstina);
      volonter.setTelefon(telefon);
-     
+     volonter.setToken(token);
      volonterIosService.save(volonter);
     return "Uspešno ste se prijavili za volontiranje u slucaju vanredne situacije";
   }

@@ -39,5 +39,5 @@ public interface NotifikacijeIosRepository extends JpaRepository<NotifikacijeIos
     @Query(value = "UPDATE notifikacije_ios set token=:token WHERE token=:staritoken", nativeQuery = true)
     void updateToken(@Param("staritoken") String token,@Param("token") String staritoken);
 
-     
+     long countByOpstina(String opstinaName);
 }

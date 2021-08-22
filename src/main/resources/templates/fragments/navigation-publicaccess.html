@@ -77,7 +77,9 @@
             <li class="px-nav-item">
                 <a th:href="@{/publicaccess/clients}"><i class="fa fa-institution m-r-1"></i>Избор јединице локалне самоуправе</a>
             </li>
-
+<!-- <li class="px-nav-item" >
+                        <a th:href="@{/publicaccess/reports}"><i class="fa fa-users m-r-1"></i>Статистика унетих докумената</a>
+                    </li>-->
         </ul>
     </nav>
 
@@ -117,7 +119,7 @@
 
         <ul class="px-nav-content">
             <li th:each="topMenuItem: ${globalMenuItems}" class="px-nav-item" th:classappend="${topMenuItem.hasChildren()} ? 'px-nav-dropdown' : ''">
-                <th:block th:insert="fragments/navigation-publicaccess :: nav-item(${topMenuItem},${'/publicaccess/home/' + client.id})" />
+                <th:block th:insert="fragments/navigation-publicaccess :: nav-item(${topMenuItem},${'/publicaccess/clients/' + client.id})" />
             </li>
         </ul>
 
@@ -144,7 +146,7 @@
         </th:block>
 
         <th:block th:case="ASSESSMENT">
-            <a th:href="@{{baseMenuUrl}/assessment/{pageId}(baseMenuUrl=${baseMenuUrl},pageId=${menuItem.id})}"><span th:text="${menuItem.title}" class="px-nav-label"></span></a>
+            <a th:href="@{ {baseMenuUrl}/assessment/{pageId}(baseMenuUrl=${baseMenuUrl},pageId=${menuItem.id})}"><span th:text="${menuItem.title}" class="px-nav-label"></span></a>
         </th:block>
 
         <th:block th:case="TABLE">
@@ -163,8 +165,12 @@
             </a>
                 </th:block>
                 <th:block th:case="CEOPLAN">
-                 <a th:href="@{{baseMenuUrl}/plan/ceo/{pageId}(baseMenuUrl=${baseMenuUrl},pageId=${menuItem.id})}"><span th:text="${menuItem.title}" class="px-nav-label"></span></a> 
+                 <a th:href="@{ {baseMenuUrl}/plan/ceo/{pageId}(baseMenuUrl=${baseMenuUrl},pageId=${menuItem.id})}"><span th:text="${menuItem.title}" class="px-nav-label"></span></a> 
                 </th:block>
+                          <th:block th:case="PERIODVAZENJA">
+            <a th:href="@{ {baseMenuUrl}/calendar (baseMenuUrl=${baseMenuUrl})}"><span th:text="${menuItem.title}" class="px-nav-label"></span></a>
+        </th:block>                 
+                     
     </th:block>
 
 </th:block>

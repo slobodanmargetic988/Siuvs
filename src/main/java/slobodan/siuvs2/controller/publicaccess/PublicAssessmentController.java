@@ -44,7 +44,7 @@ public class PublicAssessmentController {
     @Autowired
     private PhotoService photoService;
 
-    @GetMapping(value = "/publicaccess/home/{clientId}/assessment/{pageId}")
+    @GetMapping(value = "/publicaccess/clients/{clientId}/assessment/{pageId}")
     public String assessment(
             @PathVariable final ClientId clientId,
             @PathVariable final PageId pageId,
@@ -63,20 +63,20 @@ public class PublicAssessmentController {
         model.addAttribute("vrsta_opasnosti", AssesmentHelper1.getOpasnost(pageId.getValue()));
         return "publicaccess/assesmentview";
     }
-    
-    @GetMapping(value = "/publicaccess/home/{clientId}/photo/{photoId}")
-    public ResponseEntity<Resource> servePhoto(
-            @PathVariable final ClientId clientId,
-            @PathVariable final PhotoId photoId
-    ) {
-        String filename = photoService.findFileNameById(photoId);
-        Resource file = storageService.loadAsResource(clientId, filename);
-        return ResponseEntity
-                .ok()
-                .contentType(MediaType.IMAGE_JPEG)
-                .body(file);
-    }
-    
+//    
+//    @GetMapping(value = "/publicaccess/home/{clientId}/photo/{photoId}")
+//    public ResponseEntity<Resource> servePhoto(
+//            @PathVariable final ClientId clientId,
+//            @PathVariable final PhotoId photoId
+//    ) {
+//        String filename = photoService.findFileNameById(photoId);
+//        Resource file = storageService.loadAsResource(clientId, filename);
+//        return ResponseEntity
+//                .ok()
+//                .contentType(MediaType.IMAGE_JPEG)
+//                .body(file);
+//    }
+//    
     
  @GetMapping(value = "/publicaccess/privacypolicy")
     public String privacyPolicy() {

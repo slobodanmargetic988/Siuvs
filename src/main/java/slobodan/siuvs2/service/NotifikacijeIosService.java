@@ -25,4 +25,6 @@ public interface NotifikacijeIosService {
      Long deleteByTokenAndOpstina(String token,String opstina);
      void save(NotifikacijeIos notifikacije);
    void updateToken(String stariToken,String token);
+     long countByOpstina(String opstinaName);
+   
 }

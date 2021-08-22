@@ -17,9 +17,9 @@
                         >
                         <th:block th:insert="fragments/navigation :: nav-item(${topMenuItem},${'/client'})" />
                     </li>
-                    <li class="px-nav-item" sec:authorize="hasAnyAuthority('CLIENT','CLIENT_READ_ONLY')">
+<!--                    <li class="px-nav-item" sec:authorize="hasAnyAuthority('CLIENT','CLIENT_READ_ONLY')">
                         <a th:href="@{/client/calendar }"><i class="fa fa-calendar m-r-1"></i>Период важења докумената</a>
-                    </li>
+                    </li>-->
                 <!--  clients need to see different kind of reporting  
                 <li class="px-nav-item" >
                         <a th:href="@{/client/reports}"><i class="fa fa-users m-r-1"></i>Статистика унетих докумената</a>

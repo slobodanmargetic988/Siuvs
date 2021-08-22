@@ -42,7 +42,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Scope(WebApplicationContext.SCOPE_REQUEST)
 @Controller
-@RequestMapping(value = "/publicaccess/home")
+@RequestMapping(value = "/publicaccess/clients")
 @SessionAttributes("plan")
 public class PublicPlanController {
 
@@ -110,7 +110,7 @@ public class PublicPlanController {
           List<PosebanCilj> PClistK3 = posebanCiljService.findAllByClientAndPageAndKomponenta(client, page,3);
            List<PosebanCilj> PClistK4 = posebanCiljService.findAllByClientAndPageAndKomponenta(client, page,4);
       
-        String viewurl = "/publicaccess/home/" + clientId + "/plan/ceo/" + pageId;
+        String viewurl = "/publicaccess/clients/" + clientId + "/plan/ceo/" + pageId;
         List<Mera> meralist = new ArrayList();
         List<Rezultat> rezultatlist = new ArrayList();
 

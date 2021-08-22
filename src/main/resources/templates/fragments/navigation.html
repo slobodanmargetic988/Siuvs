@@ -240,30 +240,36 @@
                 </th:block>
 
                 <th:block th:case="ASSESSMENT">
-                    <a th:href="@{{baseMenuUrl}/assessment/{pageId}(baseMenuUrl=${baseMenuUrl},pageId=${menuItem.id})}"><span th:text="${menuItem.title}" class="px-nav-label"></span></a>
+                    <a th:href="@{ {baseMenuUrl}/assessment/{pageId}(baseMenuUrl=${baseMenuUrl},pageId=${menuItem.id})}"><span th:text="${menuItem.title}" class="px-nav-label"></span></a>
                 </th:block>
 
                 <th:block th:case="TABLE">
-                    <a th:href="@{{baseMenuUrl}/{pageId}(baseMenuUrl=${baseMenuUrl},pageId=${menuItem.id})}"><span th:text="${menuItem.title}" class="px-nav-label"></span></a>
-                </th:block>
+                    <a th:href="@{ {baseMenuUrl}/{pageId}(baseMenuUrl=${baseMenuUrl},pageId=${menuItem.id})}"><span th:text="${menuItem.title}" class="px-nav-label"></span></a>
+        </th:block>
 
-                <th:block th:case="PLAN">
-                    <a th:href="@{{baseMenuUrl}/plan/{pageId}(baseMenuUrl=${baseMenuUrl},pageId=${menuItem.id})}"><span th:text="${menuItem.title}" class="px-nav-label"></span></a>
-                </th:block>
-                <th:block th:case="OPSTIPLAN">
-                    <a th:href="@{{baseMenuUrl}/plan/opstideo/{pageId}(baseMenuUrl=${baseMenuUrl},pageId=${menuItem.id})}"><span th:text="${menuItem.title}" class="px-nav-label"></span></a>
-                </th:block>
-                <th:block th:case="CEOPLAN">
-                    <a th:href="@{{baseMenuUrl}/plan/ceo/{pageId}(baseMenuUrl=${baseMenuUrl},pageId=${menuItem.id})}"><span th:text="${menuItem.title}" class="px-nav-label"></span></a>
-                </th:block>
+        <th:block th:case="PLAN">
+            <a th:href="@{ {baseMenuUrl}/plan/{pageId}(baseMenuUrl=${baseMenuUrl},pageId=${menuItem.id})}"><span th:text="${menuItem.title}" class="px-nav-label"></span></a>
+        </th:block>
+        <th:block th:case="OPSTIPLAN">
+            <a th:href="@{ {baseMenuUrl}/plan/opstideo/{pageId}(baseMenuUrl=${baseMenuUrl},pageId=${menuItem.id})}"><span th:text="${menuItem.title}" class="px-nav-label"></span></a>
+        </th:block>
+        <th:block th:case="CEOPLAN">
+            <a th:href="@{ {baseMenuUrl}/plan/ceo/{pageId}(baseMenuUrl=${baseMenuUrl},pageId=${menuItem.id})}"><span th:text="${menuItem.title}" class="px-nav-label"></span></a>
+        </th:block>
+
+        <th:block th:case="SINGLETABLE">
+            <a th:href="@{ {baseMenuUrl}/table/{pageId}/single (baseMenuUrl=${baseMenuUrl},pageId=${menuItem.id})}"><span th:text="${menuItem.title}" class="px-nav-label"></span></a>
+        </th:block>
+        <th:block th:case="COMPLEXTABLE">
+            <a th:href="@{ {baseMenuUrl}/table/{pageId}(baseMenuUrl=${baseMenuUrl},pageId=${menuItem.id})}"><span th:text="${menuItem.title}" class="px-nav-label"></span></a>
+        </th:block>
                             
-                <th:block th:case="SINGLETABLE">
-                    <a th:href="@{{baseMenuUrl}/table/{pageId}/single (baseMenuUrl=${baseMenuUrl},pageId=${menuItem.id})}"><span th:text="${menuItem.title}" class="px-nav-label"></span></a>
-                </th:block>
-                <th:block th:case="COMPLEXTABLE">
-                    <a th:href="@{{baseMenuUrl}/table/{pageId}(baseMenuUrl=${baseMenuUrl},pageId=${menuItem.id})}"><span th:text="${menuItem.title}" class="px-nav-label"></span></a>
-                </th:block>
-            </th:block>
+             <th:block th:case="PERIODVAZENJA">
+            <a th:href="@{ {baseMenuUrl}/calendar (baseMenuUrl=${baseMenuUrl})}"><span th:text="${menuItem.title}" class="px-nav-label"></span></a>
+        </th:block>                 
+                            
+                            
+        </th:block>
 
         </th:block>
 
@@ -275,11 +281,107 @@
                     <li th:each="topMenuItem: ${globalMenuItems}" class="px-nav-item" th:classappend="${topMenuItem.hasChildren()} ? 'px-nav-dropdown' : ''">
                         <th:block th:insert="fragments/navigation :: nav-item(${topMenuItem},${'/admin/clients/' + client.id})" />
                     </li>
-                     <li class="px-nav-item" >
+<!--                    <li class="px-nav-item" >
                         <a th:href="@{/admin/clients/{clientID}/calendar (clientID=${client.id})}"><i class="fa fa-calendar m-r-1"></i>5. Период важења докумената</a>
-                    </li>
-                </ul>
+                    </li>-->
 
+
+
+
+<!--                               <li class="px-nav-item px-nav-dropdown" >
+                        <a href="#"><i class="fa fa-address-card-o m-r-1"></i>6. Прегледи снага и капацитета</a>
+                    <ul class="px-nav-dropdown-menu">
+                        <li class="px-nav-item px-nav-dropdown" >
+                        <a href="#"><i class="fa fa-list-alt m-r-1"></i>Збирни обрасци</a>
+                        
+                        
+                        <ul class="px-nav-dropdown-menu">
+                        <li class="px-nav-item " >
+                        <a th:href="@{/admin/clients/{clientID}/preglediSnaga (clientID=${client.id})}"><i class="fa fa-list-alt m-r-1"></i>Преглед ситуационих центара</a>
+                    </li>
+                    <li class="px-nav-item " >
+                        <a th:href="@{/admin/clients/{clientID}/preglediSnaga (clientID=${client.id})}"><i class="fa fa-list-alt m-r-1"></i>Преглед повереника цивилне заштите и заменика повереника</a>
+                    </li>
+                            
+                            <li class="px-nav-item " >
+                        <a th:href="@{/admin/clients/{clientID}/preglediSnaga (clientID=${client.id})}"><i class="fa fa-list-alt m-r-1"></i>Преглед сирена</a>
+                    </li>
+                           
+                            <li class="px-nav-item " >
+                        <a th:href="@{/admin/clients/{clientID}/preglediSnaga (clientID=${client.id})}"><i class="fa fa-list-alt m-r-1"></i>Преглед јединица цивилне заштите</a>
+                    </li>
+                           
+                            <li class="px-nav-item " >
+                        <a th:href="@{/admin/clients/{clientID}/preglediSnaga (clientID=${client.id})}"><i class="fa fa-list-alt m-r-1"></i>Преглед капацитета мера цивилне заштите</a>
+                    </li>
+                           
+                            <li class="px-nav-item " >
+                        <a th:href="@{/admin/clients/{clientID}/preglediSnaga (clientID=${client.id})}"><i class="fa fa-list-alt m-r-1"></i>Преглед материјално техничких средстава</a>
+                    </li>
+                           
+                            <li class="px-nav-item " >
+                        <a th:href="@{/admin/clients/{clientID}/preglediSnaga (clientID=${client.id})}"><i class="fa fa-list-alt m-r-1"></i>Јединствен преглед збирних образаца</a>
+                    </li>
+                           
+                            <li class="px-nav-item " >
+                        <a th:href="@{#}"><i class="fa fa-list-alt m-r-1"> </i> <i class="fa fa-ban" style="color:red" aria-hidden="true"></i>Екстерни план заштите од великог удеса</a>
+                    </li>
+                           
+                    </ul>
+                        
+                        
+                        
+                    </li>
+                    <li class="px-nav-item px-nav-dropdown" >
+                        <a href="#"><i class="fa fa-address-card-o m-r-1"></i>Евиденциони картони</a>
+                        
+                        
+                        <ul class="px-nav-dropdown-menu">
+                        <li class="px-nav-item " >
+                        <a th:href="@{/admin/clients/{clientID}/preglediSnaga (clientID=${client.id})}"><i class="fa fa-address-card-o m-r-1"></i>Субјекти од посебног значаја за заштиту и спасавање</a>
+                    </li>
+                    <li class="px-nav-item " >
+                        <a th:href="@{/admin/clients/{clientID}/preglediSnaga (clientID=${client.id})}"><i class="fa fa-address-card-o m-r-1"></i>Удружења / невладине организације од значаја за заштиту и спасавање</a>
+                    </li>
+                               <li class="px-nav-item " >
+                        <a th:href="@{/admin/clients/{clientID}/preglediSnaga (clientID=${client.id})}"><i class="fa fa-address-card-o m-r-1"></i>Чланови штаба за ванредне ситуације</a>
+                    </li>
+                               <li class="px-nav-item " >
+                        <a th:href="@{/admin/clients/{clientID}/preglediSnaga (clientID=${client.id})}"><i class="fa fa-address-card-o m-r-1"></i>Материјално техничка средства</a>
+                    </li>
+               
+                    </ul>
+                        
+                        
+                        
+                        
+                        
+                    </li>
+                                        <li class="px-nav-item px-nav-dropdown" >
+                        <a th:href="@{#}"><i class="fa fa-address-card-o m-r-1"></i>Преглед капацитета за спровођење мера цивилне заштите који се ангажују у</a>
+                        <ul class="px-nav-dropdown-menu">
+                        <li class="px-nav-item " >
+                        <a th:href="@{/admin/clients/{clientID}/preglediSnaga (clientID=${client.id})}"><i class="fa fa-address-card-o m-r-1"></i>Евакуацији</a>
+                    </li>
+                            <li class="px-nav-item " >
+                        <a th:href="@{/admin/clients/{clientID}/preglediSnaga (clientID=${client.id})}"><i class="fa fa-address-card-o m-r-1"></i>Збрињавању угрожених и настрадалих</a>
+                    </li>
+                            <li class="px-nav-item " >
+                        <a th:href="@{/admin/clients/{clientID}/preglediSnaga (clientID=${client.id})}"><i class="fa fa-address-card-o m-r-1"></i>Првој и медицинској помоћи и лабараторије</a>
+                    </li>
+                            <li class="px-nav-item " >
+                        <a th:href="@{/admin/clients/{clientID}/preglediSnaga (clientID=${client.id})}"><i class="fa fa-address-card-o m-r-1"></i>Асанацији терена</a>
+                    </li>
+                          </ul>   
+                    </li>
+                    </ul>
+                               </li>-->
+
+
+
+
+                </ul>
+  
             </nav>
         </th:block>
 
@@ -291,9 +393,9 @@
                     <li th:each="topMenuItem: ${globalMenuItems}" class="px-nav-item" th:classappend="${topMenuItem.hasChildren()} ? 'px-nav-dropdown' : ''">
                         <th:block th:insert="fragments/navigation :: nav-item(${topMenuItem},${'/supervisor/clients/' + client.id})" />
                     </li>
-                       <li class="px-nav-item" >
+<!--                    <li class="px-nav-item" >
                         <a th:href="@{/supervisor/clients/{clientID}/calendar (clientID=${client.id})}"><i class="fa fa-calendar m-r-1"></i>5. Период важења докумената</a>
-                    </li>
+                    </li>-->
                 </ul>
 
             </nav>
@@ -336,215 +438,215 @@
         <th:block th:fragment="navigation-script">
             <!-- Nav -->
             <script>
-                $(function () {
+                 $(function () {
                     $('#px-nav-dropdowns-left').pxNav({
                         storeState: false,
                     });
                 });
-            </script>
-        </th:block>
+        </script>
+    </th:block>
 
-        <th:block th:fragment="nav-breadcrumbs-client-table-custom(client, tableDefinition, customTableDefinition)">
-            <th:block th:insert="fragments/navigation :: nav-breadcrumbs-client(${client}, false)" />
-            <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-link(
-                      ${tableDefinition.title},
-                      @{/client/{pageId}/{tableDefinitionId}(pageId=${page.id},tableDefinitionId=${customTableDefinition.tableDefinition.id})},
-                      false)"
-                      />
-            <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-separator(false)"/>
-            <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-text(${customTableDefinition.title}, true)" />
-        </th:block>
+    <th:block th:fragment="nav-breadcrumbs-client-table-custom(client, tableDefinition, customTableDefinition)">
+        <th:block th:insert="fragments/navigation :: nav-breadcrumbs-client(${client}, false)" />
+        <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-link(
+                  ${tableDefinition.title},
+                  @{/client/{pageId}/{tableDefinitionId}(pageId=${page.id},tableDefinitionId=${customTableDefinition.tableDefinition.id})},
+                  false)"
+                  />
+        <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-separator(false)"/>
+        <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-text(${customTableDefinition.title}, true)" />
+    </th:block>
 
-        <th:block th:fragment="nav-breadcrumbs-client-table(client, tableDefinition)">
-            <th:block th:insert="fragments/navigation :: nav-breadcrumbs-client(${client}, false)" />
-            <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-text(${tableDefinition.title}, true)" />
-        </th:block>
+    <th:block th:fragment="nav-breadcrumbs-client-table(client, tableDefinition)">
+        <th:block th:insert="fragments/navigation :: nav-breadcrumbs-client(${client}, false)" />
+        <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-text(${tableDefinition.title}, true)" />
+    </th:block>
 
-        <th:block th:fragment="nav-breadcrumbs-client(client, lastIterationSeparate)">
-            <span class="text-muted font-weight-light">
-                <i class="page-header-icon fa fa-institution"></i>
+    <th:block th:fragment="nav-breadcrumbs-client(client, lastIterationSeparate)">
+        <span class="text-muted font-weight-light">
+            <i class="page-header-icon fa fa-institution"></i>
+        </span>
+        <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-link(${client.name}, @{/client}, false)"/>
+        <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-separator(false)"/>
+        <th:block th:insert="fragments/navigation :: nav-breadcrumbs-pages(${'/client'}, ${lastIterationSeparate})" />
+    </th:block>
+
+    <th:block th:fragment="nav-breadcrumbs-admin-client-table-custom(client, tableDefinition, customTableDefinition)">
+        <th:block th:insert="fragments/navigation :: nav-breadcrumbs-admin-client(${client}, false)" />
+        <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-link(
+                  ${tableDefinition.title},
+                  @{/admin/clients/{clientId}/{pageId}/{tableDefinitionId}(clientId=${client.id},pageId=${page.id},tableDefinitionId=${customTableDefinition.tableDefinition.id})},
+                  false)"
+                  />
+        <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-separator(false)"/>
+        <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-text(${customTableDefinition.title}, true)" />
+    </th:block>
+
+    <th:block th:fragment="nav-breadcrumbs-admin-client-table(client, tableDefinition)">
+        <th:block th:insert="fragments/navigation :: nav-breadcrumbs-admin-client(${client}, false)" />
+        <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-text(${tableDefinition.title}, true)" />
+    </th:block>
+
+    <th:block th:fragment="nav-breadcrumbs-admin-client-view(client)">
+        <span class="text-muted font-weight-light">
+            <i class="page-header-icon fa fa-institution"></i>
+        </span>
+        <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-link(Корисници, @{/admin/clients}, false)"/>
+        <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-separator(false)"/>
+        <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-text(${client.name}, true)"/>
+    </th:block>
+
+    <th:block th:fragment="nav-breadcrumbs-admin-client-edit(client)">
+        <span class="text-muted font-weight-light">
+            <i class="page-header-icon fa fa-institution"></i>
+        </span>
+        <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-link(Корисници, @{/admin/clients}, false)"/>
+        <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-separator(false)"/>
+        <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-link(${client.name}, @{/admin/clients/{id}(id=${client.id})}, false)"/>
+        <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-separator(false)"/>
+        <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-text(Измени, true)"/>
+    </th:block>
+
+    <th:block th:fragment="nav-breadcrumbs-admin-client(client, lastIterationSeparate)">
+        <span class="text-muted font-weight-light">
+            <i class="page-header-icon fa fa-institution"></i>
+        </span>
+        <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-link(Корисници, @{/admin/clients}, false)"/>
+        <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-separator(false)"/>
+        <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-link(${client.name}, @{/admin/clients/{id}(id=${client.id})}, false)"/>
+        <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-separator(false)"/>
+        <th:block th:insert="fragments/navigation :: nav-breadcrumbs-pages(${'/admin/clients/' + client.id}, ${lastIterationSeparate})" />
+    </th:block>
+
+    <th:block th:fragment="nav-breadcrumbs-supervisor-table(client, tableDefinition)">
+        <th:block th:insert="fragments/navigation :: nav-breadcrumbs-supervisor(${client}, false)" />
+        <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-text(${tableDefinition.title}, true)" />
+    </th:block>
+
+    <th:block th:fragment="nav-breadcrumbs-supervisor-view(client)">
+        <span class="text-muted font-weight-light">
+            <i class="page-header-icon fa fa-institution"></i>
+        </span>
+        <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-link(Корисници, @{/supervisor/clients}, false)"/>
+        <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-separator(false)"/>
+        <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-text(${client.name}, true)"/>
+    </th:block>
+
+    <th:block th:fragment="nav-breadcrumbs-supervisor-table-custom(client, tableDefinition, customTableDefinition)">
+        <th:block th:insert="fragments/navigation :: nav-breadcrumbs-supervisor(${client}, false)" />
+        <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-link(
+                  ${tableDefinition.title},
+                  @{/supervisor/clients/{clientId}/{pageId}/{tableDefinitionId}(clientId=${client.id},pageId=${page.id},tableDefinitionId=${customTableDefinition.tableDefinition.id})},
+                  false)"
+                  />
+        <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-separator(false)"/>
+        <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-text(${customTableDefinition.title}, true)" />
+    </th:block>
+    <th:block th:fragment="nav-breadcrumbs-supervisor(client, lastIterationSeparate)">
+        <span class="text-muted font-weight-light">
+            <i class="page-header-icon fa fa-institution"></i>
+        </span>
+        <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-link(Корисници, @{/supervisor/clients}, false)"/>
+        <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-separator(false)"/>
+        <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-link(${client.name}, @{/supervisor/clients/{id}(id=${client.id})}, false)"/>
+        <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-separator(false)"/>
+        <th:block th:insert="fragments/navigation :: nav-breadcrumbs-pages(${'/supervisor/clients/' + client.id}, ${lastIterationSeparate})" />
+    </th:block>
+
+    <th:block th:fragment="nav-breadcrumbs-pages(baseMenuUrl, lastIterationSeparate)">
+        <th:block th:each="breadCrumbPage, iteration: ${breadCrumbsPages}">
+            <span th:if="${(lastIterationSeparate && !iteration.last) || !lastIterationSeparate}">
+                <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-page(${breadCrumbPage}, false)" />
+                <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-separator(false)" />
             </span>
-            <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-link(${client.name}, @{/client}, false)"/>
-            <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-separator(false)"/>
-            <th:block th:insert="fragments/navigation :: nav-breadcrumbs-pages(${'/client'}, ${lastIterationSeparate})" />
-        </th:block>
-
-        <th:block th:fragment="nav-breadcrumbs-admin-client-table-custom(client, tableDefinition, customTableDefinition)">
-            <th:block th:insert="fragments/navigation :: nav-breadcrumbs-admin-client(${client}, false)" />
-            <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-link(
-                      ${tableDefinition.title},
-                      @{/admin/clients/{clientId}/{pageId}/{tableDefinitionId}(clientId=${client.id},pageId=${page.id},tableDefinitionId=${customTableDefinition.tableDefinition.id})},
-                      false)"
-                      />
-            <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-separator(false)"/>
-            <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-text(${customTableDefinition.title}, true)" />
-        </th:block>
-
-        <th:block th:fragment="nav-breadcrumbs-admin-client-table(client, tableDefinition)">
-            <th:block th:insert="fragments/navigation :: nav-breadcrumbs-admin-client(${client}, false)" />
-            <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-text(${tableDefinition.title}, true)" />
-        </th:block>
-
-        <th:block th:fragment="nav-breadcrumbs-admin-client-view(client)">
-            <span class="text-muted font-weight-light">
-                <i class="page-header-icon fa fa-institution"></i>
+            <span th:if="${lastIterationSeparate && iteration.last}">
+                <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-text(${breadCrumbPage.title}, true)" />
             </span>
-            <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-link(Корисници, @{/admin/clients}, false)"/>
-            <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-separator(false)"/>
-            <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-text(${client.name}, true)"/>
         </th:block>
+    </th:block>
 
-        <th:block th:fragment="nav-breadcrumbs-admin-client-edit(client)">
-            <span class="text-muted font-weight-light">
-                <i class="page-header-icon fa fa-institution"></i>
-            </span>
-            <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-link(Корисници, @{/admin/clients}, false)"/>
-            <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-separator(false)"/>
-            <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-link(${client.name}, @{/admin/clients/{id}(id=${client.id})}, false)"/>
-            <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-separator(false)"/>
-            <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-text(Измени, true)"/>
-        </th:block>
-
-        <th:block th:fragment="nav-breadcrumbs-admin-client(client, lastIterationSeparate)">
-            <span class="text-muted font-weight-light">
-                <i class="page-header-icon fa fa-institution"></i>
-            </span>
-            <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-link(Корисници, @{/admin/clients}, false)"/>
-            <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-separator(false)"/>
-            <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-link(${client.name}, @{/admin/clients/{id}(id=${client.id})}, false)"/>
-            <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-separator(false)"/>
-            <th:block th:insert="fragments/navigation :: nav-breadcrumbs-pages(${'/admin/clients/' + client.id}, ${lastIterationSeparate})" />
-        </th:block>
-
-        <th:block th:fragment="nav-breadcrumbs-supervisor-table(client, tableDefinition)">
-            <th:block th:insert="fragments/navigation :: nav-breadcrumbs-supervisor(${client}, false)" />
-            <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-text(${tableDefinition.title}, true)" />
-        </th:block>
-
-        <th:block th:fragment="nav-breadcrumbs-supervisor-view(client)">
-            <span class="text-muted font-weight-light">
-                <i class="page-header-icon fa fa-institution"></i>
-            </span>
-            <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-link(Корисници, @{/supervisor/clients}, false)"/>
-            <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-separator(false)"/>
-            <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-text(${client.name}, true)"/>
-        </th:block>
-
-        <th:block th:fragment="nav-breadcrumbs-supervisor-table-custom(client, tableDefinition, customTableDefinition)">
-            <th:block th:insert="fragments/navigation :: nav-breadcrumbs-supervisor(${client}, false)" />
-            <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-link(
-                      ${tableDefinition.title},
-                      @{/supervisor/clients/{clientId}/{pageId}/{tableDefinitionId}(clientId=${client.id},pageId=${page.id},tableDefinitionId=${customTableDefinition.tableDefinition.id})},
-                      false)"
-                      />
-            <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-separator(false)"/>
-            <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-text(${customTableDefinition.title}, true)" />
-        </th:block>
-        <th:block th:fragment="nav-breadcrumbs-supervisor(client, lastIterationSeparate)">
-            <span class="text-muted font-weight-light">
-                <i class="page-header-icon fa fa-institution"></i>
-            </span>
-            <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-link(Корисници, @{/supervisor/clients}, false)"/>
-            <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-separator(false)"/>
-            <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-link(${client.name}, @{/supervisor/clients/{id}(id=${client.id})}, false)"/>
-            <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-separator(false)"/>
-            <th:block th:insert="fragments/navigation :: nav-breadcrumbs-pages(${'/supervisor/clients/' + client.id}, ${lastIterationSeparate})" />
-        </th:block>
-
-        <th:block th:fragment="nav-breadcrumbs-pages(baseMenuUrl, lastIterationSeparate)">
-            <th:block th:each="breadCrumbPage, iteration: ${breadCrumbsPages}">
-                <span th:if="${(lastIterationSeparate && !iteration.last) || !lastIterationSeparate}">
-                    <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-page(${breadCrumbPage}, false)" />
-                    <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-separator(false)" />
-                </span>
-                <span th:if="${lastIterationSeparate && iteration.last}">
-                    <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-text(${breadCrumbPage.title}, true)" />
-                </span>
+    <th:block th:fragment="nav-breadcrumbs-item-page(page, isDark)">
+        <th:block th:switch="${page.type.toString()}">
+            <th:block th:case="MENU">
+                <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-text(
+                          ${page.title},
+                          ${isDark})"
+                          />
             </th:block>
-        </th:block>
 
-        <th:block th:fragment="nav-breadcrumbs-item-page(page, isDark)">
-            <th:block th:switch="${page.type.toString()}">
-                <th:block th:case="MENU">
-                    <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-text(
-                              ${page.title},
-                              ${isDark})"
-                              />
-                </th:block>
-
-                <th:block th:case="ASSESSMENT">
-                    <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-link(
-                              ${page.title},
-                              @{{baseMenuUrl}/assessment/{pageId}(baseMenuUrl=${baseMenuUrl},pageId=${page.id})},
-                              ${isDark})"
-                              />
-                </th:block>
-
-                <th:block th:case="TABLE">
-                    <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-link(
-                              ${page.title},
-                              @{{baseMenuUrl}/{pageId}(baseMenuUrl=${baseMenuUrl},pageId=${page.id})},
-                              ${isDark})"
-                              />
-                </th:block>
-                 <th:block th:case="SINGLETABLE">
-                    <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-link(
-                              ${page.title},
-                              @{{baseMenuUrl}/{pageId}(baseMenuUrl=${baseMenuUrl},pageId=${page.id})},
-                              ${isDark})"
-                              />
-                </th:block>
-
-                <!-- Ovde dodajemo podrsku za planove-->
-                <th:block th:case="PLAN">
-                    <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-link(
-                              ${page.title},
-                              @{{baseMenuUrl}/plan/{pageId}(baseMenuUrl=${baseMenuUrl},pageId=${page.id})},
-                              ${isDark})"
-                              />
-                </th:block>
-                <th:block th:case="CEOPLAN">
-                    <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-link(
-                              ${page.title},
-                              @{{baseMenuUrl}/plan/ceo/{pageId}(baseMenuUrl=${baseMenuUrl},pageId=${page.id})},
-                              ${isDark})"
-                              />
-                </th:block>
-                <th:block th:case="OPSTIPLAN">
-                    <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-link(
-                              ${page.title},
-                              @{{baseMenuUrl}/plan/opstideo/{pageId}(baseMenuUrl=${baseMenuUrl},pageId=${page.id})},
-                              ${isDark})"
-                              />
-                </th:block>
-                                   <th:block th:case="COMPLEXTABLE">
-                    <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-link(
-                              ${page.title},
-                              @{{baseMenuUrl}/plan/opstideo/{pageId}(baseMenuUrl=${baseMenuUrl},pageId=${page.id})},
-                              ${isDark})"
-                              />
-                </th:block>
-
+            <th:block th:case="ASSESSMENT">
+                <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-link(
+                          ${page.title},
+                          @{ {baseMenuUrl}/assessment/{pageId}(baseMenuUrl=${baseMenuUrl},pageId=${page.id})},
+                          ${isDark})"
+                          />
             </th:block>
-        </th:block>
 
-        <th:block th:fragment="nav-breadcrumbs-item-text(text, isDark)">
-            <span th:classappend="${isDark} ? '' : 'text-muted font-weight-light'">
-                <th:block th:text="${text}" />
-            </span>
-        </th:block>
+            <th:block th:case="TABLE">
+                <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-link(
+                          ${page.title},
+                          @{ {baseMenuUrl}/{pageId}(baseMenuUrl=${baseMenuUrl},pageId=${page.id})},
+                          ${isDark})"
+                          />
+            </th:block>
+            <th:block th:case="SINGLETABLE">
+                <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-link(
+                          ${page.title},
+                          @{ {baseMenuUrl}/{pageId}(baseMenuUrl=${baseMenuUrl},pageId=${page.id})},
+                          ${isDark})"
+                          />
+            </th:block>
 
-        <th:block th:fragment="nav-breadcrumbs-item-link(text, link, isDark)">
-            <span th:classappend="${isDark} ? '' : 'text-muted font-weight-light'">
-                <a th:href="${link}" th:text="${text}"></a>
-            </span>
-        </th:block>
+            <!-- Ovde dodajemo podrsku za planove-->
+            <th:block th:case="PLAN">
+                <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-link(
+                          ${page.title},
+                          @{ {baseMenuUrl}/plan/{pageId}(baseMenuUrl=${baseMenuUrl},pageId=${page.id})},
+                          ${isDark})"
+                          />
+            </th:block>
+            <th:block th:case="CEOPLAN">
+                <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-link(
+                          ${page.title},
+                          @{ {baseMenuUrl}/plan/ceo/{pageId}(baseMenuUrl=${baseMenuUrl},pageId=${page.id})},
+                          ${isDark})"
+                          />
+            </th:block>
+            <th:block th:case="OPSTIPLAN">
+                <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-link(
+                          ${page.title},
+                          @{ {baseMenuUrl}/plan/opstideo/{pageId}(baseMenuUrl=${baseMenuUrl},pageId=${page.id})},
+                          ${isDark})"
+                          />
+            </th:block>
+            <th:block th:case="COMPLEXTABLE">
+                <th:block th:insert="fragments/navigation :: nav-breadcrumbs-item-link(
+                          ${page.title},
+                          @{ {baseMenuUrl}/plan/opstideo/{pageId}(baseMenuUrl=${baseMenuUrl},pageId=${page.id})},
+                          ${isDark})"
+                          />
+            </th:block>
 
-        <th:block th:fragment="nav-breadcrumbs-item-separator(isDark)">
-            <span th:classappend="${isDark} ? '' : 'text-muted font-weight-light'">
-                /
-            </span>
         </th:block>
+    </th:block>
+
+    <th:block th:fragment="nav-breadcrumbs-item-text(text, isDark)">
+        <span th:classappend="${isDark} ? '' : 'text-muted font-weight-light'">
+            <th:block th:text="${text}" />
+        </span>
+    </th:block>
+
+    <th:block th:fragment="nav-breadcrumbs-item-link(text, link, isDark)">
+        <span th:classappend="${isDark} ? '' : 'text-muted font-weight-light'">
+            <a th:href="${link}" th:text="${text}"></a>
+        </span>
+    </th:block>
+
+    <th:block th:fragment="nav-breadcrumbs-item-separator(isDark)">
+        <span th:classappend="${isDark} ? '' : 'text-muted font-weight-light'">
+            /
+        </span>
+    </th:block>
 
     </body>
 </html>

@@ -347,4 +347,144 @@ calendarList.forEach((calendar) -> {
         return "supervisor/report";
     }
 
+    
+    
+    @GetMapping(value = "/publicaccess/reports")
+    public String publicaccessReports(final Model model
+    ) {
+//broj oclijenata minus clijenti koji nisu prave opstine
+       int brojOpstina = 0;
+        int brojOPplanova = 0;
+        int brojProcena = 0;
+        int brojPZS = 0;
+        int brojPSR = 0;
+        List<Client> client = clientService.findAll();
+        List<Client> clientBezOpstina = new ArrayList();
+
+        List<Client> clientBezAssessment = new ArrayList();
+        List<Client> clientSaAssessment = new ArrayList();
+
+        List<Client> clientSaPZS = new ArrayList();
+        List<Client> clientBezPZS = new ArrayList();
+
+        List<Client> clientBezPSR = new ArrayList();
+        List<Client> clientSaPSR = new ArrayList();
+
+        List<Client> clientBezPPD = new ArrayList();
+        List<Client> clientSaPPD = new ArrayList();
+
+        for (Client pc : client) {
+            if (pc.getOpstina() != null) {
+                brojOpstina++;
+
+                if (assessmentService.findOne(pc) != null) {
+                    brojProcena++;
+                    clientSaAssessment.add(pc);
+                } else {
+                    clientBezAssessment.add(pc);
+                }
+
+                if (checkPZS(pc) != 0) {
+                    brojPZS++;
+                    clientSaPZS.add(pc);
+                } else {
+                    clientBezPZS.add(pc);
+                }
+
+                if (posebanCiljService.findFirstByClient(pc) != null) {
+                    brojPSR++;
+                    clientSaPSR.add(pc);
+                } else {
+                    clientBezPSR.add(pc);
+                }
+
+                if (!pc.getOpstina().getPublicPolicyDocuments().isEmpty()) {
+                    brojOPplanova++;
+                    clientSaPPD.add(pc);
+                } else {
+                    clientBezPPD.add(pc);
+                }
+
+            } else {
+                clientBezOpstina.add(pc);
+            }
+
+        }
+
+        model.addAttribute("brojOpstina", brojOpstina);
+        model.addAttribute("brojProcena", brojProcena);
+        model.addAttribute("brojPZS", brojPZS);             
+        model.addAttribute("brojPSR", brojPSR);
+        model.addAttribute("brojOPplanova", brojOPplanova);
+        
+        model.addAttribute("clientBezOpstina", clientBezOpstina);
+        
+        model.addAttribute("clientSaAssessment", clientSaAssessment);
+        model.addAttribute("clientBezAssessment", clientBezAssessment);
+        
+        
+        model.addAttribute("clientBezPZS", clientBezPZS);
+        model.addAttribute("clientSaPZS", clientSaPZS);
+        
+        model.addAttribute("clientSaPSR", clientSaPSR);
+        model.addAttribute("clientBezPSR", clientBezPSR);
+        
+        model.addAttribute("clientBezPPD", clientBezPPD);
+        model.addAttribute("clientSaPPD", clientSaPPD);
+        
+        
+//client counter done
+        List<PodRezultat> podRezultat = podRezultatService.findAll();
+        int brojAktivnostiGotovih = 0;
+        int brojAktivnostiOdustalih = 0;
+        int brojAktivnostiUToku = 0;
+        for (PodRezultat pr : podRezultat) {
+            if (pr.getPeriodKompletiran() == 2) {
+                brojAktivnostiGotovih++;
+            };
+            if (pr.getPeriodKompletiran() == 3) {
+                brojAktivnostiOdustalih++;
+            }
+            if (pr.getPeriodKompletiran() == 1) {
+                brojAktivnostiUToku++;
+            }
+            if (pr.getPeriodKompletiran() == 4) {
+                brojAktivnostiUToku++;
+            }
+        }
+        model.addAttribute("brojAktivnostiGotovih", brojAktivnostiGotovih);
+        model.addAttribute("brojAktivnostiOdustalih", brojAktivnostiOdustalih);
+        model.addAttribute("brojAktivnostiUToku", brojAktivnostiUToku);
+//number of clients who uploaded a public document.
+//calendar
+List<Calendar> calendarList = calendarService.findAllBySorted();
+       
+List<Calendar> calendarListCrvena = new ArrayList();
+List<Calendar> calendarListZuta = new ArrayList();
+List<Calendar> calendarListZelena = new ArrayList();
+
+LocalDate zelenidatum = LocalDate.now().plusMonths(6);
+LocalDate zutidatum= LocalDate.now().plusMonths(3);
+calendarList.forEach((calendar) -> {
+    // System.out.println(calendar.getVazido().toString());
+    if (calendar.getVazido().isAfter(zelenidatum)){
+        calendarListZelena.add(calendar);
+    }else{
+        if (calendar.getVazido().isAfter(zutidatum)){
+            calendarListZuta.add(calendar);
+        }else{
+            calendarListCrvena.add(calendar);
+        }
+        
+    }     });
+ 
+   model.addAttribute("calendarListZelena", calendarListZelena);
+        model.addAttribute("calendarListZuta", calendarListZuta);
+        model.addAttribute("calendarListCrvena", calendarListCrvena);
+  
+//calendar
+
+        return "publicaccess/report";
+    }
+
 }

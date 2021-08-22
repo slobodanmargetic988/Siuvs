@@ -80,6 +80,10 @@ public class NotifikacijeIosServiceImpl implements NotifikacijeIosService {
     notifikacijeRepository.updateToken(stariToken,token);
     }
 
-   
+     
+      @Override
+    public  long countByOpstina(String opstinaName){
+    return notifikacijeRepository.countByOpstina(opstinaName);
+    };
 
 }

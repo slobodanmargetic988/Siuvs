@@ -18,6 +18,7 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClients;
+import org.apache.http.util.EntityUtils;
 import org.springframework.boot.configurationprocessor.json.JSONArray;
 import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.security.core.Authentication;
@@ -907,7 +908,7 @@ public class MobileAppController {
             String JSON_Body = buildJSONBody(istorijaNotifikacija, titleTextV, bodyTextV, imageTextV, messageTextV, linkTextV, linkTextTextV, primaociDeo, opstinanamelatinica);
             primaociPravi.removeAll(primaociDeo);
 
-            System.out.println("body :" + JSON_Body);
+       //    System.out.println("body :" + JSON_Body);
 
             HttpClient httpclient = HttpClients.createDefault();
             StringEntity requestEntity = new StringEntity(JSON_Body, ContentType.APPLICATION_JSON);
@@ -950,7 +951,7 @@ public class MobileAppController {
 
             //  primaociPraviIOS.removeAll(primaociDeoIOS);
             String JSON_Body1 = buildJSONBodyIOS(istorijaNotifikacija, titleTextV, bodyTextV, imageTextV, messageTextV, linkTextV, linkTextTextV, primaociDeoIOS, opstinanamelatinica);
-
+   System.out.println("body za ios :" + JSON_Body1);
             primaociPraviIOS.removeAll(primaociDeoIOS);
 
             HttpClient httpclient1 = HttpClients.createDefault();
@@ -963,9 +964,9 @@ public class MobileAppController {
             try {
                 HttpResponse rawResponse = httpclient1.execute(post1);
 
-                //System.out.println("odgovor od googla je      "+rawResponse);
-//String odgovorContent=rawResponse.getEntity().getContent().toString();
-                //   System.out.println("odgovor od googla je      "+odgovorContent);
+              //  System.out.println("odgovor od googla je      "+rawResponse);
+String odgovorContent=EntityUtils.toString(rawResponse.getEntity(), "UTF-8");
+                   System.out.println("odgovor od googla je      "+odgovorContent);
                 //    System.out.println("sta on ovde u odgovoru cita");
                 redirectAttributes.addFlashAttribute("successMessage", "Нотификација успешно послата! \n " /*+ rawResponse*/);
 

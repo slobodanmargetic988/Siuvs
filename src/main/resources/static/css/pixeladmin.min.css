@@ -1398,8 +1398,7 @@ a.box-cell:hover{text-decoration:none}
 }
 .ps-block{position:relative}
 .ps-container{-ms-touch-action:none;touch-action:none;-ms-overflow-style:none}
-@supports (-ms-overflow-style:none){.ps-container{overflow:auto!important}
-}
+
 @media screen and (-ms-high-contrast:active),(-ms-high-contrast:none){.ps-container{overflow:auto!important}
 }
 .ps-active-x>.ps-scrollbar-x-rail,.ps-active-y>.ps-scrollbar-y-rail{display:block;background-color:transparent}

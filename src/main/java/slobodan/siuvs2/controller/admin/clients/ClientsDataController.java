@@ -239,6 +239,7 @@ public class ClientsDataController {
             redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
             return "redirect:/admin/clients/" + clientId + "/" + pageId+"/"+tableDefinitionId;
         }
+        
     }
         @PostMapping(value = "/{clientId}/{pageId}/{tableDefinitionId}/{tableColumnId}/saveNewOption")
     public String saveTableOption(

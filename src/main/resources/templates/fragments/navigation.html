@@ -267,7 +267,15 @@
              <th:block th:case="PERIODVAZENJA">
             <a th:href="@{ {baseMenuUrl}/calendar (baseMenuUrl=${baseMenuUrl})}"><span th:text="${menuItem.title}" class="px-nav-label"></span></a>
         </th:block>                 
+           
                             
+                                    <th:block th:case="ZBIRNI">
+            <a th:href="@{ {baseMenuUrl}/zbirniObrasci (baseMenuUrl=${baseMenuUrl})}"><span  class="px-nav-label">Збирни обрасци</span></a>
+        </th:block>  
+                            
+                                    <th:block th:case="KARTONI">
+            <a th:href="@{ {baseMenuUrl}/KARTONI (baseMenuUrl=${baseMenuUrl})}"><span class="px-nav-label">Евиденциони картони</span></a>
+        </th:block>  
                             
         </th:block>
 
@@ -288,7 +296,7 @@
 
 
 
-<!--                               <li class="px-nav-item px-nav-dropdown" >
+                              <li class="px-nav-item px-nav-dropdown" >
                         <a href="#"><i class="fa fa-address-card-o m-r-1"></i>6. Прегледи снага и капацитета</a>
                     <ul class="px-nav-dropdown-menu">
                         <li class="px-nav-item px-nav-dropdown" >
@@ -375,7 +383,7 @@
                           </ul>   
                     </li>
                     </ul>
-                               </li>-->
+                               </li>
 
 
 

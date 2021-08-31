@@ -333,8 +333,10 @@ return total;
         try {
             posebanCiljService.save(pc);
             redirectAttributes.addFlashAttribute("successMessage", "Додали сте нови посебан циљ!");
+               System.out.println("neki error nema");
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+            System.out.println("neki error ima");
         }
         return "redirect:/admin/clients/" + clientId + "/plan/" + pageId + "#new-pc";
     }

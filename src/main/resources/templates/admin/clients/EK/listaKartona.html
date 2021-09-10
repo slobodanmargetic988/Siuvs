@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+    <head>
+        <th:block th:include="fragments/head :: head" />
+    </head>
+    <body>
+
+        <!-- Nav -->
+        <th:block th:insert="fragments/navigation :: navigation-client"></th:block>
+
+        <!-- Content -->
+        <div class="px-content">
+
+            <div class="page-header">
+                <h1>
+                      <th:block th:insert="fragments/navigation :: nav-breadcrumbs-Kartoni" />
+                </h1>
+            </div>
+
+            <div th:replace="fragments/alert :: success (${successMessage})"></div>
+
+            <!-- Client details panel -->
+            
+                      <div class="panel">
+                <div class="panel-heading">
+                    <span class="panel-title">Списак табела</span>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-striped valign-middle">
+                        <tbody>
+                            <tr ><td> <a th:href="@{/admin/clients/{clientID}/kartonSubjekti (clientID=${client.id})}">1. Субјекти од посебног значаја за заштиту и спасавање</a></td> </tr>
+                            <tr ><td> <a th:href="@{/admin/clients/{clientID}/kartonUdruzenja (clientID=${client.id})}">2. Удружења / невладине организације од значаја за заштиту и спасавање</a></td> </tr>
+                            <tr ><td> <a th:href="@{/admin/clients/{clientID}/kartonClanovi (clientID=${client.id})}">3. Чланови штаба за ванредне ситуације</a></td> </tr>
+                            <tr ><td> <a th:href="@{/admin/clients/{clientID}/kartonMTS (clientID=${client.id})}">4. Материјално техничка средства</a></td> </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            
+            
+                                                            </div>
+
+                                                            </div>
+                                                            <th:block th:insert="fragments/footer :: footer-standard" />
+                                                            <th:block th:insert="fragments/scripts :: standard" />
+                                                            </body>
+                                                            </html>

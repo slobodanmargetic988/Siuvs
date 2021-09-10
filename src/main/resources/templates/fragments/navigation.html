@@ -274,7 +274,7 @@
         </th:block>  
                             
                                     <th:block th:case="KARTONI">
-            <a th:href="@{ {baseMenuUrl}/KARTONI (baseMenuUrl=${baseMenuUrl})}"><span class="px-nav-label">Евиденциони картони</span></a>
+            <a th:href="@{ {baseMenuUrl}/Kartoni (baseMenuUrl=${baseMenuUrl})}"><span class="px-nav-label">Евиденциони картони</span></a>
         </th:block>  
                             
         </th:block>
@@ -296,7 +296,7 @@
 
 
 
-                              <li class="px-nav-item px-nav-dropdown" >
+<!--                              <li class="px-nav-item px-nav-dropdown" >
                         <a href="#"><i class="fa fa-address-card-o m-r-1"></i>6. Прегледи снага и капацитета</a>
                     <ul class="px-nav-dropdown-menu">
                         <li class="px-nav-item px-nav-dropdown" >
@@ -327,14 +327,16 @@
                         <a th:href="@{/admin/clients/{clientID}/preglediSnaga (clientID=${client.id})}"><i class="fa fa-list-alt m-r-1"></i>Преглед материјално техничких средстава</a>
                     </li>
                            
-                            <li class="px-nav-item " >
-                        <a th:href="@{/admin/clients/{clientID}/preglediSnaga (clientID=${client.id})}"><i class="fa fa-list-alt m-r-1"></i>Јединствен преглед збирних образаца</a>
-                    </li>
-                           
+                   
                             <li class="px-nav-item " >
                         <a th:href="@{#}"><i class="fa fa-list-alt m-r-1"> </i> <i class="fa fa-ban" style="color:red" aria-hidden="true"></i>Екстерни план заштите од великог удеса</a>
                     </li>
-                           
+                                
+                            
+                            <li class="px-nav-item " >
+                        <a th:href="@{/admin/clients/{clientID}/preglediSnaga (clientID=${client.id})}"><i class="fa fa-list-alt m-r-1"></i>Јединствен преглед збирних образаца</a>
+                    </li>
+                            
                     </ul>
                         
                         
@@ -383,7 +385,7 @@
                           </ul>   
                     </li>
                     </ul>
-                               </li>
+                               </li>-->
 
 
 
@@ -634,6 +636,7 @@
                           ${isDark})"
                           />
             </th:block>
+       
 
         </th:block>
     </th:block>
@@ -656,5 +659,18 @@
         </span>
     </th:block>
 
+            
+                <th:block th:fragment="nav-breadcrumbs-Kartoni">
+                    <span class="text-muted font-weight-light">
+            <i class="page-header-icon fa fa-institution"></i>
+        </span>
+                    <span class="text-muted font-weight-light"> <a href="/admin/clients" >Корисници</a> / <a th:href="@{/admin/clients/{clientId} (clientId=${client.id})}" th:text="${client.name}"></a> / <a style="color: #ffffff" th:href="@{/admin/clients/{clientId}/Kartoni (clientId=${client.id})}" >Евиденциони картони</a> </span>
+                </th:block>
+            <th:block th:fragment="nav-breadcrumbs-Kartoni-subjekti">
+                    <span class="text-muted font-weight-light">
+            <i class="page-header-icon fa fa-institution"></i>
+        </span>
+                    <span class="text-muted font-weight-light"> <a href="/admin/clients" >Корисници</a> / <a th:href="@{/admin/clients/{clientId} (clientId=${client.id})}" th:text="${client.name}"></a> / <a  th:href="@{/admin/clients/{clientId}/Kartoni (clientId=${client.id})}" >Евиденциони картони</a> / <a style="color: #ffffff" th:href="@{/admin/clients/{clientId}/kartonSubjekti (clientId=${client.id})}" >1. Субјекти од посебног значаја за заштиту и спасавање</a> </span>
+                </th:block>
     </body>
 </html>

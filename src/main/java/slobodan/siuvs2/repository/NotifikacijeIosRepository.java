@@ -26,7 +26,7 @@ public interface NotifikacijeIosRepository extends JpaRepository<NotifikacijeIos
      @Modifying
      @Query(value = "SELECT DISTINCT token  FROM notifikacije_ios", nativeQuery = true)
     List<String> findDistinctToken();
-     @Query(value = "SELECT DISTINCT token  FROM notifikacije_ios WHERE opstina=:opstina OR opstina='Sve opštine'", nativeQuery = true)
+     @Query(value = "SELECT DISTINCT token  FROM notifikacije_ios WHERE opstina=:opstina OR opstina='Svi servisi'", nativeQuery = true)
     List<String> findAllByOpstina(@Param("opstina") String opstina);
     
     @Query(value = "SELECT * FROM notifikacije_ios WHERE opstina=:opstina ", nativeQuery = true)

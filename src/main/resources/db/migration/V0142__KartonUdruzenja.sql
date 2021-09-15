@@ -62,7 +62,7 @@ CREATE TABLE `ciljevi_udruzenja` (
 `naziv` varchar(255) DEFAULT NULL,
 `udruzenje_id` int default null,
 PRIMARY KEY (`id`),
-FOREIGN KEY (`udruzenje_id`) REFERENCES `kartonudruzenja` (`id`),
+FOREIGN KEY (`udruzenje_id`) REFERENCES `kartonudruzenja` (`id`)
 ) ENGINE=InnoDB;
 
 

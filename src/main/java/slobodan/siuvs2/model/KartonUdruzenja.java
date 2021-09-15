@@ -114,11 +114,11 @@ public class KartonUdruzenja {
     private LocalDateTime modifiedOn;
  
     
-        @OneToMany(mappedBy = "kartonsubjekti")
-    private CiljeviUdruzenja ciljeviUdruzenja;
+        @OneToMany(mappedBy = "kartonudruzenja")
+    private List<CiljeviUdruzenja> ciljeviUdruzenja;
     
 
-         @OneToMany(mappedBy = "kartonsubjekti")
+         @OneToMany(mappedBy = "kartonudruzenja")
     private List<ClanoviUdruzenja> clanovi= new ArrayList<>();
 
     public int getId() {
@@ -353,13 +353,15 @@ public class KartonUdruzenja {
         this.modifiedOn = modifiedOn;
     }
 
-    public CiljeviUdruzenja getCiljeviUdruzenja() {
+    public List<CiljeviUdruzenja> getCiljeviUdruzenja() {
         return ciljeviUdruzenja;
     }
 
-    public void setCiljeviUdruzenja(CiljeviUdruzenja ciljeviUdruzenja) {
+    public void setCiljeviUdruzenja(List<CiljeviUdruzenja> ciljeviUdruzenja) {
         this.ciljeviUdruzenja = ciljeviUdruzenja;
     }
+
+
 
     public List<ClanoviUdruzenja> getClanovi() {
         return clanovi;

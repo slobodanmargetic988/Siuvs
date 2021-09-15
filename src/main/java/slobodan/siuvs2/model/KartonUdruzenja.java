@@ -20,9 +20,9 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
  * @author Sloba
  */
 @Entity
-@Table(name = "kartonsubjekti")
+@Table(name = "kartonudruzenja")
 @EntityListeners(AuditingEntityListener.class)
-public class KartonSubjekti {
+public class KartonUdruzenja {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -113,13 +113,13 @@ public class KartonSubjekti {
     @Column(name = "modified_on")
     private LocalDateTime modifiedOn;
  
-    @ManyToOne
-    @JoinColumn(name = "delatnost_id")
-    private Delatnost delatnost;
+    
+        @OneToMany(mappedBy = "kartonsubjekti")
+    private CiljeviUdruzenja ciljeviUdruzenja;
     
 
          @OneToMany(mappedBy = "kartonsubjekti")
-    private List<Kadrovi> kadrovi= new ArrayList<>();
+    private List<ClanoviUdruzenja> clanovi= new ArrayList<>();
 
     public int getId() {
         return id;
@@ -273,8 +273,6 @@ public class KartonSubjekti {
         this.nivo_odredjivanja = nivo_odredjivanja;
     }
 
- 
-
     public String getKontakt_ime() {
         return kontakt_ime;
     }
@@ -355,21 +353,22 @@ public class KartonSubjekti {
         this.modifiedOn = modifiedOn;
     }
 
-    public Delatnost getDelatnost() {
-        return delatnost;
+    public CiljeviUdruzenja getCiljeviUdruzenja() {
+        return ciljeviUdruzenja;
     }
 
-    public void setDelatnost(Delatnost delatnost) {
-        this.delatnost = delatnost;
+    public void setCiljeviUdruzenja(CiljeviUdruzenja ciljeviUdruzenja) {
+        this.ciljeviUdruzenja = ciljeviUdruzenja;
     }
 
-    public List<Kadrovi> getKadrovi() {
-        return kadrovi;
+    public List<ClanoviUdruzenja> getClanovi() {
+        return clanovi;
     }
 
-    public void setKadrovi(List<Kadrovi> kadrovi) {
-        this.kadrovi = kadrovi;
+    public void setClanovi(List<ClanoviUdruzenja> clanovi) {
+        this.clanovi = clanovi;
     }
-    
 
+
+         
 }

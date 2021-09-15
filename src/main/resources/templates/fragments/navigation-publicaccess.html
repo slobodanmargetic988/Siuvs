@@ -160,7 +160,7 @@
                 </th:block>
                     <th:block th:case="OPSTIPLAN">
                     
-               <a title="Тренутно није јавно доступно" >Цео план</span>
+               <a title="Тренутно није јавно доступно" >Цео план
             <i class="fa fa-ban" style="color:red" aria-hidden="true"></i>
             </a>
                 </th:block>
@@ -170,7 +170,19 @@
                           <th:block th:case="PERIODVAZENJA">
             <a th:href="@{ {baseMenuUrl}/calendar (baseMenuUrl=${baseMenuUrl})}"><span th:text="${menuItem.title}" class="px-nav-label"></span></a>
         </th:block>                 
-                     
+                       
+                                    <th:block th:case="ZBIRNI">
+                                        <a title="Тренутно није јавно доступно" >Јединствен преглед збирних образаца<i class="fa fa-ban" style="color:red" aria-hidden="true"></i>
+            </a>
+        
+        </th:block>  
+                            
+                                    <th:block th:case="KARTONI">
+                                        <a title="Тренутно није јавно доступно" >Евиденциони картони
+            <i class="fa fa-ban" style="color:red" aria-hidden="true"></i>
+            </a>
+           
+        </th:block> 
     </th:block>
 
 </th:block>

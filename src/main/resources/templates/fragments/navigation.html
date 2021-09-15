@@ -270,7 +270,7 @@
            
                             
                                     <th:block th:case="ZBIRNI">
-            <a th:href="@{ {baseMenuUrl}/zbirniObrasci (baseMenuUrl=${baseMenuUrl})}"><span  class="px-nav-label">Збирни обрасци</span></a>
+            <a th:href="@{ {baseMenuUrl}/zbirniObrasci (baseMenuUrl=${baseMenuUrl})}"><span  class="px-nav-label">Јединствен преглед збирних образаца</span></a>
         </th:block>  
                             
                                     <th:block th:case="KARTONI">
@@ -664,13 +664,17 @@
                     <span class="text-muted font-weight-light">
             <i class="page-header-icon fa fa-institution"></i>
         </span>
-                    <span class="text-muted font-weight-light"> <a href="/admin/clients" >Корисници</a> / <a th:href="@{/admin/clients/{clientId} (clientId=${client.id})}" th:text="${client.name}"></a> / <a style="color: #ffffff" th:href="@{/admin/clients/{clientId}/Kartoni (clientId=${client.id})}" >Евиденциони картони</a> </span>
-                </th:block>
+                    <span sec:authorize="hasAnyAuthority('ADMIN','RIS')" class="text-muted font-weight-light"> <a href="/admin/clients" >Корисници</a> / <a th:href="@{/admin/clients/{clientId} (clientId=${client.id})}" th:text="${client.name}"></a> / <a style="color: #ffffff" th:href="@{/admin/clients/{clientId}/Kartoni (clientId=${client.id})}" >Евиденциони картони</a> </span>
+                     <span sec:authorize="hasAnyAuthority('CLIENT','CLIENT_READ_ONLY')" class="text-muted font-weight-light">   <a style="color: #ffffff" th:href="@{/client/Kartoni}" >Евиденциони картони</a> </span>
+                     <span sec:authorize="hasAnyAuthority('MUP', 'DISTRIKT', 'PROVINCE')" class="text-muted font-weight-light"> <a href="/supervisor/clients" >Корисници</a> / <a th:href="@{/supervisor/clients/{clientId} (clientId=${client.id})}" th:text="${client.name}"></a> / <a style="color: #ffffff" th:href="@{/supervisor/clients/{clientId}/Kartoni (clientId=${client.id})}" >Евиденциони картони</a> </span>
+                      </th:block>
             <th:block th:fragment="nav-breadcrumbs-Kartoni-subjekti">
                     <span class="text-muted font-weight-light">
             <i class="page-header-icon fa fa-institution"></i>
         </span>
-                    <span class="text-muted font-weight-light"> <a href="/admin/clients" >Корисници</a> / <a th:href="@{/admin/clients/{clientId} (clientId=${client.id})}" th:text="${client.name}"></a> / <a  th:href="@{/admin/clients/{clientId}/Kartoni (clientId=${client.id})}" >Евиденциони картони</a> / <a style="color: #ffffff" th:href="@{/admin/clients/{clientId}/kartonSubjekti (clientId=${client.id})}" >1. Субјекти од посебног значаја за заштиту и спасавање</a> </span>
-                </th:block>
+                    <span sec:authorize="hasAnyAuthority('ADMIN','RIS')"  class="text-muted font-weight-light"> <a href="/admin/clients" >Корисници</a> / <a th:href="@{/admin/clients/{clientId} (clientId=${client.id})}" th:text="${client.name}"></a> / <a  th:href="@{/admin/clients/{clientId}/Kartoni (clientId=${client.id})}" >Евиденциони картони</a> / <a style="color: #ffffff" th:href="@{/admin/clients/{clientId}/kartonSubjekti (clientId=${client.id})}" >1. Субјекти од посебног значаја за заштиту и спасавање</a> </span>
+                <span sec:authorize="hasAnyAuthority('CLIENT','CLIENT_READ_ONLY')" class="text-muted font-weight-light">  <a  th:href="@{/client/Kartoni }" >Евиденциони картони</a> / <a style="color: #ffffff" th:href="@{/client/kartonSubjekti}" >1. Субјекти од посебног значаја за заштиту и спасавање</a> </span>
+             <span sec:authorize="hasAnyAuthority('MUP', 'DISTRIKT', 'PROVINCE')"  class="text-muted font-weight-light"> <a href="/supervisor/clients" >Корисници</a> / <a th:href="@{/supervisor/clients/{clientId} (clientId=${client.id})}" th:text="${client.name}"></a> / <a  th:href="@{/supervisor/clients/{clientId}/Kartoni (clientId=${client.id})}" >Евиденциони картони</a> / <a style="color: #ffffff" th:href="@{/admin/clients/{clientId}/kartonSubjekti (clientId=${client.id})}" >1. Субјекти од посебног значаја за заштиту и спасавање</a> </span>
+              </th:block>
     </body>
 </html>

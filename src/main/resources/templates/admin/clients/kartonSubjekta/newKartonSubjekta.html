@@ -115,8 +115,8 @@
 
 
                                 <tr>
-                                    <td colspan="2" >Шифра и назив делатности </td> 
-                                    <td colspan="3" >
+                                    <td colspan="2" >Шифра и назив делатности <a th:href="@{/admin/clients/{clientId}/kartonSubjekti/dodajDelatnost (clientId=${client.id})}"  class=" btn-xs btn-warning btn-outline"><i class="fa fa-plus-square-o fa-lg"></i></a></td> 
+                                    <td colspan="3" ><a th:href="@{/admin/clients/{clientId}/kartonSubjekti/dodajDelatnost (clientId=${client.id})}"  class=" btn-xs btn-warning btn-outline"><i class="fa fa-plus-square-o fa-lg"></i></a>
                                         <select class="col-md-6 "  name="delatnost"  >
                                          <option  th:each="delatnost : ${listaDelatnosti}" th:value="${delatnost.id}" th:text="${delatnost.naziv}" >Текст</option>
                                         </select> 
@@ -157,7 +157,7 @@
                         
 <tr  >
                                     <td colspan="2" >Надлежна организациона јединица СВС која води евиденцију</td> 
-                                    <td colspan="3" > <input type="text" name="nadleznaSVS" ></td> 
+                                    <td colspan="3" > <span th:text="${client.opstina.nadleznaSVS}?:'/'"></span></td> 
 </tr>
                   
 

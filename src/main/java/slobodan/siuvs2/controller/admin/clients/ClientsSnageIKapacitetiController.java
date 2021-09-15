@@ -1,12 +1,25 @@
 /*
  * 
  */
-package slobodan.siuvs2.controller.client;
+package slobodan.siuvs2.controller.admin.clients;
 
 /**
  *
  * @author Slobodan Margetic slobodanmargetic988@gmail.com
  */
+import slobodan.siuvs2.controller.admin.*;
+import slobodan.siuvs2.controller.client.*;
+import slobodan.siuvs2.service.PosebanCiljFactory;
+import slobodan.siuvs2.service.RezultatFactory;
+import slobodan.siuvs2.service.RezultatService;
+import slobodan.siuvs2.service.PosebanCiljService;
+import slobodan.siuvs2.service.PodRezultatFactory;
+import slobodan.siuvs2.service.MeraService;
+import slobodan.siuvs2.service.MeraFactory;
+import slobodan.siuvs2.service.PodRezultatService;
+import slobodan.siuvs2.service.PlanService;
+import slobodan.siuvs2.service.PageService;
+import slobodan.siuvs2.service.PlanFactory;
 import slobodan.siuvs2.model.SiuvsUserPrincipal;
 import slobodan.siuvs2.model.Client;
 import slobodan.siuvs2.model.User;
@@ -24,10 +37,12 @@ import slobodan.siuvs2.model.Delatnost;
 import slobodan.siuvs2.model.Kadrovi;
 import slobodan.siuvs2.model.KartonSubjekti;
 import slobodan.siuvs2.model.Zanimanja;
+import slobodan.siuvs2.service.ClientService;
 import slobodan.siuvs2.service.DelatnostService;
 import slobodan.siuvs2.service.KadroviService;
 import slobodan.siuvs2.service.KartonSubjektiService;
 import slobodan.siuvs2.service.ZanimanjaService;
+import slobodan.siuvs2.valueObject.ClientId;
 import slobodan.siuvs2.valueObject.DelatnostId;
 import slobodan.siuvs2.valueObject.KartonSubjektiId;
 import slobodan.siuvs2.valueObject.ZanimanjaId;
@@ -35,8 +50,10 @@ import slobodan.siuvs2.valueObject.ZanimanjaId;
 @Scope(WebApplicationContext.SCOPE_REQUEST)
 @Controller
 
-public class SnageIKapacitetiController {
+public class ClientsSnageIKapacitetiController {
 
+    @Autowired
+    private ClientService clientService;
 
     @Autowired
     private KartonSubjektiService kartonSubjektiService;
@@ -47,71 +64,121 @@ public class SnageIKapacitetiController {
     @Autowired
     private DelatnostService delatnostService;
 
-    /*  poseban cilj*/
-    @GetMapping(value = "/client/Kartoni")
-    public String clientZbirniObrasci(
+    @GetMapping(value = "/admin/clients/{clientId}/Kartoni")
+    public String adminZbirniObrasci(
+            @PathVariable final ClientId clientId,
             final RedirectAttributes redirectAttributes,
             final Model model
     ) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User user = ((SiuvsUserPrincipal) authentication.getPrincipal()).getUser();
-        Client client = user.getClient();
-
+        Client client = clientService.findOne(clientId);
         model.addAttribute("client", client);
 
-        return "client/kartonSubjekta/listaKartona";
+        return "admin/clients/kartonSubjekta/listaKartona";
     }
 
-    @GetMapping(value = "/client/kartonSubjekti")
-    public String clientkartonSubjekti(
+    @GetMapping(value = "/admin/clients/{clientId}/kartonSubjekti")
+    public String adminkartonSubjekti(
+            @PathVariable final ClientId clientId,
             final RedirectAttributes redirectAttributes,
             final Model model
     ) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User user = ((SiuvsUserPrincipal) authentication.getPrincipal()).getUser();
-        Client client = user.getClient();
+        Client client = clientService.findOne(clientId);
         model.addAttribute("client", client);
         List<KartonSubjekti> listaKartona = kartonSubjektiService.findAllByClientOrderByPunnazivAsc(client);
         model.addAttribute("listaKartona", listaKartona);
 
-        return "client/kartonSubjekta/kartonSubjektiLista";
+        return "admin/clients/kartonSubjekta/kartonSubjektiLista";
     }
 
-    @GetMapping(value = "/client/kartonSubjekti/{kartonId}")
-    public String clientkartonSubjektiJedan(
+    @GetMapping(value = "/admin/clients/{clientId}/kartonSubjekti/{kartonId}")
+    public String adminkartonSubjektiJedan(
+            @PathVariable final ClientId clientId,
             @PathVariable final KartonSubjektiId kartonId,
             final RedirectAttributes redirectAttributes,
             final Model model
     ) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User user = ((SiuvsUserPrincipal) authentication.getPrincipal()).getUser();
-        Client client = user.getClient();
-
+        Client client = clientService.findOne(clientId);
         model.addAttribute("client", client);
         KartonSubjekti karton = kartonSubjektiService.findOne(kartonId);
         model.addAttribute("karton", karton);
-        return "client/kartonSubjekta/kartonSubjekta";
+        return "admin/clients/kartonSubjekta/kartonSubjekta";
     }
 
-    @GetMapping(value = "/client/kartonSubjekti/{kartonId}/izmeniKarton")
-    public String clientkartonSubjektiEdit(
+    @GetMapping(value = "/admin/clients/{clientId}/kartonSubjekti/{kartonId}/dodajKadar")
+    public String adminkartonSubjektidodajKadar(
+            @PathVariable final ClientId clientId,
             @PathVariable final KartonSubjektiId kartonId,
             final RedirectAttributes redirectAttributes,
             final Model model
     ) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User user = ((SiuvsUserPrincipal) authentication.getPrincipal()).getUser();
-        Client client = user.getClient();
+        Client client = clientService.findOne(clientId);
+        model.addAttribute("client", client);
+        KartonSubjekti karton = kartonSubjektiService.findOne(kartonId);
+        model.addAttribute("karton", karton);
+        model.addAttribute("zanimanja", zanimanjaService.findAllByOrderByNazivAsc());
+
+        return "admin/clients/kartonSubjekta/newKadar";
+    }
+
+    @PostMapping(value = "/admin/clients/{clientId}/kartonSubjekti/{kartonId}/dodajKadar")
+    public String adminkartonSubjektidodajKadarSave(
+            @PathVariable final ClientId clientId,
+            @PathVariable final KartonSubjektiId kartonId,
+            @RequestParam(value = "action", required = true) String action,
+            @RequestParam(value = "nazivStruke", required = true) ZanimanjaId nazivStrukeId,
+            @RequestParam(value = "brojIzvrsilaca", required = true) Integer brojIzvrsilaca,
+            final RedirectAttributes redirectAttributes,
+            final Model model
+    ) {
+        Client client = clientService.findOne(clientId);
+        model.addAttribute("client", client);
+        KartonSubjekti karton = kartonSubjektiService.findOne(kartonId);
+        Kadrovi novKadar = new Kadrovi();
+        Zanimanja zanimanje = zanimanjaService.findOne(nazivStrukeId);
+        Kadrovi checkKadar = kadroviService.findFirstByZanimanjeAndKartonsubjekti(zanimanje, karton);
+        if (checkKadar != null)//provera da li vec postoji ako postoji menjamo samo broj eventualno
+        {
+            novKadar = checkKadar;
+        }
+
+        novKadar.setBroj(brojIzvrsilaca);
+
+        novKadar.setZanimanje(zanimanje);
+        novKadar.setKartonsubjekti(karton);
+        try {
+            kadroviService.save(novKadar);
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Nov kadar nije uspešno sačuvan!");
+        }
+
+        if (action.equals("save")) {
+            redirectAttributes.addFlashAttribute("successMessage", "Nov kadar je uspešno sačuvan!");
+            return "redirect:/admin/clients/" + clientId + "/kartonSubjekti/" + kartonId;
+        } else {
+            redirectAttributes.addFlashAttribute("successMessage", "Nov kadar je uspešno sačuvan!");
+            return "redirect:/admin/clients/" + clientId + "/kartonSubjekti/" + kartonId + "/dodajKadar";
+        }
+    }
+
+    @GetMapping(value = "/admin/clients/{clientId}/kartonSubjekti/{kartonId}/izmeniKarton")
+    public String adminkartonSubjektiEdit(
+            @PathVariable final ClientId clientId,
+            @PathVariable final KartonSubjektiId kartonId,
+            final RedirectAttributes redirectAttributes,
+            final Model model
+    ) {
+        Client client = clientService.findOne(clientId);
         model.addAttribute("client", client);
         KartonSubjekti karton = kartonSubjektiService.findOne(kartonId);
         model.addAttribute("karton", karton);
         model.addAttribute("listaDelatnosti", delatnostService.findAllByOrderByNazivAsc());
 
-        return "client/kartonSubjekta/editKartonSubjekta";
+        return "admin/clients/kartonSubjekta/editKartonSubjekta";
     }
 
-    @PostMapping(value = "/client/kartonSubjekti/{kartonId}/izmeniKarton")
-    public String clientkartonSubjektiEditSave(
+    @PostMapping(value = "/admin/clients/{clientId}/kartonSubjekti/{kartonId}/izmeniKarton")
+    public String adminkartonSubjektiEditSave(
+            @PathVariable final ClientId clientId,
             @PathVariable final KartonSubjektiId kartonId,
             @RequestParam(value = "action", required = true) String action,
             @RequestParam(value = "maticnibroj", defaultValue = "0") Integer maticnibroj,
@@ -133,7 +200,7 @@ public class SnageIKapacitetiController {
             @RequestParam(value = "delatnost", defaultValue = "1") DelatnostId delatnost,
             @RequestParam(value = "oblik_organizovanja", defaultValue = "/") String oblik_organizovanja,
             @RequestParam(value = "nivo_odredjivanja", defaultValue = "/") String nivo_odredjivanja,
-   
+        
             @RequestParam(value = "kontakt_ime", defaultValue = "/") String kontakt_ime,
             @RequestParam(value = "kontakt_adresa", defaultValue = "/") String kontakt_adresa,
             @RequestParam(value = "kontakt_telposao", defaultValue = "/") String kontakt_telposao,
@@ -142,9 +209,7 @@ public class SnageIKapacitetiController {
             final RedirectAttributes redirectAttributes,
             final Model model
     ) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User user = ((SiuvsUserPrincipal) authentication.getPrincipal()).getUser();
-        Client client = user.getClient();
+        Client client = clientService.findOne(clientId);
         model.addAttribute("client", client);
         KartonSubjekti karton = kartonSubjektiService.findOne(kartonId);
         karton.setMaticnibroj(maticnibroj);
@@ -166,7 +231,7 @@ public class SnageIKapacitetiController {
         karton.setDelatnost(delatnostService.findOne(delatnost));
         karton.setOblik_organizovanja(oblik_organizovanja);
         karton.setNivo_odredjivanja(nivo_odredjivanja);
-      
+
         karton.setKontakt_ime(kontakt_ime);
         karton.setKontakt_adresa(kontakt_adresa);
         karton.setKontakt_telposao(kontakt_telposao);
@@ -182,31 +247,31 @@ public class SnageIKapacitetiController {
 
         if (action.equals("save")) {
             redirectAttributes.addFlashAttribute("successMessage", "Karton je uspešno izmenjen!");
-            return "redirect:/client/kartonSubjekti";
+            return "redirect:/admin/clients/" + clientId + "/kartonSubjekti";
         } else {
             redirectAttributes.addFlashAttribute("successMessage", "Karton je uspešno izmenjen možete dodati kadrove!");
-            return "redirect:/clients/kartonSubjekti/" + karton.getId() + "/dodajKadar";
+            return "redirect:/admin/clients/" + clientId + "/kartonSubjekti/" + karton.getId() + "/dodajKadar";
         }
 
     }
 
-    @GetMapping(value = "/client/kartonSubjekti/newKarton")
-    public String clientkartonSubjektiNew(
+    @GetMapping(value = "/admin/clients/{clientId}/kartonSubjekti/newKarton")
+    public String adminkartonSubjektiNew(
+            @PathVariable final ClientId clientId,
             final RedirectAttributes redirectAttributes,
             final Model model
     ) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User user = ((SiuvsUserPrincipal) authentication.getPrincipal()).getUser();
-        Client client = user.getClient();
+        Client client = clientService.findOne(clientId);
         model.addAttribute("client", client);
 
         model.addAttribute("listaDelatnosti", delatnostService.findAllByOrderByNazivAsc());
 
-        return "client/kartonSubjekta/newKartonSubjekta";
+        return "admin/clients/kartonSubjekta/newKartonSubjekta";
     }
 
-    @PostMapping(value = "/client/kartonSubjekti/newKarton")
-    public String clientkartonSubjektiNewSave(
+    @PostMapping(value = "/admin/clients/{clientId}/kartonSubjekti/newKarton")
+    public String adminkartonSubjektiNewSave(
+            @PathVariable final ClientId clientId,
             @RequestParam(value = "action", required = true) String action,
             @RequestParam(value = "maticnibroj", defaultValue = "0") Integer maticnibroj,
             @RequestParam(value = "pib", defaultValue = "0") Integer pib,
@@ -227,7 +292,7 @@ public class SnageIKapacitetiController {
             @RequestParam(value = "delatnost", defaultValue = "1") DelatnostId delatnost,
             @RequestParam(value = "oblik_organizovanja", defaultValue = "/") String oblik_organizovanja,
             @RequestParam(value = "nivo_odredjivanja", defaultValue = "/") String nivo_odredjivanja,
-   
+ 
             @RequestParam(value = "kontakt_ime", defaultValue = "/") String kontakt_ime,
             @RequestParam(value = "kontakt_adresa", defaultValue = "/") String kontakt_adresa,
             @RequestParam(value = "kontakt_telposao", defaultValue = "/") String kontakt_telposao,
@@ -236,9 +301,7 @@ public class SnageIKapacitetiController {
             final RedirectAttributes redirectAttributes,
             final Model model
     ) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User user = ((SiuvsUserPrincipal) authentication.getPrincipal()).getUser();
-        Client client = user.getClient();
+        Client client = clientService.findOne(clientId);
         model.addAttribute("client", client);
         KartonSubjekti karton = new KartonSubjekti();
         karton.setClient(client);
@@ -262,7 +325,7 @@ public class SnageIKapacitetiController {
         karton.setDelatnost(delatnostService.findOne(delatnost));
         karton.setOblik_organizovanja(oblik_organizovanja);
         karton.setNivo_odredjivanja(nivo_odredjivanja);
-      
+   
         karton.setKontakt_ime(kontakt_ime);
         karton.setKontakt_adresa(kontakt_adresa);
         karton.setKontakt_telposao(kontakt_telposao);
@@ -278,114 +341,52 @@ public class SnageIKapacitetiController {
 
         if (action.equals("save")) {
             redirectAttributes.addFlashAttribute("successMessage", "Nov karton je uspešno sačuvan!");
-            return "redirect:/client/kartonSubjekti";
+            return "redirect:/admin/clients/" + clientId + "/kartonSubjekti";
         } else {
             redirectAttributes.addFlashAttribute("successMessage", "Nov karton je uspešno sačuvan možete dodati kadrove!");
-            return "redirect:/client/kartonSubjekti/" + karton.getId() + "/dodajKadar";
+            return "redirect:/admin/clients/" + clientId + "/kartonSubjekti/" + karton.getId() + "/dodajKadar";
         }
 
     }
 
-    @GetMapping(value = "/client/kartonSubjekti/{kartonId}/dodajKadar")
-    public String clientkartonSubjektidodajKadar(
+    @GetMapping(value = "/admin/clients/{clientId}/kartonSubjekti/{kartonId}/dodajDelatnost")
+    public String adminDodajDelatnost(
+            @PathVariable final ClientId clientId,
             @PathVariable final KartonSubjektiId kartonId,
             final RedirectAttributes redirectAttributes,
             final Model model
     ) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User user = ((SiuvsUserPrincipal) authentication.getPrincipal()).getUser();
-        Client client = user.getClient();
-        model.addAttribute("client", client);
-        KartonSubjekti karton = kartonSubjektiService.findOne(kartonId);
-        model.addAttribute("karton", karton);
-        model.addAttribute("zanimanja", zanimanjaService.findAllByOrderByNazivAsc());
-
-        return "client/kartonSubjekta/newKadar";
-    }
-
-    @PostMapping(value = "/client/kartonSubjekti/{kartonId}/dodajKadar")
-    public String adminkartonSubjektidodajKadarSave(
-          
-            @PathVariable final KartonSubjektiId kartonId,
-            @RequestParam(value = "action", required = true) String action,
-            @RequestParam(value = "nazivStruke", required = true) ZanimanjaId nazivStrukeId,
-            @RequestParam(value = "brojIzvrsilaca", required = true) Integer brojIzvrsilaca,
-            final RedirectAttributes redirectAttributes,
-            final Model model
-    ) {
-         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User user = ((SiuvsUserPrincipal) authentication.getPrincipal()).getUser();
-        Client client = user.getClient();
-        model.addAttribute("client", client);
-        KartonSubjekti karton = kartonSubjektiService.findOne(kartonId);
-        Kadrovi novKadar = new Kadrovi();
-        Zanimanja zanimanje = zanimanjaService.findOne(nazivStrukeId);
-        Kadrovi checkKadar = kadroviService.findFirstByZanimanjeAndKartonsubjekti(zanimanje, karton);
-        if (checkKadar != null)//provera da li vec postoji ako postoji menjamo samo broj eventualno
-        {
-            novKadar = checkKadar;
-        }
-
-        novKadar.setBroj(brojIzvrsilaca);
-
-        novKadar.setZanimanje(zanimanje);
-        novKadar.setKartonsubjekti(karton);
-        try {
-            kadroviService.save(novKadar);
-        } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("errorMessage", "Nov kadar nije uspešno sačuvan!");
-        }
-
-        if (action.equals("save")) {
-            redirectAttributes.addFlashAttribute("successMessage", "Nov kadar je uspešno sačuvan!");
-            return "redirect:/client/kartonSubjekti/" + kartonId;
-        } else {
-            redirectAttributes.addFlashAttribute("successMessage", "Nov kadar je uspešno sačuvan!");
-            return "redirect:/client/kartonSubjekti/" + kartonId + "/dodajKadar";
-        }
-    }
-    @GetMapping(value = "/client/kartonSubjekti/{kartonId}/dodajDelatnost")
-    public String clientDodajDelatnost(
-         
-            @PathVariable final KartonSubjektiId kartonId,
-            final RedirectAttributes redirectAttributes,
-            final Model model
-    ) {
-       Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User user = ((SiuvsUserPrincipal) authentication.getPrincipal()).getUser();
-        Client client = user.getClient();
+        Client client = clientService.findOne(clientId);
         model.addAttribute("client", client);
         model.addAttribute("kartonId", kartonId);
 
-        return "client/kartonSubjekta/newDelatnost";
+        return "admin/clients/kartonSubjekta/newDelatnost";
     }
 
-    @GetMapping(value = "/client/kartonSubjekti/dodajDelatnost")
-    public String clientDodajDelatnostIzNovogKartona(
+    @GetMapping(value = "/admin/clients/{clientId}/kartonSubjekti/dodajDelatnost")
+    public String adminDodajDelatnostIzNovogKartona(
+            @PathVariable final ClientId clientId,
             final RedirectAttributes redirectAttributes,
             final Model model
     ) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User user = ((SiuvsUserPrincipal) authentication.getPrincipal()).getUser();
-        Client client = user.getClient();
+        Client client = clientService.findOne(clientId);
         model.addAttribute("client", client);
 //nema karton id
         KartonSubjektiId kartonId = new KartonSubjektiId(-1);
         model.addAttribute("kartonId", -1);
-        return "client/kartonSubjekta/newDelatnost";
+        return "admin/clients/kartonSubjekta/newDelatnost";
     }
 
-    @PostMapping(value = "/client/kartonSubjekti/{kartonId}/dodajDelatnost")
-    public String clientDodajDelatnostSave(
+    @PostMapping(value = "/admin/clients/{clientId}/kartonSubjekti/{kartonId}/dodajDelatnost")
+    public String adminDodajDelatnostSave(
+            @PathVariable final ClientId clientId,
             @PathVariable final KartonSubjektiId kartonId,
             @RequestParam(value = "naziv", defaultValue = "/") String naziv,
             @RequestParam(value = "sifra", defaultValue = "/") String sifra,
             final RedirectAttributes redirectAttributes,
             final Model model
     ) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User user = ((SiuvsUserPrincipal) authentication.getPrincipal()).getUser();
-        Client client = user.getClient();
+        Client client = clientService.findOne(clientId);
         model.addAttribute("client", client);
 
         Delatnost newDelatnost = new Delatnost();
@@ -395,43 +396,41 @@ public class SnageIKapacitetiController {
             delatnostService.save(newDelatnost);
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("errorMessage", "Nova delatnost nije uspešno sačuvana!");
-            return "redirect:/client/kartonSubjekti/";
+            return "redirect:/admin/clients/" + clientId + "/kartonSubjekti/";
         }
         redirectAttributes.addFlashAttribute("successMessage", "Nova delatnost je uspešno sačuvana!");
         if (kartonId.getValue() == -1) {
-            return "redirect:/client/kartonSubjekti/newKarton";
+            return "redirect:/admin/clients/" + clientId + "/kartonSubjekti/newKarton";
         } else {
-            return "redirect:/client/kartonSubjekti/" + kartonId.getValue() + "/izmeniKarton";
+            return "redirect:/admin/clients/" + clientId + "/kartonSubjekti/" + kartonId.getValue() + "/izmeniKarton";
         }
 
     }
 
-    @GetMapping(value = "/client/kartonSubjekti/{kartonId}/dodajZanimanje")
-    public String clientDodajZanimanje(
+    @GetMapping(value = "/admin/clients/{clientId}/kartonSubjekti/{kartonId}/dodajZanimanje")
+    public String adminDodajZanimanje(
+            @PathVariable final ClientId clientId,
             @PathVariable final KartonSubjektiId kartonId,
             final RedirectAttributes redirectAttributes,
             final Model model
     ) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User user = ((SiuvsUserPrincipal) authentication.getPrincipal()).getUser();
-        Client client = user.getClient();
+        Client client = clientService.findOne(clientId);
         model.addAttribute("client", client);
         model.addAttribute("kartonId", kartonId);
 
-        return "client/kartonSubjekta/newZanimanje";
+        return "admin/clients/kartonSubjekta/newZanimanje";
     }
 
-    @PostMapping(value = "/client/kartonSubjekti/{kartonId}/dodajZanimanje")
-    public String clientDodajZanimanjeSave(
+    @PostMapping(value = "/admin/clients/{clientId}/kartonSubjekti/{kartonId}/dodajZanimanje")
+    public String adminDodajZanimanjeSave(
+            @PathVariable final ClientId clientId,
             @PathVariable final KartonSubjektiId kartonId,
             @RequestParam(value = "naziv", defaultValue = "/") String naziv,
             @RequestParam(value = "sifra", defaultValue = "/") String sifra,
             final RedirectAttributes redirectAttributes,
             final Model model
     ) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User user = ((SiuvsUserPrincipal) authentication.getPrincipal()).getUser();
-        Client client = user.getClient();
+        Client client = clientService.findOne(clientId);
         model.addAttribute("client", client);
         model.addAttribute("kartonId", kartonId);
         Zanimanja newZanimanje = new Zanimanja();
@@ -441,10 +440,10 @@ public class SnageIKapacitetiController {
             zanimanjaService.save(newZanimanje);
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("errorMessage", "Novo zanimanje nije uspešno sačuvano!");
-            return "redirect:/client/kartonSubjekti/" + kartonId.getValue() + "/dodajKadar";
+            return "redirect:/admin/clients/" + clientId + "/kartonSubjekti/" + kartonId.getValue() + "/dodajKadar";
         }
         redirectAttributes.addFlashAttribute("successMessage", "Novo delatnost je uspešno sačuvano!");
-        return "redirect:/client/kartonSubjekti/" + kartonId.getValue() + "/dodajKadar";
+        return "redirect:/admin/clients/" + clientId + "/kartonSubjekti/" + kartonId.getValue() + "/dodajKadar";
     }
 
 }

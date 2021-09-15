@@ -8,7 +8,7 @@
     <body>
 
         <!-- Nav -->
-        <th:block th:insert="fragments/navigation :: navigation-client"></th:block>
+           <th:block th:insert="fragments/navigation :: navigation-end-user"></th:block>
 
         <!-- Content -->
         <div class="px-content">
@@ -35,9 +35,9 @@
 
                     <div class="panel-body">
 
-                        <form th:action="@{/admin/clients/{clientID}/kartonSubjekti/{kartonId}/dodajKadar (clientID=${client.id},kartonId=${karton.id})}"  method="post" class="form-horizontal" autocomplete="off">
+                        <form th:action="@{/client/kartonSubjekti/{kartonId}/dodajKadar (kartonId=${karton.id})}"  method="post" class="form-horizontal" autocomplete="off">
                             <div class="form-group">
-                                <label  class="col-md-3 " >Назив струке - занимања: </label>
+                                <label  class="col-md-3 " >Назив струке - занимања:  <a th:href="@{/client/kartonSubjekti/{kartonId}/dodajZanimanje (kartonId=${karton.id})}"  class=" btn-xs btn-warning btn-outline"><i class="fa fa-plus-square-o fa-lg"></i></a></label>
                                
                                 
                                   <select class="col-md-6 "  name="nazivStruke"  >
@@ -54,7 +54,7 @@
                                 <div class="col-md-offset-3 col-md-9">
                                     <button type="submit" name="action" value="save" class="btn btn-primary">Сачувај</button>
                                     <button type="submit" name="action" value="saveMore" class="btn btn-primary">Сачувај и додај још</button>
-                                    <a th:href="@{/admin/clients/{clientID}/kartonSubjekti/{kartonId} (clientID=${client.id},kartonId=${karton.id})}"  class="btn">Одустани</a>
+                                    <a th:href="@{/client/kartonSubjekti/{kartonId} (kartonId=${karton.id})}"  class="btn">Одустани</a>
                                 </div> 
                             </div>
                         </form>

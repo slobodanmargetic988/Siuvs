@@ -60,7 +60,7 @@ import slobodan.siuvs2.valueObject.ClientId;
 public class MobileAppController {
 
     private String sviServisi = "Svi servisi";
-    private Integer howManyTimes = 5;// how many times notifications are resent to ensure delivery resend obavestenja obaveštenja
+    private Integer howManyTimes = 1;// how many times notifications are resent to ensure delivery resend obavestenja obaveštenja
     @Autowired
     private UserService userService;
     @Autowired
@@ -510,7 +510,7 @@ public class MobileAppController {
         try {//build data json
             jsonNotification2.put("title", title);
             jsonNotification2.put("body", body);
-            jsonNotification2.put("badge", 1);
+            jsonNotification2.put("badge", 0);
             jsonNotification2.put("sound", "default");
             jsonNotification2.put("click_action", "READABLE");
             jsonNotification2.put("content_available", true);
@@ -550,7 +550,7 @@ public class MobileAppController {
 
     private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 
-    private void repeatNotification(Integer howManyTimes, HttpPost post) {
+    private void repeatNotification(Integer howManyTimes,List<HttpPost> sviPostovi) {
 
         final Runnable beeper = new Runnable() {
             public void run() {
@@ -558,24 +558,28 @@ public class MobileAppController {
 
                 HttpClient httpclient = HttpClients.createDefault();
                 try {
+                    for (HttpPost post : sviPostovi ){
                     HttpResponse rawResponse = httpclient.execute(post);
+                    }
                     // System.out.println(rawResponse);
                 } catch (Exception e) {
                 }
             }
         };
 
-        Integer initialDelay = 60 * 20;//60 seconds*20 =minutes initial delay
-        Integer periodBetweenSending = 60 * 20;//60 seconds*20 =minutes period Between Sending
-        Integer runForHowLong = 60 * 20 * howManyTimes;//60 seconds*20*howManyTimes =how long will the thread run, also howManyTimes= basicaly equals how many times will sending execute
-        final ScheduledFuture<?> beeperHandle = scheduler.scheduleAtFixedRate(beeper, initialDelay, periodBetweenSending, SECONDS);
+        Integer initialDelay = 15;//60 seconds*20 =minutes initial delay
+        Integer periodBetweenSending = 18;//60 seconds*20 =minutes period Between Sending
+        Integer runForHowLong = 15 * howManyTimes;//60 seconds*20*howManyTimes =how long will the thread run, also howManyTimes= basicaly equals how many times will sending execute
+      /*  final ScheduledFuture<?> beeperHandle = scheduler.scheduleAtFixedRate(beeper, initialDelay, periodBetweenSending, SECONDS);
 
         scheduler.schedule(new Runnable() {
             public void run() {
                 beeperHandle.cancel(true);
             }
         }, runForHowLong, SECONDS);
-
+*/  //ako ponavljamo vise puta
+      
+      scheduler.schedule(beeper, runForHowLong, SECONDS);//ako ponavljamo samo jednom
     }
 
     @GetMapping("/admin/mobileapp/istorijaNotifikacija")
@@ -691,7 +695,7 @@ public class MobileAppController {
             final Model model,
             final RedirectAttributes redirectAttributes) {
 
-    
+    List<HttpPost> sviPostovi=new ArrayList();
         List<String> primaociIos;
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = ((SiuvsUserPrincipal) authentication.getPrincipal()).getUser();
@@ -786,7 +790,7 @@ public class MobileAppController {
             post1.setEntity(requestEntity1);
             try {
                 HttpResponse rawResponse = httpclient1.execute(post1);
-
+sviPostovi.add(post1);
                 //System.out.println("odgovor od googla je      "+rawResponse);
 //String odgovorContent=rawResponse.getEntity().getContent().toString();
                 //   System.out.println("odgovor od googla je      "+odgovorContent);
@@ -798,9 +802,10 @@ public class MobileAppController {
             }
             //repeat notification 5 times every 20 minutes
 
-          //  repeatNotification(howManyTimes, post1);
+          //  
 
         }
+        repeatNotification(howManyTimes, sviPostovi);
         return "redirect:/admin/mobileapp/slanje";
 
     }
@@ -817,6 +822,9 @@ public class MobileAppController {
             final Model model,
             final RedirectAttributes redirectAttributes) {
 
+        
+         List<HttpPost> sviPostovi=new ArrayList();
+   
         List<String> primaoci= new ArrayList();
         List<String> primaociIos = new ArrayList();;
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -920,6 +928,7 @@ public class MobileAppController {
             try {
 
                 HttpResponse rawResponse = httpclient.execute(post);
+                sviPostovi.add(post);
                 // System.out.println("odgovor od googla je      "+rawResponse);
 //String odgovorContent=rawResponse.getEntity().getContent().toString();
                 //  System.out.println("odgovor od googla je      "+odgovorContent);
@@ -932,7 +941,7 @@ public class MobileAppController {
             }
             //repeat notification 5 times every 20 minutes
 
-            repeatNotification(howManyTimes, post);
+          //  repeatNotification(howManyTimes, post);
 
         }
         //System.out.println("send ios notifications in batches");
@@ -963,10 +972,10 @@ public class MobileAppController {
             post1.setEntity(requestEntity1);
             try {
                 HttpResponse rawResponse = httpclient1.execute(post1);
-
+  sviPostovi.add(post1);
               //  System.out.println("odgovor od googla je      "+rawResponse);
-String odgovorContent=EntityUtils.toString(rawResponse.getEntity(), "UTF-8");
-                   System.out.println("odgovor od googla je      "+odgovorContent);
+//String odgovorContent=EntityUtils.toString(rawResponse.getEntity(), "UTF-8");
+                 //  System.out.println("odgovor od googla je      "+odgovorContent);
                 //    System.out.println("sta on ovde u odgovoru cita");
                 redirectAttributes.addFlashAttribute("successMessage", "Нотификација успешно послата! \n " /*+ rawResponse*/);
 
@@ -975,9 +984,10 @@ String odgovorContent=EntityUtils.toString(rawResponse.getEntity(), "UTF-8");
             }
             //repeat notification 5 times every 20 minutes
 
-            repeatNotification(howManyTimes, post1);
+            
 
         }
+        repeatNotification(howManyTimes, sviPostovi);
         return "redirect:/admin/mobileapp/slanje";
 
     }
@@ -992,7 +1002,8 @@ String odgovorContent=EntityUtils.toString(rawResponse.getEntity(), "UTF-8");
             @RequestParam(name = "file", required = false) MultipartFile file,
             final Model model,
             final RedirectAttributes redirectAttributes) {
-
+List<HttpPost> sviPostovi=new ArrayList();
+        
         List<String> primaoci;
         List<String> primaociIos;
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -1079,7 +1090,7 @@ String odgovorContent=EntityUtils.toString(rawResponse.getEntity(), "UTF-8");
             post.setEntity(requestEntity);
             try {
                 HttpResponse rawResponse = httpclient.execute(post);
-
+ sviPostovi.add(post);
                 redirectAttributes.addFlashAttribute("successMessage", "Нотификација успешно послата! \n " /*+ rawResponse*/);
 
             } catch (Exception e) {
@@ -1087,7 +1098,7 @@ String odgovorContent=EntityUtils.toString(rawResponse.getEntity(), "UTF-8");
             }
             //repeat notification 5 times every 20 minutes
 
-            repeatNotification(howManyTimes, post);
+         //   repeatNotification(howManyTimes, post);
 
         }
 
@@ -1112,7 +1123,7 @@ String odgovorContent=EntityUtils.toString(rawResponse.getEntity(), "UTF-8");
             post1.setEntity(requestEntity);
             try {
                 HttpResponse rawResponse = httpclient.execute(post1);
-
+ sviPostovi.add(post1);
                 redirectAttributes.addFlashAttribute("successMessage", "Нотификација успешно послата! \n " /*+ rawResponse*/);
 
             } catch (Exception e) {
@@ -1120,10 +1131,10 @@ String odgovorContent=EntityUtils.toString(rawResponse.getEntity(), "UTF-8");
             }
             //repeat notification 5 times every 20 minutes
 
-           repeatNotification(howManyTimes, post1);
+       //    repeatNotification(howManyTimes, post1);
 
         }
-
+repeatNotification(howManyTimes, sviPostovi);
         return "redirect:/client/mobileapp/slanje";
 
     }
@@ -1138,7 +1149,8 @@ String odgovorContent=EntityUtils.toString(rawResponse.getEntity(), "UTF-8");
             @RequestParam(name = "file", required = false) MultipartFile file,
             final Model model,
             final RedirectAttributes redirectAttributes) {
-
+List<HttpPost> sviPostovi=new ArrayList();
+       
         List<String> primaoci;
         List<String> primaociIos;
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -1239,6 +1251,7 @@ String odgovorContent=EntityUtils.toString(rawResponse.getEntity(), "UTF-8");
             try {
 
                 HttpResponse rawResponse = httpclient.execute(post);
+                 sviPostovi.add(post);
                 // System.out.println("odgovor od googla je      "+rawResponse);
 //String odgovorContent=rawResponse.getEntity().getContent().toString();
                 //  System.out.println("odgovor od googla je      "+odgovorContent);
@@ -1251,7 +1264,7 @@ String odgovorContent=EntityUtils.toString(rawResponse.getEntity(), "UTF-8");
             }
             //repeat notification 5 times every 20 minutes
 
-            repeatNotification(howManyTimes, post);
+          //  repeatNotification(howManyTimes, post);
 
         }
         //System.out.println("send ios notifications in batches");
@@ -1282,7 +1295,7 @@ String odgovorContent=EntityUtils.toString(rawResponse.getEntity(), "UTF-8");
             post1.setEntity(requestEntity1);
             try {
                 HttpResponse rawResponse = httpclient1.execute(post1);
-
+ sviPostovi.add(post1);
                 //System.out.println("odgovor od googla je      "+rawResponse);
 //String odgovorContent=rawResponse.getEntity().getContent().toString();
                 //   System.out.println("odgovor od googla je      "+odgovorContent);
@@ -1294,9 +1307,10 @@ String odgovorContent=EntityUtils.toString(rawResponse.getEntity(), "UTF-8");
             }
             //repeat notification 5 times every 20 minutes
 
-            repeatNotification(howManyTimes, post1);
+           // repeatNotification(howManyTimes, post1);
 
         }
+         repeatNotification(howManyTimes, sviPostovi);
         return "redirect:/mobileonly/slanje";
 
     }

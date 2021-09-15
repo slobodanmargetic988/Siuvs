@@ -22,7 +22,10 @@ public class Opstina {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "opstina_id")
     private int id;
-
+                             
+     @Column(name = "nadleznaSVS")
+    private String nadleznaSVS;
+     
     @ManyToOne
     @JoinColumn(name = "distrikt_id")
     private Distrikt distrikt;
@@ -67,6 +70,17 @@ public class Opstina {
     @Column(name = "opstina_name_latinica")
     private String namelatinica;
 
+    public String getNadleznaSVS() {
+        return nadleznaSVS;
+    }
+
+    public void setNadleznaSVS(String nadleznaSVS) {
+        this.nadleznaSVS = nadleznaSVS;
+    }
+
+    
+    
+    
     public String getNamelatinica() {
         return namelatinica;
     }

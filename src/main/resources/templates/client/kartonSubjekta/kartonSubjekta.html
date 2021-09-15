@@ -7,7 +7,7 @@
     <body>
 
         <!-- Nav -->
-        <th:block th:insert="fragments/navigation :: navigation-client"></th:block>
+           <th:block th:insert="fragments/navigation :: navigation-end-user"></th:block>
 
         <!-- Content -->
         <div class="px-content">
@@ -32,7 +32,7 @@
 
 
                             <tbody>
-                                <tr  > <td colspan="5"> <a th:href="@{/admin/clients/{clientID}/kartonSubjekti/{kartonId}/izmeniKarton (clientID=${client.id},kartonId=${karton.id})}" class=" btn-xs btn-warning btn-outline"><i class="fa fa-pencil-square-o fa-lg"></i></a> 1. Општи подаци</td></tr>
+                                <tr  > <td colspan="5"> <a th:href="@{/client/kartonSubjekti/{kartonId}/izmeniKarton (kartonId=${karton.id})}" class=" btn-xs btn-warning btn-outline"><i class="fa fa-pencil-square-o fa-lg"></i></a> 1. Општи подаци</td></tr>
 
                                 <tr  >
                                     <td colspan="2"> Матични број</td> 
@@ -113,7 +113,7 @@
 
       <tr  >
                                     <td colspan="2" >Шифра и назив делатности </td> 
-                                    <td colspan="3" > <span th:text="${karton.delatnost?.naziv}?:'/'"></span></td> 
+                                    <td colspan="3" > <span th:if="${karton.delatnost}" th:text="${karton.delatnost.sifra}+${karton.delatnost.naziv}"></span><span th:if="${karton.delatnost}==null">/</span></td> 
                                 </tr>
                                 
                                 
@@ -135,7 +135,7 @@
                         
 <tr  >
                                     <td colspan="2" >Надлежна организациона јединица СВС која води евиденцију</td> 
-                                    <td colspan="3" > <span th:text="${karton.nadleznaSVS}?:'/'"></span></td> 
+                                    <td colspan="3" > <span th:text="${client.opstina.nadleznaSVS}?:'/'"></span></td> 
 </tr>
                   
 
@@ -156,7 +156,7 @@
     
 </th:block>  
 <tr  >
-    <td sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')" ><a th:href="@{/admin/clients/{clientID}/kartonSubjekti/{kartonId}/dodajKadar (clientID=${client.id},kartonId=${karton.id})}" class=" btn-xs btn-warning btn-outline"><i class="fa fa-plus-square-o fa-lg"></i></a></td> 
+    <td sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')" ><a th:href="@{/client/kartonSubjekti/{kartonId}/dodajKadar (kartonId=${karton.id})}" class=" btn-xs btn-warning btn-outline"><i class="fa fa-plus-square-o fa-lg"></i></a></td> 
                                   
 </tr>
 
@@ -192,7 +192,7 @@
             </div>       
             
 
-<a th:href="@{/admin/clients/{clientID}/kartonSubjekti/{kartonId}/izmeniKarton (clientID=${client.id},kartonId=${karton.id})}" class=" btn btn-primary">Измени картон</a> <a th:href="@{/admin/clients/{clientID}/kartonSubjekti/{kartonId}/dodajKadar (clientID=${client.id},kartonId=${karton.id})}" class=" btn btn-primary">Додај кадрове</a>
+<a th:href="@{/client/kartonSubjekti/{kartonId}/izmeniKarton (kartonId=${karton.id})}" class=" btn btn-primary">Измени картон</a> <a th:href="@{/client/kartonSubjekti/{kartonId}/dodajKadar (kartonId=${karton.id})}" class=" btn btn-primary">Додај кадрове</a>
 
         </div>
 

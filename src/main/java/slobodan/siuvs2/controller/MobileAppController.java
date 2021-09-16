@@ -792,8 +792,8 @@ public class MobileAppController {
                 HttpResponse rawResponse = httpclient1.execute(post1);
 sviPostovi.add(post1);
                 //System.out.println("odgovor od googla je      "+rawResponse);
-//String odgovorContent=rawResponse.getEntity().getContent().toString();
-                //   System.out.println("odgovor od googla je      "+odgovorContent);
+String odgovorContent=rawResponse.getEntity().getContent().toString();
+                   System.out.println("odgovor od googla je      "+odgovorContent);
                 //    System.out.println("sta on ovde u odgovoru cita");
                 redirectAttributes.addFlashAttribute("successMessage", "Нотификација успешно послата! \n " /*+ rawResponse*/);
 
@@ -929,11 +929,11 @@ sviPostovi.add(post1);
 
                 HttpResponse rawResponse = httpclient.execute(post);
                 sviPostovi.add(post);
-                // System.out.println("odgovor od googla je      "+rawResponse);
-//String odgovorContent=rawResponse.getEntity().getContent().toString();
-                //  System.out.println("odgovor od googla je      "+odgovorContent);
-                //  System.out.println("sta on ovde u odgovoru cita");
-
+                String odgovorContent=rawResponse.getEntity().getContent().toString();
+                 System.out.println();
+                 System.out.println("odgovor od googla za ANDROID je      "+odgovorContent);
+                   System.out.println(odgovorContent);
+  System.out.println();
                 redirectAttributes.addFlashAttribute("successMessage", "Нотификација успешно послата! \n " /*+ rawResponse*/);
 
             } catch (Exception e) {
@@ -973,10 +973,11 @@ sviPostovi.add(post1);
             try {
                 HttpResponse rawResponse = httpclient1.execute(post1);
   sviPostovi.add(post1);
-              //  System.out.println("odgovor od googla je      "+rawResponse);
-//String odgovorContent=EntityUtils.toString(rawResponse.getEntity(), "UTF-8");
-                 //  System.out.println("odgovor od googla je      "+odgovorContent);
-                //    System.out.println("sta on ovde u odgovoru cita");
+   String odgovorContent=rawResponse.getEntity().getContent().toString();
+            System.out.println();
+                 System.out.println("odgovor od googla za IOS je      "+odgovorContent);
+                   System.out.println(odgovorContent);
+  System.out.println();
                 redirectAttributes.addFlashAttribute("successMessage", "Нотификација успешно послата! \n " /*+ rawResponse*/);
 
             } catch (Exception e) {
@@ -1091,6 +1092,12 @@ List<HttpPost> sviPostovi=new ArrayList();
             try {
                 HttpResponse rawResponse = httpclient.execute(post);
  sviPostovi.add(post);
+ 
+   String odgovorContent=rawResponse.getEntity().getContent().toString();
+            System.out.println();
+                 System.out.println("odgovor od googla za ANDROID je      "+odgovorContent);
+                   System.out.println(odgovorContent);
+  System.out.println();
                 redirectAttributes.addFlashAttribute("successMessage", "Нотификација успешно послата! \n " /*+ rawResponse*/);
 
             } catch (Exception e) {
@@ -1124,6 +1131,12 @@ List<HttpPost> sviPostovi=new ArrayList();
             try {
                 HttpResponse rawResponse = httpclient.execute(post1);
  sviPostovi.add(post1);
+ 
+   String odgovorContent=rawResponse.getEntity().getContent().toString();
+            System.out.println();
+                 System.out.println("odgovor od googla za IOS je      "+odgovorContent);
+                   System.out.println(odgovorContent);
+  System.out.println();
                 redirectAttributes.addFlashAttribute("successMessage", "Нотификација успешно послата! \n " /*+ rawResponse*/);
 
             } catch (Exception e) {
@@ -1252,10 +1265,12 @@ List<HttpPost> sviPostovi=new ArrayList();
 
                 HttpResponse rawResponse = httpclient.execute(post);
                  sviPostovi.add(post);
-                // System.out.println("odgovor od googla je      "+rawResponse);
-//String odgovorContent=rawResponse.getEntity().getContent().toString();
-                //  System.out.println("odgovor od googla je      "+odgovorContent);
-                //  System.out.println("sta on ovde u odgovoru cita");
+                 
+   String odgovorContent=rawResponse.getEntity().getContent().toString();
+            System.out.println();
+                 System.out.println("odgovor od googla za ANDROID je      "+odgovorContent);
+                   System.out.println(odgovorContent);
+  System.out.println();
 
                 redirectAttributes.addFlashAttribute("successMessage", "Нотификација успешно послата! \n " /*+ rawResponse*/);
 
@@ -1296,6 +1311,12 @@ List<HttpPost> sviPostovi=new ArrayList();
             try {
                 HttpResponse rawResponse = httpclient1.execute(post1);
  sviPostovi.add(post1);
+ 
+   String odgovorContent=rawResponse.getEntity().getContent().toString();
+            System.out.println();
+                 System.out.println("odgovor od googla za IOS je      "+odgovorContent);
+                   System.out.println(odgovorContent);
+  System.out.println();
                 //System.out.println("odgovor od googla je      "+rawResponse);
 //String odgovorContent=rawResponse.getEntity().getContent().toString();
                 //   System.out.println("odgovor od googla je      "+odgovorContent);

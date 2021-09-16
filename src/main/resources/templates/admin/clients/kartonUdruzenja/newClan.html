@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+    <head> 
+        <th:block th:include="fragments/head :: head" />
+    </head>
+    <body>
+
+        <!-- Nav -->
+        <th:block th:insert="fragments/navigation :: navigation-client"></th:block>
+
+        <!-- Content -->
+        <div class="px-content">
+
+            <div class="page-header" >
+                <h1>
+                    <th:block th:insert="fragments/navigation :: nav-breadcrumbs-Kartoni-udruzenja" />
+                </h1>
+            </div>
+
+            <div th:replace="fragments/alert :: success (${successMessage})"></div>
+
+            <div th:replace="fragments/alert :: error (${errorMessage})"></div>
+
+            <div class="panel" >
+                <div class="panel-heading">
+
+                    <span class="panel-title" >Додај нови унос о запосленим кадровима</span> 
+                </div>
+
+                <div class="panel-body data-panel-body">
+
+
+
+                    <div class="panel-body">
+
+                        <form th:action="@{/admin/clients/{clientID}/kartonUdruzenja/{kartonId}/dodajClana (clientID=${client.id},kartonId=${karton.id})}"  method="post" class="form-horizontal" autocomplete="off">
+                            <div class="form-group">
+                                <label  class="col-md-3 " >Специјалност:  <a th:href="@{/admin/clients/{clientId}/kartonUdruzenja/{kartonId}/dodajSpecijalnost (clientId=${client.id},kartonId=${karton.id})}"  class=" btn-xs btn-warning btn-outline"><i class="fa fa-plus-square-o fa-lg"></i></a></label>
+                               
+                                
+                                  <select class="col-md-6 "  name="nazivStruke"  >
+                                           
+                                         <option  th:each="zanimanje : ${zanimanja}" th:value="${zanimanje.id}" th:text="${zanimanje.naziv}">Текст</option>
+                                        </select> 
+                                <br> </br>
+                               <label  class="col-md-3 " >Број извршилаца: </label>
+                             
+                                    <input type="number"   class="col-md-6"  name="brojIzvrsilaca" value="0"> 
+                              
+                                <br> </br> <br> </br>
+                                
+                                <div class="col-md-offset-3 col-md-9">
+                                    <button type="submit" name="action" value="save" class="btn btn-primary">Сачувај</button>
+                                    <button type="submit" name="action" value="saveMore" class="btn btn-primary">Сачувај и додај још</button>
+                                    <a th:href="@{/admin/clients/{clientID}/kartonUdruzenja/{kartonId} (clientID=${client.id},kartonId=${karton.id})}"  class="btn">Одустани</a>
+                                </div> 
+                            </div>
+                        </form>
+                    </div>
+
+
+                </div> 
+
+            </div>
+
+
+
+
+        </div>
+
+        <th:block th:insert="fragments/footer :: footer-standard" />
+
+        <th:block th:insert="fragments/scripts :: standard" />
+        <script th:src="@{/js/matrix.js}"></script> 
+    </body>
+</html>

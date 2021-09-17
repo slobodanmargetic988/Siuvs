@@ -92,17 +92,14 @@ public class MobileAppController {
         return "admin/mobileapp/slanje";
     }
 
- 
-        @GetMapping("/mobileonly/slanje")
+    @GetMapping("/mobileonly/slanje")
     public String mobileappOnlySlanje(final Model model) {
-         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = ((SiuvsUserPrincipal) authentication.getPrincipal()).getUser();
         model.addAttribute("servis", user.getMobileonlyservis());
         return "mobileonly/slanje";
     }
-    
-    
-    
+
     @GetMapping("/client/mobileapp/slanje")
     public String mobileappSlanjeClient(final Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -366,16 +363,16 @@ public class MobileAppController {
 
     @Autowired
     private VolonterService volonterService;
-   @Autowired
+    @Autowired
     private VolonterIosService volonterIosService;
-   
+
     @GetMapping("/admin/mobileapp/pregledVolontera")
     public String mobileappPregledVolontera(final Model model) {
         List<Volonter> volonteri = volonterService.findAllBy();
-         List<VolonterIos> volonteriIos = volonterIosService.findAllBy();
-         
+        List<VolonterIos> volonteriIos = volonterIosService.findAllBy();
+
         model.addAttribute("volonteri", volonteri);
-          model.addAttribute("volonteriIOS", volonteriIos);
+        model.addAttribute("volonteriIOS", volonteriIos);
         return "admin/mobileapp/pregledVolontera";
     }
 
@@ -387,11 +384,11 @@ public class MobileAppController {
         Client client = user.getClient();
         model.addAttribute("client", client);
         List<Volonter> volonteri = volonterService.findAllByOpstina(client.getOpstina().getNamelatinica());
-        
-                 List<VolonterIos> volonteriIos = volonterIosService.findAllByOpstina(client.getOpstina().getNamelatinica());
-         
+
+        List<VolonterIos> volonteriIos = volonterIosService.findAllByOpstina(client.getOpstina().getNamelatinica());
+
         model.addAttribute("volonteri", volonteri);
-          model.addAttribute("volonteriIOS", volonteriIos);
+        model.addAttribute("volonteriIOS", volonteriIos);
         return "client/mobileapp/pregledVolontera";
     }
 
@@ -426,13 +423,12 @@ public class MobileAppController {
           hm2.put(notifikacija.getOpstina(), 1);
         }*/
         }
-          List<NotifikacijeIos> notifikacijeIOS = notifikacijeIosService.findAllByOrderByOpstinaAsc();
-     for (NotifikacijeIos notifikacija : notifikacijeIOS) {
+        List<NotifikacijeIos> notifikacijeIOS = notifikacijeIosService.findAllByOrderByOpstinaAsc();
+        for (NotifikacijeIos notifikacija : notifikacijeIOS) {
             UkupnoBrojKorisnika++;
             hm2.merge(notifikacija.getOpstina(), 1, Integer::sum);
         }
-     
-     
+
         System.out.println(hm2.toString());
         model.addAttribute("SviServisiBrojKorisnika", hm2.get(sviServisi));
 
@@ -452,25 +448,22 @@ public class MobileAppController {
         Client client = user.getClient();
         model.addAttribute("client", client);
 
-        model.addAttribute("BrojPrijavljenihZaServis", notifikacijeService.countByOpstina(client.getOpstina().getNamelatinica())+notifikacijeIosService.countByOpstina(client.getOpstina().getNamelatinica()) );
+        model.addAttribute("BrojPrijavljenihZaServis", notifikacijeService.countByOpstina(client.getOpstina().getNamelatinica()) + notifikacijeIosService.countByOpstina(client.getOpstina().getNamelatinica()));
         model.addAttribute("BrojPrijavljenihZaSveServise", notifikacijeService.countByOpstina(sviServisi));
         return "client/mobileapp/prijavljeniZaNotifikacije";
     }
-    
-      @GetMapping("/mobileonly/prijavljeniZaNotifikacije")
+
+    @GetMapping("/mobileonly/prijavljeniZaNotifikacije")
     public String mobileOnlyPrijavljeniZaNotifikacije(final Model model) {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = ((SiuvsUserPrincipal) authentication.getPrincipal()).getUser();
 
-
         model.addAttribute("BrojPrijavljenihZaServis", notifikacijeService.countByOpstina(user.getMobileonlyservis()));
         model.addAttribute("BrojPrijavljenihZaSveServise", notifikacijeService.countByOpstina(sviServisi));
-        
+
         return "mobileonly/prijavljeniZaNotifikacije";
     }
-
-   
 
     private String buildJSONBody(IstorijaNotifikacija istorijaNotifikacija, String title, String body, String image, String message, String link, String linkText, List<String> primaoci, String posiljalac) {
         JSONObject jsonPoruka = new JSONObject();
@@ -513,7 +506,7 @@ public class MobileAppController {
             jsonNotification2.put("badge", 0);
             jsonNotification2.put("sound", "default");
             jsonNotification2.put("click_action", "READABLE");
-            jsonNotification2.put("content_available", true);
+            jsonNotification2.put("content_available", false);
             jsonNotification2.put("priority", "high");
 
             jsonData2.put("title", title);
@@ -535,12 +528,11 @@ public class MobileAppController {
             jsonPoruka2.put("notification", jsonNotification2);
             jsonPoruka2.put("data", jsonData2);
             jsonPoruka2.put("registration_ids", jsonRegistrationIdsArray2);
-            
-        /*     System.out.println();
+
+            /*     System.out.println();
               System.out.println(jsonPoruka2.toString());
               System.out.println();
-           */   
-              
+             */
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -550,7 +542,7 @@ public class MobileAppController {
 
     private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 
-    private void repeatNotification(Integer howManyTimes,List<HttpPost> sviPostovi) {
+    private void repeatNotification(Integer howManyTimes, List<HttpPost> sviPostovi) {
 
         final Runnable beeper = new Runnable() {
             public void run() {
@@ -558,8 +550,8 @@ public class MobileAppController {
 
                 HttpClient httpclient = HttpClients.createDefault();
                 try {
-                    for (HttpPost post : sviPostovi ){
-                    HttpResponse rawResponse = httpclient.execute(post);
+                    for (HttpPost post : sviPostovi) {
+                        HttpResponse rawResponse = httpclient.execute(post);
                     }
                     // System.out.println(rawResponse);
                 } catch (Exception e) {
@@ -570,16 +562,16 @@ public class MobileAppController {
         Integer initialDelay = 15;//60 seconds*20 =minutes initial delay
         Integer periodBetweenSending = 18;//60 seconds*20 =minutes period Between Sending
         Integer runForHowLong = 15 * howManyTimes;//60 seconds*20*howManyTimes =how long will the thread run, also howManyTimes= basicaly equals how many times will sending execute
-      /*  final ScheduledFuture<?> beeperHandle = scheduler.scheduleAtFixedRate(beeper, initialDelay, periodBetweenSending, SECONDS);
+        /*  final ScheduledFuture<?> beeperHandle = scheduler.scheduleAtFixedRate(beeper, initialDelay, periodBetweenSending, SECONDS);
 
         scheduler.schedule(new Runnable() {
             public void run() {
                 beeperHandle.cancel(true);
             }
         }, runForHowLong, SECONDS);
-*/  //ako ponavljamo vise puta
-      
-      scheduler.schedule(beeper, runForHowLong, SECONDS);//ako ponavljamo samo jednom
+         */  //ako ponavljamo vise puta
+
+        scheduler.schedule(beeper, runForHowLong, SECONDS);//ako ponavljamo samo jednom
     }
 
     @GetMapping("/admin/mobileapp/istorijaNotifikacija")
@@ -612,22 +604,20 @@ public class MobileAppController {
         model.addAttribute("poslatoUprethodnomMesecu", istorijaNotifikacijaService.countLastMonthPoslateForClientID(client.getId()));
         return "client/mobileapp/istorijaNotifikacija";
     }
-        @GetMapping("/mobileonly/istorijaNotifikacija")
+
+    @GetMapping("/mobileonly/istorijaNotifikacija")
     public String mobileonlyIstorijaNotifikacija(final Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = ((SiuvsUserPrincipal) authentication.getPrincipal()).getUser();
-     
-   
-         List<User> useriistogservisa=userService.findAllByMobileonlyservis(user.getMobileonlyservis());
-    
-        
-        
+
+        List<User> useriistogservisa = userService.findAllByMobileonlyservis(user.getMobileonlyservis());
+
         List<IstorijaNotifikacija> istorijaNotifikacija = istorijaNotifikacijaService.findAllByCreatedByIn(useriistogservisa);
 
         model.addAttribute("notifikacije", istorijaNotifikacija);
-         model.addAttribute("user", user);
-       // model.addAttribute("poslatoUprethodnomMesecu", istorijaNotifikacijaService.countLastMonthPoslateForClientID(client.getId()));
-       
+        model.addAttribute("user", user);
+        // model.addAttribute("poslatoUprethodnomMesecu", istorijaNotifikacijaService.countLastMonthPoslateForClientID(client.getId()));
+
         return "mobileonly/istorijaNotifikacija";
     }
 
@@ -653,20 +643,20 @@ public class MobileAppController {
         model.addAttribute("notifikacija", notifikacija);
         return "client/mobileapp/pregledNotifikacije";
     }
-    
-        @GetMapping("/mobileonly/pregledNotifikacije/{id}")
+
+    @GetMapping("/mobileonly/pregledNotifikacije/{id}")
     public String mobileonlyPregledNotifikacije(
             @PathVariable final Integer id,
             final Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = ((SiuvsUserPrincipal) authentication.getPrincipal()).getUser();
-   try{
-        IstorijaNotifikacija notifikacija = istorijaNotifikacijaService.findById(id);
-        model.addAttribute("user", user);
-        model.addAttribute("notifikacija", notifikacija);
-   }catch (Exception e){
-       System.out.println(e);
-   }
+        try {
+            IstorijaNotifikacija notifikacija = istorijaNotifikacijaService.findById(id);
+            model.addAttribute("user", user);
+            model.addAttribute("notifikacija", notifikacija);
+        } catch (Exception e) {
+            System.out.println(e);
+        }
         return "mobileonly/pregledNotifikacije";
     }
 
@@ -695,16 +685,15 @@ public class MobileAppController {
             final Model model,
             final RedirectAttributes redirectAttributes) {
 
-    List<HttpPost> sviPostovi=new ArrayList();
+        List<HttpPost> sviPostovi = new ArrayList();
         List<String> primaociIos;
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = ((SiuvsUserPrincipal) authentication.getPrincipal()).getUser();
         Client client = user.getClient();
 
-            primaociIos = notifikacijeIosService.findDistinctByToken();
+        primaociIos = notifikacijeIosService.findDistinctByToken();
 
         // String registration_ids = buildRegistrationIds(primaoci);
-
         String titleTextV = " ";
         String bodyTextV = " ";
         String imageTextV = " ";
@@ -763,7 +752,6 @@ public class MobileAppController {
         istorijaNotifikacija.setImg_link(imageTextV);
         istorijaNotifikacijaService.save(istorijaNotifikacija);
 
-      
         //send ios notifications in batches
         List<String> primaociPraviIOS = new ArrayList();
         primaociPraviIOS.addAll(primaociIos);
@@ -790,10 +778,10 @@ public class MobileAppController {
             post1.setEntity(requestEntity1);
             try {
                 HttpResponse rawResponse = httpclient1.execute(post1);
-sviPostovi.add(post1);
+                sviPostovi.add(post1);
                 //System.out.println("odgovor od googla je      "+rawResponse);
-String odgovorContent=rawResponse.getEntity().getContent().toString();
-                   System.out.println("odgovor od googla je      "+odgovorContent);
+                String odgovorContent = rawResponse.getEntity().getContent().toString();
+                System.out.println("odgovor od googla je      " + odgovorContent);
                 //    System.out.println("sta on ovde u odgovoru cita");
                 redirectAttributes.addFlashAttribute("successMessage", "Нотификација успешно послата! \n " /*+ rawResponse*/);
 
@@ -802,15 +790,14 @@ String odgovorContent=rawResponse.getEntity().getContent().toString();
             }
             //repeat notification 5 times every 20 minutes
 
-          //  
-
+            //  
         }
         repeatNotification(howManyTimes, sviPostovi);
         return "redirect:/admin/mobileapp/slanje";
 
     }
-    
-     @PostMapping("/admin/mobileapp/slanje/posalji")
+
+    @PostMapping("/admin/mobileapp/slanje/posalji")
     public String mobileappSlanjeNotifikacije(
             @RequestParam(name = "titleText", defaultValue = " ") String titleText,
             @RequestParam(name = "bodyText", defaultValue = " ") String bodyText,
@@ -822,20 +809,19 @@ String odgovorContent=rawResponse.getEntity().getContent().toString();
             final Model model,
             final RedirectAttributes redirectAttributes) {
 
-        
-         List<HttpPost> sviPostovi=new ArrayList();
-   
-        List<String> primaoci= new ArrayList();
+        List<HttpPost> sviPostovi = new ArrayList();
+
+        List<String> primaoci = new ArrayList();
         List<String> primaociIos = new ArrayList();;
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = ((SiuvsUserPrincipal) authentication.getPrincipal()).getUser();
         Client client = user.getClient();
 
         if (opstinanamelatinica.equals(sviServisi)) {
-           primaoci = notifikacijeService.findDistinctByToken(); ///////////////disabled for testing///////////////disabled for testing///////////////disabled for testing///////////////disabled for testing///////////////disabled for testing
+            primaoci = notifikacijeService.findDistinctByToken(); ///////////////disabled for testing///////////////disabled for testing///////////////disabled for testing///////////////disabled for testing///////////////disabled for testing
             primaociIos = notifikacijeIosService.findDistinctByToken();
         } else {
-          primaoci = notifikacijeService.findAllByOpstina(opstinanamelatinica);  ///////////////disabled for testing///////////////disabled for testing///////////////disabled for testing///////////////disabled for testing
+            primaoci = notifikacijeService.findAllByOpstina(opstinanamelatinica);  ///////////////disabled for testing///////////////disabled for testing///////////////disabled for testing///////////////disabled for testing
             primaociIos = notifikacijeIosService.findAllByOpstina(opstinanamelatinica);
         }
         // String registration_ids = buildRegistrationIds(primaoci);
@@ -916,8 +902,7 @@ String odgovorContent=rawResponse.getEntity().getContent().toString();
             String JSON_Body = buildJSONBody(istorijaNotifikacija, titleTextV, bodyTextV, imageTextV, messageTextV, linkTextV, linkTextTextV, primaociDeo, opstinanamelatinica);
             primaociPravi.removeAll(primaociDeo);
 
-       //    System.out.println("body :" + JSON_Body);
-
+            //    System.out.println("body :" + JSON_Body);
             HttpClient httpclient = HttpClients.createDefault();
             StringEntity requestEntity = new StringEntity(JSON_Body, ContentType.APPLICATION_JSON);
             String HOST = "https://fcm.googleapis.com/fcm/send";
@@ -929,11 +914,12 @@ String odgovorContent=rawResponse.getEntity().getContent().toString();
 
                 HttpResponse rawResponse = httpclient.execute(post);
                 sviPostovi.add(post);
-                String odgovorContent=rawResponse.getEntity().getContent().toString();
-                 System.out.println();
-                 System.out.println("odgovor od googla za ANDROID je      "+odgovorContent);
-                   System.out.println(odgovorContent);
-  System.out.println();
+               
+                String message = EntityUtils.toString(rawResponse.getEntity(), "UTF-8");
+                System.out.println();
+                System.out.println("odgovor od googla za ANDROID je      " + message);    
+                System.out.println();
+                
                 redirectAttributes.addFlashAttribute("successMessage", "Нотификација успешно послата! \n " /*+ rawResponse*/);
 
             } catch (Exception e) {
@@ -941,8 +927,7 @@ String odgovorContent=rawResponse.getEntity().getContent().toString();
             }
             //repeat notification 5 times every 20 minutes
 
-          //  repeatNotification(howManyTimes, post);
-
+            //  repeatNotification(howManyTimes, post);
         }
         //System.out.println("send ios notifications in batches");
 
@@ -960,7 +945,7 @@ String odgovorContent=rawResponse.getEntity().getContent().toString();
 
             //  primaociPraviIOS.removeAll(primaociDeoIOS);
             String JSON_Body1 = buildJSONBodyIOS(istorijaNotifikacija, titleTextV, bodyTextV, imageTextV, messageTextV, linkTextV, linkTextTextV, primaociDeoIOS, opstinanamelatinica);
-   System.out.println("body za ios :" + JSON_Body1);
+            System.out.println("body za ios :" + JSON_Body1);
             primaociPraviIOS.removeAll(primaociDeoIOS);
 
             HttpClient httpclient1 = HttpClients.createDefault();
@@ -972,20 +957,19 @@ String odgovorContent=rawResponse.getEntity().getContent().toString();
             post1.setEntity(requestEntity1);
             try {
                 HttpResponse rawResponse = httpclient1.execute(post1);
-  sviPostovi.add(post1);
-   String odgovorContent=rawResponse.getEntity().getContent().toString();
-            System.out.println();
-                 System.out.println("odgovor od googla za IOS je      "+odgovorContent);
-                   System.out.println(odgovorContent);
-  System.out.println();
+                sviPostovi.add(post1);
+
+                System.out.println();
+                String message = EntityUtils.toString(rawResponse.getEntity(), "UTF-8");
+                System.out.println("odgovor od googla za IOS je      " + message);
+                System.out.println();
+
                 redirectAttributes.addFlashAttribute("successMessage", "Нотификација успешно послата! \n " /*+ rawResponse*/);
 
             } catch (Exception e) {
                 redirectAttributes.addFlashAttribute("errorMessage", "Грешка приликом слања нотификације!" + e.getMessage());
             }
             //repeat notification 5 times every 20 minutes
-
-            
 
         }
         repeatNotification(howManyTimes, sviPostovi);
@@ -1003,8 +987,8 @@ String odgovorContent=rawResponse.getEntity().getContent().toString();
             @RequestParam(name = "file", required = false) MultipartFile file,
             final Model model,
             final RedirectAttributes redirectAttributes) {
-List<HttpPost> sviPostovi=new ArrayList();
-        
+        List<HttpPost> sviPostovi = new ArrayList();
+
         List<String> primaoci;
         List<String> primaociIos;
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -1091,13 +1075,12 @@ List<HttpPost> sviPostovi=new ArrayList();
             post.setEntity(requestEntity);
             try {
                 HttpResponse rawResponse = httpclient.execute(post);
- sviPostovi.add(post);
- 
-   String odgovorContent=rawResponse.getEntity().getContent().toString();
-            System.out.println();
-                 System.out.println("odgovor od googla za ANDROID je      "+odgovorContent);
-                   System.out.println(odgovorContent);
-  System.out.println();
+                sviPostovi.add(post);
+
+                  String message = EntityUtils.toString(rawResponse.getEntity(), "UTF-8");
+                System.out.println();
+                System.out.println("odgovor od googla za ANDROID je      " + message);    
+                System.out.println();
                 redirectAttributes.addFlashAttribute("successMessage", "Нотификација успешно послата! \n " /*+ rawResponse*/);
 
             } catch (Exception e) {
@@ -1105,8 +1088,7 @@ List<HttpPost> sviPostovi=new ArrayList();
             }
             //repeat notification 5 times every 20 minutes
 
-         //   repeatNotification(howManyTimes, post);
-
+            //   repeatNotification(howManyTimes, post);
         }
 
         //send ios notifications
@@ -1130,13 +1112,12 @@ List<HttpPost> sviPostovi=new ArrayList();
             post1.setEntity(requestEntity);
             try {
                 HttpResponse rawResponse = httpclient.execute(post1);
- sviPostovi.add(post1);
- 
-   String odgovorContent=rawResponse.getEntity().getContent().toString();
-            System.out.println();
-                 System.out.println("odgovor od googla za IOS je      "+odgovorContent);
-                   System.out.println(odgovorContent);
-  System.out.println();
+                sviPostovi.add(post1);
+
+                   String message = EntityUtils.toString(rawResponse.getEntity(), "UTF-8");
+                System.out.println();
+                System.out.println("odgovor od googla za IOS je      " + message);    
+                System.out.println();
                 redirectAttributes.addFlashAttribute("successMessage", "Нотификација успешно послата! \n " /*+ rawResponse*/);
 
             } catch (Exception e) {
@@ -1144,14 +1125,14 @@ List<HttpPost> sviPostovi=new ArrayList();
             }
             //repeat notification 5 times every 20 minutes
 
-       //    repeatNotification(howManyTimes, post1);
-
+            //    repeatNotification(howManyTimes, post1);
         }
-repeatNotification(howManyTimes, sviPostovi);
+        repeatNotification(howManyTimes, sviPostovi);
         return "redirect:/client/mobileapp/slanje";
 
     }
-     @PostMapping("/mobileonly/slanje/posalji")
+
+    @PostMapping("/mobileonly/slanje/posalji")
     public String mobilonlySlanjeNotifikacije(
             @RequestParam(name = "titleText", defaultValue = " ") String titleText,
             @RequestParam(name = "bodyText", defaultValue = " ") String bodyText,
@@ -1162,20 +1143,18 @@ repeatNotification(howManyTimes, sviPostovi);
             @RequestParam(name = "file", required = false) MultipartFile file,
             final Model model,
             final RedirectAttributes redirectAttributes) {
-List<HttpPost> sviPostovi=new ArrayList();
-       
+        List<HttpPost> sviPostovi = new ArrayList();
+
         List<String> primaoci;
         List<String> primaociIos;
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = ((SiuvsUserPrincipal) authentication.getPrincipal()).getUser();
         Client client = user.getClient();
 
-    
-            primaoci = notifikacijeService.findAllByOpstina(opstinanamelatinica);
-            primaociIos = notifikacijeIosService.findAllByOpstina(opstinanamelatinica);
-        
-        // String registration_ids = buildRegistrationIds(primaoci);
+        primaoci = notifikacijeService.findAllByOpstina(opstinanamelatinica);
+        primaociIos = notifikacijeIosService.findAllByOpstina(opstinanamelatinica);
 
+        // String registration_ids = buildRegistrationIds(primaoci);
         String titleTextV = " ";
         String bodyTextV = " ";
         String imageTextV = " ";
@@ -1264,13 +1243,12 @@ List<HttpPost> sviPostovi=new ArrayList();
             try {
 
                 HttpResponse rawResponse = httpclient.execute(post);
-                 sviPostovi.add(post);
-                 
-   String odgovorContent=rawResponse.getEntity().getContent().toString();
-            System.out.println();
-                 System.out.println("odgovor od googla za ANDROID je      "+odgovorContent);
-                   System.out.println(odgovorContent);
-  System.out.println();
+                sviPostovi.add(post);
+
+                String message = EntityUtils.toString(rawResponse.getEntity(), "UTF-8");
+                System.out.println();
+                System.out.println("odgovor od googla za ANDROID je      " + message);    
+                System.out.println();
 
                 redirectAttributes.addFlashAttribute("successMessage", "Нотификација успешно послата! \n " /*+ rawResponse*/);
 
@@ -1279,8 +1257,7 @@ List<HttpPost> sviPostovi=new ArrayList();
             }
             //repeat notification 5 times every 20 minutes
 
-          //  repeatNotification(howManyTimes, post);
-
+            //  repeatNotification(howManyTimes, post);
         }
         //System.out.println("send ios notifications in batches");
 
@@ -1310,13 +1287,12 @@ List<HttpPost> sviPostovi=new ArrayList();
             post1.setEntity(requestEntity1);
             try {
                 HttpResponse rawResponse = httpclient1.execute(post1);
- sviPostovi.add(post1);
- 
-   String odgovorContent=rawResponse.getEntity().getContent().toString();
-            System.out.println();
-                 System.out.println("odgovor od googla za IOS je      "+odgovorContent);
-                   System.out.println(odgovorContent);
-  System.out.println();
+                sviPostovi.add(post1);
+
+                   String message = EntityUtils.toString(rawResponse.getEntity(), "UTF-8");
+                System.out.println();
+                System.out.println("odgovor od googla za IOS je      " + message);    
+                System.out.println();
                 //System.out.println("odgovor od googla je      "+rawResponse);
 //String odgovorContent=rawResponse.getEntity().getContent().toString();
                 //   System.out.println("odgovor od googla je      "+odgovorContent);
@@ -1328,12 +1304,11 @@ List<HttpPost> sviPostovi=new ArrayList();
             }
             //repeat notification 5 times every 20 minutes
 
-           // repeatNotification(howManyTimes, post1);
-
+            // repeatNotification(howManyTimes, post1);
         }
-         repeatNotification(howManyTimes, sviPostovi);
+        repeatNotification(howManyTimes, sviPostovi);
         return "redirect:/mobileonly/slanje";
 
     }
-    
+
 }

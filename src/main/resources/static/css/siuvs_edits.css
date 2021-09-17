@@ -235,8 +235,8 @@ p.assessment-text-label {
     text-decoration: none;
     font-size: 16px;
     color: #7990a8;
-     border-left: 3px solid #7990a8;
-      padding-left: 10px;
+    border-left: 3px solid #7990a8;
+    padding-left: 10px;
 }
 
 /*
@@ -251,6 +251,69 @@ span.assessment-text-label-span-custom {
     padding: 0 0 8px 8px;
 }
 */
+
+/*Aleksandra Edits Start*/
+/*kartonSubjekta*/
+.panel-custom-width {
+    max-width: 1150px;
+    padding-bottom: 3rem;
+}
+.table-custom-heighlight-section {
+    background-color: #b7c8de !important;
+    font-weight: 600;
+}
+.table-custom-subheighlight-section {
+    background: #dfe4f1 !important;
+}
+.panel>.table tr>td:first-child, .panel>.table tr>th:first-child, .panel>.table-responsive>.table tr>td:first-child, .panel>.table-responsive>.table tr>th:first-child {   
+    border-right: 1px solid rgba(0,0,0,.07);
+    border-bottom: 1px solid rgba(0,0,0,.07);
+}
+.panel>.table tr>td:last-child, .panel>.table tr>th:last-child, .panel>.table-responsive>.table tr>td:last-child, .panel>.table-responsive>.table tr>th:last-child {
+    border-bottom: 1px solid rgba(0,0,0,.07);
+}
+.table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th {
+    border-right: 1px solid rgba(0,0,0,.07);
+    border-bottom: 1px solid rgba(0,0,0,.07);
+}
+.table-striped>tbody>tr:nth-of-type(odd) {
+    background-color: transparent;
+}
+.highlighted-row-custom {
+    background-color: rgba(0, 0, 0, 0.02);
+}
+.bottomTwoButtons {
+    margin: 3rem 0 0 2rem;
+}
+
+/*editKartonSubjekta*/
+.panel-custom-width input {
+    width: 100%;
+    box-shadow: none;
+    outline: none;
+    border-radius: .3rem;
+    border: 1px solid rgba(0,0,0,.2);
+}
+.panel-custom-width input:focus {
+    border: 1px solid #7990a8;
+    box-shadow: 0px 0px 3pt 0pt #7990a8;
+}
+.panel-custom-width select {
+    width: 95%;
+    box-shadow: none;
+    outline: none;
+    border-radius: .3rem;
+    border: 1px solid rgba(0,0,0,.2);
+}
+.panel-custom-width select:focus {
+    border: 1px solid #7990a8;
+    box-shadow: 0px 0px 3pt 0pt #7990a8;
+}
+.pl-custom {
+    padding-left: 20px !important;
+}
+/*Aleksandra Edits End*/
+
 
 span.thblock-text {
     text-indent: 12px;
@@ -371,25 +434,32 @@ div#page-signin-form.page-signin-container {
     background: #ecedf1;
 }
 .btn-primary {
-    border-color:#d54244; 
-    background: #d54244;
+/*    border-color:#d54244; 
+    background: #d54244;*/
     transition: background-color 150ms ease, border-color 150ms ease, box-shadow 150ms ease-in-out, top 150ms ease;
     position: relative;
     top:0;
+    border-color: #28a745;
+    background: #28a745;
 }
 .btn-primary:hover,
 .btn-primary:focus {
-    border-color:#d95557; 
-    background: #d95557;
+/*    border-color:#d95557; 
+    background: #d95557;*/
     -webkit-box-shadow: 0px 5px 10px 0px rgba(0,0,0,0.2);
     box-shadow: 0px 5px 10px 0px rgba(0,0,0,0.2);
     top:-2px;
+    background-color: #218838;
+    border-color: #1e7e34;
 }
 .btn-primary:active,
 .btn-primary:active:focus,
 .btn-primary:active:hover {
-    border-color:#e27c7d; 
-    background: #e27c7d;
+/*    border-color:#e27c7d; 
+    background: #e27c7d;*/
+    background-color: #33bd52;
+    border-color: #33bd52;
+        box-shadow: 0 0 0 0.2rem rgba(72, 180, 97, 0.5);
 }
 .btn-lg {
     padding:10px 30px;

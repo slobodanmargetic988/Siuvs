@@ -22,190 +22,190 @@
 
             <!-- Client details panel -->
 
-            <div class="panel">
+            <div class="panel panel-custom-width">
                 <div class="panel-heading">
                     <span class="panel-title">Eвиденциони картон Субјекта  од посебног  значаја за заштиту и спасавање</span>
                 </div>
                 <div class="karton">
                     <div class="table-responsive">
                         <form th:action="@{/admin/clients/{clientID}/kartonSubjekti/{kartonId}/izmeniKarton (clientID=${client.id},kartonId=${karton.id})}"  method="post" class="form-horizontal" autocomplete="off">  
-                        <table class="table table-striped valign-middle">
+                            <table class="table table-striped valign-middle">
 
 
-                            <tbody>
-                                <tr  > <td colspan="5">1. Општи подаци</td></tr>
+                                <tbody>
+                                    <tr class="table-custom-heighlight-section" > <td colspan="5" class="pl-custom">1. Општи подаци</td></tr>
 
-                                <tr  >
-                                    <td colspan="2"> Матични број</td> 
-                                    <td colspan="3">
-                                        <input type="number" name="maticnibroj" th:value="${karton.maticnibroj}?:'0'"/> 
-                                    </td> 
-                                </tr>
-                                <tr  >
-                                    <td colspan="2"> ПИБ</td> 
-                                    <td colspan="3"> <input type="number" name="pib" th:value="${karton.pib}?:'/'"></td> 
-                                </tr>
-                                <tr  >
-                                    <td colspan="2"> Пун назив</td> 
-                                    <td colspan="3"> <input type="text" name="punnaziv" th:value="${karton.punnaziv}?:'/'"></td> 
-                                </tr>
-                                <tr  >
-                                    <td colspan="2"> Скраћени назив</td> 
-                                    <td colspan="3"> <input type="text" name="skraceninaziv" th:value="${karton.skraceninaziv}?:'/'"></td> 
-                                </tr>
-                                <tr  >
-                                    <td colspan="2">Број текућег рачуна</td> 
-                                    <td colspan="3"> <input type="text" name="brojtekucegracuna" th:value="${karton.brojtekucegracuna}?:'/'"></td> 
-                                </tr>
-                                <tr  >
-                                    <td colspan="2"> Поштански број и назив општине</td> 
-                                    <td colspan="3"> <input type="text" name="posta_ime_pb" th:value="${karton.posta_ime_pb}?:'/'"></td> 
-                                </tr>
-                                
-<!--                          adresa      -->
-                                <tr  >
-                                    <td colspan="2" rowspan="2"> Адреса</td> 
-                                    <td colspan="1" rowspan="2"> <input type="text" name="adresa" th:value="${karton.adresa}?:'/'"></td> 
+                                    <tr  >
+                                        <td colspan="2" class="pl-custom highlighted-row-custom"> Матични број</td> 
+                                        <td colspan="3">
+                                            <input type="number" name="maticnibroj" th:value="${karton.maticnibroj}?:'0'"/> 
+                                        </td> 
+                                    </tr>
+                                    <tr  >
+                                        <td colspan="2" class="pl-custom highlighted-row-custom"> ПИБ</td> 
+                                        <td colspan="3"> <input type="number" name="pib" th:value="${karton.pib}?:'/'"></td> 
+                                    </tr>
+                                    <tr  >
+                                        <td colspan="2" class="pl-custom highlighted-row-custom"> Пун назив</td> 
+                                        <td colspan="3"> <input type="text" name="punnaziv" th:value="${karton.punnaziv}?:'/'"></td> 
+                                    </tr>
+                                    <tr  >
+                                        <td colspan="2" class="pl-custom highlighted-row-custom"> Скраћени назив</td> 
+                                        <td colspan="3"> <input type="text" name="skraceninaziv" th:value="${karton.skraceninaziv}?:'/'"></td> 
+                                    </tr>
+                                    <tr  >
+                                        <td colspan="2" class="pl-custom highlighted-row-custom">Број текућег рачуна</td> 
+                                        <td colspan="3"> <input type="text" name="brojtekucegracuna" th:value="${karton.brojtekucegracuna}?:'/'"></td> 
+                                    </tr>
+                                    <tr  >
+                                        <td colspan="2" class="pl-custom highlighted-row-custom"> Поштански број и назив општине</td> 
+                                        <td colspan="3"> <input type="text" name="posta_ime_pb" th:value="${karton.posta_ime_pb}?:'/'"></td> 
+                                    </tr>
 
-
-
-                                    <td colspan="1"> Географска ширина</td> 
-                                    <td colspan="1"> <input type="text" name="geosirina" th:value="${karton.geosirina}?:'/'"></td> 
-                                </tr>
-                                <tr>
-                                    <td colspan="1"> Географска дужина</td> 
-                                    <td colspan="1"> <input type="text" name="geoduzina" th:value="${karton.geoduzina}?:'/'"></td> 
-                                </tr>
-                                
+                                    <!--                          adresa      -->
+                                    <tr  >
+                                        <td colspan="2" rowspan="2" class="pl-custom highlighted-row-custom" style="padding-top: 2.5rem;"> Адреса</td> 
+                                        <td colspan="1" rowspan="2"> <input style="height: 67px;" type="text" name="adresa" th:value="${karton.adresa}?:'/'"></td> 
 
 
-                                   <tr  >
-                                    <td colspan="2"> Број телефона са позивним бројем</td> 
-                                    <td colspan="3"> <input type="text" name="tel" th:value="${karton.tel}?:'/'"></td> 
-                                </tr>
-  <tr  >
-                                    <td colspan="2">Fax</td> 
-                                    <td colspan="3"> <input type="text" name="fax" th:value="${karton.fax}?:'/'"></td> 
-                                </tr>
-                                  <tr  >
-                                    <td colspan="2">E-mail</td> 
-                                    <td colspan="3"> <input type="text" name="email" th:value="${karton.email}?:'/'"></td> 
-                                </tr>
-                                  <tr  >
-                                    <td colspan="2">Website</td> 
-                                    <td colspan="3"> <input type="text" name="website" th:value="${karton.website}?:'/'"></td> 
-                                </tr>
 
-                                
-<!--                 rukovodilac -->
-                                  <tr>
-                                    <td colspan="2" rowspan="3">Руководилац</td> 
-                                    <td colspan="1" rowspan="2"> Име и презиме</td> 
-                                    <td colspan="2" > Телефон</td> 
-                                </tr>
-                                <tr  >
-                                    <td colspan="1" > Hа послу</td> 
-                                    <td colspan="1" > Мобилни</td> 
-                                </tr>
-                                 <tr>
-                                    <td colspan="1" ><input type="text" name="rukovodilac_ime" th:value="${karton.rukovodilac_ime}?:'/'"></td> 
-                                    <td colspan="1" > <input type="text" name="rukovodilac_tel" th:value="${karton.rukovodilac_tel}?:'/'"></td> 
-                                    <td colspan="1" > <input type="text" name="rukovodilac_mob" th:value="${karton.rukovodilac_mob}?:'/'"></td> 
-                                </tr>
+                                        <td colspan="1" class="highlighted-row-custom"> Географска ширина</td> 
+                                        <td colspan="1"> <input type="text" name="geosirina" th:value="${karton.geosirina}?:'/'"></td> 
+                                    </tr>
+                                    <tr>
+                                        <td colspan="1" class="highlighted-row-custom"> Географска дужина</td> 
+                                        <td colspan="1"> <input type="text" name="geoduzina" th:value="${karton.geoduzina}?:'/'"></td> 
+                                    </tr>
 
 
-                                <tr>
-                                    <td colspan="2" >Шифра и назив делатности  <a th:href="@{/admin/clients/{clientId}/kartonSubjekti/{kartonId}/dodajDelatnost (clientId=${client.id},kartonId=${karton.id})}"  class=" btn-xs btn-warning btn-outline"><i class="fa fa-plus-square-o fa-lg"></i></a></td> 
-                                    <td colspan="3" ><a th:href="@{/admin/clients/{clientId}/kartonSubjekti/{kartonId}/dodajDelatnost (clientId=${client.id},kartonId=${karton.id})}"  class=" btn-xs btn-warning btn-outline"><i class="fa fa-plus-square-o fa-lg"></i></a>
-                                        <select class="col-md-6 "  name="delatnost"  >
-                                         <option  th:each="delatnost : ${listaDelatnosti}" th:value="${delatnost.id}" th:text="${delatnost.naziv}" th:selected="${karton.delatnost.id==delatnost.id}">Текст</option>
-                                        </select> 
+
+                                    <tr  >
+                                        <td colspan="2" class="pl-custom highlighted-row-custom"> Број телефона са позивним бројем</td> 
+                                        <td colspan="3"> <input type="text" name="tel" th:value="${karton.tel}?:'/'"></td> 
+                                    </tr>
+                                    <tr  >
+                                        <td colspan="2" class="pl-custom highlighted-row-custom">Fax</td> 
+                                        <td colspan="3"> <input type="text" name="fax" th:value="${karton.fax}?:'/'"></td> 
+                                    </tr>
+                                    <tr  >
+                                        <td colspan="2" class="pl-custom highlighted-row-custom">E-mail</td> 
+                                        <td colspan="3"> <input type="text" name="email" th:value="${karton.email}?:'/'"></td> 
+                                    </tr>
+                                    <tr  >
+                                        <td colspan="2" class="pl-custom highlighted-row-custom">Website</td> 
+                                        <td colspan="3"> <input type="text" name="website" th:value="${karton.website}?:'/'"></td> 
+                                    </tr>
+
+
+                                    <!--                 rukovodilac -->
+                                    <tr>
+                                        <td colspan="2" rowspan="3" class="pl-custom highlighted-row-custom" style="padding-top: 4.2rem;">Руководилац</td> 
+                                        <td colspan="1" rowspan="2" class="text-center" style="padding-top: 2.5rem; background: rgba(0, 0, 0, .02);"> Име и презиме</td> 
+                                        <td colspan="2" class="text-center" style="background: rgba(0, 0, 0, .02);"> Телефон</td> 
+                                    </tr>
+                                    <tr  >
+                                        <td colspan="1" class="text-center" style="background: rgba(0, 0, 0, .02);"> Hа послу</td> 
+                                        <td colspan="1" class="text-center" style="background: rgba(0, 0, 0, .02);"> Мобилни</td> 
+                                    </tr>
+                                    <tr>
+                                        <td colspan="1" ><input type="text" name="rukovodilac_ime" th:value="${karton.rukovodilac_ime}?:'/'"></td> 
+                                        <td colspan="1" > <input type="text" name="rukovodilac_tel" th:value="${karton.rukovodilac_tel}?:'/'"></td> 
+                                        <td colspan="1" > <input type="text" name="rukovodilac_mob" th:value="${karton.rukovodilac_mob}?:'/'"></td> 
+                                    </tr>
+
+
+                                    <tr>
+                                        <td colspan="2" class="pl-custom highlighted-row-custom">Шифра и назив делатности  <a th:href="@{/admin/clients/{clientId}/kartonSubjekti/{kartonId}/dodajDelatnost (clientId=${client.id},kartonId=${karton.id})}"  class=" btn-xs btn-warning btn-outline"><i class="fa fa-plus-square-o fa-lg"></i></a></td> 
+                                        <td colspan="3" ><a th:href="@{/admin/clients/{clientId}/kartonSubjekti/{kartonId}/dodajDelatnost (clientId=${client.id},kartonId=${karton.id})}"  class=" btn-xs btn-warning btn-outline"><i class="fa fa-plus-square-o fa-lg"></i></a>
+                                            <select class="col-md-6 "  name="delatnost"  >
+                                                <option  th:each="delatnost : ${listaDelatnosti}" th:value="${delatnost.id}" th:text="${delatnost.naziv}" th:selected="${karton.delatnost.id==delatnost.id}">Текст</option>
+                                            </select> 
                                         </td>
-                                </tr>
-                                
-                                
-<tr  >
-                                    <td colspan="2" >Облик организовања</td> 
-                                    <td colspan="3" > 
-                                    <select class="col-md-6 "  name="oblik_organizovanja"  >
-                                         <option  value="1.-друштвено"  th:selected="${karton.oblik_organizovanja=='1.-друштвено'}">1.-друштвено</option>
-                                       <option  value="2.-приватно"  th:selected="${karton.oblik_organizovanja=='2.-приватно'}">2.-приватно</option>
-                                       <option  value="3.-задружно"  th:selected="${karton.oblik_organizovanja=='3.-задружно'}">3.-задружно</option>
-                                       <option  value="4.-мешовито"  th:selected="${karton.oblik_organizovanja=='4.-мешовито'}">4.-мешовито</option>
-                                       <option  value="5.-државно" th:selected="${karton.oblik_organizovanja=='5.-државно'}">5.-државно</option>
-                                    </select> 
-                                    </td> 
-                                </tr>
-                         
-<tr>
-                                    <td colspan="2" >Ниво одређивања за спровођење задатака заштите и спасавања</td> 
-                                    <td colspan="3" > 
-                                       <select class="col-md-6 "  name="nivo_odredjivanja"  >
-                                         <option  value="1.-републички ниво"  th:selected="${karton.nivo_odredjivanja=='1.-републички ниво'}">1.-републички ниво</option>
-                                       <option  value="2.-управни округ"  th:selected="${karton.nivo_odredjivanja=='2.-управни округ'}">2.-управни округ</option>
-                                       <option  value="3. аутономна покрајина" th:selected="${karton.nivo_odredjivanja=='3. аутономна покрајина'}">3. аутономна покрајина</option>
-                                       <option  value="4.-јединица локалне самоуправе"  th:selected="${karton.nivo_odredjivanja=='4.-јединица локалне самоуправе'}">4.-јединица локалне самоуправе</option>
-                                    </select> 
-                                    </td> 
-</tr>
-                        
-<tr  >
-                                    <td colspan="2" >Управни округ</td> 
-                                    <td colspan="3" > <span th:text="${client.opstina.distrikt.name}?:'/'"></span></td> 
-</tr>
-
-                        
-<tr  >
-                                    <td colspan="2" >Надлежна организациона јединица СВС која води евиденцију</td> 
-                                    <td colspan="3" > <span th:text="${client.opstina.nadleznaSVS}?:'/'"></span></td> 
-</tr>
-                  
+                                    </tr>
 
 
-<tr  >
-                                    <td colspan="5" >2. Подаци о запосленим кадровима (струке и занимања од значаја за заштиту и   спасавање)</td> 
-                                   
-</tr>
-<tr  >
-                                    <td colspan="5" >Кадрови се могу додати преко линка на прегледу картона или у следећем кораку</td> 
-                                   
-</tr>
+                                    <tr  >
+                                        <td colspan="2" class="pl-custom highlighted-row-custom">Облик организовања</td> 
+                                        <td colspan="3" > 
+                                            <select class="col-md-6 "  name="oblik_organizovanja"  >
+                                                <option  value="1.-друштвено"  th:selected="${karton.oblik_organizovanja=='1.-друштвено'}">1.-друштвено</option>
+                                                <option  value="2.-приватно"  th:selected="${karton.oblik_organizovanja=='2.-приватно'}">2.-приватно</option>
+                                                <option  value="3.-задружно"  th:selected="${karton.oblik_organizovanja=='3.-задружно'}">3.-задружно</option>
+                                                <option  value="4.-мешовито"  th:selected="${karton.oblik_organizovanja=='4.-мешовито'}">4.-мешовито</option>
+                                                <option  value="5.-државно" th:selected="${karton.oblik_organizovanja=='5.-државно'}">5.-државно</option>
+                                            </select> 
+                                        </td> 
+                                    </tr>
 
-</th:block>  
+                                    <tr>
+                                        <td colspan="2" class="pl-custom highlighted-row-custom">Ниво одређивања за спровођење задатака заштите и спасавања</td> 
+                                        <td colspan="3" > 
+                                            <select class="col-md-6 "  name="nivo_odredjivanja"  >
+                                                <option  value="1.-републички ниво"  th:selected="${karton.nivo_odredjivanja=='1.-републички ниво'}">1.-републички ниво</option>
+                                                <option  value="2.-управни округ"  th:selected="${karton.nivo_odredjivanja=='2.-управни округ'}">2.-управни округ</option>
+                                                <option  value="3. аутономна покрајина" th:selected="${karton.nivo_odredjivanja=='3. аутономна покрајина'}">3. аутономна покрајина</option>
+                                                <option  value="4.-јединица локалне самоуправе"  th:selected="${karton.nivo_odredjivanja=='4.-јединица локалне самоуправе'}">4.-јединица локалне самоуправе</option>
+                                            </select> 
+                                        </td> 
+                                    </tr>
+
+                                    <tr  >
+                                        <td colspan="2" class="pl-custom highlighted-row-custom">Управни округ</td> 
+                                        <td colspan="3" > <span th:text="${client.opstina.distrikt.name}?:'/'"></span></td> 
+                                    </tr>
+
+
+                                    <tr  >
+                                        <td colspan="2" class="pl-custom highlighted-row-custom">Надлежна организациона јединица СВС која води евиденцију</td> 
+                                        <td colspan="3" > <span th:text="${client.opstina.nadleznaSVS}?:'/'"></span></td> 
+                                    </tr>
 
 
 
+                                    <tr class="table-custom-heighlight-section" >
+                                        <td colspan="5" class="pl-custom highlighted-row-custom">2. Подаци о запосленим кадровима (струке и занимања од значаја за заштиту и   спасавање)</td> 
 
-<tr  >
-                                    <td colspan="5" >3. Лице за контакт</td> 
-                                   
-</tr>
-<tr  >
-                                    <td>Име и презиме</td> 
-                                    <td>Адреса становања</td> 
-                                    <td>Тел. на послу</td> 
-                                    <td>Тел.у стану</td> 
-                                    <td>Мобилни</td> 
-                                   
-</tr>
-<tr  >
-    <td><input type="text" name="kontakt_ime" th:value="${karton.kontakt_ime}?:'/'"></td> 
-      <td><input type="text" name="kontakt_adresa" th:value="${karton.kontakt_adresa}?:'/'"></td> 
-        <td><input type="text" name="kontakt_telposao" th:value="${karton.kontakt_telposao}?:'/'"></td> 
-          <td><input type="text" name="kontakt_telstan" th:value="${karton.kontakt_telstan}?:'/'"></td> 
-            <td><input type="text" name="kontakt_mob" th:value="${karton.kontakt_mob}?:'/'"></td> 
-                                   
-</tr>
+                                    </tr>
+                                    <tr  >
+                                        <td colspan="5" class="pl-custom highlighted-row-custom">Кадрови се могу додати преко линка на прегледу картона или у следећем кораку</td> 
+
+                                    </tr>
+
+                                    </th:block>  
 
 
-                            </tbody>
-                        </table>
-                             
-                             <div class="col-md-offset-3 col-md-9">
-                                    <button type="submit" name="action" value="save" class="btn btn-primary">Сачувај</button>
-                                    <button type="submit" name="action" value="saveMore" class="btn btn-primary">Сачувај и додај kadrove</button>
-                                    <a th:href="@{/admin/clients/{clientID}/kartonSubjekti/{kartonId} (clientID=${client.id},kartonId=${karton.id})}"  class="btn">Одустани</a>
-                                </div> 
+
+
+                                    <tr class="table-custom-heighlight-section" >
+                                        <td colspan="5" class="pl-custom highlighted-row-custom">3. Лице за контакт</td> 
+
+                                    </tr>
+                    <tr  class="table-custom-subheighlight-section">
+                        <td class="pl-custom">Име и презиме</td> 
+                                        <td>Адреса становања</td> 
+                                        <td>Тел. на послу</td> 
+                                        <td>Тел.у стану</td> 
+                                        <td>Мобилни</td> 
+
+                                    </tr>
+                                    <tr  >
+                                        <td class="pl-custom"><input type="text" name="kontakt_ime" th:value="${karton.kontakt_ime}?:'/'"></td> 
+                                        <td><input type="text" name="kontakt_adresa" th:value="${karton.kontakt_adresa}?:'/'"></td> 
+                                        <td><input type="text" name="kontakt_telposao" th:value="${karton.kontakt_telposao}?:'/'"></td> 
+                                        <td><input type="text" name="kontakt_telstan" th:value="${karton.kontakt_telstan}?:'/'"></td> 
+                                        <td><input type="text" name="kontakt_mob" th:value="${karton.kontakt_mob}?:'/'"></td> 
+
+                                    </tr>
+
+
+                                </tbody>
+                            </table>
+
+                            <div class="col-md-offset-3  bottomTwoButtons">
+                                <button type="submit" name="action" value="save" class="btn btn-primary">Сачувај</button>
+                                <button type="submit" name="action" value="saveMore" class="btn btn-primary">Сачувај и додај кадрове</button>
+                                <a th:href="@{/admin/clients/{clientID}/kartonSubjekti/{kartonId} (clientID=${client.id},kartonId=${karton.id})}"  class="btn">Одустани</a>
+                            </div> 
                         </form> 
                     </div>
                 </div>       

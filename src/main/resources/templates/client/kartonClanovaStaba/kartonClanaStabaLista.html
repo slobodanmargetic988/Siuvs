@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+    <head>
+        <th:block th:include="fragments/head :: head" />
+    </head>
+    <body>
+
+        <!-- Nav -->
+        <th:block th:insert="fragments/navigation :: navigation-client"></th:block>
+
+        <!-- Content -->
+        <div class="px-content">
+
+            <div class="page-header">
+                <h1>
+                    <th:block th:insert="fragments/navigation :: nav-breadcrumbs-Kartoni-clanstaba" />
+                </h1>
+            </div>
+
+            <div th:replace="fragments/alert :: success (${successMessage})"></div>
+
+            <!-- Client details panel -->
+
+            <div class="panel">
+                <div class="panel-heading">
+                    <span class="panel-title">Листа евиденционих картона Субјекта од посебног  значаја за заштиту и спасавање  <a sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')" th:href="@{/client/kartonClanaStaba/newKarton}" class=" btn-xs btn-warning btn-outline"><i class="fa fa-plus-square-o fa-lg"></i> Додај картон</a></span>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-striped valign-middle">
+                        <thead>
+                            <tr>
+                                <!--                                <th>#</th>-->
+                                <th class=" col-md-1">Редни број</th>
+                                <th class=" col-md-1" >Назив члана</th>
+                                <th class=" col-md-1">Назив оперативног штаба</th>
+                                <th class=" col-md-1">Функција</th>
+
+
+
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <th:block th:each="karton, iKarton : ${listaKartona}">
+                                <tr th:attr="data-href=@{/client/kartonClanaStaba/{kartonId} (kartonId=${karton.id})}" >
+                                    <td> <span th:text="${iKarton.count}"></span></td> 
+                                    <td> <span th:text="${karton.punoime}"></span></td> 
+                                    <td> <span th:text="${karton.naziv_operativnog_staba}"></span></td> 
+                                    <td> <span th:text="${karton.funkcija_u_stabu}"></span></td> 
+                                </tr>
+                            </th:block>
+                            <tr>
+                                <td>
+                                    <a th:href="@{/client/kartonClanaStaba/newKarton}" class=" btn-xs btn-warning btn-outline"><i class="fa fa-plus-square-o fa-lg"></i> Додај картон</a>
+                                </td>
+                            </tr>
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+            <a sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')" class="btn btn-primary" th:href="@{/client/kartonClanaStaba/newKarton}">Додај картон</a>   
+
+
+        </div>
+
+        <th:block th:insert="fragments/footer :: footer-standard" />
+        <th:block th:insert="fragments/scripts :: standard" />
+    </body>
+</html>

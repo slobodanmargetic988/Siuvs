@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+    <head>
+        <th:block th:include="fragments/head :: head" />
+    </head>
+    <body>
+
+        <!-- Nav -->
+        <th:block th:insert="fragments/navigation :: navigation-client"></th:block>
+
+        <!-- Content -->
+        <div class="px-content">
+
+            <div class="page-header">
+                <h1>
+                    <th:block th:insert="fragments/navigation :: nav-breadcrumbs-Kartoni-clanstaba" />
+                </h1>
+            </div>
+
+            <div th:replace="fragments/alert :: success (${successMessage})"></div>
+
+            <!-- Client details panel -->
+
+            <div class="panel panel-custom-width">
+                <div class="panel-heading">
+                    <span class="panel-title">Eвиденциони картон члана штаба за ванредне ситуације / стручно оперативног тима</span>
+                </div>
+                <div class="karton">
+                    <div class="table-responsive">
+                        <form th:action="@{client/kartonClanaStaba/{kartonId}/izmeniKarton (kartonId=${karton.id})}"  method="post" class="form-horizontal" autocomplete="off">  
+                            <table class="table table-striped valign-middle">
+                                <tbody>
+                                    <tr  >
+                                        <td   class="pl-custom highlighted-row-custom custom-td-width-left">Назив штаба за ванредне ситуације</td> 
+                                        <td   > 
+                                            <select class="col-md-6" name="naziv_staba_vanr_situacije">
+                                                <option value="Градски штаб за ванредне ситуације" th:selected="${karton.naziv_staba_vanr_situacije=='Градски  штаб за ванредне ситуације'}">Градски  штаб за ванредне ситуације</option>
+                                                <option value="Општински штаб за ванредне ситуације" th:selected="${karton.naziv_staba_vanr_situacije=='Општински штаб за ванредне ситуације'}">Општински штаб за ванредне ситуације</option>
+                                                <option value="Штаб за ванредне ситуације градске општине" th:selected="${karton.naziv_staba_vanr_situacije=='Штаб за ванредне ситуације градске општине'}">Штаб за ванредне ситуације градске општине</option>
+                                            </select> 
+                                        </td>
+                                    </tr>
+
+                                    <tr  >
+                                        <td   class="pl-custom highlighted-row-custom">Адреса штаба</td> 
+                                        <td  > <input type="text" name="adresa_staba" th:value="${karton.adresa_staba}?:'0'"></td> 
+                                    </tr>
+                                    <tr  >
+                                        <td   class="pl-custom highlighted-row-custom">Контакт телефон штаба фиксни</td> 
+                                        <td  > <input type="number" name="fiksni_telefon_staba" th:value="${karton.fiksni_telefon_staba}?:'0'"></td> 
+                                    </tr>
+                                    <tr  >
+                                        <td   class="pl-custom highlighted-row-custom">Контакт телефон штаба мобилни</td> 
+                                        <td  > <input type="number" name="mobilni_telefon_staba" th:value="${karton.mobilni_telefon_staba}?:'0'"></td> 
+                                    </tr>
+                                    <tr  >
+                                        <td   class="pl-custom highlighted-row-custom">E-mail адреса штаба</td> 
+                                        <td  > <input type="text" name="email_staba" th:value="${karton.email_staba}?:'0'"></td> 
+                                    </tr>
+                                    <tr  >
+                                        <td   class="pl-custom highlighted-row-custom">Назив оперативног штаба</td> 
+                                        <td  > <input type="text" name="naziv_operativnog_staba" th:value="${karton.naziv_operativnog_staba}?:'0'"></td> 
+                                    </tr>
+
+                                    <tr  >
+                                        <td   class="pl-custom highlighted-row-custom">Назив стручно оперативног тима</td> 
+                                        <td  > <input type="text" name="naziv_strucno_operativnog_tima" th:value="${karton.naziv_strucno_operativnog_tima}?:'0'"></td> 
+                                    </tr>
+
+                                    <tr  >
+                                        <td   class="pl-custom highlighted-row-custom">Функција – дужност у штабу за ванредне ситуације / оперативном штабу / стручно оперативном тиму</td> 
+                                        <td   > 
+                                            <select class="col-md-6" name="funkcija_u_stabu"  >
+                                                <option  value="Командант Штаба" th:selected="${karton.funkcija_u_stabu=='Командант Штаба'}">Командант Штаба</option>
+                                                <option  value="Заменик команданта Штаба" th:selected="${karton.funkcija_u_stabu=='Заменик команданта Штаба'}"> Заменик команданта Штаба</option>
+                                                <option  value="Начелник Штаба" th:selected="${karton.funkcija_u_stabu=='Начелник Штаба'}">Начелник Штаба</option>
+                                                <option  value="Члан Штаба" th:selected="${karton.funkcija_u_stabu=='Члан Штаба'}">Члан Штаба</option>
+                                                <option  value="Руководилац СОТ-а" th:selected="${karton.funkcija_u_stabu=='Руководилац СОТ-а'}">Руководилац СОТ-а</option>
+                                                <option  value="Заменик руководиоца СОТ-а" th:selected="${karton.funkcija_u_stabu=='Заменик руководиоца СОТ-а'}">Заменик руководиоца СОТ-а</option>
+                                                <option  value="Члан СОТ-а" th:selected="${karton.funkcija_u_stabu=='Члан СОТ-а'}">Члан СОТ-а</option>
+                                            </select> 
+                                        </td>
+                                    </tr>
+
+                                    <tr  >
+                                        <td   class="pl-custom highlighted-row-custom">Име, име једног родитеља, презиме</td> 
+                                        <td  > <input type="text" name="punoime" th:value="${karton.punoime}?:'0'"></td> 
+                                    </tr>
+
+                                    <tr  >
+                                        <td   class="pl-custom highlighted-row-custom">Назив органа/службе/правног лица где ради</td> 
+                                        <td  > <input type="text" name="naziv_organa_gde_radi" th:value="${karton.naziv_organa_gde_radi}?:'0'"></td> 
+                                    </tr>
+
+                                    <tr  >
+                                        <td   class="pl-custom highlighted-row-custom">Адреса органа/службе/правног лица где ради</td> 
+                                        <td  > <input type="text" name="adresa_organa_gde_radi" th:value="${karton.adresa_organa_gde_radi}?:'0'"></td> 
+                                    </tr>
+
+                                    <tr  >
+                                        <td   class="pl-custom highlighted-row-custom">Функција/дужност на радном месту</td> 
+                                        <td  > <input type="text" name="funkcija_na_radu" th:value="${karton.funkcija_na_radu}?:'0'"></td> 
+                                    </tr>
+
+                                    <tr  >
+                                        <td   class="pl-custom highlighted-row-custom">Контакт телефон службени фиксни</td> 
+                                        <td  > <input type="number" name="fiksni_telefon_sluzbeni" th:value="${karton.fiksni_telefon_sluzbeni}?:'0'"></td> 
+                                    </tr>
+
+                                    <tr  >
+                                        <td   class="pl-custom highlighted-row-custom">Контакт телефон службени мобилни</td> 
+                                        <td  > <input type="number" name="mobilni_telefon_sluzbeni" th:value="${karton.mobilni_telefon_sluzbeni}?:'0'"></td> 
+                                    </tr>
+
+                                    <tr  >
+                                        <td   class="pl-custom highlighted-row-custom">E-mail адреса службена</td> 
+                                        <td  > <input type="text" name="email_sluzbeni" th:value="${karton.email_sluzbeni}?:'0'"></td> 
+                                    </tr>
+
+                                    <tr  >
+                                        <td   class="pl-custom highlighted-row-custom">E-mail адреса лична</td> 
+                                        <td  > <input type="text" name="email_licni" th:value="${karton.email_licni}?:'0'"></td> 
+                                    </tr>
+
+
+                                    <tr  >
+                                        <td   class="pl-custom highlighted-row-custom">Адреса становања</td> 
+                                        <td  > <input type="text" name="adresa_stanovanja" th:value="${karton.adresa_stanovanja}?:'0'"></td> 
+                                    </tr>
+
+                                    <tr  >
+                                        <td   class="pl-custom highlighted-row-custom">Контакт телефон у стану</td> 
+                                        <td  > <input type="number" name="telefon_u_stanu" th:value="${karton.telefon_u_stanu}?:'0'"></td> 
+                                    </tr>
+
+                                    <tr  >
+                                        <td   class="pl-custom highlighted-row-custom">Учешће на обукама, семинарима, курсевима и вежбама у области смањења ризика од катастрофа и управљања ванредним ситуацијама</td> 
+                                        <td  > <input type="text" name="ucesce_na_obukama" th:value="${karton.ucesce_na_obukama}?:'0'"></td> 
+                                    </tr>
+
+
+                                </tbody>
+                            </table>
+
+                            <div class="col-md-offset-3 bottomTwoButtons">
+                                <button type="submit" name="action" value="save" class="btn btn-primary">Сачувај</button>
+                                <a sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')" th:href="@{clients/kartonClanaStaba/{kartonId} (kartonId=${karton.id})}"  class="btn">Одустани</a>
+                            </div> 
+                        </form> 
+                    </div>
+                </div>       
+            </div>
+
+
+
+        </div>
+
+        <th:block th:insert="fragments/footer :: footer-standard" />
+        <th:block th:insert="fragments/scripts :: standard" />
+    </body>
+</html>

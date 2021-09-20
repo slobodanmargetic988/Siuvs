@@ -36,17 +36,20 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import slobodan.siuvs2.model.Delatnost;
 import slobodan.siuvs2.model.Kadrovi;
+import slobodan.siuvs2.model.KartonClanovaStaba;
 import slobodan.siuvs2.model.KartonSubjekti;
 import slobodan.siuvs2.model.KartonUdruzenja;
 import slobodan.siuvs2.model.Zanimanja;
 import slobodan.siuvs2.service.ClientService;
 import slobodan.siuvs2.service.DelatnostService;
 import slobodan.siuvs2.service.KadroviService;
+import slobodan.siuvs2.service.KartonClanovaStabaService;
 import slobodan.siuvs2.service.KartonSubjektiService;
 import slobodan.siuvs2.service.KartonUdruzenjaService;
 import slobodan.siuvs2.service.ZanimanjaService;
 import slobodan.siuvs2.valueObject.ClientId;
 import slobodan.siuvs2.valueObject.DelatnostId;
+import slobodan.siuvs2.valueObject.KartonClanovaStabaId;
 import slobodan.siuvs2.valueObject.KartonSubjektiId;
 import slobodan.siuvs2.valueObject.KartonUdruzenjaId;
 import slobodan.siuvs2.valueObject.ZanimanjaId;
@@ -71,6 +74,9 @@ public class SupervizorKartoniController {
     private KadroviService kadroviService;
     @Autowired
     private DelatnostService delatnostService;
+    
+     @Autowired
+    private KartonClanovaStabaService kartonClanovaStabaService;
 
     @GetMapping(value = "/supervisor/clients/{clientId}/Kartoni")
     public String adminZbirniObrasci(
@@ -140,4 +146,33 @@ public class SupervizorKartoniController {
         return "supervisor/kartonUdruzenja";
     }
 
+    
+    
+       @GetMapping(value = "/supervisor/clients/{clientId}/kartonClanaStaba")
+    public String supervisorkartonClanaStaba(
+            @PathVariable final ClientId clientId,
+            final RedirectAttributes redirectAttributes,
+            final Model model
+    ) {
+        Client client = clientService.findOne(clientId);
+        model.addAttribute("client", client);
+        List<KartonClanovaStaba> listaKartona = kartonClanovaStabaService.findAllByClientOrderByPunoimeAsc(client);
+        model.addAttribute("listaKartona", listaKartona);
+
+        return "supervisor/kartonClanaStabaLista";
+    }
+
+    @GetMapping(value = "/supervisor/clients/{clientId}/kartonClanaStaba/{kartonId}")
+    public String supervisorkartonClanaStabaJedan(
+            @PathVariable final ClientId clientId,
+            @PathVariable final KartonClanovaStabaId kartonId,
+            final RedirectAttributes redirectAttributes,
+            final Model model
+    ) {
+        Client client = clientService.findOne(clientId);
+        model.addAttribute("client", client);
+        KartonClanovaStaba karton = kartonClanovaStabaService.findOne(kartonId);
+        model.addAttribute("karton", karton);
+        return "supervisor/kartonClanaStaba";
+    }
 }

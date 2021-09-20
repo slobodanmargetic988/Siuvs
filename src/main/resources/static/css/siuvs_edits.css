@@ -286,6 +286,10 @@ span.assessment-text-label-span-custom {
     margin: 3rem 0 0 2rem;
 }
 
+.custom-td-width-left {
+    width: 50%;
+}
+
 /*editKartonSubjekta*/
 .panel-custom-width input {
     width: 100%;
@@ -434,32 +438,26 @@ div#page-signin-form.page-signin-container {
     background: #ecedf1;
 }
 .btn-primary {
-/*    border-color:#d54244; 
-    background: #d54244;*/
+    border-color:#d54244; 
+    background: #d54244;
     transition: background-color 150ms ease, border-color 150ms ease, box-shadow 150ms ease-in-out, top 150ms ease;
     position: relative;
     top:0;
-    border-color: #28a745;
-    background: #28a745;
+    
 }
 .btn-primary:hover,
 .btn-primary:focus {
-/*    border-color:#d95557; 
-    background: #d95557;*/
+    border-color:#d95557; 
+    background: #d95557;
     -webkit-box-shadow: 0px 5px 10px 0px rgba(0,0,0,0.2);
     box-shadow: 0px 5px 10px 0px rgba(0,0,0,0.2);
     top:-2px;
-    background-color: #218838;
-    border-color: #1e7e34;
 }
 .btn-primary:active,
 .btn-primary:active:focus,
 .btn-primary:active:hover {
-/*    border-color:#e27c7d; 
-    background: #e27c7d;*/
-    background-color: #33bd52;
-    border-color: #33bd52;
-        box-shadow: 0 0 0 0.2rem rgba(72, 180, 97, 0.5);
+    border-color:#e27c7d; 
+    background: #e27c7d;
 }
 .btn-lg {
     padding:10px 30px;
@@ -571,9 +569,9 @@ table.table.table-striped thead {
     border: 1px solid #dfe4f1;
     color: #4e4e4e;
 }
-.table > thead > tr > th {
+/*.table > thead > tr > th {
     border-bottom: 1px solid #7990a8; 
-}
+}*/
 
 /* Contact Info */
 

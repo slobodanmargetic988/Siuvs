@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+    <head>
+        <th:block th:include="fragments/head :: head" />
+    </head>
+    <body>
+
+        <!-- Nav -->
+        <th:block th:insert="fragments/navigation :: navigation-client"></th:block>
+
+        <!-- Content -->
+        <div class="px-content">
+
+            <div class="page-header">
+                <h1>
+                    <th:block th:insert="fragments/navigation :: nav-breadcrumbs-Kartoni-udruzenja" />
+                </h1>
+            </div>
+
+            <div th:replace="fragments/alert :: success (${successMessage})"></div>
+
+            <!-- Client details panel -->
+
+            <div class="panel panel-custom-width">
+                <div class="panel-heading">
+                    <span class="panel-title">Eвиденциони картон Удружења / невладинe организацијe oд значаја  за заштиту и спасавање</span>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="table table-striped valign-middle">
+
+
+                        <tbody>
+                            <tr class="table-custom-heighlight-section"> <td colspan="5" ><a th:href="@{/client/kartonUdruzenja/{kartonId}/izmeniKarton ( kartonId=${karton.id})}" class=" btn-xs btn-warning btn-outline">
+                                        <i class="fa fa-pencil-square-o fa-lg"></i></a> 1. Идентификациони подаци</td>
+                            </tr>
+
+                            <tr  >
+                                <td colspan="2" class="highlighted-row-custom"> Матични број</td> 
+                                <td colspan="3"> <span th:text="${karton.maticnibroj}?:'/'"></span></td> 
+                            </tr>
+                            <tr  >
+                                <td colspan="2" class="highlighted-row-custom"> ПИБ</td> 
+                                <td colspan="3"> <span th:text="${karton.pib}?:'/'"></span></td> 
+                            </tr>
+                            <tr  >
+                                <td colspan="2" class="highlighted-row-custom"> Пун назив удружења</td> 
+                                <td colspan="3"> <span th:text="${karton.punnaziv}?:'/'"></span></td> 
+                            </tr>
+                            <tr  >
+                                <td colspan="2" class="highlighted-row-custom"> Скраћени назив</td> 
+                                <td colspan="3"> <span th:text="${karton.skraceninaziv}?:'/'"></span></td> 
+                            </tr>
+                            <tr  >
+                                <td colspan="2" class="highlighted-row-custom">Број текућег рачуна</td> 
+                                <td colspan="3"> <span th:text="${karton.brojtekucegracuna}?:'/'"></span></td> 
+                            </tr>
+                            <tr  >
+                                <td colspan="2" class="highlighted-row-custom"> Поштански број и назив општине</td> 
+                                <td colspan="3"> <span th:text="${karton.posta_ime_pb}?:'/'"></span></td> 
+                            </tr>
+
+                            <!--                          adresa      -->
+                            <tr  >
+                                <td colspan="2" rowspan="2" class="highlighted-row-custom" style="padding-top: 2.5rem;"> Адреса</td> 
+                                <td colspan="1" rowspan="2" style="    padding-top: 2.5rem;"> <span th:text="${karton.adresa}?:'/'"></span></td> 
+
+
+
+                                <td colspan="1" class="highlighted-row-custom"> Географска ширина</td> 
+                                <td colspan="1"> <span th:text="${karton.geosirina}?:'/'"></span></td> 
+                            </tr>
+                            <tr>
+                                <td colspan="1" class="highlighted-row-custom" style="padding-left: 8px;"> Географска дужина</td> 
+                                <td colspan="1"> <span th:text="${karton.geoduzina}?:'/'"></span></td> 
+                            </tr>
+
+
+
+                            <tr  >
+                                <td colspan="2" class="highlighted-row-custom"> Број телефона са позивним бројем</td> 
+                                <td colspan="3"> <span th:text="${karton.tel}?:'/'"></span></td> 
+                            </tr>
+                            <tr  >
+                                <td colspan="2" class="highlighted-row-custom">Fax</td> 
+                                <td colspan="3"> <span th:text="${karton.fax}?:'/'"></span></td> 
+                            </tr>
+                            <tr  >
+                                <td colspan="2" class="highlighted-row-custom">E-mail</td> 
+                                <td colspan="3"> <span th:text="${karton.email}?:'/'"></span></td> 
+                            </tr>
+                            <tr  >
+                                <td colspan="2" class="highlighted-row-custom">Website</td> 
+                                <td colspan="3"> <span th:text="${karton.website}?:'/'"></span></td> 
+                            </tr>
+
+
+                            <!--                 rukovodilac -->
+                            <tr  >
+                                <td colspan="2" rowspan="3" class="highlighted-row-custom" style="padding-top: 4rem;">Одговорно лице (председник/ директор)</td> 
+                                <td colspan="1" rowspan="2" class="text-center" style="padding-top: 2.5rem; background: rgba(0, 0, 0, .02);"> Име и презиме</td> 
+                                <td colspan="2" class="text-center" style="background: rgba(0, 0, 0, .02);"> Телефон</td> 
+                            </tr>
+                            <tr  >
+                                <td colspan="1" style="padding-left: 8px; background: rgba(0, 0, 0, .02);" class="text-center"> Hа послу</td> 
+                                <td colspan="1" class="text-center" style="background: rgba(0, 0, 0, .02);"> Мобилни</td> 
+                            </tr>
+                            <tr  >
+                                <td colspan="1" style="padding-left: 8px;"><span th:text="${karton.rukovodilac_ime}?:'/'"></span></td> 
+                                <td colspan="1" > <span th:text="${karton.rukovodilac_tel}?:'/'"></span></td> 
+                                <td colspan="1" > <span th:text="${karton.rukovodilac_mob}?:'/'"></span></td> 
+                            </tr>
+ <tr  >
+                                <td colspan="2" class="highlighted-row-custom">Ниво одређивања за спровођење задатака заштите и спасавања</td> 
+                                <td colspan="3" > <span th:text="${karton.nivo_odredjivanja}?:'/'"></span></td> 
+                            </tr>
+
+                            <tr  >
+                                <td colspan="2" class="highlighted-row-custom">Управни округ</td> 
+                                <td colspan="3" > <span th:text="${client.opstina.distrikt.name}?:'/'"></span></td> 
+                            </tr>
+
+
+                            <tr  >
+                                <td colspan="2" class="highlighted-row-custom">Надлежна организациона јединица СВС која води евиденцију</td> 
+                                <td colspan="3" > <span th:text="${client.opstina.nadleznaSVS}?:'/'"></span></td> 
+                            </tr>
+
+                         <tr class="table-custom-heighlight-section" >
+                                        <td colspan="5" class="pl-custom highlighted-row-custom">Циљеви удружења</td> 
+
+                                    </tr>
+                               <th:block th:each="cilj, iCilj : ${karton.ciljeviUdruzenja}">        
+                                <tr  >
+                                    <td colspan="5" ><span th:text="${cilj.naziv}?:'/'"></span></td> 
+                                   
+                                </tr>
+
+                            </th:block> 
+                              <tr  >
+                                <td colspan="5" sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')" ><a th:href="@{/client/kartonUdruzenja/{kartonId}/dodajCilj ( kartonId=${karton.id})}" class=" btn-xs btn-warning btn-outline"><i class="fa fa-plus-square-o fa-lg"></i></a></td> 
+
+                            </tr>
+
+
+
+                           
+
+
+
+                            <tr class="table-custom-heighlight-section">
+                                <td colspan="5" >2. Подаци о члановима удружења – организације са посебним знањима и вештинама који су од значаја за заштиту и спасавање</td> 
+                            </tr>
+                            <tr class="table-custom-subheighlight-section">
+                                <td colspan="3" >Специјалност</td> 
+                                <td colspan="2" >Број чланова</td> 
+                            </tr>
+                            
+                            <th:block  th:each="clan, iKadar : ${karton.clanovi}">        
+                                <tr  >
+                                    <td colspan="3" ><span th:text="${clan.specijalnost.naziv}?:'/'"></span></td> 
+                                    <td colspan="2" > <span th:text="${clan.broj}?:'/'"></span></td> 
+                                </tr>
+
+                            </th:block>  
+                            <tr  >
+                                <td colspan="5" sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')" ><a th:href="@{/client/kartonUdruzenja/{kartonId}/dodajClana ( kartonId=${karton.id})}" class=" btn-xs btn-warning btn-outline"><i class="fa fa-plus-square-o fa-lg"></i></a></td> 
+
+                            </tr>
+
+
+
+                            <tr class="table-custom-heighlight-section">
+                                <td colspan="5" >3. Лице за контакт</td> 
+
+                            </tr>
+                            <tr class="table-custom-subheighlight-section">
+                                <td>Име и презиме</td> 
+                                <td>Адреса становања</td> 
+                                <td>Тел. на послу</td> 
+                                <td>Тел. у стану</td> 
+                                <td>Мобилни</td> 
+
+                            </tr>
+                            <tr  >
+                                <td><span th:text="${karton.kontakt_ime}?:'/'"></span></td> 
+                                <td><span th:text="${karton.kontakt_adresa}?:'/'"></span></td> 
+                                <td><span th:text="${karton.kontakt_telposao}?:'/'"></span></td> 
+                                <td><span th:text="${karton.kontakt_telstan}?:'/'"></span></td> 
+                                <td><span th:text="${karton.kontakt_mob}?:'/'"></span></td> 
+
+                            </tr>
+
+
+                        </tbody>
+                    </table>
+                </div>
+                <div class="bottomTwoButtons">
+                    <a th:href="@{/client/kartonUdruzenja/{kartonId}/izmeniKarton ( kartonId=${karton.id})}" class=" btn btn-primary">Измени картон</a>
+                    <a th:href="@{/client/kartonUdruzenja/{kartonId}/dodajClana ( kartonId=${karton.id})}" class=" btn btn-primary">Додај кадрове</a>
+                    <a th:href="@{/client/kartonUdruzenja/{kartonId}/dodajCilj ( kartonId=${karton.id})}" class=" btn btn-primary">Додај циљеве удружења</a>
+                </div>
+            </div>       
+
+
+
+
+        </div>
+
+
+
+        <th:block th:insert="fragments/footer :: footer-standard" />
+        <th:block th:insert="fragments/scripts :: standard" />
+    </body>
+</html>

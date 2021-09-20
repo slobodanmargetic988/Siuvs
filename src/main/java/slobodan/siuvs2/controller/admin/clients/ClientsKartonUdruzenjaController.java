@@ -76,7 +76,210 @@ public class ClientsKartonUdruzenjaController {
         return "admin/clients/kartonUdruzenja/kartonUdruzenja";
     }
 
-    @GetMapping(value = "/admin/clients/{clientId}/kartonUdruzenja/{kartonId}/dodajClana")
+   
+
+    @GetMapping(value = "/admin/clients/{clientId}/kartonUdruzenja/{kartonId}/izmeniKarton")
+    public String adminkartonUdruzenjaEdit(
+            @PathVariable final ClientId clientId,
+            @PathVariable final KartonUdruzenjaId kartonId,
+            final RedirectAttributes redirectAttributes,
+            final Model model
+    ) {
+        Client client = clientService.findOne(clientId);
+        model.addAttribute("client", client);
+        KartonUdruzenja karton = kartonUdruzenjaService.findOne(kartonId);
+        model.addAttribute("karton", karton);
+        
+
+        return "admin/clients/kartonUdruzenja/editKartonUdruzenja";
+    }
+
+    @PostMapping(value = "/admin/clients/{clientId}/kartonUdruzenja/{kartonId}/izmeniKarton")
+    public String adminkartonUdruzenjaEditSave(                                                                 
+            @PathVariable final ClientId clientId,
+            @PathVariable final KartonUdruzenjaId kartonId,
+            @RequestParam(value = "action", required = true) String action,
+            @RequestParam(value = "maticnibroj", defaultValue = "0") Integer maticnibroj,
+            @RequestParam(value = "pib", defaultValue = "0") Integer pib,
+            @RequestParam(value = "punnaziv", defaultValue = "/") String punnaziv,
+            @RequestParam(value = "skraceninaziv", defaultValue = "/") String skraceninaziv,
+            @RequestParam(value = "brojtekucegracuna", defaultValue = "/") String brojtekucegracuna,
+            @RequestParam(value = "posta_ime_pb", defaultValue = "/") String posta_ime_pb,
+            @RequestParam(value = "adresa", defaultValue = "/") String adresa,
+            @RequestParam(value = "geosirina", defaultValue = "/") String geosirina,
+            @RequestParam(value = "geoduzina", defaultValue = "/") String geoduzina,
+            @RequestParam(value = "tel", defaultValue = "/") String tel,
+            @RequestParam(value = "fax", defaultValue = "/") String fax,
+            @RequestParam(value = "email", defaultValue = "/") String email,
+            @RequestParam(value = "website", defaultValue = "/") String website,
+            @RequestParam(value = "rukovodilac_ime", defaultValue = "/") String rukovodilac_ime,
+            @RequestParam(value = "rukovodilac_tel", defaultValue = "/") String rukovodilac_tel,
+            @RequestParam(value = "rukovodilac_mob", defaultValue = "/") String rukovodilac_mob,
+            
+        
+            @RequestParam(value = "nivo_odredjivanja", defaultValue = "/") String nivo_odredjivanja,
+        
+            @RequestParam(value = "kontakt_ime", defaultValue = "/") String kontakt_ime,
+            @RequestParam(value = "kontakt_adresa", defaultValue = "/") String kontakt_adresa,
+            @RequestParam(value = "kontakt_telposao", defaultValue = "/") String kontakt_telposao,
+            @RequestParam(value = "kontakt_telstan", defaultValue = "/") String kontakt_telstan,
+            @RequestParam(value = "kontakt_mob", defaultValue = "/") String kontakt_mob,
+            final RedirectAttributes redirectAttributes,
+            final Model model
+    ) {
+        Client client = clientService.findOne(clientId);
+        model.addAttribute("client", client);
+        KartonUdruzenja karton = kartonUdruzenjaService.findOne(kartonId);
+        karton.setMaticnibroj(maticnibroj);
+        karton.setPib(pib);
+        karton.setPunnaziv(punnaziv);
+        karton.setSkraceninaziv(skraceninaziv);
+        karton.setBrojtekucegracuna(brojtekucegracuna);
+        karton.setPosta_ime_pb(posta_ime_pb);
+        karton.setAdresa(adresa);
+        karton.setGeosirina(geosirina);
+        karton.setGeoduzina(geoduzina);
+        karton.setTel(tel);
+        karton.setFax(fax);
+        karton.setEmail(email);
+        karton.setWebsite(website);
+        karton.setRukovodilac_ime(rukovodilac_ime);
+        karton.setRukovodilac_mob(rukovodilac_mob);
+        karton.setRukovodilac_tel(rukovodilac_tel);
+       
+       
+        karton.setNivo_odredjivanja(nivo_odredjivanja);
+
+        karton.setKontakt_ime(kontakt_ime);
+        karton.setKontakt_adresa(kontakt_adresa);
+        karton.setKontakt_telposao(kontakt_telposao);
+        karton.setKontakt_telstan(kontakt_telstan);
+        karton.setKontakt_mob(kontakt_mob);
+
+        try {
+            kartonUdruzenjaService.save(karton);
+
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Karton nije uspešno izmenjen!");
+        }
+
+        if (action.equals("save")) {
+            redirectAttributes.addFlashAttribute("successMessage", "Karton je uspešno izmenjen!");
+            return "redirect:/admin/clients/" + clientId + "/kartonUdruzenja";
+        } else {
+             if (action.equals("saveMoreClanova")) {    
+            redirectAttributes.addFlashAttribute("successMessage", "Nov karton je uspešno sačuvan možete dodati članove!");
+            return "redirect:/admin/clients/" + clientId + "/kartonUdruzenja/" + karton.getId() + "/dodajClana";
+                  }
+                  else {    
+            redirectAttributes.addFlashAttribute("successMessage", "Nov karton je uspešno sačuvan možete dodati ciljeve!");
+            return "redirect:/admin/clients/" + clientId + "/kartonUdruzenja/" + karton.getId() + "/dodajCilj";
+                  }
+        }
+
+    }
+
+    @GetMapping(value = "/admin/clients/{clientId}/kartonUdruzenja/newKarton")
+    public String adminkartonUdruzenjaNew(
+            @PathVariable final ClientId clientId,
+            final RedirectAttributes redirectAttributes,
+            final Model model
+    ) {
+        Client client = clientService.findOne(clientId);
+        model.addAttribute("client", client);
+
+        
+
+        return "admin/clients/kartonUdruzenja/newKartonUdruzenja";
+    }
+
+    @PostMapping(value = "/admin/clients/{clientId}/kartonUdruzenja/newKarton")
+    public String adminkartonUdruzenjaNewSave(
+            @PathVariable final ClientId clientId,
+            @RequestParam(value = "action", required = true) String action,
+            @RequestParam(value = "maticnibroj", defaultValue = "0") Integer maticnibroj,
+            @RequestParam(value = "pib", defaultValue = "0") Integer pib,
+            @RequestParam(value = "punnaziv", defaultValue = "/") String punnaziv,
+            @RequestParam(value = "skraceninaziv", defaultValue = "/") String skraceninaziv,
+            @RequestParam(value = "brojtekucegracuna", defaultValue = "/") String brojtekucegracuna,
+            @RequestParam(value = "posta_ime_pb", defaultValue = "/") String posta_ime_pb,
+            @RequestParam(value = "adresa", defaultValue = "/") String adresa,
+            @RequestParam(value = "geosirina", defaultValue = "/") String geosirina,
+            @RequestParam(value = "geoduzina", defaultValue = "/") String geoduzina,
+            @RequestParam(value = "tel", defaultValue = "/") String tel,
+            @RequestParam(value = "fax", defaultValue = "/") String fax,
+            @RequestParam(value = "email", defaultValue = "/") String email,
+            @RequestParam(value = "website", defaultValue = "/") String website,
+            @RequestParam(value = "rukovodilac_ime", defaultValue = "/") String rukovodilac_ime,
+            @RequestParam(value = "rukovodilac_tel", defaultValue = "/") String rukovodilac_tel,
+            @RequestParam(value = "rukovodilac_mob", defaultValue = "/") String rukovodilac_mob,
+          
+            
+            @RequestParam(value = "nivo_odredjivanja", defaultValue = "/") String nivo_odredjivanja,
+ 
+            @RequestParam(value = "kontakt_ime", defaultValue = "/") String kontakt_ime,
+            @RequestParam(value = "kontakt_adresa", defaultValue = "/") String kontakt_adresa,
+            @RequestParam(value = "kontakt_telposao", defaultValue = "/") String kontakt_telposao,
+            @RequestParam(value = "kontakt_telstan", defaultValue = "/") String kontakt_telstan,
+            @RequestParam(value = "kontakt_mob", defaultValue = "/") String kontakt_mob,
+            final RedirectAttributes redirectAttributes,
+            final Model model
+    ) {
+        Client client = clientService.findOne(clientId);
+        model.addAttribute("client", client);
+        KartonUdruzenja karton = new KartonUdruzenja();
+        karton.setClient(client);
+
+        karton.setMaticnibroj(maticnibroj);
+        karton.setPib(pib);
+        karton.setPunnaziv(punnaziv);
+        karton.setSkraceninaziv(skraceninaziv);
+        karton.setBrojtekucegracuna(brojtekucegracuna);
+        karton.setPosta_ime_pb(posta_ime_pb);
+        karton.setAdresa(adresa);
+        karton.setGeosirina(geosirina);
+        karton.setGeoduzina(geoduzina);
+        karton.setTel(tel);
+        karton.setFax(fax);
+        karton.setEmail(email);
+        karton.setWebsite(website);
+        karton.setRukovodilac_ime(rukovodilac_ime);
+        karton.setRukovodilac_mob(rukovodilac_mob);
+        karton.setRukovodilac_tel(rukovodilac_tel);
+     
+       
+        karton.setNivo_odredjivanja(nivo_odredjivanja);
+   
+        karton.setKontakt_ime(kontakt_ime);
+        karton.setKontakt_adresa(kontakt_adresa);
+        karton.setKontakt_telposao(kontakt_telposao);
+        karton.setKontakt_telstan(kontakt_telstan);
+        karton.setKontakt_mob(kontakt_mob);
+
+        try {
+            kartonUdruzenjaService.save(karton);
+
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Nov karton nije uspešno sačuvan!");
+        }
+
+        if (action.equals("save")) {
+            redirectAttributes.addFlashAttribute("successMessage", "Nov karton je uspešno sačuvan!");
+            return "redirect:/admin/clients/" + clientId + "/kartonUdruzenja";
+        } else {
+    
+                  if (action.equals("saveMoreClanova")) {    
+            redirectAttributes.addFlashAttribute("successMessage", "Nov karton je uspešno sačuvan možete dodati članove!");
+            return "redirect:/admin/clients/" + clientId + "/kartonUdruzenja/" + karton.getId() + "/dodajClana";
+                  }
+                  else {    
+            redirectAttributes.addFlashAttribute("successMessage", "Nov karton je uspešno sačuvan možete dodati ciljeve!");
+            return "redirect:/admin/clients/" + clientId + "/kartonUdruzenja/" + karton.getId() + "/dodajCilj";
+                  }
+        }
+
+    }
+ @GetMapping(value = "/admin/clients/{clientId}/kartonUdruzenja/{kartonId}/dodajClana")
     public String adminkartonUdruzenjadodajClana(
             @PathVariable final ClientId clientId,
             @PathVariable final KartonUdruzenjaId kartonId,
@@ -131,253 +334,8 @@ public class ClientsKartonUdruzenjaController {
             return "redirect:/admin/clients/" + clientId + "/kartonUdruzenja/" + kartonId + "/dodajClana";
         }
     }
-
-    @GetMapping(value = "/admin/clients/{clientId}/kartonUdruzenja/{kartonId}/izmeniKarton")
-    public String adminkartonUdruzenjaEdit(
-            @PathVariable final ClientId clientId,
-            @PathVariable final KartonUdruzenjaId kartonId,
-            final RedirectAttributes redirectAttributes,
-            final Model model
-    ) {
-        Client client = clientService.findOne(clientId);
-        model.addAttribute("client", client);
-        KartonUdruzenja karton = kartonUdruzenjaService.findOne(kartonId);
-        model.addAttribute("karton", karton);
-        
-
-        return "admin/clients/kartonUdruzenja/editKartonUdruzenja";
-    }
-
-    @PostMapping(value = "/admin/clients/{clientId}/kartonUdruzenja/{kartonId}/izmeniKarton")
-    public String adminkartonUdruzenjaEditSave(
-            @PathVariable final ClientId clientId,
-            @PathVariable final KartonUdruzenjaId kartonId,
-            @RequestParam(value = "action", required = true) String action,
-            @RequestParam(value = "maticnibroj", defaultValue = "0") Integer maticnibroj,
-            @RequestParam(value = "pib", defaultValue = "0") Integer pib,
-            @RequestParam(value = "punnaziv", defaultValue = "/") String punnaziv,
-            @RequestParam(value = "skraceninaziv", defaultValue = "/") String skraceninaziv,
-            @RequestParam(value = "brojtekucegracuna", defaultValue = "/") String brojtekucegracuna,
-            @RequestParam(value = "posta_ime_pb", defaultValue = "/") String posta_ime_pb,
-            @RequestParam(value = "adresa", defaultValue = "/") String adresa,
-            @RequestParam(value = "geosirina", defaultValue = "/") String geosirina,
-            @RequestParam(value = "geoduzina", defaultValue = "/") String geoduzina,
-            @RequestParam(value = "tel", defaultValue = "/") String tel,
-            @RequestParam(value = "fax", defaultValue = "/") String fax,
-            @RequestParam(value = "email", defaultValue = "/") String email,
-            @RequestParam(value = "website", defaultValue = "/") String website,
-            @RequestParam(value = "rukovodilac_ime", defaultValue = "/") String rukovodilac_ime,
-            @RequestParam(value = "rukovodilac_tel", defaultValue = "/") String rukovodilac_tel,
-            @RequestParam(value = "rukovodilac_mob", defaultValue = "/") String rukovodilac_mob,
-            
-            @RequestParam(value = "oblik_organizovanja", defaultValue = "/") String oblik_organizovanja,
-            @RequestParam(value = "nivo_odredjivanja", defaultValue = "/") String nivo_odredjivanja,
-        
-            @RequestParam(value = "kontakt_ime", defaultValue = "/") String kontakt_ime,
-            @RequestParam(value = "kontakt_adresa", defaultValue = "/") String kontakt_adresa,
-            @RequestParam(value = "kontakt_telposao", defaultValue = "/") String kontakt_telposao,
-            @RequestParam(value = "kontakt_telstan", defaultValue = "/") String kontakt_telstan,
-            @RequestParam(value = "kontakt_mob", defaultValue = "/") String kontakt_mob,
-            final RedirectAttributes redirectAttributes,
-            final Model model
-    ) {
-        Client client = clientService.findOne(clientId);
-        model.addAttribute("client", client);
-        KartonUdruzenja karton = kartonUdruzenjaService.findOne(kartonId);
-        karton.setMaticnibroj(maticnibroj);
-        karton.setPib(pib);
-        karton.setPunnaziv(punnaziv);
-        karton.setSkraceninaziv(skraceninaziv);
-        karton.setBrojtekucegracuna(brojtekucegracuna);
-        karton.setPosta_ime_pb(posta_ime_pb);
-        karton.setAdresa(adresa);
-        karton.setGeosirina(geosirina);
-        karton.setGeoduzina(geoduzina);
-        karton.setTel(tel);
-        karton.setFax(fax);
-        karton.setEmail(email);
-        karton.setWebsite(website);
-        karton.setRukovodilac_ime(rukovodilac_ime);
-        karton.setRukovodilac_mob(rukovodilac_mob);
-        karton.setRukovodilac_tel(rukovodilac_tel);
-       
-        karton.setOblik_organizovanja(oblik_organizovanja);
-        karton.setNivo_odredjivanja(nivo_odredjivanja);
-
-        karton.setKontakt_ime(kontakt_ime);
-        karton.setKontakt_adresa(kontakt_adresa);
-        karton.setKontakt_telposao(kontakt_telposao);
-        karton.setKontakt_telstan(kontakt_telstan);
-        karton.setKontakt_mob(kontakt_mob);
-
-        try {
-            kartonUdruzenjaService.save(karton);
-
-        } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("errorMessage", "Karton nije uspešno izmenjen!");
-        }
-
-        if (action.equals("save")) {
-            redirectAttributes.addFlashAttribute("successMessage", "Karton je uspešno izmenjen!");
-            return "redirect:/admin/clients/" + clientId + "/kartonUdruzenja";
-        } else {
-            redirectAttributes.addFlashAttribute("successMessage", "Karton je uspešno izmenjen možete dodati kadrove!");
-            return "redirect:/admin/clients/" + clientId + "/kartonUdruzenja/" + karton.getId() + "/dodajClana";
-        }
-
-    }
-
-    @GetMapping(value = "/admin/clients/{clientId}/kartonUdruzenja/newKarton")
-    public String adminkartonUdruzenjaNew(
-            @PathVariable final ClientId clientId,
-            final RedirectAttributes redirectAttributes,
-            final Model model
-    ) {
-        Client client = clientService.findOne(clientId);
-        model.addAttribute("client", client);
-
-        
-
-        return "admin/clients/kartonUdruzenja/newKartonUdruzenja";
-    }
-
-    @PostMapping(value = "/admin/clients/{clientId}/kartonUdruzenja/newKarton")
-    public String adminkartonUdruzenjaNewSave(
-            @PathVariable final ClientId clientId,
-            @RequestParam(value = "action", required = true) String action,
-            @RequestParam(value = "maticnibroj", defaultValue = "0") Integer maticnibroj,
-            @RequestParam(value = "pib", defaultValue = "0") Integer pib,
-            @RequestParam(value = "punnaziv", defaultValue = "/") String punnaziv,
-            @RequestParam(value = "skraceninaziv", defaultValue = "/") String skraceninaziv,
-            @RequestParam(value = "brojtekucegracuna", defaultValue = "/") String brojtekucegracuna,
-            @RequestParam(value = "posta_ime_pb", defaultValue = "/") String posta_ime_pb,
-            @RequestParam(value = "adresa", defaultValue = "/") String adresa,
-            @RequestParam(value = "geosirina", defaultValue = "/") String geosirina,
-            @RequestParam(value = "geoduzina", defaultValue = "/") String geoduzina,
-            @RequestParam(value = "tel", defaultValue = "/") String tel,
-            @RequestParam(value = "fax", defaultValue = "/") String fax,
-            @RequestParam(value = "email", defaultValue = "/") String email,
-            @RequestParam(value = "website", defaultValue = "/") String website,
-            @RequestParam(value = "rukovodilac_ime", defaultValue = "/") String rukovodilac_ime,
-            @RequestParam(value = "rukovodilac_tel", defaultValue = "/") String rukovodilac_tel,
-            @RequestParam(value = "rukovodilac_mob", defaultValue = "/") String rukovodilac_mob,
-          
-            @RequestParam(value = "oblik_organizovanja", defaultValue = "/") String oblik_organizovanja,
-            @RequestParam(value = "nivo_odredjivanja", defaultValue = "/") String nivo_odredjivanja,
- 
-            @RequestParam(value = "kontakt_ime", defaultValue = "/") String kontakt_ime,
-            @RequestParam(value = "kontakt_adresa", defaultValue = "/") String kontakt_adresa,
-            @RequestParam(value = "kontakt_telposao", defaultValue = "/") String kontakt_telposao,
-            @RequestParam(value = "kontakt_telstan", defaultValue = "/") String kontakt_telstan,
-            @RequestParam(value = "kontakt_mob", defaultValue = "/") String kontakt_mob,
-            final RedirectAttributes redirectAttributes,
-            final Model model
-    ) {
-        Client client = clientService.findOne(clientId);
-        model.addAttribute("client", client);
-        KartonUdruzenja karton = new KartonUdruzenja();
-        karton.setClient(client);
-
-        karton.setMaticnibroj(maticnibroj);
-        karton.setPib(pib);
-        karton.setPunnaziv(punnaziv);
-        karton.setSkraceninaziv(skraceninaziv);
-        karton.setBrojtekucegracuna(brojtekucegracuna);
-        karton.setPosta_ime_pb(posta_ime_pb);
-        karton.setAdresa(adresa);
-        karton.setGeosirina(geosirina);
-        karton.setGeoduzina(geoduzina);
-        karton.setTel(tel);
-        karton.setFax(fax);
-        karton.setEmail(email);
-        karton.setWebsite(website);
-        karton.setRukovodilac_ime(rukovodilac_ime);
-        karton.setRukovodilac_mob(rukovodilac_mob);
-        karton.setRukovodilac_tel(rukovodilac_tel);
-     
-        karton.setOblik_organizovanja(oblik_organizovanja);
-        karton.setNivo_odredjivanja(nivo_odredjivanja);
-   
-        karton.setKontakt_ime(kontakt_ime);
-        karton.setKontakt_adresa(kontakt_adresa);
-        karton.setKontakt_telposao(kontakt_telposao);
-        karton.setKontakt_telstan(kontakt_telstan);
-        karton.setKontakt_mob(kontakt_mob);
-
-        try {
-            kartonUdruzenjaService.save(karton);
-
-        } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("errorMessage", "Nov karton nije uspešno sačuvan!");
-        }
-
-        if (action.equals("save")) {
-            redirectAttributes.addFlashAttribute("successMessage", "Nov karton je uspešno sačuvan!");
-            return "redirect:/admin/clients/" + clientId + "/kartonUdruzenja";
-        } else {
-            redirectAttributes.addFlashAttribute("successMessage", "Nov karton je uspešno sačuvan možete dodati kadrove!");
-            return "redirect:/admin/clients/" + clientId + "/kartonUdruzenja/" + karton.getId() + "/dodajClana";
-        }
-
-    }
-
-    @GetMapping(value = "/admin/clients/{clientId}/kartonUdruzenja/{kartonId}/dodajCilj")
-    public String adminDodajCilj(
-            @PathVariable final ClientId clientId,
-            @PathVariable final KartonUdruzenjaId kartonId,
-            final RedirectAttributes redirectAttributes,
-            final Model model
-    ) {
-        Client client = clientService.findOne(clientId);
-        model.addAttribute("client", client);
-        model.addAttribute("kartonId", kartonId);
-
-        return "admin/clients/kartonUdruzenja/newCilj";
-    }
-
-    @GetMapping(value = "/admin/clients/{clientId}/kartonUdruzenja/dodajCilj")
-    public String adminDodajCiljIzNovogKartona(
-            @PathVariable final ClientId clientId,
-            final RedirectAttributes redirectAttributes,
-            final Model model
-    ) {
-        Client client = clientService.findOne(clientId);
-        model.addAttribute("client", client);
-//nema karton id
-        KartonUdruzenjaId kartonId = new KartonUdruzenjaId(-1);
-        model.addAttribute("kartonId", -1);
-        return "admin/clients/kartonUdruzenja/newCilj";
-    }
-
-    @PostMapping(value = "/admin/clients/{clientId}/kartonUdruzenja/{kartonId}/dodajDelatnost")
-    public String adminDodajCiljSave(
-            @PathVariable final ClientId clientId,
-            @PathVariable final KartonUdruzenjaId kartonId,
-            @RequestParam(value = "naziv", defaultValue = "/") String naziv,
-           
-            final RedirectAttributes redirectAttributes,
-            final Model model
-    ) {
-        Client client = clientService.findOne(clientId);
-        model.addAttribute("client", client);
-
-        CiljeviUdruzenja newCiljeviUdruzenja = new CiljeviUdruzenja();
-        newCiljeviUdruzenja.setNaziv(naziv);
-      
-        try {
-            ciljeviUdruzenjaService.save(newCiljeviUdruzenja);
-        } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("errorMessage", "Nova delatnost nije uspešno sačuvana!");
-            return "redirect:/admin/clients/" + clientId + "/kartonUdruzenja/";
-        }
-        redirectAttributes.addFlashAttribute("successMessage", "Nova delatnost je uspešno sačuvana!");
-        if (kartonId.getValue() == -1) {
-            return "redirect:/admin/clients/" + clientId + "/kartonUdruzenja/newKarton";
-        } else {
-            return "redirect:/admin/clients/" + clientId + "/kartonUdruzenja/" + kartonId.getValue() + "/izmeniKarton";
-        }
-
-    }
+    
+    
 
     @GetMapping(value = "/admin/clients/{clientId}/kartonUdruzenja/{kartonId}/dodajSpecijalnost")
     public String adminDodajSpecijalnost(
@@ -390,7 +348,7 @@ public class ClientsKartonUdruzenjaController {
         model.addAttribute("client", client);
         model.addAttribute("kartonId", kartonId);
 
-        return "admin/clients/kartonUdruzenja/newZanimanje";
+        return "admin/clients/kartonUdruzenja/newSpecijalnost";
     }
 
     @PostMapping(value = "/admin/clients/{clientId}/kartonUdruzenja/{kartonId}/dodajSpecijalnost")
@@ -412,11 +370,70 @@ public class ClientsKartonUdruzenjaController {
         try {
             specijalnostiService.save(newSpecijalnost);
         } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("errorMessage", "Novo zanimanje nije uspešno sačuvano!");
+            redirectAttributes.addFlashAttribute("errorMessage", "Nova specijalnost nije uspešno sačuvano!");
             return "redirect:/admin/clients/" + clientId + "/kartonUdruzenja/" + kartonId.getValue() + "/dodajClana";
         }
-        redirectAttributes.addFlashAttribute("successMessage", "Novo delatnost je uspešno sačuvano!");
+        redirectAttributes.addFlashAttribute("successMessage", "Nova specijalnost je uspešno sačuvano!");
         return "redirect:/admin/clients/" + clientId + "/kartonUdruzenja/" + kartonId.getValue() + "/dodajClana";
     }
 
+    
+    @GetMapping(value = "/admin/clients/{clientId}/kartonUdruzenja/{kartonId}/dodajCilj")
+    public String adminDodajCilj(
+            @PathVariable final ClientId clientId,
+            @PathVariable final KartonUdruzenjaId kartonId,
+            final RedirectAttributes redirectAttributes,
+            final Model model
+    ) {
+        Client client = clientService.findOne(clientId);
+        model.addAttribute("client", client);
+        model.addAttribute("kartonId", kartonId);
+
+        return "admin/clients/kartonUdruzenja/newCilj";
+    }
+/*
+    @GetMapping(value = "/admin/clients/{clientId}/kartonUdruzenja/dodajCilj")
+    public String adminDodajCiljIzNovogKartona(
+            @PathVariable final ClientId clientId,
+            final RedirectAttributes redirectAttributes,
+            final Model model
+    ) {
+        Client client = clientService.findOne(clientId);
+        model.addAttribute("client", client);
+//nema karton id
+        KartonUdruzenjaId kartonId = new KartonUdruzenjaId(-1);
+        model.addAttribute("kartonId", -1);
+        return "admin/clients/kartonUdruzenja/newCilj";
+    }*/
+
+    @PostMapping(value = "/admin/clients/{clientId}/kartonUdruzenja/{kartonId}/dodajCilj")
+    public String adminDodajCiljSave(
+            @PathVariable final ClientId clientId,
+            @PathVariable final KartonUdruzenjaId kartonId,
+            @RequestParam(value = "naziv", defaultValue = "/") String naziv,
+           
+            final RedirectAttributes redirectAttributes,
+            final Model model
+    ) {
+        Client client = clientService.findOne(clientId);
+        model.addAttribute("client", client);
+KartonUdruzenja kartonUdruzenja=kartonUdruzenjaService.findOne(kartonId);
+        CiljeviUdruzenja newCiljeviUdruzenja = new CiljeviUdruzenja();
+        newCiljeviUdruzenja.setNaziv(naziv);
+        newCiljeviUdruzenja.setKartonUdruzenja(kartonUdruzenja);
+      
+        try {
+            ciljeviUdruzenjaService.save(newCiljeviUdruzenja);
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Nov cilj nije uspešno sačuvan!");
+            return "redirect:/admin/clients/" + clientId + "/kartonUdruzenja/"+kartonId.getValue();
+        }
+        redirectAttributes.addFlashAttribute("successMessage", "Nov cilj je uspešno sačuvan!");
+        /*if (kartonId.getValue() == -1) {
+            return "redirect:/admin/clients/" + clientId + "/kartonUdruzenja/newKarton";
+        } else {*/
+            return "redirect:/admin/clients/" + clientId + "/kartonUdruzenja/" + kartonId.getValue() ;
+       // }
+
+    }
 }

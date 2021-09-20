@@ -26,7 +26,7 @@
             <div class="panel" >
                 <div class="panel-heading">
 
-                    <span class="panel-title" >Додај нови унос о запосленим кадровима</span> 
+                    <span class="panel-title" >Додај нову специјалност</span> 
                 </div>
 
                 <div class="panel-body data-panel-body">
@@ -35,18 +35,14 @@
 
                     <div class="panel-body">
 
-                        <form th:action="@{/admin/clients/{clientID}/kartonUdruzenja/{kartonId}/dodajZanimanje (clientID=${client.id},kartonId=${kartonId})}"  method="post" class="form-horizontal" autocomplete="off">
+                        <form th:action="@{/admin/clients/{clientID}/kartonUdruzenja/{kartonId}/dodajSpecijalnost (clientID=${client.id},kartonId=${kartonId})}"  method="post" class="form-horizontal" autocomplete="off">
                             <div class="form-group">
-                                <label  class="col-md-3 " >Назив струке - занимања: </label>
+                                <label  class="col-md-3 " >Назив специјалности: </label>
                                
                                 
                                  <input type="text"   class="col-md-6"  name="naziv" > 
                                 <br> </br>
-                               <label  class="col-md-3 " >Шифра струке - занимања: </label>
-                             
-                                    <input type="text"   class="col-md-6"  name="sifra" > 
-                              
-                                <br> </br> <br> </br>
+                           <br> </br>
                                 
                                 <div class="col-md-offset-3 col-md-9">
                                     <button type="submit"  class="btn btn-primary">Сачувај</button>

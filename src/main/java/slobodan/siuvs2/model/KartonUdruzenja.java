@@ -115,7 +115,7 @@ public class KartonUdruzenja {
  
     
         @OneToMany(mappedBy = "kartonudruzenja")
-    private List<CiljeviUdruzenja> ciljeviUdruzenja;
+    private List<CiljeviUdruzenja> ciljeviUdruzenja= new ArrayList<>();
     
 
          @OneToMany(mappedBy = "kartonudruzenja")
@@ -361,8 +361,6 @@ public class KartonUdruzenja {
         this.ciljeviUdruzenja = ciljeviUdruzenja;
     }
 
-
-
     public List<ClanoviUdruzenja> getClanovi() {
         return clanovi;
     }
@@ -370,7 +368,8 @@ public class KartonUdruzenja {
     public void setClanovi(List<ClanoviUdruzenja> clanovi) {
         this.clanovi = clanovi;
     }
-
+         
+               
 
          
 }

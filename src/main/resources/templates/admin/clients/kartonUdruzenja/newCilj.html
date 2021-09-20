@@ -35,7 +35,7 @@
 
                     <div class="panel-body">
 
-                        <form th:action="@{/admin/clients/{clientID}/kartonSubjekti/{kartonId}/dodajCilj (clientID=${client.id},kartonId=${kartonId})}"  method="post" class="form-horizontal" autocomplete="off">
+                        <form th:action="@{/admin/clients/{clientID}/kartonUdruzenja/{kartonId}/dodajCilj (clientID=${client.id},kartonId=${kartonId})}"  method="post" class="form-horizontal" autocomplete="off">
                             <div class="form-group">
                                 <label  class="col-md-3 " >Назив циља: </label>
                                
@@ -47,7 +47,7 @@
                                 <div class="col-md-offset-3 col-md-9">
                                     <button type="submit"  class="btn btn-primary">Сачувај</button>
                                  
-                                    <a th:href="@{/admin/clients/{clientID}/kartonSubjekti/{kartonId} (clientID=${client.id},kartonId=${kartonId})}"  class="btn">Одустани</a>
+                                    <a th:href="@{/admin/clients/{clientID}/kartonUdruzenja/{kartonId} (clientID=${client.id},kartonId=${kartonId})}"  class="btn">Одустани</a>
                                 </div> 
                             </div>
                         </form>

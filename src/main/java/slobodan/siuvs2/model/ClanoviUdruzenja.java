@@ -30,7 +30,7 @@ public class ClanoviUdruzenja {
     private int id;
       
         @ManyToOne
-    @JoinColumn(name = "udruzenje_id")
+    @JoinColumn(name = "kartonudruzenja_id")
     private KartonUdruzenja kartonudruzenja;
         
         @Column(name = "broj")

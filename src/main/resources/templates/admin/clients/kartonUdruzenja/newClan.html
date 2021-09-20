@@ -40,9 +40,9 @@
                                 <label  class="col-md-3 " >Специјалност:  <a th:href="@{/admin/clients/{clientId}/kartonUdruzenja/{kartonId}/dodajSpecijalnost (clientId=${client.id},kartonId=${karton.id})}"  class=" btn-xs btn-warning btn-outline"><i class="fa fa-plus-square-o fa-lg"></i></a></label>
                                
                                 
-                                  <select class="col-md-6 "  name="nazivStruke"  >
+                                  <select class="col-md-6 "  name="specijalnost"  >
                                            
-                                         <option  th:each="zanimanje : ${zanimanja}" th:value="${zanimanje.id}" th:text="${zanimanje.naziv}">Текст</option>
+                                         <option  th:each="specijalnost : ${specijalnosti}" th:value="${specijalnost.id}" th:text="${specijalnost.naziv}">Текст</option>
                                         </select> 
                                 <br> </br>
                                <label  class="col-md-3 " >Број извршилаца: </label>

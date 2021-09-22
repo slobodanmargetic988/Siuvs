@@ -441,8 +441,8 @@ public class MobileAppController {
             post.setEntity(requestEntity);
             try {
 
-                HttpResponse rawResponse = httpclient.execute(post);
-                sviPostovi.add(post);
+               HttpResponse rawResponse = httpclient.execute(post);
+               sviPostovi.add(post);
                repeatNotificationSingle( howManyTimes,  post);
               
                
@@ -502,7 +502,7 @@ public class MobileAppController {
            
                 HttpResponse rawResponse = httpclient1.execute(post1);
                 sviPostovi.add(post1);
-                repeatNotificationSingle( 2,  post1);
+             //   repeatNotificationSingle( 2,  post1);
  //HttpResponse rawResponse2 = httpclient2.execute(post1);
      //           sviPostovi.add(post2);
     //            System.out.println();
@@ -643,7 +643,7 @@ public class MobileAppController {
 
             //   repeatNotification(howManyTimes, post);
         }
-System.out.println("krece client ios slanje");    
+//System.out.println("krece client ios slanje");    
         //send ios notifications
         List<String> primaociPraviIos = new ArrayList();
         primaociPraviIos.addAll(primaociIos);
@@ -666,7 +666,7 @@ System.out.println("krece client ios slanje");
             try {
                 HttpResponse rawResponse = httpclient.execute(post1);
                 sviPostovi.add(post1);
-  repeatNotificationSingle( 2,  post1);
+  //repeatNotificationSingle( 2,  post1);
                    String message = EntityUtils.toString(rawResponse.getEntity(), "UTF-8");
                 System.out.println();
                 System.out.println("odgovor od googla za IOS je      " + message);    
@@ -796,7 +796,7 @@ System.out.println("krece client ios slanje");
             try {
                 HttpResponse rawResponse = httpclient1.execute(post1);
                 sviPostovi.add(post1);
-  repeatNotificationSingle( 2,  post1);
+  //repeatNotificationSingle( 2,  post1);
                    String message = EntityUtils.toString(rawResponse.getEntity(), "UTF-8");
             
                    /*System.out.println();

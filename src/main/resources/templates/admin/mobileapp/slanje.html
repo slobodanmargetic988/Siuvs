@@ -113,7 +113,7 @@
  <br> </br> <br> </br>
                   <br> </br>  <br> </br>
                    <br> </br> <br> </br>
-                  <br> </br>  <br> </br>
+<!--                  <br> </br>  <br> </br>
 <form th:action="@{/admin/mobileapp/slanje/posalji/all}" enctype="multipart/form-data"  method="post" class="form-horizontal" autocomplete="off" sec:authorize="hasAnyAuthority('ADMIN')">
                             <div class="form-group col-md-12">
  <div class="col-md-12" >
@@ -142,7 +142,7 @@
                                     <label  class="col-md-3 " >Дужи текст: </label>
 
                                     <textarea rows="5" class="col-md-9" name="messageText"></textarea>
-                                    <!--  <input type="text"   class="col-md-9"  name="messageText" > -->
+                                      <input type="text"   class="col-md-9"  name="messageText" > 
                                     <br> </br>
                                 </div>
                                 <br> </br>
@@ -175,7 +175,8 @@
                                     <a th:href="@{/admin/mobileapp}" class="btn">Одустани</a>
                                 </div> 
                             </div> 
-                        </form>
+                        </form>-->
+                    <a th:href="@{/clearbadtokens}"  class="btn">Чишћење лоших токена</a>
 
         </div>
 

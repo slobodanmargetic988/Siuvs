@@ -1,8 +1,13 @@
 package slobodan.siuvs2.controller;
 
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -60,7 +65,7 @@ import slobodan.siuvs2.valueObject.ClientId;
 public class MobileAppController {
 
     private String sviServisi = "Svi servisi";
-    private Integer howManyTimes = 1;// how many times notifications are resent to ensure delivery resend obavestenja obaveštenja
+    private Integer howManyTimes = 2;// how many times notifications are resent to ensure delivery resend obavestenja obaveštenja
     @Autowired
     private UserService userService;
     @Autowired
@@ -71,6 +76,923 @@ public class MobileAppController {
     @Autowired
     private PhotoService photoService;
 
+     
+    /*public String mobileappPrijavljeniZaNotifikacijeClient(final Model model) {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = ((SiuvsUserPrincipal) authentication.getPrincipal()).getUser();
+        Client client = user.getClient();
+        model.addAttribute("client", client);
+
+        model.addAttribute("BrojPrijavljenihZaServis", notifikacijeService.countByOpstina(client.getOpstina().getNamelatinica()) + notifikacijeIosService.countByOpstina(client.getOpstina().getNamelatinica()));
+        model.addAttribute("BrojPrijavljenihZaSveServise", notifikacijeService.countByOpstina(sviServisi));
+        return "client/mobileapp/prijavljeniZaNotifikacije";
+    }*/
+    @GetMapping("/clearbadtokens")
+     public String DryRun(){
+        List<String> primaoci = new ArrayList();
+        List<String> primaociIos = new ArrayList();
+        primaoci = notifikacijeService.findDistinctByToken(); ///////////////disabled for testing///////////////disabled for testing///////////////disabled for testing///////////////disabled for testing///////////////disabled for testing
+        primaociIos = notifikacijeIosService.findDistinctByToken();
+        List<String> primaociSvi = primaoci;
+        primaociSvi.addAll(primaociIos);
+        List<String> primaociLosi = new ArrayList();
+
+        while (!primaociSvi.isEmpty()) {
+            Integer chunksize = 800;
+            if (chunksize > primaociSvi.size()) {
+                chunksize = primaociSvi.size();
+
+            }
+            List<String> primaociDeo = primaociSvi.subList(0, chunksize);
+
+            try {
+                JSONArray jsonRegistrationIdsArray = new JSONArray();
+
+                Iterator<String> iterator = primaociDeo.iterator();
+                while (iterator.hasNext()) {
+                    jsonRegistrationIdsArray.put(iterator.next());
+                }
+                primaociSvi.removeAll(primaociDeo);
+
+                JSONObject jsonPoruka = new JSONObject();
+                jsonPoruka.put("dry_run", true);
+                jsonPoruka.put("registration_ids", jsonRegistrationIdsArray);
+
+                HttpClient httpclient = HttpClients.createDefault();
+                StringEntity requestEntity = new StringEntity(jsonPoruka.toString(), ContentType.APPLICATION_JSON);
+
+                String HOST = "https://fcm.googleapis.com/fcm/send";
+                HttpPost post = new HttpPost(HOST);
+                post.setHeader("Authorization", "key=AAAAxbbCok8:APA91bGMZcat_HhLBi5lcx_k0NBLfNcEGDBj8HAyY6GNRaCIggaDqw-tqpn4yGeagxUojem408qkbkUbTZK6mt0TpFsGp56gGj-pvFGbpxtwkgjCuh8o2Y-2LFMjOFm203DDieSA1CI8");
+                //  post.setHeader("Content-Length","0");
+                post.setEntity(requestEntity);
+
+                HttpResponse rawResponse = httpclient.execute(post);
+
+                String message = EntityUtils.toString(rawResponse.getEntity(), "UTF-8");
+               // System.out.println();
+               // System.out.println("odgovor od googla za test je      " + message);
+               // System.out.println("za idjeve: " + jsonRegistrationIdsArray.toString());
+ //System.out.println("losi tokeni");
+                JSONObject jsonOdgovor = new JSONObject(message);
+                JSONArray jsonOdgovoriZaDeo = jsonOdgovor.getJSONArray("results");
+
+                for (int i = 0; i < jsonOdgovoriZaDeo.length(); i++) {
+                    if (jsonOdgovoriZaDeo.getJSONObject(i).has("error")) {
+                        if (jsonOdgovoriZaDeo.getJSONObject(i).getString("error").equals("NotRegistered")) {
+                           // System.out.println("\""+ jsonRegistrationIdsArray.get(i)+"\",");
+                            primaociLosi.add(jsonRegistrationIdsArray.get(i).toString());
+                        }
+                    }
+                }
+
+            } catch (Exception e) {
+
+            }
+
+        }
+             System.out.println(primaociLosi.toString());
+             notifikacijeService.deleteByTokenIn(primaociLosi);
+              notifikacijeIosService.deleteByTokenIn(primaociLosi);
+             System.out.println("primaociLosiobrisani komada: "+primaociLosi.size());
+             
+     return "redirect:/admin";
+     }
+    
+    
+    
+    private String buildJSONBody(IstorijaNotifikacija istorijaNotifikacija, String title, String body, String image, String message, String link, String linkText, List<String> primaoci, String posiljalac) {
+        JSONObject jsonPoruka = new JSONObject();
+        JSONObject jsonData = new JSONObject();
+        JSONArray jsonRegistrationIdsArray = new JSONArray();
+        try {//build data json
+            jsonData.put("title", title);
+            jsonData.put("body", body);
+            jsonData.put("image", image);
+            jsonData.put("message", message);
+            jsonData.put("link", link);
+            jsonData.put("linkText", linkText);
+            jsonData.put("serverNotificationId", istorijaNotifikacija.getId());
+            jsonData.put("posiljalac", posiljalac);
+            DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+            jsonData.put("datum", LocalDate.now().format(dateFormat));
+//build registration ids json
+            Iterator<String> iterator = primaoci.iterator();
+            while (iterator.hasNext()) {
+                jsonRegistrationIdsArray.put(iterator.next());
+            }
+//build payload json
+            jsonPoruka.put("data", jsonData);
+            jsonPoruka.put("registration_ids", jsonRegistrationIdsArray);
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        String payload = jsonPoruka.toString();
+        return payload;
+    }
+
+    private String buildJSONBodyIOS(IstorijaNotifikacija istorijaNotifikacija, String title, String body, String image, String message, String link, String linkText, List<String> primaoci, String posiljalac) {
+        JSONObject jsonPoruka2 = new JSONObject();
+        JSONObject jsonNotification2 = new JSONObject();
+        JSONObject jsonData2 = new JSONObject();
+        JSONArray jsonRegistrationIdsArray2 = new JSONArray();
+        try {//build data json
+            jsonNotification2.put("title", title);
+            jsonNotification2.put("body", body);
+            jsonNotification2.put("badge", 0);
+            jsonNotification2.put("sound", "default");
+            jsonNotification2.put("click_action", "READABLE");
+            jsonNotification2.put("content_available", false);
+            jsonNotification2.put("priority", "high");
+
+            jsonData2.put("title", title);
+            jsonData2.put("body", body);
+            jsonData2.put("image", image);
+            jsonData2.put("message", message);
+            jsonData2.put("link", link);
+            jsonData2.put("linkText", linkText);
+            jsonData2.put("serverNotificationId", istorijaNotifikacija.getId());
+            jsonData2.put("posiljalac", posiljalac);
+            DateTimeFormatter dateFormat2 = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+            jsonData2.put("datum", LocalDate.now().format(dateFormat2));
+//build registration ids json
+            Iterator<String> iterator = primaoci.iterator();
+            while (iterator.hasNext()) {
+                jsonRegistrationIdsArray2.put(iterator.next());
+            }
+//build payload json
+            jsonPoruka2.put("notification", jsonNotification2);
+            jsonPoruka2.put("data", jsonData2);
+            jsonPoruka2.put("registration_ids", jsonRegistrationIdsArray2);
+
+            /*     System.out.println();
+              System.out.println(jsonPoruka2.toString());
+              System.out.println();
+             */
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        String payload2 = jsonPoruka2.toString();
+        return payload2;
+    }
+
+    private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+
+    private void repeatNotificationPostList(Integer howManyTimes, List<HttpPost> sviPostovi) {
+
+        final Runnable beeper = new Runnable() {
+            public void run() {
+                //System.out.println("sending notification on timer test");
+
+                HttpClient httpclient = HttpClients.createDefault();
+                try {
+                    for (HttpPost post : sviPostovi) {
+                        HttpResponse rawResponse = httpclient.execute(post);
+                    }
+                    // System.out.println(rawResponse);
+                } catch (Exception e) {
+                }
+            }
+        };
+
+        Integer initialDelay = 15;//60 seconds*20 =minutes initial delay
+        Integer periodBetweenSending = 18;//60 seconds*20 =minutes period Between Sending
+        Integer runForHowLong = 15 * howManyTimes;//60 seconds*20*howManyTimes =how long will the thread run, also howManyTimes= basicaly equals how many times will sending execute
+          final ScheduledFuture<?> beeperHandle = scheduler.scheduleAtFixedRate(beeper, initialDelay, periodBetweenSending, SECONDS);
+
+        scheduler.schedule(new Runnable() {
+            public void run() {
+                beeperHandle.cancel(true);
+            }
+        }, runForHowLong, SECONDS);
+           //ako ponavljamo vise puta
+
+      //  scheduler.schedule(beeper, runForHowLong, SECONDS);//ako ponavljamo samo jednom
+    }
+    
+    
+    private void repeatNotificationSingle(Integer howManyTimes, HttpPost post) {
+
+        final Runnable beeper = new Runnable() {
+            public void run() {
+                //System.out.println("sending notification on timer test");
+
+                HttpClient httpclient = HttpClients.createDefault();
+                try {
+                 
+                        HttpResponse rawResponse = httpclient.execute(post);
+                    
+                    // System.out.println(rawResponse);
+                } catch (Exception e) {
+                }
+            }
+        };
+
+        Integer initialDelay = (int) (Math.round(150*Math.random()));//60 seconds*20 =minutes initial delay
+        Integer periodBetweenSending = 18;//60 seconds*20 =minutes period Between Sending
+        Integer runForHowLong = initialDelay+periodBetweenSending * howManyTimes+2;//60 seconds*20*howManyTimes =how long will the thread run, also howManyTimes= basicaly equals how many times will sending execute
+          final ScheduledFuture<?> beeperHandle = scheduler.scheduleAtFixedRate(beeper, initialDelay, periodBetweenSending, SECONDS);
+
+        scheduler.schedule(new Runnable() {
+            public void run() {
+                beeperHandle.cancel(true);
+            }
+        }, runForHowLong, SECONDS);
+           //ako ponavljamo vise puta
+
+      //  scheduler.schedule(beeper, runForHowLong, SECONDS);//ako ponavljamo samo jednom
+    }
+    /*
+    private static String getAccessToken() {
+        try{
+         File initialFile = new File("service-account.json");
+         FileInputStream fio = new FileInputStream(initialFile);
+          int i; 
+             System.out.println("sadrzaj fajla je ");
+            while ((i = fio.read()) != -1) {
+                System.out.print((char) i);
+            }
+ 
+  GoogleCredentials googleCredentials = GoogleCredentials
+          
+          .fromStream(fio)
+          .createScoped(Arrays.asList(
+"https://www.googleapis.com/auth/firebase.messaging"));
+  googleCredentials.refreshAccessToken();
+        
+  return googleCredentials.getAccessToken().getTokenValue();}
+        catch(Exception e){  System.out.println("error message   "+e.getMessage());}
+         return "";
+}*/
+
+    @PostMapping("/admin/mobileapp/slanje/posalji")
+    public String mobileappSlanjeNotifikacije(
+            @RequestParam(name = "titleText", defaultValue = " ") String titleText,
+            @RequestParam(name = "bodyText", defaultValue = " ") String bodyText,
+            @RequestParam(name = "messageText", defaultValue = " ") String messageText,
+            @RequestParam(name = "linkText", defaultValue = " ") String linkText,
+            @RequestParam(name = "linkTextText", defaultValue = " ") String linkTextText,
+            @RequestParam(name = "opstinanamelatinica", defaultValue = " ") String opstinanamelatinica,
+            @RequestParam(name = "file", required = false) MultipartFile file,
+            final Model model,
+            final RedirectAttributes redirectAttributes) {
+
+        List<HttpPost> sviPostovi = new ArrayList();
+
+        List<String> primaoci = new ArrayList();
+        List<String> primaociIos = new ArrayList();;
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = ((SiuvsUserPrincipal) authentication.getPrincipal()).getUser();
+        Client client = user.getClient();
+
+        if (opstinanamelatinica.equals(sviServisi)) {
+            primaoci = notifikacijeService.findDistinctByToken(); ///////////////disabled for testing///////////////disabled for testing///////////////disabled for testing///////////////disabled for testing///////////////disabled for testing
+            primaociIos = notifikacijeIosService.findDistinctByToken();
+        } else {
+            primaoci = notifikacijeService.findAllByOpstina(opstinanamelatinica);  ///////////////disabled for testing///////////////disabled for testing///////////////disabled for testing///////////////disabled for testing
+            primaociIos = notifikacijeIosService.findAllByOpstina(opstinanamelatinica);
+        }
+        // String registration_ids = buildRegistrationIds(primaoci);
+
+        String titleTextV = " ";
+        String bodyTextV = " ";
+        String imageTextV = " ";
+        String messageTextV = " ";
+        String linkTextV = " ";
+        String linkTextTextV = " ";
+
+        if (!titleText.equals("") && !titleText.equals(" ")) {
+            titleTextV = titleText;
+        }
+
+        if (!bodyText.equals("") && !bodyText.equals(" ")) {
+            bodyTextV = bodyText;
+        }
+
+        if (!messageText.equals("") && !messageText.equals(" ")) {
+            messageTextV = messageText;
+        }
+        if (!linkText.equals("") && !linkText.equals(" ") && linkText.startsWith("http")) {
+            linkTextV = linkText;
+            if (!linkTextText.equals("") && !linkTextText.equals(" ")) {
+                linkTextTextV = linkTextText;
+            }
+        }
+
+        ClientId id;
+        if (client == null) {
+            id = new ClientId(0);
+        } else {
+            id = client.getClientId();
+        }
+        String filename = "";
+        if (file.isEmpty()) {
+            imageTextV = " ";
+
+        } else {
+
+            try {
+
+                filename = storageService.store(file, id);
+                imageTextV = "https://www.siuvs.rs/php/getimg/" + id + "/" + filename + ".";
+            } catch (Exception e) {
+                redirectAttributes.addFlashAttribute("errorMessage", "Грешка приликом чувања слике!");
+            }
+        }
+        IstorijaNotifikacija istorijaNotifikacija = new IstorijaNotifikacija();
+        istorijaNotifikacija.setTitle(titleTextV);
+        istorijaNotifikacija.setBody(bodyTextV);
+
+        istorijaNotifikacija.setMessage(messageTextV);
+        istorijaNotifikacija.setLink(linkTextV);
+        istorijaNotifikacija.setLink_text(linkTextV);
+        istorijaNotifikacija.setImg_file_name(filename);
+        istorijaNotifikacija.setClient(client);
+        istorijaNotifikacija.setCreatedBy(user);
+        istorijaNotifikacija.setImg_link(imageTextV);
+        istorijaNotifikacijaService.save(istorijaNotifikacija);
+
+        List<String> primaociPravi = new ArrayList();
+        primaociPravi.addAll(primaoci);
+
+        //  System.out.println("broj primaoca je :" + primaociPravi.size());
+        //System.out.println("send android notifications in batches");
+        //send android notifications in batches
+        while (!primaociPravi.isEmpty()) {
+            Integer chunksize = 800;
+            if (chunksize > primaociPravi.size()) {
+                chunksize = primaociPravi.size();
+                //   System.out.println("chunksize je :" + chunksize);
+            }
+            List<String> primaociDeo = primaociPravi.subList(0, chunksize);
+            // primaociPravi.removeAll(primaociDeo);
+
+            String JSON_Body = buildJSONBody(istorijaNotifikacija, titleTextV, bodyTextV, imageTextV, messageTextV, linkTextV, linkTextTextV, primaociDeo, opstinanamelatinica);
+            primaociPravi.removeAll(primaociDeo);
+
+            //    System.out.println("body :" + JSON_Body);
+            HttpClient httpclient = HttpClients.createDefault();
+            StringEntity requestEntity = new StringEntity(JSON_Body, ContentType.APPLICATION_JSON);
+            String HOST = "https://fcm.googleapis.com/fcm/send";
+            HttpPost post = new HttpPost(HOST);
+            post.setHeader("Authorization", "key=AAAAxbbCok8:APA91bGMZcat_HhLBi5lcx_k0NBLfNcEGDBj8HAyY6GNRaCIggaDqw-tqpn4yGeagxUojem408qkbkUbTZK6mt0TpFsGp56gGj-pvFGbpxtwkgjCuh8o2Y-2LFMjOFm203DDieSA1CI8");
+            //  post.setHeader("Content-Length","0");
+            post.setEntity(requestEntity);
+            try {
+
+                HttpResponse rawResponse = httpclient.execute(post);
+                sviPostovi.add(post);
+               repeatNotificationSingle( howManyTimes,  post);
+              
+               
+               /*String message = EntityUtils.toString(rawResponse.getEntity(), "UTF-8");
+                System.out.println();
+                System.out.println("odgovor od googla za ANDROID je      " + message);    
+                System.out.println();*/
+                
+                redirectAttributes.addFlashAttribute("successMessage", "Нотификација успешно послата! \n " /*+ rawResponse*/);
+
+            } catch (Exception e) {
+                redirectAttributes.addFlashAttribute("errorMessage", "Грешка приликом слања нотификације!" + e);
+            }
+            //repeat notification 5 times every 20 minutes
+
+            //  repeatNotification(howManyTimes, post);
+        }
+        //System.out.println("send ios notifications in batches");
+
+        //send ios notifications in batches
+        List<String> primaociPraviIOS = new ArrayList();
+        primaociPraviIOS.addAll(primaociIos);
+        //  System.out.println("broj primaoca je :" + primaociPraviIOS.size());
+        while (!primaociPraviIOS.isEmpty()) {
+            Integer chunksize = 800;
+            if (chunksize > primaociPraviIOS.size()) {
+                chunksize = primaociPraviIOS.size();
+                //  System.out.println("chunksize je :" + chunksize);
+            }
+            List<String> primaociDeoIOS = primaociPraviIOS.subList(0, chunksize);
+
+            //  primaociPraviIOS.removeAll(primaociDeoIOS);
+            String JSON_Body1 = buildJSONBodyIOS(istorijaNotifikacija, titleTextV, bodyTextV, imageTextV, messageTextV, linkTextV, linkTextTextV, primaociDeoIOS, opstinanamelatinica);
+            System.out.println("body za ios :" + JSON_Body1);
+            primaociPraviIOS.removeAll(primaociDeoIOS);
+
+            HttpClient httpclient1 = HttpClients.createDefault();  
+          //  HttpClient httpclient2 = HttpClients.createDefault();
+            
+            StringEntity requestEntity1 = new StringEntity(JSON_Body1, ContentType.APPLICATION_JSON);
+            String HOST1 = "https://fcm.googleapis.com/fcm/send";
+          //  String HOST2 = "https://fcm.googleapis.com//v1/projects/siuvs-mobile-app/messages:send";
+            HttpPost post1 = new HttpPost(HOST1);
+          //  HttpPost post2 = new HttpPost(HOST1);
+            post1.setHeader("Authorization", "key=AAAAxbbCok8:APA91bGMZcat_HhLBi5lcx_k0NBLfNcEGDBj8HAyY6GNRaCIggaDqw-tqpn4yGeagxUojem408qkbkUbTZK6mt0TpFsGp56gGj-pvFGbpxtwkgjCuh8o2Y-2LFMjOFm203DDieSA1CI8");
+           
+            
+            //      post1.setHeader("Content-Length","0");
+            post1.setEntity(requestEntity1);
+      //           post2.setEntity(requestEntity1);
+            try {
+               //  System.out.println("pokusaj dobijanja tokena");
+              //  String authtoken=getAccessToken();
+          //   System.out.println("pokusaj dobijanja tokena token je   "+authtoken);
+         //  post2.setHeader("Authorization", "Bearer "+authtoken);
+           
+           
+                HttpResponse rawResponse = httpclient1.execute(post1);
+                sviPostovi.add(post1);
+                repeatNotificationSingle( 2,  post1);
+ //HttpResponse rawResponse2 = httpclient2.execute(post1);
+     //           sviPostovi.add(post2);
+    //            System.out.println();
+                String message = EntityUtils.toString(rawResponse.getEntity(), "UTF-8");
+        //          String message2 = EntityUtils.toString(rawResponse2.getEntity(), "UTF-8");
+                  
+                  
+           //     System.out.println("odgovor od googla za IOS je      " + message);
+   //             System.out.println();
+     //           System.out.println();
+     //           System.out.println();
+                
+//System.out.println("odgovor od googla za IOS v2 je      " + message2);
+                System.out.println();
+                redirectAttributes.addFlashAttribute("successMessage", "Нотификација успешно послата! \n " /*+ rawResponse*/);
+
+            } catch (Exception e) {
+                redirectAttributes.addFlashAttribute("errorMessage", "Грешка приликом слања нотификације!" + e.getMessage());
+            }
+            //repeat notification 5 times every 20 minutes
+
+        }
+       // repeatNotificationPostList(howManyTimes, sviPostovi);
+        return "redirect:/admin/mobileapp/slanje";
+
+    }
+
+    @PostMapping("/client/mobileapp/slanje/posalji")
+    public String mobileappSlanjeNotifikacijeClient(
+            @RequestParam(name = "titleText", defaultValue = " ") String titleText,
+            @RequestParam(name = "bodyText", defaultValue = " ") String bodyText,
+            @RequestParam(name = "messageText", defaultValue = " ") String messageText,
+            @RequestParam(name = "linkText", defaultValue = " ") String linkText,
+            @RequestParam(name = "linkTextText", defaultValue = " ") String linkTextText,
+            @RequestParam(name = "file", required = false) MultipartFile file,
+            final Model model,
+            final RedirectAttributes redirectAttributes) {
+        List<HttpPost> sviPostovi = new ArrayList();
+
+        List<String> primaoci;
+        List<String> primaociIos;
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = ((SiuvsUserPrincipal) authentication.getPrincipal()).getUser();
+        Client client = user.getClient();
+
+        primaoci = notifikacijeService.findAllByOpstina(client.getOpstina().getNamelatinica());
+        primaociIos = notifikacijeIosService.findAllByOpstina(client.getOpstina().getNamelatinica());
+        //String registration_ids = buildRegistrationIds(primaoci);
+
+        String titleTextV = " ";
+        String bodyTextV = " ";
+        String imageTextV = " ";
+        String messageTextV = " ";
+        String linkTextV = " ";
+        String linkTextTextV = " ";
+
+        if (!titleText.equals("") && !titleText.equals(" ")) {
+            titleTextV = titleText;
+        }
+
+        if (!bodyText.equals("") && !bodyText.equals(" ")) {
+            bodyTextV = bodyText;
+        }
+
+        if (!messageText.equals("") && !messageText.equals(" ")) {
+            messageTextV = messageText;
+        }
+        if (!linkText.equals("") && !linkText.equals(" ") && linkText.startsWith("http")) {
+            linkTextV = linkText;
+            if (!linkTextText.equals("") && !linkTextText.equals(" ")) {
+                linkTextTextV = linkTextText;
+            }
+        }
+        String filename = "";
+        if (file.isEmpty()) {
+            imageTextV = " ";
+
+        } else {
+
+            //this part goes in else
+            try {
+
+                filename = storageService.store(file, client.getClientId());
+            } catch (Exception e) {
+                redirectAttributes.addFlashAttribute("errorMessage", "Грешка приликом чувања слике!");
+            }
+            imageTextV = "https://www.siuvs.rs/php/getimg/" + client.getClientId() + "/" + filename + ".";
+        }
+        IstorijaNotifikacija istorijaNotifikacija = new IstorijaNotifikacija();
+        istorijaNotifikacija.setTitle(titleTextV);
+        istorijaNotifikacija.setBody(bodyTextV);
+        istorijaNotifikacija.setMessage(messageTextV);
+        istorijaNotifikacija.setLink(linkTextV);
+        istorijaNotifikacija.setLink_text(linkTextV);
+        istorijaNotifikacija.setImg_file_name(filename);
+        istorijaNotifikacija.setClient(client);
+        istorijaNotifikacija.setCreatedBy(user);
+        istorijaNotifikacija.setImg_link(imageTextV);
+        istorijaNotifikacijaService.save(istorijaNotifikacija);
+
+        List<String> primaociPravi = new ArrayList();
+        primaociPravi.addAll(primaoci);
+        //  primaociPravi.addAll(primaociIos);
+
+//send android notifications
+        while (!primaociPravi.isEmpty()) {
+            Integer chunksize = 800;
+            if (chunksize > primaociPravi.size()) {
+                chunksize = primaociPravi.size();
+            }
+            List<String> primaociDeo = primaociPravi.subList(0, chunksize);
+            //   primaociPravi.removeAll(primaociDeo);
+
+            String JSON_Body = buildJSONBody(istorijaNotifikacija, titleTextV, bodyTextV, imageTextV, messageTextV, linkTextV, linkTextTextV, primaociDeo, client.getOpstina().getNamelatinica());
+            //java.util.concurrentmodificationexception ako se ovo obrise pre nego sto se primaoci deo iskoristi u buildjsonbody
+            primaociPravi.removeAll(primaociDeo);
+
+            HttpClient httpclient = HttpClients.createDefault();
+            StringEntity requestEntity = new StringEntity(JSON_Body, ContentType.APPLICATION_JSON);
+            String HOST = "https://fcm.googleapis.com/fcm/send";
+            HttpPost post = new HttpPost(HOST);
+            post.setHeader("Authorization", "key=AAAAxbbCok8:APA91bGMZcat_HhLBi5lcx_k0NBLfNcEGDBj8HAyY6GNRaCIggaDqw-tqpn4yGeagxUojem408qkbkUbTZK6mt0TpFsGp56gGj-pvFGbpxtwkgjCuh8o2Y-2LFMjOFm203DDieSA1CI8");
+            post.setEntity(requestEntity);
+            try {
+                HttpResponse rawResponse = httpclient.execute(post);
+                sviPostovi.add(post);
+ repeatNotificationSingle( howManyTimes,  post);
+                  String message = EntityUtils.toString(rawResponse.getEntity(), "UTF-8");
+                System.out.println();
+                System.out.println("odgovor od googla za ANDROID je      " + message);    
+                System.out.println();
+                redirectAttributes.addFlashAttribute("successMessage", "Нотификација успешно послата! \n " /*+ rawResponse*/);
+
+            } catch (Exception e) {
+                redirectAttributes.addFlashAttribute("errorMessage", "Грешка приликом слања нотификације!");
+            }
+            //repeat notification 5 times every 20 minutes
+
+            //   repeatNotification(howManyTimes, post);
+        }
+
+        //send ios notifications
+        List<String> primaociPraviIos = new ArrayList();
+        primaociPravi.addAll(primaociIos);
+        while (!primaociPraviIos.isEmpty()) {
+            Integer chunksize = 800;
+            if (chunksize > primaociPraviIos.size()) {
+                chunksize = primaociPraviIos.size();
+            }
+            List<String> primaociDeo = primaociPraviIos.subList(0, chunksize);
+
+            String JSON_Body = buildJSONBodyIOS(istorijaNotifikacija, titleTextV, bodyTextV, imageTextV, messageTextV, linkTextV, linkTextTextV, primaociDeo, client.getOpstina().getNamelatinica());
+            primaociPraviIos.removeAll(primaociDeo);
+
+            HttpClient httpclient = HttpClients.createDefault();
+            StringEntity requestEntity = new StringEntity(JSON_Body, ContentType.APPLICATION_JSON);
+            String HOST = "https://fcm.googleapis.com/fcm/send";
+            HttpPost post1 = new HttpPost(HOST);
+            post1.setHeader("Authorization", "key=AAAAxbbCok8:APA91bGMZcat_HhLBi5lcx_k0NBLfNcEGDBj8HAyY6GNRaCIggaDqw-tqpn4yGeagxUojem408qkbkUbTZK6mt0TpFsGp56gGj-pvFGbpxtwkgjCuh8o2Y-2LFMjOFm203DDieSA1CI8");
+            post1.setEntity(requestEntity);
+            try {
+                HttpResponse rawResponse = httpclient.execute(post1);
+                sviPostovi.add(post1);
+  repeatNotificationSingle( 2,  post1);
+                   String message = EntityUtils.toString(rawResponse.getEntity(), "UTF-8");
+                System.out.println();
+                System.out.println("odgovor od googla za IOS je      " + message);    
+                System.out.println();
+                redirectAttributes.addFlashAttribute("successMessage", "Нотификација успешно послата! \n " /*+ rawResponse*/);
+
+            } catch (Exception e) {
+                redirectAttributes.addFlashAttribute("errorMessage", "Грешка приликом слања нотификације!");
+            }
+            //repeat notification 5 times every 20 minutes
+
+            //    repeatNotification(howManyTimes, post1);
+        }
+     //   repeatNotificationPostList(howManyTimes, sviPostovi);
+        return "redirect:/client/mobileapp/slanje";
+
+    }
+
+    @PostMapping("/mobileonly/slanje/posalji")
+    public String mobilonlySlanjeNotifikacije(
+            @RequestParam(name = "titleText", defaultValue = " ") String titleText,
+            @RequestParam(name = "bodyText", defaultValue = " ") String bodyText,
+            @RequestParam(name = "messageText", defaultValue = " ") String messageText,
+            @RequestParam(name = "linkText", defaultValue = " ") String linkText,
+            @RequestParam(name = "linkTextText", defaultValue = " ") String linkTextText,
+            @RequestParam(name = "opstinanamelatinica", defaultValue = " ") String opstinanamelatinica,
+            @RequestParam(name = "file", required = false) MultipartFile file,
+            final Model model,
+            final RedirectAttributes redirectAttributes) {
+        List<HttpPost> sviPostovi = new ArrayList();
+
+        List<String> primaoci;
+        List<String> primaociIos;
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = ((SiuvsUserPrincipal) authentication.getPrincipal()).getUser();
+        Client client = user.getClient();
+
+        primaoci = notifikacijeService.findAllByOpstina(opstinanamelatinica);
+        primaociIos = notifikacijeIosService.findAllByOpstina(opstinanamelatinica);
+
+        // String registration_ids = buildRegistrationIds(primaoci);
+        String titleTextV = " ";
+        String bodyTextV = " ";
+        String imageTextV = " ";
+        String messageTextV = " ";
+        String linkTextV = " ";
+        String linkTextTextV = " ";
+
+        if (!titleText.equals("") && !titleText.equals(" ")) {
+            titleTextV = titleText;
+        }
+
+        if (!bodyText.equals("") && !bodyText.equals(" ")) {
+            bodyTextV = bodyText;
+        }
+
+        if (!messageText.equals("") && !messageText.equals(" ")) {
+            messageTextV = messageText;
+        }
+        if (!linkText.equals("") && !linkText.equals(" ") && linkText.startsWith("http")) {
+            linkTextV = linkText;
+            if (!linkTextText.equals("") && !linkTextText.equals(" ")) {
+                linkTextTextV = linkTextText;
+            }
+        }
+
+        ClientId id;
+        if (client == null) {
+            id = new ClientId(0);
+        } else {
+            id = client.getClientId();
+        }
+        String filename = "";
+        if (file.isEmpty()) {
+            imageTextV = " ";
+
+        } else {
+
+            try {
+
+                filename = storageService.store(file, id);
+                imageTextV = "https://www.siuvs.rs/php/getimg/" + id + "/" + filename + ".";
+            } catch (Exception e) {
+                redirectAttributes.addFlashAttribute("errorMessage", "Грешка приликом чувања слике!");
+            }
+        }
+        IstorijaNotifikacija istorijaNotifikacija = new IstorijaNotifikacija();
+        istorijaNotifikacija.setTitle(titleTextV);
+        istorijaNotifikacija.setBody(bodyTextV);
+
+        istorijaNotifikacija.setMessage(messageTextV);
+        istorijaNotifikacija.setLink(linkTextV);
+        istorijaNotifikacija.setLink_text(linkTextV);
+        istorijaNotifikacija.setImg_file_name(filename);
+        istorijaNotifikacija.setClient(client);
+        istorijaNotifikacija.setCreatedBy(user);
+        istorijaNotifikacija.setImg_link(imageTextV);
+        istorijaNotifikacijaService.save(istorijaNotifikacija);
+
+        List<String> primaociPravi = new ArrayList();
+        primaociPravi.addAll(primaoci);
+        
+ List<String> primaociPraviIOS = new ArrayList();
+        primaociPraviIOS.addAll(primaociIos);
+        
+        //  System.out.println("broj primaoca je :" + primaociPraviIOS.size());
+        while (!primaociPraviIOS.isEmpty()) {
+            Integer chunksize = 800;
+            if (chunksize > primaociPraviIOS.size()) {
+                chunksize = primaociPraviIOS.size();
+                //  System.out.println("chunksize je :" + chunksize);
+            }
+            List<String> primaociDeoIOS = primaociPraviIOS.subList(0, chunksize);
+
+            //  primaociPraviIOS.removeAll(primaociDeoIOS);
+            String JSON_Body1 = buildJSONBodyIOS(istorijaNotifikacija, titleTextV, bodyTextV, imageTextV, messageTextV, linkTextV, linkTextTextV, primaociDeoIOS, opstinanamelatinica);
+
+            primaociPraviIOS.removeAll(primaociDeoIOS);
+
+            HttpClient httpclient1 = HttpClients.createDefault();
+            StringEntity requestEntity1 = new StringEntity(JSON_Body1, ContentType.APPLICATION_JSON);
+            String HOST1 = "https://fcm.googleapis.com/fcm/send";
+            HttpPost post1 = new HttpPost(HOST1);
+            post1.setHeader("Authorization", "key=AAAAxbbCok8:APA91bGMZcat_HhLBi5lcx_k0NBLfNcEGDBj8HAyY6GNRaCIggaDqw-tqpn4yGeagxUojem408qkbkUbTZK6mt0TpFsGp56gGj-pvFGbpxtwkgjCuh8o2Y-2LFMjOFm203DDieSA1CI8");
+            //      post1.setHeader("Content-Length","0");
+            post1.setEntity(requestEntity1);
+            try {
+                HttpResponse rawResponse = httpclient1.execute(post1);
+                sviPostovi.add(post1);
+  repeatNotificationSingle( 2,  post1);
+                   String message = EntityUtils.toString(rawResponse.getEntity(), "UTF-8");
+            
+                   /*System.out.println();
+                System.out.println("odgovor od googla za IOS je      " + message);    
+                System.out.println();*/
+                //System.out.println("odgovor od googla je      "+rawResponse);
+//String odgovorContent=rawResponse.getEntity().getContent().toString();
+                //   System.out.println("odgovor od googla je      "+odgovorContent);
+                //    System.out.println("sta on ovde u odgovoru cita");
+                redirectAttributes.addFlashAttribute("successMessage", "Нотификација успешно послата! \n " /*+ rawResponse*/);
+
+            } catch (Exception e) {
+                redirectAttributes.addFlashAttribute("errorMessage", "Грешка приликом слања нотификације!" + e.getMessage());
+            }
+            //repeat notification 5 times every 20 minutes
+
+            // repeatNotification(howManyTimes, post1);
+        }
+        //  System.out.println("broj primaoca je :" + primaociPravi.size());
+        //System.out.println("send android notifications in batches");
+        //send android notifications in batches
+        while (!primaociPravi.isEmpty()) {
+            Integer chunksize = 800;
+            if (chunksize > primaociPravi.size()) {
+                chunksize = primaociPravi.size();
+                //   System.out.println("chunksize je :" + chunksize);
+            }
+            List<String> primaociDeo = primaociPravi.subList(0, chunksize);
+            // primaociPravi.removeAll(primaociDeo);
+
+            String JSON_Body = buildJSONBody(istorijaNotifikacija, titleTextV, bodyTextV, imageTextV, messageTextV, linkTextV, linkTextTextV, primaociDeo, opstinanamelatinica);
+            primaociPravi.removeAll(primaociDeo);
+
+            System.out.println("body :" + JSON_Body);
+
+            HttpClient httpclient = HttpClients.createDefault();
+            StringEntity requestEntity = new StringEntity(JSON_Body, ContentType.APPLICATION_JSON);
+            String HOST = "https://fcm.googleapis.com/fcm/send";
+            HttpPost post = new HttpPost(HOST);
+            post.setHeader("Authorization", "key=AAAAxbbCok8:APA91bGMZcat_HhLBi5lcx_k0NBLfNcEGDBj8HAyY6GNRaCIggaDqw-tqpn4yGeagxUojem408qkbkUbTZK6mt0TpFsGp56gGj-pvFGbpxtwkgjCuh8o2Y-2LFMjOFm203DDieSA1CI8");
+            //  post.setHeader("Content-Length","0");
+            post.setEntity(requestEntity);
+            try {
+
+                HttpResponse rawResponse = httpclient.execute(post);
+                sviPostovi.add(post);
+ repeatNotificationSingle( howManyTimes,  post);
+                String message = EntityUtils.toString(rawResponse.getEntity(), "UTF-8");
+                System.out.println();
+                System.out.println("odgovor od googla za ANDROID je      " + message);    
+                System.out.println();
+
+                redirectAttributes.addFlashAttribute("successMessage", "Нотификација успешно послата! \n " /*+ rawResponse*/);
+
+            } catch (Exception e) {
+                redirectAttributes.addFlashAttribute("errorMessage", "Грешка приликом слања нотификације!" + e);
+            }
+            //repeat notification 5 times every 20 minutes
+
+            //  repeatNotification(howManyTimes, post);
+        }
+        //System.out.println("send ios notifications in batches");
+
+        //send ios notifications in batches
+       
+       // repeatNotificationPostList(howManyTimes, sviPostovi);
+        return "redirect:/mobileonly/slanje";
+
+    }
+     /*
+    @PostMapping("/admin/mobileapp/slanje/posalji/all")
+    public String mobileappSlanjeNotifikacijeSvima(
+            @RequestParam(name = "titleText", defaultValue = " ") String titleText,
+            @RequestParam(name = "bodyText", defaultValue = " ") String bodyText,
+            @RequestParam(name = "messageText", defaultValue = " ") String messageText,
+            @RequestParam(name = "linkText", defaultValue = " ") String linkText,
+            @RequestParam(name = "linkTextText", defaultValue = " ") String linkTextText,
+            @RequestParam(name = "file", required = false) MultipartFile file,
+            final Model model,
+            final RedirectAttributes redirectAttributes) {
+
+        List<HttpPost> sviPostovi = new ArrayList();
+        List<String> primaociIos;
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = ((SiuvsUserPrincipal) authentication.getPrincipal()).getUser();
+        Client client = user.getClient();
+
+        primaociIos = notifikacijeIosService.findDistinctByToken();
+
+        // String registration_ids = buildRegistrationIds(primaoci);
+        String titleTextV = " ";
+        String bodyTextV = " ";
+        String imageTextV = " ";
+        String messageTextV = " ";
+        String linkTextV = " ";
+        String linkTextTextV = " ";
+
+        if (!titleText.equals("") && !titleText.equals(" ")) {
+            titleTextV = titleText;
+        }
+
+        if (!bodyText.equals("") && !bodyText.equals(" ")) {
+            bodyTextV = bodyText;
+        }
+
+        if (!messageText.equals("") && !messageText.equals(" ")) {
+            messageTextV = messageText;
+        }
+        if (!linkText.equals("") && !linkText.equals(" ") && linkText.startsWith("http")) {
+            linkTextV = linkText;
+            if (!linkTextText.equals("") && !linkTextText.equals(" ")) {
+                linkTextTextV = linkTextText;
+            }
+        }
+
+        ClientId id;
+        if (client == null) {
+            id = new ClientId(0);
+        } else {
+            id = client.getClientId();
+        }
+        String filename = "";
+        if (file.isEmpty()) {
+            imageTextV = " ";
+
+        } else {
+
+            try {
+
+                filename = storageService.store(file, id);
+                imageTextV = "https://www.siuvs.rs/php/getimg/" + id + "/" + filename + ".";
+            } catch (Exception e) {
+                redirectAttributes.addFlashAttribute("errorMessage", "Грешка приликом чувања слике!");
+            }
+        }
+        IstorijaNotifikacija istorijaNotifikacija = new IstorijaNotifikacija();
+        istorijaNotifikacija.setTitle(titleTextV);
+        istorijaNotifikacija.setBody(bodyTextV);
+
+        istorijaNotifikacija.setMessage(messageTextV);
+        istorijaNotifikacija.setLink(linkTextV);
+        istorijaNotifikacija.setLink_text(linkTextV);
+        istorijaNotifikacija.setImg_file_name(filename);
+        istorijaNotifikacija.setClient(client);
+        istorijaNotifikacija.setCreatedBy(user);
+        istorijaNotifikacija.setImg_link(imageTextV);
+        istorijaNotifikacijaService.save(istorijaNotifikacija);
+
+        //send ios notifications in batches
+        List<String> primaociPraviIOS = new ArrayList();
+        primaociPraviIOS.addAll(primaociIos);
+        //  System.out.println("broj primaoca je :" + primaociPraviIOS.size());
+        while (!primaociPraviIOS.isEmpty()) {
+            Integer chunksize = 800;
+            if (chunksize > primaociPraviIOS.size()) {
+                chunksize = primaociPraviIOS.size();
+                //  System.out.println("chunksize je :" + chunksize);
+            }
+            List<String> primaociDeoIOS = primaociPraviIOS.subList(0, chunksize);
+
+            //  primaociPraviIOS.removeAll(primaociDeoIOS);
+            String JSON_Body1 = buildJSONBodyIOS(istorijaNotifikacija, titleTextV, bodyTextV, imageTextV, messageTextV, linkTextV, linkTextTextV, primaociDeoIOS, "Ada");
+
+            primaociPraviIOS.removeAll(primaociDeoIOS);
+
+            HttpClient httpclient1 = HttpClients.createDefault();
+            StringEntity requestEntity1 = new StringEntity(JSON_Body1, ContentType.APPLICATION_JSON);
+            String HOST1 = "https://fcm.googleapis.com/fcm/send";
+            HttpPost post1 = new HttpPost(HOST1);
+            post1.setHeader("Authorization", "key=AAAAxbbCok8:APA91bGMZcat_HhLBi5lcx_k0NBLfNcEGDBj8HAyY6GNRaCIggaDqw-tqpn4yGeagxUojem408qkbkUbTZK6mt0TpFsGp56gGj-pvFGbpxtwkgjCuh8o2Y-2LFMjOFm203DDieSA1CI8");
+            //      post1.setHeader("Content-Length","0");
+            post1.setEntity(requestEntity1);
+            try {
+                HttpResponse rawResponse = httpclient1.execute(post1);
+                sviPostovi.add(post1);
+                //System.out.println("odgovor od googla je      "+rawResponse);
+                String odgovorContent = rawResponse.getEntity().getContent().toString();
+                System.out.println("odgovor od googla je      " + odgovorContent);
+                //    System.out.println("sta on ovde u odgovoru cita");
+         */ 
+    
+    //    redirectAttributes.addFlashAttribute("successMessage", "Нотификација успешно послата! \n " /*+ rawResponse*/);
+/*
+            } catch (Exception e) {
+                redirectAttributes.addFlashAttribute("errorMessage", "Грешка приликом слања нотификације!" + e.getMessage());
+            }
+            //repeat notification 5 times every 20 minutes
+
+            //  
+        }
+        repeatNotificationPostList(howManyTimes, sviPostovi);
+        return "redirect:/admin/mobileapp/slanje";
+
+    }
+*/
+    
     @GetMapping("/admin/mobileapp")
     public String mobileappHome(final Model model) {
 
@@ -465,114 +1387,7 @@ public class MobileAppController {
         return "mobileonly/prijavljeniZaNotifikacije";
     }
 
-    private String buildJSONBody(IstorijaNotifikacija istorijaNotifikacija, String title, String body, String image, String message, String link, String linkText, List<String> primaoci, String posiljalac) {
-        JSONObject jsonPoruka = new JSONObject();
-        JSONObject jsonData = new JSONObject();
-        JSONArray jsonRegistrationIdsArray = new JSONArray();
-        try {//build data json
-            jsonData.put("title", title);
-            jsonData.put("body", body);
-            jsonData.put("image", image);
-            jsonData.put("message", message);
-            jsonData.put("link", link);
-            jsonData.put("linkText", linkText);
-            jsonData.put("serverNotificationId", istorijaNotifikacija.getId());
-            jsonData.put("posiljalac", posiljalac);
-            DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-            jsonData.put("datum", LocalDate.now().format(dateFormat));
-//build registration ids json
-            Iterator<String> iterator = primaoci.iterator();
-            while (iterator.hasNext()) {
-                jsonRegistrationIdsArray.put(iterator.next());
-            }
-//build payload json
-            jsonPoruka.put("data", jsonData);
-            jsonPoruka.put("registration_ids", jsonRegistrationIdsArray);
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-        String payload = jsonPoruka.toString();
-        return payload;
-    }
-
-    private String buildJSONBodyIOS(IstorijaNotifikacija istorijaNotifikacija, String title, String body, String image, String message, String link, String linkText, List<String> primaoci, String posiljalac) {
-        JSONObject jsonPoruka2 = new JSONObject();
-        JSONObject jsonNotification2 = new JSONObject();
-        JSONObject jsonData2 = new JSONObject();
-        JSONArray jsonRegistrationIdsArray2 = new JSONArray();
-        try {//build data json
-            jsonNotification2.put("title", title);
-            jsonNotification2.put("body", body);
-            jsonNotification2.put("badge", 0);
-            jsonNotification2.put("sound", "default");
-            jsonNotification2.put("click_action", "READABLE");
-            jsonNotification2.put("content_available", false);
-            jsonNotification2.put("priority", "high");
-
-            jsonData2.put("title", title);
-            jsonData2.put("body", body);
-            jsonData2.put("image", image);
-            jsonData2.put("message", message);
-            jsonData2.put("link", link);
-            jsonData2.put("linkText", linkText);
-            jsonData2.put("serverNotificationId", istorijaNotifikacija.getId());
-            jsonData2.put("posiljalac", posiljalac);
-            DateTimeFormatter dateFormat2 = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-            jsonData2.put("datum", LocalDate.now().format(dateFormat2));
-//build registration ids json
-            Iterator<String> iterator = primaoci.iterator();
-            while (iterator.hasNext()) {
-                jsonRegistrationIdsArray2.put(iterator.next());
-            }
-//build payload json
-            jsonPoruka2.put("notification", jsonNotification2);
-            jsonPoruka2.put("data", jsonData2);
-            jsonPoruka2.put("registration_ids", jsonRegistrationIdsArray2);
-
-            /*     System.out.println();
-              System.out.println(jsonPoruka2.toString());
-              System.out.println();
-             */
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-        String payload2 = jsonPoruka2.toString();
-        return payload2;
-    }
-
-    private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
-
-    private void repeatNotification(Integer howManyTimes, List<HttpPost> sviPostovi) {
-
-        final Runnable beeper = new Runnable() {
-            public void run() {
-                //System.out.println("sending notification on timer test");
-
-                HttpClient httpclient = HttpClients.createDefault();
-                try {
-                    for (HttpPost post : sviPostovi) {
-                        HttpResponse rawResponse = httpclient.execute(post);
-                    }
-                    // System.out.println(rawResponse);
-                } catch (Exception e) {
-                }
-            }
-        };
-
-        Integer initialDelay = 15;//60 seconds*20 =minutes initial delay
-        Integer periodBetweenSending = 18;//60 seconds*20 =minutes period Between Sending
-        Integer runForHowLong = 15 * howManyTimes;//60 seconds*20*howManyTimes =how long will the thread run, also howManyTimes= basicaly equals how many times will sending execute
-        /*  final ScheduledFuture<?> beeperHandle = scheduler.scheduleAtFixedRate(beeper, initialDelay, periodBetweenSending, SECONDS);
-
-        scheduler.schedule(new Runnable() {
-            public void run() {
-                beeperHandle.cancel(true);
-            }
-        }, runForHowLong, SECONDS);
-         */  //ako ponavljamo vise puta
-
-        scheduler.schedule(beeper, runForHowLong, SECONDS);//ako ponavljamo samo jednom
-    }
+    
 
     @GetMapping("/admin/mobileapp/istorijaNotifikacija")
     public String mobileappIstorijaNotifikacija(final Model model) {
@@ -674,641 +1489,6 @@ public class MobileAppController {
                 .body(file);
     }
      */
-    @PostMapping("/admin/mobileapp/slanje/posalji/all")
-    public String mobileappSlanjeNotifikacijeSvima(
-            @RequestParam(name = "titleText", defaultValue = " ") String titleText,
-            @RequestParam(name = "bodyText", defaultValue = " ") String bodyText,
-            @RequestParam(name = "messageText", defaultValue = " ") String messageText,
-            @RequestParam(name = "linkText", defaultValue = " ") String linkText,
-            @RequestParam(name = "linkTextText", defaultValue = " ") String linkTextText,
-            @RequestParam(name = "file", required = false) MultipartFile file,
-            final Model model,
-            final RedirectAttributes redirectAttributes) {
-
-        List<HttpPost> sviPostovi = new ArrayList();
-        List<String> primaociIos;
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User user = ((SiuvsUserPrincipal) authentication.getPrincipal()).getUser();
-        Client client = user.getClient();
-
-        primaociIos = notifikacijeIosService.findDistinctByToken();
-
-        // String registration_ids = buildRegistrationIds(primaoci);
-        String titleTextV = " ";
-        String bodyTextV = " ";
-        String imageTextV = " ";
-        String messageTextV = " ";
-        String linkTextV = " ";
-        String linkTextTextV = " ";
-
-        if (!titleText.equals("") && !titleText.equals(" ")) {
-            titleTextV = titleText;
-        }
-
-        if (!bodyText.equals("") && !bodyText.equals(" ")) {
-            bodyTextV = bodyText;
-        }
-
-        if (!messageText.equals("") && !messageText.equals(" ")) {
-            messageTextV = messageText;
-        }
-        if (!linkText.equals("") && !linkText.equals(" ") && linkText.startsWith("http")) {
-            linkTextV = linkText;
-            if (!linkTextText.equals("") && !linkTextText.equals(" ")) {
-                linkTextTextV = linkTextText;
-            }
-        }
-
-        ClientId id;
-        if (client == null) {
-            id = new ClientId(0);
-        } else {
-            id = client.getClientId();
-        }
-        String filename = "";
-        if (file.isEmpty()) {
-            imageTextV = " ";
-
-        } else {
-
-            try {
-
-                filename = storageService.store(file, id);
-                imageTextV = "https://www.siuvs.rs/php/getimg/" + id + "/" + filename + ".";
-            } catch (Exception e) {
-                redirectAttributes.addFlashAttribute("errorMessage", "Грешка приликом чувања слике!");
-            }
-        }
-        IstorijaNotifikacija istorijaNotifikacija = new IstorijaNotifikacija();
-        istorijaNotifikacija.setTitle(titleTextV);
-        istorijaNotifikacija.setBody(bodyTextV);
-
-        istorijaNotifikacija.setMessage(messageTextV);
-        istorijaNotifikacija.setLink(linkTextV);
-        istorijaNotifikacija.setLink_text(linkTextV);
-        istorijaNotifikacija.setImg_file_name(filename);
-        istorijaNotifikacija.setClient(client);
-        istorijaNotifikacija.setCreatedBy(user);
-        istorijaNotifikacija.setImg_link(imageTextV);
-        istorijaNotifikacijaService.save(istorijaNotifikacija);
-
-        //send ios notifications in batches
-        List<String> primaociPraviIOS = new ArrayList();
-        primaociPraviIOS.addAll(primaociIos);
-        //  System.out.println("broj primaoca je :" + primaociPraviIOS.size());
-        while (!primaociPraviIOS.isEmpty()) {
-            Integer chunksize = 800;
-            if (chunksize > primaociPraviIOS.size()) {
-                chunksize = primaociPraviIOS.size();
-                //  System.out.println("chunksize je :" + chunksize);
-            }
-            List<String> primaociDeoIOS = primaociPraviIOS.subList(0, chunksize);
-
-            //  primaociPraviIOS.removeAll(primaociDeoIOS);
-            String JSON_Body1 = buildJSONBodyIOS(istorijaNotifikacija, titleTextV, bodyTextV, imageTextV, messageTextV, linkTextV, linkTextTextV, primaociDeoIOS, "Ada");
-
-            primaociPraviIOS.removeAll(primaociDeoIOS);
-
-            HttpClient httpclient1 = HttpClients.createDefault();
-            StringEntity requestEntity1 = new StringEntity(JSON_Body1, ContentType.APPLICATION_JSON);
-            String HOST1 = "https://fcm.googleapis.com/fcm/send";
-            HttpPost post1 = new HttpPost(HOST1);
-            post1.setHeader("Authorization", "key=AAAAxbbCok8:APA91bGMZcat_HhLBi5lcx_k0NBLfNcEGDBj8HAyY6GNRaCIggaDqw-tqpn4yGeagxUojem408qkbkUbTZK6mt0TpFsGp56gGj-pvFGbpxtwkgjCuh8o2Y-2LFMjOFm203DDieSA1CI8");
-            //      post1.setHeader("Content-Length","0");
-            post1.setEntity(requestEntity1);
-            try {
-                HttpResponse rawResponse = httpclient1.execute(post1);
-                sviPostovi.add(post1);
-                //System.out.println("odgovor od googla je      "+rawResponse);
-                String odgovorContent = rawResponse.getEntity().getContent().toString();
-                System.out.println("odgovor od googla je      " + odgovorContent);
-                //    System.out.println("sta on ovde u odgovoru cita");
-                redirectAttributes.addFlashAttribute("successMessage", "Нотификација успешно послата! \n " /*+ rawResponse*/);
-
-            } catch (Exception e) {
-                redirectAttributes.addFlashAttribute("errorMessage", "Грешка приликом слања нотификације!" + e.getMessage());
-            }
-            //repeat notification 5 times every 20 minutes
-
-            //  
-        }
-        repeatNotification(howManyTimes, sviPostovi);
-        return "redirect:/admin/mobileapp/slanje";
-
-    }
-
-    @PostMapping("/admin/mobileapp/slanje/posalji")
-    public String mobileappSlanjeNotifikacije(
-            @RequestParam(name = "titleText", defaultValue = " ") String titleText,
-            @RequestParam(name = "bodyText", defaultValue = " ") String bodyText,
-            @RequestParam(name = "messageText", defaultValue = " ") String messageText,
-            @RequestParam(name = "linkText", defaultValue = " ") String linkText,
-            @RequestParam(name = "linkTextText", defaultValue = " ") String linkTextText,
-            @RequestParam(name = "opstinanamelatinica", defaultValue = " ") String opstinanamelatinica,
-            @RequestParam(name = "file", required = false) MultipartFile file,
-            final Model model,
-            final RedirectAttributes redirectAttributes) {
-
-        List<HttpPost> sviPostovi = new ArrayList();
-
-        List<String> primaoci = new ArrayList();
-        List<String> primaociIos = new ArrayList();;
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User user = ((SiuvsUserPrincipal) authentication.getPrincipal()).getUser();
-        Client client = user.getClient();
-
-        if (opstinanamelatinica.equals(sviServisi)) {
-            primaoci = notifikacijeService.findDistinctByToken(); ///////////////disabled for testing///////////////disabled for testing///////////////disabled for testing///////////////disabled for testing///////////////disabled for testing
-            primaociIos = notifikacijeIosService.findDistinctByToken();
-        } else {
-            primaoci = notifikacijeService.findAllByOpstina(opstinanamelatinica);  ///////////////disabled for testing///////////////disabled for testing///////////////disabled for testing///////////////disabled for testing
-            primaociIos = notifikacijeIosService.findAllByOpstina(opstinanamelatinica);
-        }
-        // String registration_ids = buildRegistrationIds(primaoci);
-
-        String titleTextV = " ";
-        String bodyTextV = " ";
-        String imageTextV = " ";
-        String messageTextV = " ";
-        String linkTextV = " ";
-        String linkTextTextV = " ";
-
-        if (!titleText.equals("") && !titleText.equals(" ")) {
-            titleTextV = titleText;
-        }
-
-        if (!bodyText.equals("") && !bodyText.equals(" ")) {
-            bodyTextV = bodyText;
-        }
-
-        if (!messageText.equals("") && !messageText.equals(" ")) {
-            messageTextV = messageText;
-        }
-        if (!linkText.equals("") && !linkText.equals(" ") && linkText.startsWith("http")) {
-            linkTextV = linkText;
-            if (!linkTextText.equals("") && !linkTextText.equals(" ")) {
-                linkTextTextV = linkTextText;
-            }
-        }
-
-        ClientId id;
-        if (client == null) {
-            id = new ClientId(0);
-        } else {
-            id = client.getClientId();
-        }
-        String filename = "";
-        if (file.isEmpty()) {
-            imageTextV = " ";
-
-        } else {
-
-            try {
-
-                filename = storageService.store(file, id);
-                imageTextV = "https://www.siuvs.rs/php/getimg/" + id + "/" + filename + ".";
-            } catch (Exception e) {
-                redirectAttributes.addFlashAttribute("errorMessage", "Грешка приликом чувања слике!");
-            }
-        }
-        IstorijaNotifikacija istorijaNotifikacija = new IstorijaNotifikacija();
-        istorijaNotifikacija.setTitle(titleTextV);
-        istorijaNotifikacija.setBody(bodyTextV);
-
-        istorijaNotifikacija.setMessage(messageTextV);
-        istorijaNotifikacija.setLink(linkTextV);
-        istorijaNotifikacija.setLink_text(linkTextV);
-        istorijaNotifikacija.setImg_file_name(filename);
-        istorijaNotifikacija.setClient(client);
-        istorijaNotifikacija.setCreatedBy(user);
-        istorijaNotifikacija.setImg_link(imageTextV);
-        istorijaNotifikacijaService.save(istorijaNotifikacija);
-
-        List<String> primaociPravi = new ArrayList();
-        primaociPravi.addAll(primaoci);
-
-        //  System.out.println("broj primaoca je :" + primaociPravi.size());
-        //System.out.println("send android notifications in batches");
-        //send android notifications in batches
-        while (!primaociPravi.isEmpty()) {
-            Integer chunksize = 800;
-            if (chunksize > primaociPravi.size()) {
-                chunksize = primaociPravi.size();
-                //   System.out.println("chunksize je :" + chunksize);
-            }
-            List<String> primaociDeo = primaociPravi.subList(0, chunksize);
-            // primaociPravi.removeAll(primaociDeo);
-
-            String JSON_Body = buildJSONBody(istorijaNotifikacija, titleTextV, bodyTextV, imageTextV, messageTextV, linkTextV, linkTextTextV, primaociDeo, opstinanamelatinica);
-            primaociPravi.removeAll(primaociDeo);
-
-            //    System.out.println("body :" + JSON_Body);
-            HttpClient httpclient = HttpClients.createDefault();
-            StringEntity requestEntity = new StringEntity(JSON_Body, ContentType.APPLICATION_JSON);
-            String HOST = "https://fcm.googleapis.com/fcm/send";
-            HttpPost post = new HttpPost(HOST);
-            post.setHeader("Authorization", "key=AAAAxbbCok8:APA91bGMZcat_HhLBi5lcx_k0NBLfNcEGDBj8HAyY6GNRaCIggaDqw-tqpn4yGeagxUojem408qkbkUbTZK6mt0TpFsGp56gGj-pvFGbpxtwkgjCuh8o2Y-2LFMjOFm203DDieSA1CI8");
-            //  post.setHeader("Content-Length","0");
-            post.setEntity(requestEntity);
-            try {
-
-                HttpResponse rawResponse = httpclient.execute(post);
-                sviPostovi.add(post);
-               
-                String message = EntityUtils.toString(rawResponse.getEntity(), "UTF-8");
-                System.out.println();
-                System.out.println("odgovor od googla za ANDROID je      " + message);    
-                System.out.println();
-                
-                redirectAttributes.addFlashAttribute("successMessage", "Нотификација успешно послата! \n " /*+ rawResponse*/);
-
-            } catch (Exception e) {
-                redirectAttributes.addFlashAttribute("errorMessage", "Грешка приликом слања нотификације!" + e);
-            }
-            //repeat notification 5 times every 20 minutes
-
-            //  repeatNotification(howManyTimes, post);
-        }
-        //System.out.println("send ios notifications in batches");
-
-        //send ios notifications in batches
-        List<String> primaociPraviIOS = new ArrayList();
-        primaociPraviIOS.addAll(primaociIos);
-        //  System.out.println("broj primaoca je :" + primaociPraviIOS.size());
-        while (!primaociPraviIOS.isEmpty()) {
-            Integer chunksize = 800;
-            if (chunksize > primaociPraviIOS.size()) {
-                chunksize = primaociPraviIOS.size();
-                //  System.out.println("chunksize je :" + chunksize);
-            }
-            List<String> primaociDeoIOS = primaociPraviIOS.subList(0, chunksize);
-
-            //  primaociPraviIOS.removeAll(primaociDeoIOS);
-            String JSON_Body1 = buildJSONBodyIOS(istorijaNotifikacija, titleTextV, bodyTextV, imageTextV, messageTextV, linkTextV, linkTextTextV, primaociDeoIOS, opstinanamelatinica);
-            System.out.println("body za ios :" + JSON_Body1);
-            primaociPraviIOS.removeAll(primaociDeoIOS);
-
-            HttpClient httpclient1 = HttpClients.createDefault();
-            StringEntity requestEntity1 = new StringEntity(JSON_Body1, ContentType.APPLICATION_JSON);
-            String HOST1 = "https://fcm.googleapis.com/fcm/send";
-            HttpPost post1 = new HttpPost(HOST1);
-            post1.setHeader("Authorization", "key=AAAAxbbCok8:APA91bGMZcat_HhLBi5lcx_k0NBLfNcEGDBj8HAyY6GNRaCIggaDqw-tqpn4yGeagxUojem408qkbkUbTZK6mt0TpFsGp56gGj-pvFGbpxtwkgjCuh8o2Y-2LFMjOFm203DDieSA1CI8");
-            //      post1.setHeader("Content-Length","0");
-            post1.setEntity(requestEntity1);
-            try {
-                HttpResponse rawResponse = httpclient1.execute(post1);
-                sviPostovi.add(post1);
-
-                System.out.println();
-                String message = EntityUtils.toString(rawResponse.getEntity(), "UTF-8");
-                System.out.println("odgovor od googla za IOS je      " + message);
-                System.out.println();
-
-                redirectAttributes.addFlashAttribute("successMessage", "Нотификација успешно послата! \n " /*+ rawResponse*/);
-
-            } catch (Exception e) {
-                redirectAttributes.addFlashAttribute("errorMessage", "Грешка приликом слања нотификације!" + e.getMessage());
-            }
-            //repeat notification 5 times every 20 minutes
-
-        }
-        repeatNotification(howManyTimes, sviPostovi);
-        return "redirect:/admin/mobileapp/slanje";
-
-    }
-
-    @PostMapping("/client/mobileapp/slanje/posalji")
-    public String mobileappSlanjeNotifikacijeClient(
-            @RequestParam(name = "titleText", defaultValue = " ") String titleText,
-            @RequestParam(name = "bodyText", defaultValue = " ") String bodyText,
-            @RequestParam(name = "messageText", defaultValue = " ") String messageText,
-            @RequestParam(name = "linkText", defaultValue = " ") String linkText,
-            @RequestParam(name = "linkTextText", defaultValue = " ") String linkTextText,
-            @RequestParam(name = "file", required = false) MultipartFile file,
-            final Model model,
-            final RedirectAttributes redirectAttributes) {
-        List<HttpPost> sviPostovi = new ArrayList();
-
-        List<String> primaoci;
-        List<String> primaociIos;
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User user = ((SiuvsUserPrincipal) authentication.getPrincipal()).getUser();
-        Client client = user.getClient();
-
-        primaoci = notifikacijeService.findAllByOpstina(client.getOpstina().getNamelatinica());
-        primaociIos = notifikacijeIosService.findAllByOpstina(client.getOpstina().getNamelatinica());
-        //String registration_ids = buildRegistrationIds(primaoci);
-
-        String titleTextV = " ";
-        String bodyTextV = " ";
-        String imageTextV = " ";
-        String messageTextV = " ";
-        String linkTextV = " ";
-        String linkTextTextV = " ";
-
-        if (!titleText.equals("") && !titleText.equals(" ")) {
-            titleTextV = titleText;
-        }
-
-        if (!bodyText.equals("") && !bodyText.equals(" ")) {
-            bodyTextV = bodyText;
-        }
-
-        if (!messageText.equals("") && !messageText.equals(" ")) {
-            messageTextV = messageText;
-        }
-        if (!linkText.equals("") && !linkText.equals(" ") && linkText.startsWith("http")) {
-            linkTextV = linkText;
-            if (!linkTextText.equals("") && !linkTextText.equals(" ")) {
-                linkTextTextV = linkTextText;
-            }
-        }
-        String filename = "";
-        if (file.isEmpty()) {
-            imageTextV = " ";
-
-        } else {
-
-            //this part goes in else
-            try {
-
-                filename = storageService.store(file, client.getClientId());
-            } catch (Exception e) {
-                redirectAttributes.addFlashAttribute("errorMessage", "Грешка приликом чувања слике!");
-            }
-            imageTextV = "https://www.siuvs.rs/php/getimg/" + client.getClientId() + "/" + filename + ".";
-        }
-        IstorijaNotifikacija istorijaNotifikacija = new IstorijaNotifikacija();
-        istorijaNotifikacija.setTitle(titleTextV);
-        istorijaNotifikacija.setBody(bodyTextV);
-        istorijaNotifikacija.setMessage(messageTextV);
-        istorijaNotifikacija.setLink(linkTextV);
-        istorijaNotifikacija.setLink_text(linkTextV);
-        istorijaNotifikacija.setImg_file_name(filename);
-        istorijaNotifikacija.setClient(client);
-        istorijaNotifikacija.setCreatedBy(user);
-        istorijaNotifikacija.setImg_link(imageTextV);
-        istorijaNotifikacijaService.save(istorijaNotifikacija);
-
-        List<String> primaociPravi = new ArrayList();
-        primaociPravi.addAll(primaoci);
-        //  primaociPravi.addAll(primaociIos);
-
-//send android notifications
-        while (!primaociPravi.isEmpty()) {
-            Integer chunksize = 800;
-            if (chunksize > primaociPravi.size()) {
-                chunksize = primaociPravi.size();
-            }
-            List<String> primaociDeo = primaociPravi.subList(0, chunksize);
-            //   primaociPravi.removeAll(primaociDeo);
-
-            String JSON_Body = buildJSONBody(istorijaNotifikacija, titleTextV, bodyTextV, imageTextV, messageTextV, linkTextV, linkTextTextV, primaociDeo, client.getOpstina().getNamelatinica());
-            //java.util.concurrentmodificationexception ako se ovo obrise pre nego sto se primaoci deo iskoristi u buildjsonbody
-            primaociPravi.removeAll(primaociDeo);
-
-            HttpClient httpclient = HttpClients.createDefault();
-            StringEntity requestEntity = new StringEntity(JSON_Body, ContentType.APPLICATION_JSON);
-            String HOST = "https://fcm.googleapis.com/fcm/send";
-            HttpPost post = new HttpPost(HOST);
-            post.setHeader("Authorization", "key=AAAAxbbCok8:APA91bGMZcat_HhLBi5lcx_k0NBLfNcEGDBj8HAyY6GNRaCIggaDqw-tqpn4yGeagxUojem408qkbkUbTZK6mt0TpFsGp56gGj-pvFGbpxtwkgjCuh8o2Y-2LFMjOFm203DDieSA1CI8");
-            post.setEntity(requestEntity);
-            try {
-                HttpResponse rawResponse = httpclient.execute(post);
-                sviPostovi.add(post);
-
-                  String message = EntityUtils.toString(rawResponse.getEntity(), "UTF-8");
-                System.out.println();
-                System.out.println("odgovor od googla za ANDROID je      " + message);    
-                System.out.println();
-                redirectAttributes.addFlashAttribute("successMessage", "Нотификација успешно послата! \n " /*+ rawResponse*/);
-
-            } catch (Exception e) {
-                redirectAttributes.addFlashAttribute("errorMessage", "Грешка приликом слања нотификације!");
-            }
-            //repeat notification 5 times every 20 minutes
-
-            //   repeatNotification(howManyTimes, post);
-        }
-
-        //send ios notifications
-        List<String> primaociPraviIos = new ArrayList();
-        primaociPravi.addAll(primaociIos);
-        while (!primaociPraviIos.isEmpty()) {
-            Integer chunksize = 800;
-            if (chunksize > primaociPraviIos.size()) {
-                chunksize = primaociPraviIos.size();
-            }
-            List<String> primaociDeo = primaociPraviIos.subList(0, chunksize);
-
-            String JSON_Body = buildJSONBodyIOS(istorijaNotifikacija, titleTextV, bodyTextV, imageTextV, messageTextV, linkTextV, linkTextTextV, primaociDeo, client.getOpstina().getNamelatinica());
-            primaociPraviIos.removeAll(primaociDeo);
-
-            HttpClient httpclient = HttpClients.createDefault();
-            StringEntity requestEntity = new StringEntity(JSON_Body, ContentType.APPLICATION_JSON);
-            String HOST = "https://fcm.googleapis.com/fcm/send";
-            HttpPost post1 = new HttpPost(HOST);
-            post1.setHeader("Authorization", "key=AAAAxbbCok8:APA91bGMZcat_HhLBi5lcx_k0NBLfNcEGDBj8HAyY6GNRaCIggaDqw-tqpn4yGeagxUojem408qkbkUbTZK6mt0TpFsGp56gGj-pvFGbpxtwkgjCuh8o2Y-2LFMjOFm203DDieSA1CI8");
-            post1.setEntity(requestEntity);
-            try {
-                HttpResponse rawResponse = httpclient.execute(post1);
-                sviPostovi.add(post1);
-
-                   String message = EntityUtils.toString(rawResponse.getEntity(), "UTF-8");
-                System.out.println();
-                System.out.println("odgovor od googla za IOS je      " + message);    
-                System.out.println();
-                redirectAttributes.addFlashAttribute("successMessage", "Нотификација успешно послата! \n " /*+ rawResponse*/);
-
-            } catch (Exception e) {
-                redirectAttributes.addFlashAttribute("errorMessage", "Грешка приликом слања нотификације!");
-            }
-            //repeat notification 5 times every 20 minutes
-
-            //    repeatNotification(howManyTimes, post1);
-        }
-        repeatNotification(howManyTimes, sviPostovi);
-        return "redirect:/client/mobileapp/slanje";
-
-    }
-
-    @PostMapping("/mobileonly/slanje/posalji")
-    public String mobilonlySlanjeNotifikacije(
-            @RequestParam(name = "titleText", defaultValue = " ") String titleText,
-            @RequestParam(name = "bodyText", defaultValue = " ") String bodyText,
-            @RequestParam(name = "messageText", defaultValue = " ") String messageText,
-            @RequestParam(name = "linkText", defaultValue = " ") String linkText,
-            @RequestParam(name = "linkTextText", defaultValue = " ") String linkTextText,
-            @RequestParam(name = "opstinanamelatinica", defaultValue = " ") String opstinanamelatinica,
-            @RequestParam(name = "file", required = false) MultipartFile file,
-            final Model model,
-            final RedirectAttributes redirectAttributes) {
-        List<HttpPost> sviPostovi = new ArrayList();
-
-        List<String> primaoci;
-        List<String> primaociIos;
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User user = ((SiuvsUserPrincipal) authentication.getPrincipal()).getUser();
-        Client client = user.getClient();
-
-        primaoci = notifikacijeService.findAllByOpstina(opstinanamelatinica);
-        primaociIos = notifikacijeIosService.findAllByOpstina(opstinanamelatinica);
-
-        // String registration_ids = buildRegistrationIds(primaoci);
-        String titleTextV = " ";
-        String bodyTextV = " ";
-        String imageTextV = " ";
-        String messageTextV = " ";
-        String linkTextV = " ";
-        String linkTextTextV = " ";
-
-        if (!titleText.equals("") && !titleText.equals(" ")) {
-            titleTextV = titleText;
-        }
-
-        if (!bodyText.equals("") && !bodyText.equals(" ")) {
-            bodyTextV = bodyText;
-        }
-
-        if (!messageText.equals("") && !messageText.equals(" ")) {
-            messageTextV = messageText;
-        }
-        if (!linkText.equals("") && !linkText.equals(" ") && linkText.startsWith("http")) {
-            linkTextV = linkText;
-            if (!linkTextText.equals("") && !linkTextText.equals(" ")) {
-                linkTextTextV = linkTextText;
-            }
-        }
-
-        ClientId id;
-        if (client == null) {
-            id = new ClientId(0);
-        } else {
-            id = client.getClientId();
-        }
-        String filename = "";
-        if (file.isEmpty()) {
-            imageTextV = " ";
-
-        } else {
-
-            try {
-
-                filename = storageService.store(file, id);
-                imageTextV = "https://www.siuvs.rs/php/getimg/" + id + "/" + filename + ".";
-            } catch (Exception e) {
-                redirectAttributes.addFlashAttribute("errorMessage", "Грешка приликом чувања слике!");
-            }
-        }
-        IstorijaNotifikacija istorijaNotifikacija = new IstorijaNotifikacija();
-        istorijaNotifikacija.setTitle(titleTextV);
-        istorijaNotifikacija.setBody(bodyTextV);
-
-        istorijaNotifikacija.setMessage(messageTextV);
-        istorijaNotifikacija.setLink(linkTextV);
-        istorijaNotifikacija.setLink_text(linkTextV);
-        istorijaNotifikacija.setImg_file_name(filename);
-        istorijaNotifikacija.setClient(client);
-        istorijaNotifikacija.setCreatedBy(user);
-        istorijaNotifikacija.setImg_link(imageTextV);
-        istorijaNotifikacijaService.save(istorijaNotifikacija);
-
-        List<String> primaociPravi = new ArrayList();
-        primaociPravi.addAll(primaoci);
-
-        //  System.out.println("broj primaoca je :" + primaociPravi.size());
-        //System.out.println("send android notifications in batches");
-        //send android notifications in batches
-        while (!primaociPravi.isEmpty()) {
-            Integer chunksize = 800;
-            if (chunksize > primaociPravi.size()) {
-                chunksize = primaociPravi.size();
-                //   System.out.println("chunksize je :" + chunksize);
-            }
-            List<String> primaociDeo = primaociPravi.subList(0, chunksize);
-            // primaociPravi.removeAll(primaociDeo);
-
-            String JSON_Body = buildJSONBody(istorijaNotifikacija, titleTextV, bodyTextV, imageTextV, messageTextV, linkTextV, linkTextTextV, primaociDeo, opstinanamelatinica);
-            primaociPravi.removeAll(primaociDeo);
-
-            System.out.println("body :" + JSON_Body);
-
-            HttpClient httpclient = HttpClients.createDefault();
-            StringEntity requestEntity = new StringEntity(JSON_Body, ContentType.APPLICATION_JSON);
-            String HOST = "https://fcm.googleapis.com/fcm/send";
-            HttpPost post = new HttpPost(HOST);
-            post.setHeader("Authorization", "key=AAAAxbbCok8:APA91bGMZcat_HhLBi5lcx_k0NBLfNcEGDBj8HAyY6GNRaCIggaDqw-tqpn4yGeagxUojem408qkbkUbTZK6mt0TpFsGp56gGj-pvFGbpxtwkgjCuh8o2Y-2LFMjOFm203DDieSA1CI8");
-            //  post.setHeader("Content-Length","0");
-            post.setEntity(requestEntity);
-            try {
-
-                HttpResponse rawResponse = httpclient.execute(post);
-                sviPostovi.add(post);
-
-                String message = EntityUtils.toString(rawResponse.getEntity(), "UTF-8");
-                System.out.println();
-                System.out.println("odgovor od googla za ANDROID je      " + message);    
-                System.out.println();
-
-                redirectAttributes.addFlashAttribute("successMessage", "Нотификација успешно послата! \n " /*+ rawResponse*/);
-
-            } catch (Exception e) {
-                redirectAttributes.addFlashAttribute("errorMessage", "Грешка приликом слања нотификације!" + e);
-            }
-            //repeat notification 5 times every 20 minutes
-
-            //  repeatNotification(howManyTimes, post);
-        }
-        //System.out.println("send ios notifications in batches");
-
-        //send ios notifications in batches
-        List<String> primaociPraviIOS = new ArrayList();
-        primaociPraviIOS.addAll(primaociIos);
-        //  System.out.println("broj primaoca je :" + primaociPraviIOS.size());
-        while (!primaociPraviIOS.isEmpty()) {
-            Integer chunksize = 800;
-            if (chunksize > primaociPraviIOS.size()) {
-                chunksize = primaociPraviIOS.size();
-                //  System.out.println("chunksize je :" + chunksize);
-            }
-            List<String> primaociDeoIOS = primaociPraviIOS.subList(0, chunksize);
-
-            //  primaociPraviIOS.removeAll(primaociDeoIOS);
-            String JSON_Body1 = buildJSONBodyIOS(istorijaNotifikacija, titleTextV, bodyTextV, imageTextV, messageTextV, linkTextV, linkTextTextV, primaociDeoIOS, opstinanamelatinica);
-
-            primaociPraviIOS.removeAll(primaociDeoIOS);
-
-            HttpClient httpclient1 = HttpClients.createDefault();
-            StringEntity requestEntity1 = new StringEntity(JSON_Body1, ContentType.APPLICATION_JSON);
-            String HOST1 = "https://fcm.googleapis.com/fcm/send";
-            HttpPost post1 = new HttpPost(HOST1);
-            post1.setHeader("Authorization", "key=AAAAxbbCok8:APA91bGMZcat_HhLBi5lcx_k0NBLfNcEGDBj8HAyY6GNRaCIggaDqw-tqpn4yGeagxUojem408qkbkUbTZK6mt0TpFsGp56gGj-pvFGbpxtwkgjCuh8o2Y-2LFMjOFm203DDieSA1CI8");
-            //      post1.setHeader("Content-Length","0");
-            post1.setEntity(requestEntity1);
-            try {
-                HttpResponse rawResponse = httpclient1.execute(post1);
-                sviPostovi.add(post1);
-
-                   String message = EntityUtils.toString(rawResponse.getEntity(), "UTF-8");
-                System.out.println();
-                System.out.println("odgovor od googla za IOS je      " + message);    
-                System.out.println();
-                //System.out.println("odgovor od googla je      "+rawResponse);
-//String odgovorContent=rawResponse.getEntity().getContent().toString();
-                //   System.out.println("odgovor od googla je      "+odgovorContent);
-                //    System.out.println("sta on ovde u odgovoru cita");
-                redirectAttributes.addFlashAttribute("successMessage", "Нотификација успешно послата! \n " /*+ rawResponse*/);
-
-            } catch (Exception e) {
-                redirectAttributes.addFlashAttribute("errorMessage", "Грешка приликом слања нотификације!" + e.getMessage());
-            }
-            //repeat notification 5 times every 20 minutes
-
-            // repeatNotification(howManyTimes, post1);
-        }
-        repeatNotification(howManyTimes, sviPostovi);
-        return "redirect:/mobileonly/slanje";
-
-    }
+   
 
 }

@@ -86,4 +86,9 @@ public class NotifikacijeIosServiceImpl implements NotifikacijeIosService {
     return notifikacijeRepository.countByOpstina(opstinaName);
     };
 
+    
+     @Override
+    public  void deleteByTokenIn(List<String> tokeni){
+     notifikacijeRepository.deleteByTokenIn(tokeni);
+    };
 }

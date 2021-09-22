@@ -15,7 +15,7 @@ FOREIGN KEY (`grupa_id`) REFERENCES `grupaMTS` (`id`)
 CREATE TABLE `pod_vrstaMTS` (
 `id` int NOT NULL AUTO_INCREMENT,
 `naziv` varchar(255) DEFAULT NULL,
-`vrsta_id` int NOT NULL,
+`vrsta_id` int DEFAULT NULL,
 PRIMARY KEY (`id`),
 FOREIGN KEY (`vrsta_id`) REFERENCES `vrstaMTS` (`id`)
 ) ENGINE=InnoDB;

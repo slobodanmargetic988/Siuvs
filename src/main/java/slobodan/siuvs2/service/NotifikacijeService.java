@@ -27,4 +27,6 @@ public interface NotifikacijeService {
    
         long countByOpstina(String opstinaName);
    
+        
+         void deleteByTokenIn(List<String> tokeni);
 }

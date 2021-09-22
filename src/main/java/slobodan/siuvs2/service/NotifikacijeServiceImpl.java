@@ -86,4 +86,9 @@ public class NotifikacijeServiceImpl implements NotifikacijeService {
     };
     
     
+    @Override
+    public  void deleteByTokenIn(List<String> tokeni){
+     notifikacijeRepository.deleteByTokenIn(tokeni);
+    };
+    
 }

@@ -643,10 +643,10 @@ public class MobileAppController {
 
             //   repeatNotification(howManyTimes, post);
         }
-
+System.out.println("krece client ios slanje");    
         //send ios notifications
         List<String> primaociPraviIos = new ArrayList();
-        primaociPravi.addAll(primaociIos);
+        primaociPraviIos.addAll(primaociIos);
         while (!primaociPraviIos.isEmpty()) {
             Integer chunksize = 800;
             if (chunksize > primaociPraviIos.size()) {

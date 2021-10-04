@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+    <head> 
+        <th:block th:include="fragments/head :: head" />
+    </head>
+    <body>
+
+        <!-- Nav -->
+        <th:block th:insert="fragments/navigation :: navigation-end-user"></th:block>
+
+        <!-- Content -->
+        <div class="px-content">
+
+            <div class="page-header" >
+                <h1>
+                    <th:block th:insert="fragments/navigation :: nav-breadcrumbs-Kartoni-MTS" />
+                </h1>
+            </div>
+
+            <div th:replace="fragments/alert :: success (${successMessage})"></div>
+
+            <div th:replace="fragments/alert :: error (${errorMessage})"></div>
+
+            <div class="panel panel-custom-width" >
+                <div class="panel-heading">
+
+                    <span class="panel-title" >Картон Материјално техничког средства</span> 
+                </div>
+
+                <div class="karton">
+                    <div class="table-responsive">
+                        <form th:action="@{/client/kartonMTS/newKarton}"  method="post" class="form-horizontal" autocomplete="off">
+                            <table class="table table-striped valign-middle">
+
+                                <tbody>
+
+                                    <tr>
+                                        <td   class="pl-custom highlighted-row-custom">Нижа организациона јединица правног лица - власника:</td> 
+                                        <td>
+                                            <select class="col-md-6 "  name="orgJedinicaMTS_id"  >
+                                                <option  th:each="orgJedinica : ${listaOrgJedinica}" th:value="${orgJedinica.id}" th:text="${orgJedinica.naziv_org_jedinice}">Текст</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td   class="pl-custom highlighted-row-custom custom-td-width-left">Власник (правно лице):</td> 
+                                        <td>
+                                            <select class="col-md-6 "  name="vlasnik_id"  >
+                                                <option  th:each="vlasnik : ${listaVlasnika}" th:value="${vlasnik.id}" th:text="${vlasnik.vlasnik_naziv}">Текст</option>
+                                            </select>
+                                        </td>
+
+                                    </tr>
+
+
+                                    <tr>
+                                        <td   class="pl-custom highlighted-row-custom">Група:</td> 
+                                        <td>
+                                            <select class="col-md-6 "  name="grupaMTS_id"  >
+                                                <option  th:each="grupa : ${listaGrupa}" th:value="${grupa.id}" th:text="${grupa.naziv}">Текст</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td   class="pl-custom highlighted-row-custom">Врста:</td> 
+                                        <td>
+                                            <select class="col-md-6 "  name="vrstaMTS_id"  >
+                                                <option  th:each="vrsta : ${listaVrsta}" th:value="${vrsta.id}" th:text="${vrsta.naziv}">Текст</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td   class="pl-custom highlighted-row-custom">Подврста:</td> 
+                                        <td>
+                                            <select class="col-md-6 "  name="podvrstaMTS_id"  >
+                                                <option  th:each="podvrsta : ${listaPodvrsta}" th:value="${podvrsta.id}" th:text="${podvrsta.naziv}">Текст</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+
+                                    <tr  >
+                                        <td   class="pl-custom highlighted-row-custom">Марка:</td> 
+                                        <td  > <input type="text" name="marka" ></td> 
+                                    </tr>
+
+                                    <tr  >
+                                        <td   class="pl-custom highlighted-row-custom">Број МТС (количина):</td> 
+                                        <td  > <input type="text" name="brojMTS_kolicina" ></td> 
+                                    </tr>
+
+                                    <tr  >
+                                        <td   class="pl-custom highlighted-row-custom">Тип:</td> 
+                                        <td  > <input type="text" name="tip" ></td> 
+                                    </tr>
+
+                                    <tr  >
+                                        <td   class="pl-custom highlighted-row-custom">Регистрација:</td> 
+                                        <td  > <input type="text" name="registracija" ></td> 
+                                    </tr>
+
+                                    <tr  >
+                                        <td   class="pl-custom highlighted-row-custom">Година производње:</td> 
+                                        <td  > <input type="text" name="godina_proizvodnje" ></td> 
+                                    </tr>
+
+                                    <tr  >
+                                        <td   class="pl-custom highlighted-row-custom">Снага:</td> 
+                                        <td  > <input type="text" name="snaga" ></td> 
+                                    </tr>
+
+                                    <tr  >
+                                        <td   class="pl-custom highlighted-row-custom">Носивост:</td> 
+                                        <td  > <input type="text" name="nosivost" ></td> 
+                                    </tr>
+
+                                    <tr  >
+                                        <td   class="pl-custom highlighted-row-custom">Капацитет:</td> 
+                                        <td  > <input type="text" name="kapacitet" ></td> 
+                                    </tr>
+
+                                    <tr  >
+                                        <td   class="pl-custom highlighted-row-custom">Погонско гориво:</td> 
+                                        <td  > <input type="text" name="pogonsko_gorivo" ></td> 
+                                    </tr>
+
+                                    <tr  >
+                                        <td   class="pl-custom highlighted-row-custom">Опис МТС:</td> 
+                                        <td  > <input type="text" name="opisMTS" ></td> 
+                                    </tr>
+
+                                    <tr  >
+                                        <td   class="pl-custom highlighted-row-custom">Напомена:</td> 
+                                        <td  > <input type="text" name="napomena" ></td> 
+                                    </tr>
+
+
+                                </tbody>
+                            </table>
+                            
+                            <div class="col-md-offset-3  bottomTwoButtons">
+                                <button type="submit"  class="btn btn-primary">Сачувај</button>
+                                <a th:href="@{/client/kartonMTS/{kartonId} (kartonId=${kartonId})}"  class="btn">Одустани</a>
+                            </div> 
+                            
+                        </form>
+
+                    </div>
+                </div>
+
+
+            </div> 
+
+        </div>
+
+
+
+
+        </div>
+
+        <th:block th:insert="fragments/footer :: footer-standard" />
+
+        <th:block th:insert="fragments/scripts :: standard" />
+        <script th:src="@{/js/matrix.js}"></script> 
+    </body>
+</html>

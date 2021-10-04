@@ -161,4 +161,8 @@ public class Client {
         this.active = active;
     }
 
+    public void setClient(Client client) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
 }

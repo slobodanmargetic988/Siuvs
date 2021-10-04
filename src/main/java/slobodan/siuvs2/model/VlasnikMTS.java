@@ -20,7 +20,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
  * @author Sloba
  */
 @Entity
-@Table(name = "vlasnikMTS")
+@Table(name = "vlasnik_mts")
 @EntityListeners(AuditingEntityListener.class)
 public class VlasnikMTS {
 
@@ -35,7 +35,7 @@ public class VlasnikMTS {
     @Column(name = "adresa")
     private String adresa;
 
-    @Column(name = "gradOpstina")
+    @Column(name = "grad_opstina")
     private String gradOpstina;
 
     @Column(name = "upravni_okrug")

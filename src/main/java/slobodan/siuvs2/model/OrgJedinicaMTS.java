@@ -20,7 +20,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
  * @author Sloba
  */
 @Entity
-@Table(name = "orgJedinicaMTS")
+@Table(name = "org_jedinica_mts")
 @EntityListeners(AuditingEntityListener.class)
 public class OrgJedinicaMTS {
 
@@ -59,8 +59,8 @@ public class OrgJedinicaMTS {
     @ManyToOne
     @JoinColumn(name = "vlasnik_id")
     private VlasnikMTS vlasnikMTS;
-    
-        @OneToMany(mappedBy = "vlasnikMTS")
+
+    @OneToMany(mappedBy = "orgJedinicaMTS")
     private List<DetaljiMTS> listaDetaljiMTS = new ArrayList<>();
 
 //    @OneToMany(mappedBy = "orgJedinicaMTS")
@@ -223,5 +223,4 @@ public class OrgJedinicaMTS {
         this.modifiedOn = modifiedOn;
     }
 
-    
 }

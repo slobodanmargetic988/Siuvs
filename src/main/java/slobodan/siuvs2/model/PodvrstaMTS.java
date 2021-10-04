@@ -13,7 +13,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
  * @author Sloba
  */
 @Entity
-@Table(name = "podvrstaMTS")
+@Table(name = "pod_vrsta_mts")
 @EntityListeners(AuditingEntityListener.class)
 public class PodvrstaMTS {
 

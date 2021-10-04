@@ -15,7 +15,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
  * @author Sloba
  */
 @Entity
-@Table(name = "grupaMTS")
+@Table(name = "grupa_mts")
 @EntityListeners(AuditingEntityListener.class)
 public class GrupaMTS {
 

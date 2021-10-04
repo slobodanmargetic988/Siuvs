@@ -20,7 +20,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
  * @author Sloba
  */
 @Entity
-@Table(name = "detaljiMTS")
+@Table(name = "detalji_mts")
 @EntityListeners(AuditingEntityListener.class)
 public class DetaljiMTS {
 
@@ -32,8 +32,8 @@ public class DetaljiMTS {
     @Column(name = "marka")
     private String marka;
 
-    @Column(name = "brojMTS_kolicina")
-    private String brojMTS_kolicina;
+    @Column(name = "broj_mts_kolicina")
+    private Integer brojMTS_kolicina;
 
     @Column(name = "tip")
     private String tip;
@@ -56,7 +56,7 @@ public class DetaljiMTS {
     @Column(name = "pogonsko_gorivo")
     private String pogonsko_gorivo;
 
-    @Column(name = "opisMTS")
+    @Column(name = "opis_mts")
     private String opisMTS;
 
     @Column(name = "napomena")
@@ -67,7 +67,7 @@ public class DetaljiMTS {
     private VlasnikMTS vlasnikMTS;
     
     @ManyToOne
-    @JoinColumn(name = "orgJedinicaMTS_id")
+    @JoinColumn(name = "org_jedinica_mts_id")
     private OrgJedinicaMTS orgJedinicaMTS;
     
     
@@ -124,13 +124,14 @@ public class DetaljiMTS {
         this.marka = marka;
     }
 
-    public String getBrojMTS_kolicina() {
+    public Integer getBrojMTS_kolicina() {
         return brojMTS_kolicina;
     }
 
-    public void setBrojMTS_kolicina(String brojMTS_kolicina) {
+    public void setBrojMTS_kolicina(Integer brojMTS_kolicina) {
         this.brojMTS_kolicina = brojMTS_kolicina;
     }
+
 
     public String getTip() {
         return tip;

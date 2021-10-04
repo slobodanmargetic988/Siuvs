@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+    <head>
+        <th:block th:include="fragments/head :: head" />
+    </head>
+    <body>
+
+        <!-- Nav -->
+        <th:block th:insert="fragments/navigation :: navigation-supervisor-client"></th:block>
+
+        <!-- Content -->
+        <div class="px-content">
+
+            <div class="page-header">
+                <h1>
+                    <th:block th:insert="fragments/navigation :: nav-breadcrumbs-Kartoni-MTS" />
+                </h1>
+            </div>
+
+            <div th:replace="fragments/alert :: success (${successMessage})"></div>
+
+            <!-- Client details panel -->
+
+            <div class="panel panel-custom-width">
+                <div class="panel-heading">
+                    <span class="panel-title">Картон Материјално техничког средства</span>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="table table-striped valign-middle">
+
+
+                        <tbody>
+
+                            <tr  >
+                                <td colspan="2" class="highlighted-row-custom custom-td-width-left"> Група</td> 
+                                <td colspan="3"> <span th:text="${karton.grupaMTS.naziv}?:'/'"></span></td> 
+                            </tr>
+                            <tr  >
+                                <td colspan="2" class="highlighted-row-custom"> Врста</td> 
+                                <td colspan="3"> <span th:text="${karton.vrstaMTS.naziv}?:'/'"></span></td> 
+                            </tr>
+                            <tr  >
+                                <td colspan="2" class="highlighted-row-custom"> Подврста</td> 
+                                <td colspan="3"> <span th:text="${karton.podvrstaMTS.naziv}?:'/'"></span></td> 
+                            </tr>
+                            <tr  >
+                                <td colspan="2" class="highlighted-row-custom"> Марка</td> 
+                                <td colspan="3"> <span th:text="${karton.marka}?:'/'"></span></td> 
+                            </tr>
+                            <tr  >
+                                <td colspan="2" class="highlighted-row-custom">Број МТС (количина)</td> 
+                                <td colspan="3"> <span th:text="${karton.brojMTS_kolicina}?:'/'"></span></td> 
+                            </tr>
+
+                            <tr  >
+                                <td colspan="2" class="highlighted-row-custom">Тип</td> 
+                                <td colspan="3"> <span th:text="${karton.tip}?:'/'"></span></td> 
+                            </tr>
+
+                            <tr  >
+                                <td colspan="2" class="highlighted-row-custom">Регистрација</td> 
+                                <td colspan="3"> <span th:text="${karton.registracija}?:'/'"></span></td> 
+                            </tr>
+                            <tr  >
+                                <td colspan="2" class="highlighted-row-custom">Година производње</td> 
+                                <td colspan="3"> <span th:text="${karton.godina_proizvodnje}?:'/'"></span></td> 
+                            </tr>
+                            <tr  >
+                                <td colspan="2" class="highlighted-row-custom">Снага</td> 
+                                <td colspan="3"> <span th:text="${karton.snaga}?:'/'"></span></td> 
+                            </tr>
+                            <tr  >
+                                <td colspan="2" class="highlighted-row-custom">Носивост</td> 
+                                <td colspan="3"> <span th:text="${karton.nosivost}?:'/'"></span></td> 
+                            </tr>
+
+                            <tr  >
+                                <td colspan="2" class="highlighted-row-custom">Капацитет</td> 
+                                <td colspan="3" > <span th:text="${karton.kapacitet}?:'/'">/</span></td> 
+                            </tr>
+
+
+                            <tr  >
+                                <td colspan="2" class="highlighted-row-custom">Погонско гориво</td> 
+                                <td colspan="3" > <span th:text="${karton.pogonsko_gorivo}?:'/'"></span></td> 
+                            </tr>
+
+                            <tr  >
+                                <td colspan="2" class="highlighted-row-custom">Опис МТС</td> 
+                                <td colspan="3" > <span th:text="${karton.opisMTS}?:'/'"></span></td> 
+                            </tr>
+
+                            <tr  >
+                                <td colspan="2" class="highlighted-row-custom">Напомена</td> 
+                                <td colspan="3" > <span th:text="${karton.napomena}?:'/'"></span></td> 
+                            </tr>
+
+
+
+                            <tr  >
+                                <td colspan="2" class="highlighted-row-custom">Име и презиме одговорног лица</td> 
+                                <td colspan="3" > <span th:text="${karton.orgJedinicaMTS.odgovorno_lice}?:'/'"></span></td> 
+                            </tr>
+
+                            <tr  >
+                                <td colspan="2" class="highlighted-row-custom">Фиксни телефон одговорног лица</td> 
+                                <td colspan="3" > <span th:text="${karton.orgJedinicaMTS.fiksni_tel_odg_lica}?:'/'"></span></td> 
+                            </tr>
+
+                            <tr  >
+                                <td colspan="2" class="highlighted-row-custom">Мобилни телефон одговорног лица</td> 
+                                <td colspan="3" > <span th:text="${karton.orgJedinicaMTS.mobilni_tel_odg_lica}?:'/'"></span></td> 
+                            </tr>
+
+                            <tr  >
+                                <td colspan="2" class="highlighted-row-custom">Е-маил адреса одговорног лица</td> 
+                                <td colspan="3" > <span th:text="${karton.orgJedinicaMTS.email_odg_lica}?:'/'"></span></td> 
+                            </tr>
+
+                            <tr  >
+                                <td colspan="2" class="highlighted-row-custom">Организациона јединица власника где се МТС налази</td> 
+                                <td colspan="3" > <span th:text="${karton.orgJedinicaMTS.naziv_org_jedinice}?:'/'"></span></td> 
+                            </tr>
+
+                            <tr  >
+                                <td colspan="2" class="highlighted-row-custom">Адреса на којој се МТС налази</td> 
+                                <td colspan="3" > <span th:text="${karton.orgJedinicaMTS.mts_adresa}?:'/'"></span></td> 
+                            </tr>
+
+                            <tr  >
+                                <td colspan="2" class="highlighted-row-custom">Географска ширина локације МТС</td> 
+                                <td colspan="3" > <span th:text="${karton.orgJedinicaMTS.geografska_sirina_mts}?:'/'"></span></td> 
+                            </tr>
+
+                            <tr  >
+                                <td colspan="2" class="highlighted-row-custom">Географска дужина локације МТС</td> 
+                                <td colspan="3" > <span th:text="${karton.orgJedinicaMTS.geografska_duzina_mts}?:'/'"></span></td> 
+                            </tr>
+
+                            <tr  >
+                                <td colspan="2" class="highlighted-row-custom">Надлежна организациона јединица СВС која води евиденцију МТС</td> 
+                                <td colspan="3" > <span th:text="${karton.orgJedinicaMTS.nadlezna_org_jednica_svs}?:'/'"></span></td> 
+                            </tr>
+
+
+
+                            <tr  >
+                                <td colspan="2" class="highlighted-row-custom">Власник (правно лице)</td> 
+                                <td colspan="3" > <span th:text="${karton.vlasnikMTS.vlasnik_naziv}?:'/'"></span></td> 
+                            </tr>
+
+                            <tr  >
+                                <td colspan="2" class="highlighted-row-custom">Нижа организациона јединица правног лица - власника</td> 
+                                <td colspan="3" > <span th:text="${karton.orgJedinicaMTS.naziv_org_jedinice}?:'/'"></span></td> 
+                            </tr>
+
+                            <tr  >
+                                <td colspan="2" class="highlighted-row-custom">Адреса</td> 
+                                <td colspan="3" > <span th:text="${karton.vlasnikMTS.adresa}?:'/'"></span></td> 
+                            </tr>
+
+                            <tr  >
+                                <td colspan="2" class="highlighted-row-custom">Град/ Општина</td> 
+                                <td colspan="3" > <span th:text="${karton.vlasnikMTS.gradOpstina}?:'/'"></span></td> 
+                            </tr>
+
+                            <tr  >
+                                <td colspan="2" class="highlighted-row-custom">Управни округ</td> 
+                                <td colspan="3" > <span th:text="${karton.vlasnikMTS.upravni_okrug}?:'/'"></span></td> 
+                            </tr>
+
+                            <tr  >
+                                <td colspan="2" class="highlighted-row-custom">Телефон</td> 
+                                <td colspan="3" > <span th:text="${karton.vlasnikMTS.telefon}?:'/'"></span></td> 
+                            </tr>
+
+                            <tr  >
+                                <td colspan="2" class="highlighted-row-custom">Е-маил адреса </td> 
+                                <td colspan="3" > <span th:text="${karton.vlasnikMTS.email}?:'/'"></span></td> 
+                            </tr> 
+
+                        </tbody>
+                    </table>
+                </div>
+
+
+            </div>
+
+            <th:block th:insert="fragments/footer :: footer-standard" />
+            <th:block th:insert="fragments/scripts :: standard" />
+    </body>
+</html>

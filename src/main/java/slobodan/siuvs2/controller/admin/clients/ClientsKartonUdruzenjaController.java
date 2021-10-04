@@ -46,8 +46,6 @@ public class ClientsKartonUdruzenjaController {
     @Autowired
     private CiljeviUdruzenjaService ciljeviUdruzenjaService;
 
-    
-
     @GetMapping(value = "/admin/clients/{clientId}/kartonUdruzenja")
     public String adminkartonUdruzenja(
             @PathVariable final ClientId clientId,
@@ -76,8 +74,6 @@ public class ClientsKartonUdruzenjaController {
         return "admin/clients/kartonUdruzenja/kartonUdruzenja";
     }
 
-   
-
     @GetMapping(value = "/admin/clients/{clientId}/kartonUdruzenja/{kartonId}/izmeniKarton")
     public String adminkartonUdruzenjaEdit(
             @PathVariable final ClientId clientId,
@@ -89,13 +85,12 @@ public class ClientsKartonUdruzenjaController {
         model.addAttribute("client", client);
         KartonUdruzenja karton = kartonUdruzenjaService.findOne(kartonId);
         model.addAttribute("karton", karton);
-        
 
         return "admin/clients/kartonUdruzenja/editKartonUdruzenja";
     }
 
     @PostMapping(value = "/admin/clients/{clientId}/kartonUdruzenja/{kartonId}/izmeniKarton")
-    public String adminkartonUdruzenjaEditSave(                                                                 
+    public String adminkartonUdruzenjaEditSave(
             @PathVariable final ClientId clientId,
             @PathVariable final KartonUdruzenjaId kartonId,
             @RequestParam(value = "action", required = true) String action,
@@ -115,10 +110,7 @@ public class ClientsKartonUdruzenjaController {
             @RequestParam(value = "rukovodilac_ime", defaultValue = "/") String rukovodilac_ime,
             @RequestParam(value = "rukovodilac_tel", defaultValue = "/") String rukovodilac_tel,
             @RequestParam(value = "rukovodilac_mob", defaultValue = "/") String rukovodilac_mob,
-            
-        
             @RequestParam(value = "nivo_odredjivanja", defaultValue = "/") String nivo_odredjivanja,
-        
             @RequestParam(value = "kontakt_ime", defaultValue = "/") String kontakt_ime,
             @RequestParam(value = "kontakt_adresa", defaultValue = "/") String kontakt_adresa,
             @RequestParam(value = "kontakt_telposao", defaultValue = "/") String kontakt_telposao,
@@ -146,8 +138,7 @@ public class ClientsKartonUdruzenjaController {
         karton.setRukovodilac_ime(rukovodilac_ime);
         karton.setRukovodilac_mob(rukovodilac_mob);
         karton.setRukovodilac_tel(rukovodilac_tel);
-       
-       
+
         karton.setNivo_odredjivanja(nivo_odredjivanja);
 
         karton.setKontakt_ime(kontakt_ime);
@@ -167,14 +158,13 @@ public class ClientsKartonUdruzenjaController {
             redirectAttributes.addFlashAttribute("successMessage", "Karton je uspešno izmenjen!");
             return "redirect:/admin/clients/" + clientId + "/kartonUdruzenja";
         } else {
-             if (action.equals("saveMoreClanova")) {    
-            redirectAttributes.addFlashAttribute("successMessage", "Nov karton je uspešno sačuvan možete dodati članove!");
-            return "redirect:/admin/clients/" + clientId + "/kartonUdruzenja/" + karton.getId() + "/dodajClana";
-                  }
-                  else {    
-            redirectAttributes.addFlashAttribute("successMessage", "Nov karton je uspešno sačuvan možete dodati ciljeve!");
-            return "redirect:/admin/clients/" + clientId + "/kartonUdruzenja/" + karton.getId() + "/dodajCilj";
-                  }
+            if (action.equals("saveMoreClanova")) {
+                redirectAttributes.addFlashAttribute("successMessage", "Nov karton je uspešno sačuvan možete dodati članove!");
+                return "redirect:/admin/clients/" + clientId + "/kartonUdruzenja/" + karton.getId() + "/dodajClana";
+            } else {
+                redirectAttributes.addFlashAttribute("successMessage", "Nov karton je uspešno sačuvan možete dodati ciljeve!");
+                return "redirect:/admin/clients/" + clientId + "/kartonUdruzenja/" + karton.getId() + "/dodajCilj";
+            }
         }
 
     }
@@ -187,8 +177,6 @@ public class ClientsKartonUdruzenjaController {
     ) {
         Client client = clientService.findOne(clientId);
         model.addAttribute("client", client);
-
-        
 
         return "admin/clients/kartonUdruzenja/newKartonUdruzenja";
     }
@@ -213,10 +201,7 @@ public class ClientsKartonUdruzenjaController {
             @RequestParam(value = "rukovodilac_ime", defaultValue = "/") String rukovodilac_ime,
             @RequestParam(value = "rukovodilac_tel", defaultValue = "/") String rukovodilac_tel,
             @RequestParam(value = "rukovodilac_mob", defaultValue = "/") String rukovodilac_mob,
-          
-            
             @RequestParam(value = "nivo_odredjivanja", defaultValue = "/") String nivo_odredjivanja,
- 
             @RequestParam(value = "kontakt_ime", defaultValue = "/") String kontakt_ime,
             @RequestParam(value = "kontakt_adresa", defaultValue = "/") String kontakt_adresa,
             @RequestParam(value = "kontakt_telposao", defaultValue = "/") String kontakt_telposao,
@@ -246,10 +231,9 @@ public class ClientsKartonUdruzenjaController {
         karton.setRukovodilac_ime(rukovodilac_ime);
         karton.setRukovodilac_mob(rukovodilac_mob);
         karton.setRukovodilac_tel(rukovodilac_tel);
-     
-       
+
         karton.setNivo_odredjivanja(nivo_odredjivanja);
-   
+
         karton.setKontakt_ime(kontakt_ime);
         karton.setKontakt_adresa(kontakt_adresa);
         karton.setKontakt_telposao(kontakt_telposao);
@@ -267,19 +251,19 @@ public class ClientsKartonUdruzenjaController {
             redirectAttributes.addFlashAttribute("successMessage", "Nov karton je uspešno sačuvan!");
             return "redirect:/admin/clients/" + clientId + "/kartonUdruzenja";
         } else {
-    
-                  if (action.equals("saveMoreClanova")) {    
-            redirectAttributes.addFlashAttribute("successMessage", "Nov karton je uspešno sačuvan možete dodati članove!");
-            return "redirect:/admin/clients/" + clientId + "/kartonUdruzenja/" + karton.getId() + "/dodajClana";
-                  }
-                  else {    
-            redirectAttributes.addFlashAttribute("successMessage", "Nov karton je uspešno sačuvan možete dodati ciljeve!");
-            return "redirect:/admin/clients/" + clientId + "/kartonUdruzenja/" + karton.getId() + "/dodajCilj";
-                  }
+
+            if (action.equals("saveMoreClanova")) {
+                redirectAttributes.addFlashAttribute("successMessage", "Nov karton je uspešno sačuvan možete dodati članove!");
+                return "redirect:/admin/clients/" + clientId + "/kartonUdruzenja/" + karton.getId() + "/dodajClana";
+            } else {
+                redirectAttributes.addFlashAttribute("successMessage", "Nov karton je uspešno sačuvan možete dodati ciljeve!");
+                return "redirect:/admin/clients/" + clientId + "/kartonUdruzenja/" + karton.getId() + "/dodajCilj";
+            }
         }
 
     }
- @GetMapping(value = "/admin/clients/{clientId}/kartonUdruzenja/{kartonId}/dodajClana")
+
+    @GetMapping(value = "/admin/clients/{clientId}/kartonUdruzenja/{kartonId}/dodajClana")
     public String adminkartonUdruzenjadodajClana(
             @PathVariable final ClientId clientId,
             @PathVariable final KartonUdruzenjaId kartonId,
@@ -310,7 +294,7 @@ public class ClientsKartonUdruzenjaController {
         KartonUdruzenja karton = kartonUdruzenjaService.findOne(kartonId);
         ClanoviUdruzenja novClan = new ClanoviUdruzenja();
         Specijalnost specijalnost = specijalnostiService.findOne(specijalnostId);
-        ClanoviUdruzenja clan = clanoviUdruzenjaService.findFirstBySpecijalnostAndKartonudruzenja(specijalnost, karton) ;
+        ClanoviUdruzenja clan = clanoviUdruzenjaService.findFirstBySpecijalnostAndKartonudruzenja(specijalnost, karton);
         if (clan != null)//provera da li vec postoji ako postoji menjamo samo broj eventualno
         {
             novClan = clan;
@@ -334,8 +318,6 @@ public class ClientsKartonUdruzenjaController {
             return "redirect:/admin/clients/" + clientId + "/kartonUdruzenja/" + kartonId + "/dodajClana";
         }
     }
-    
-    
 
     @GetMapping(value = "/admin/clients/{clientId}/kartonUdruzenja/{kartonId}/dodajSpecijalnost")
     public String adminDodajSpecijalnost(
@@ -356,17 +338,16 @@ public class ClientsKartonUdruzenjaController {
             @PathVariable final ClientId clientId,
             @PathVariable final KartonUdruzenjaId kartonId,
             @RequestParam(value = "naziv", defaultValue = "/") String naziv,
-           
             final RedirectAttributes redirectAttributes,
             final Model model
     ) {
         Client client = clientService.findOne(clientId);
         model.addAttribute("client", client);
         model.addAttribute("kartonId", kartonId);
-         Specijalnost newSpecijalnost =  new Specijalnost();
-      
+        Specijalnost newSpecijalnost = new Specijalnost();
+
         newSpecijalnost.setNaziv(naziv);
-  
+
         try {
             specijalnostiService.save(newSpecijalnost);
         } catch (Exception e) {
@@ -377,7 +358,6 @@ public class ClientsKartonUdruzenjaController {
         return "redirect:/admin/clients/" + clientId + "/kartonUdruzenja/" + kartonId.getValue() + "/dodajClana";
     }
 
-    
     @GetMapping(value = "/admin/clients/{clientId}/kartonUdruzenja/{kartonId}/dodajCilj")
     public String adminDodajCilj(
             @PathVariable final ClientId clientId,
@@ -391,7 +371,8 @@ public class ClientsKartonUdruzenjaController {
 
         return "admin/clients/kartonUdruzenja/newCilj";
     }
-/*
+
+    /*
     @GetMapping(value = "/admin/clients/{clientId}/kartonUdruzenja/dodajCilj")
     public String adminDodajCiljIzNovogKartona(
             @PathVariable final ClientId clientId,
@@ -411,29 +392,28 @@ public class ClientsKartonUdruzenjaController {
             @PathVariable final ClientId clientId,
             @PathVariable final KartonUdruzenjaId kartonId,
             @RequestParam(value = "naziv", defaultValue = "/") String naziv,
-           
             final RedirectAttributes redirectAttributes,
             final Model model
     ) {
         Client client = clientService.findOne(clientId);
         model.addAttribute("client", client);
-KartonUdruzenja kartonUdruzenja=kartonUdruzenjaService.findOne(kartonId);
+        KartonUdruzenja kartonUdruzenja = kartonUdruzenjaService.findOne(kartonId);
         CiljeviUdruzenja newCiljeviUdruzenja = new CiljeviUdruzenja();
         newCiljeviUdruzenja.setNaziv(naziv);
         newCiljeviUdruzenja.setKartonUdruzenja(kartonUdruzenja);
-      
+
         try {
             ciljeviUdruzenjaService.save(newCiljeviUdruzenja);
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("errorMessage", "Nov cilj nije uspešno sačuvan!");
-            return "redirect:/admin/clients/" + clientId + "/kartonUdruzenja/"+kartonId.getValue();
+            return "redirect:/admin/clients/" + clientId + "/kartonUdruzenja/" + kartonId.getValue();
         }
         redirectAttributes.addFlashAttribute("successMessage", "Nov cilj je uspešno sačuvan!");
         /*if (kartonId.getValue() == -1) {
             return "redirect:/admin/clients/" + clientId + "/kartonUdruzenja/newKarton";
         } else {*/
-            return "redirect:/admin/clients/" + clientId + "/kartonUdruzenja/" + kartonId.getValue() ;
-       // }
+        return "redirect:/admin/clients/" + clientId + "/kartonUdruzenja/" + kartonId.getValue();
+        // }
 
     }
 }

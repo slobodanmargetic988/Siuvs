@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+    <head>
+        <th:block th:include="fragments/head :: head" />
+    </head>
+    <body>
+
+        <!-- Nav -->
+        <th:block th:insert="fragments/navigation :: navigation-end-user"></th:block>
+
+        <!-- Content -->
+        <div class="px-content">
+
+            <div class="page-header">
+                <h1>
+                    <th:block th:insert="fragments/navigation :: nav-breadcrumbs-Kartoni-MTS" />
+                </h1>
+            </div>
+
+            <div th:replace="fragments/alert :: success (${successMessage})"></div>
+
+            <!-- Client details panel -->
+
+            <div class="panel">
+                <div class="panel-heading">
+                    <span class="panel-title">Листа евиденционих картона Материјално техничких средстава  <a th:href="@{/client/kartonMTS/newKarton}" class=" btn-xs btn-warning btn-outline"><i class="fa fa-plus-square-o fa-lg"></i> Додај картон</a></span>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-striped valign-middle">
+                        <thead>
+                            <tr>
+                                <!--                                <th>#</th>-->
+                                <th class=" col-md-1">Власник (правно лице)</th>
+                                <th class=" col-md-1">Назив организационе јединице</th>
+                                <th class=" col-md-1">Адреса МТС-а</th>
+                                <th class=" col-md-1">Врста</th>
+                                <th class=" col-md-1">Подврста</th>
+                                <th class=" col-md-1">Број МТС (количина)</th>
+
+
+
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <th:block th:each="karton : ${listaKartona}">
+                                <tr th:attr="data-href=@{/client/kartonMTS/{kartonId} (kartonId=${karton.id})}" >
+                                    <td> <span th:text="${karton.vlasnikMTS.vlasnik_naziv}"></span></td> 
+                                    <td> <span th:text="${karton.orgJedinicaMTS.naziv_org_jedinice}"></span></td> 
+                                    <td> <span th:text="${karton.orgJedinicaMTS.mts_adresa}"></span></td> 
+                                    <td> <span th:text="${karton.vrstaMTS.naziv}"></span></td> 
+                                    <td> <span th:text="${karton.podvrstaMTS.naziv}"></span></td> 
+                                    <td> <span th:text="${karton.brojMTS_kolicina}"></span></td> 
+
+                                </tr>
+                            </th:block>
+                            <tr>
+                                <td>
+                                    <a th:href="@{/client/kartonMTS/newKarton}" class=" btn-xs btn-warning btn-outline"><i class="fa fa-plus-square-o fa-lg"></i> Додај картон</a>
+                                </td>
+                            </tr>
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+            <a  class="btn btn-primary" th:href="@{/client/kartonMTS/newKarton}">Додај картон</a>   
+            <a  class="btn btn-primary" th:href="@{/client/kartonMTS/dodajVlasnika}">Додај власника</a>   
+            <a  class="btn btn-primary" th:href="@{/client/kartonMTS/dodajOrgJedinicu}">Додај организациону јединицу</a>   
+
+
+        </div>
+
+        <th:block th:insert="fragments/footer :: footer-standard" />
+        <th:block th:insert="fragments/scripts :: standard" />
+    </body>
+</html>

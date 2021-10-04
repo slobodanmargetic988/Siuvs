@@ -1,0 +1,1 @@
+update `table_column` set  `type`= 'STRING' where `column_id`='60026';

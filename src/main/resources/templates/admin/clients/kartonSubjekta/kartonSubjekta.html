@@ -32,7 +32,7 @@
 
 
                         <tbody>
-                            <tr class="table-custom-heighlight-section"> <td colspan="5" ><a th:href="@{/admin/clients/{clientID}/kartonSubjekti/{kartonId}/izmeniKarton (clientID=${client.id},kartonId=${karton.id})}" class=" btn-xs btn-warning btn-outline">
+                            <tr class="table-custom-heighlight-section"> <td colspan="5" ><a sec:authorize="hasAnyAuthority('ADMIN','RIS')" th:href="@{/admin/clients/{clientID}/kartonSubjekti/{kartonId}/izmeniKarton (clientID=${client.id},kartonId=${karton.id})}" class=" btn-xs btn-warning btn-outline">
                                         <i class="fa fa-pencil-square-o fa-lg"></i></a> 1. Општи подаци</td>
                             </tr>
 
@@ -189,7 +189,7 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="bottomTwoButtons">
+                <div class="bottomTwoButtons" sec:authorize="hasAnyAuthority('ADMIN','RIS')">
                     <a th:href="@{/admin/clients/{clientID}/kartonSubjekti/{kartonId}/izmeniKarton (clientID=${client.id},kartonId=${karton.id})}" class=" btn btn-primary">Измени картон</a>
                     <a th:href="@{/admin/clients/{clientID}/kartonSubjekti/{kartonId}/dodajKadar (clientID=${client.id},kartonId=${karton.id})}" class=" btn btn-primary">Додај кадрове</a>
                 </div>

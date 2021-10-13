@@ -12,7 +12,15 @@
 
             <div th:replace="fragments/page :: title (icon='fa fa-area-chart', title='Администраторски панел')"></div>
            
-            
+          
+            <p  sec:authorize="hasAnyAuthority('ADMIN','RIS')">
+                  <br></br>
+                 Корисничко упутство за рад у СИВУС апликацији можете преузети <a href="https://siuvs.rs/img/Uputstvo_admin.pdf">ОВДЕ.</a>
+               </p>  
+            <p  sec:authorize="hasAnyAuthority('MUP')">
+                  <br></br>
+                 Корисничко упутство за рад у СИВУС апликацији можете преузети <a href="https://siuvs.rs/img/Uputstvo_supervizor.pdf">ОВДЕ.</a>
+               </p> 
         <th:block th:insert="fragments/investitori :: investors" />
          <!--
                     <th:block th:insert="fragments/page :: contact" />

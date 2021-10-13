@@ -73,8 +73,13 @@ public class ClientsKartonMTSController {
         model.addAttribute("client", client);
         List<DetaljiMTS> listaKartona = detaljiMTSService.findAllByClient(client);
         model.addAttribute("listaKartona", listaKartona);
+        List<VlasnikMTS> listaVlasnika = vlasnikMTSService.findAllByClient(client);
+        model.addAttribute("listaVlasnika", listaVlasnika);
 
-        return "admin/clients/kartonMTS/kartonMTSLista";
+        List<OrgJedinicaMTS> listaOrgJedinica = orgJedinicaMTSService.findAllByClient(client);
+        model.addAttribute("listaOrgJedinica", listaOrgJedinica);
+        
+        return "admin/clients/kartoniMTS/kartonMTSLista";
     }
 
 //    izmena detalja
@@ -105,7 +110,7 @@ public class ClientsKartonMTSController {
         List<PodvrstaMTS> listaPodvrsta = podvrstaMTSService.findAllBy();
         model.addAttribute("listaPodvrsta", listaPodvrsta);
 
-        return "admin/clients/kartonMTS/editKartonDetalja";
+        return "admin/clients/kartoniMTS/editKartonDetalja";
     }
 
     @PostMapping(value = "/admin/clients/{clientId}/kartonMTS/{kartonId}/izmeniKarton")
@@ -193,7 +198,7 @@ public class ClientsKartonMTSController {
         List<VlasnikMTS> listaVlasnika = vlasnikMTSService.findAllByClient(client);
         model.addAttribute("listaVlasnika", listaVlasnika);
 
-        return "admin/clients/kartonMTS/editVlasnika";
+        return "admin/clients/kartoniMTS/editVlasnika";
     }
 
     @PostMapping(value = "/admin/clients/{clientId}/kartonMTS/{kartonId}/izmeniVlasnika")
@@ -263,7 +268,7 @@ public class ClientsKartonMTSController {
         List<OrgJedinicaMTS> listaOrgJedinica = orgJedinicaMTSService.findAllByClient(client);
         model.addAttribute("listaOrgJedinica", listaOrgJedinica);
 
-        return "admin/clients/kartonMTS/editOrgJedinica";
+        return "admin/clients/kartoniMTS/editOrgJedinica";
     }
 
     @PostMapping(value = "/admin/clients/{clientId}/kartonMTS/{kartonId}/izmeniOrgJedinicu")
@@ -330,7 +335,7 @@ public class ClientsKartonMTSController {
         DetaljiMTS karton = detaljiMTSService.findOne(kartonId);
         model.addAttribute("karton", karton);
 
-        return "admin/clients/kartonMTS/kartonMTS";
+        return "admin/clients/kartoniMTS/kartonMTS";
     }
 
     @GetMapping(value = "/admin/clients/{clientId}/kartonMTS/dodajVlasnika")
@@ -344,7 +349,7 @@ public class ClientsKartonMTSController {
         // List<VlasnikMTS> listaVlasnika = vlasnikMTSService.findAllByClient(client);
         // model.addAttribute("listaVlasnika", listaVlasnika);
 
-        return "admin/clients/kartonMTS/newVlasnik";
+        return "admin/clients/kartoniMTS/newVlasnik";
     }
 
     @PostMapping(value = "/admin/clients/{clientId}/kartonMTS/dodajVlasnika")
@@ -406,7 +411,7 @@ public class ClientsKartonMTSController {
         List<VlasnikMTS> listaVlasnika = vlasnikMTSService.findAllByClient(client);
         model.addAttribute("listaVlasnika", listaVlasnika);
 
-        return "admin/clients/kartonMTS/newOrgJedinica";
+        return "admin/clients/kartoniMTS/newOrgJedinica";
     }
 
     @PostMapping(value = "/admin/clients/{clientId}/kartonMTS/dodajOrgJedinicu")
@@ -481,7 +486,7 @@ public class ClientsKartonMTSController {
         List<PodvrstaMTS> listaPodvrsta = podvrstaMTSService.findAllBy();
         model.addAttribute("listaPodvrsta", listaPodvrsta);
 
-        return "admin/clients/kartonMTS/newKarton";
+        return "admin/clients/kartoniMTS/newKarton";
     }
 
     @PostMapping(value = "/admin/clients/{clientId}/kartonMTS/newKarton")

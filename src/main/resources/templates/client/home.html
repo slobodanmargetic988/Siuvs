@@ -17,7 +17,11 @@
             <!--
                     <th:block th:insert="fragments/page :: contact" />
             -->
-        
+               
+            <p  sec:authorize="hasAnyAuthority('ADMIN','RIS')">
+                  <br></br>
+                 Корисничко упутство за рад у СИВУС апликацији можете преузети <a href="https://siuvs.rs/img/Uputstvo_klijent.pdf">ОВДЕ.</a>
+               </p>  
         <th:block th:insert="fragments/investitori :: investors" />
 </div>
 

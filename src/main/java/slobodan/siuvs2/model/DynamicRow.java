@@ -145,4 +145,14 @@ public class DynamicRow {
         }
         return resultData;
     }
+    
+        public String getValueForColumn(TableColumn column) {
+            for (DynamicData dataFromThisRow : this.getData()) {
+                if (dataFromThisRow.getColumn().getId() == column.getId()) {
+                    return dataFromThisRow.getValue();    
+    }
+}
+            return "/"; }
+
+
 }

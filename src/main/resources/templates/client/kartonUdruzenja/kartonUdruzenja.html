@@ -7,7 +7,7 @@
     <body>
 
         <!-- Nav -->
-        <th:block th:insert="fragments/navigation :: navigation-client"></th:block>
+        <th:block th:insert="fragments/navigation :: navigation-end-user"></th:block>
 
         <!-- Content -->
         <div class="px-content">
@@ -32,7 +32,7 @@
 
 
                         <tbody>
-                            <tr class="table-custom-heighlight-section"> <td colspan="5" ><a th:href="@{/client/kartonUdruzenja/{kartonId}/izmeniKarton ( kartonId=${karton.id})}" class=" btn-xs btn-warning btn-outline">
+                            <tr class="table-custom-heighlight-section"> <td colspan="5" ><a sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')"  th:href="@{/client/kartonUdruzenja/{kartonId}/izmeniKarton ( kartonId=${karton.id})}" class=" btn-xs btn-warning btn-outline">
                                         <i class="fa fa-pencil-square-o fa-lg"></i></a> 1. Идентификациони подаци</td>
                             </tr>
 
@@ -196,7 +196,7 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="bottomTwoButtons">
+                <div class="bottomTwoButtons" sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')" >
                     <a th:href="@{/client/kartonUdruzenja/{kartonId}/izmeniKarton ( kartonId=${karton.id})}" class=" btn btn-primary">Измени картон</a>
                     <a th:href="@{/client/kartonUdruzenja/{kartonId}/dodajClana ( kartonId=${karton.id})}" class=" btn btn-primary">Додај кадрове</a>
                     <a th:href="@{/client/kartonUdruzenja/{kartonId}/dodajCilj ( kartonId=${karton.id})}" class=" btn btn-primary">Додај циљеве удружења</a>

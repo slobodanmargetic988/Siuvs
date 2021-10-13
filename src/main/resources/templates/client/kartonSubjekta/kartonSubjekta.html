@@ -32,7 +32,7 @@
 
 
                             <tbody>
-                                <tr  > <td colspan="5"> <a th:href="@{/client/kartonSubjekti/{kartonId}/izmeniKarton (kartonId=${karton.id})}" class=" btn-xs btn-warning btn-outline"><i class="fa fa-pencil-square-o fa-lg"></i></a> 1. Општи подаци</td></tr>
+                                <tr  > <td colspan="5"> <a sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')" th:href="@{/client/kartonSubjekti/{kartonId}/izmeniKarton (kartonId=${karton.id})}" class=" btn-xs btn-warning btn-outline"><i class="fa fa-pencil-square-o fa-lg"></i></a> 1. Општи подаци</td></tr>
 
                                 <tr  >
                                     <td colspan="2"> Матични број</td> 
@@ -156,7 +156,7 @@
     
 </th:block>  
 <tr  >
-    <td sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')" ><a th:href="@{/client/kartonSubjekti/{kartonId}/dodajKadar (kartonId=${karton.id})}" class=" btn-xs btn-warning btn-outline"><i class="fa fa-plus-square-o fa-lg"></i></a></td> 
+    <td sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')" ><a sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')" th:href="@{/client/kartonSubjekti/{kartonId}/dodajKadar (kartonId=${karton.id})}" class=" btn-xs btn-warning btn-outline"><i class="fa fa-plus-square-o fa-lg"></i></a></td> 
                                   
 </tr>
 
@@ -192,7 +192,7 @@
             </div>       
             
 
-<a th:href="@{/client/kartonSubjekti/{kartonId}/izmeniKarton (kartonId=${karton.id})}" class=" btn btn-primary">Измени картон</a> <a th:href="@{/client/kartonSubjekti/{kartonId}/dodajKadar (kartonId=${karton.id})}" class=" btn btn-primary">Додај кадрове</a>
+<a sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')"  th:href="@{/client/kartonSubjekti/{kartonId}/izmeniKarton (kartonId=${karton.id})}" class=" btn btn-primary">Измени картон</a> <a th:href="@{/client/kartonSubjekti/{kartonId}/dodajKadar (kartonId=${karton.id})}" class=" btn btn-primary">Додај кадрове</a>
 
         </div>
 

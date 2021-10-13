@@ -194,7 +194,7 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="bottomTwoButtons">
+                <div class="bottomTwoButtons" sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')" >
                     <a th:href="@{/admin/clients/{clientID}/kartonUdruzenja/{kartonId}/izmeniKarton (clientID=${client.id},kartonId=${karton.id})}" class=" btn btn-primary">Измени картон</a>
                     <a th:href="@{/admin/clients/{clientID}/kartonUdruzenja/{kartonId}/dodajClana (clientID=${client.id},kartonId=${karton.id})}" class=" btn btn-primary">Додај кадрове</a>
                     <a th:href="@{/admin/clients/{clientID}/kartonUdruzenja/{kartonId}/dodajCilj (clientID=${client.id},kartonId=${karton.id})}" class=" btn btn-primary">Додај циљеве удружења</a>

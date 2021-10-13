@@ -150,7 +150,7 @@
                     </table>
                 </div>
                 <div class="bottomTwoButtons">
-                    <a th:href="@{/admin/clients/{clientID}/kartonClanaStaba/{kartonId}/izmeniKarton (clientID=${client.id},kartonId=${karton.id})}" class="btn btn-primary">Измени картон</a>
+                    <a  sec:authorize="hasAnyAuthority('ADMIN','RIS')" th:href="@{/admin/clients/{clientID}/kartonClanaStaba/{kartonId}/izmeniKarton (clientID=${client.id},kartonId=${karton.id})}" class="btn btn-primary">Измени картон</a>
                 </div>
             </div>       
 

@@ -191,12 +191,12 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="bottomTwoButtons">
+                <div class="bottomTwoButtons" sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')" >
                     <a  class="btn btn-primary" th:href="@{/client/kartonMTS/{kartonId}/izmeniKarton (kartonId=${karton.id})}">Измени картон</a>
                     <a  class="btn btn-primary" th:href="@{/client/kartonMTS/{kartonId}/izmeniVlasnika (kartonId=${karton.id})}">Измени власника</a>
                     <a  class="btn btn-primary" th:href="@{/client/kartonMTS/{kartonId}/izmeniOrgJedinicu (kartonId=${karton.id})}">Измени организациону јединицу</a>
 
-                    <a  class="btn btn-primary" th:href="@{/client/kartonMTS/newKarton}">Додај картон</a>   
+<!--                    <a  class="btn btn-primary" th:href="@{/client/kartonMTS/newKarton}">Додај картон</a>   -->
                     <a  class="btn btn-primary" th:href="@{/client/kartonMTS/dodajVlasnika}">Додај власника</a>   
                     <a  class="btn btn-primary" th:href="@{/client/kartonMTS/dodajOrgJedinicu}">Додај организациону јединицу</a>   
                 </div>

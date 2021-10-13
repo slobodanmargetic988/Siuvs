@@ -81,6 +81,12 @@ public class KartonMTSController {
         List<DetaljiMTS> listaKartona = detaljiMTSService.findAllByClient(client);
         model.addAttribute("listaKartona", listaKartona);
 
+                List<VlasnikMTS> listaVlasnika = vlasnikMTSService.findAllByClient(client);
+        model.addAttribute("listaVlasnika", listaVlasnika);
+
+        List<OrgJedinicaMTS> listaOrgJedinica = orgJedinicaMTSService.findAllByClient(client);
+        model.addAttribute("listaOrgJedinica", listaOrgJedinica);
+        
         return "client/kartonMTS/kartonMTSLista";
     }
 

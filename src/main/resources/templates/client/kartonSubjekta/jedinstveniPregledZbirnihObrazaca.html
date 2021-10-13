@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+    <head>
+        <th:block th:include="fragments/head :: head" />
+    </head>
+    <body>
+
+        <!-- Nav -->
+        <th:block th:insert="fragments/navigation :: navigation-end-user"></th:block>
+
+        <!-- Content -->
+        <div class="px-content">
+
+            <div class="page-header">
+                <h1>
+                      <th:block th:insert="fragments/navigation :: nav-breadcrumbs-ZbirniPregled" />
+                </h1>
+            </div>
+
+            <div th:replace="fragments/alert :: success (${successMessage})"></div>
+
+            <!-- Client details panel -->
+            
+                      <div class="panel">
+                <div class="panel-heading">
+                    <span class="panel-title">Јединствени преглед збирних образаца</span>
+                </div>
+                <div>
+
+
+<table class="table table-striped valign-middle">
+<tbody>
+    <tr  ><td style="border: none"><b>Повереници цивилне заштите и заменици повереника</b></td> </tr>
+<tr >
+<td>Бр. именованих повереника за насеља</td>
+<td>Бр. именованих заменика за насеља</td>
+<td>Бр. именованих повереника за органе ЈЛС</td>
+<td>Бр. именованих заменика за органе ЈЛС</td>
+<td>Бр. именованих повереника у привредним друштвима и другим правним лицима</td>
+<td>Бр. именованих заменика у привредним друштвима и другим правним лицима</td>
+<td>Укупно</td>
+<td>Укупан број повереника који су завршили обуку</td>
+</tr>
+<tr >
+<td> <span  th:text="${povereniciBrojac1}"></span></td>
+<td>  <span  th:text="${povereniciBrojac2}"></span></td>
+<td>  <span  th:text="${povereniciBrojac3}"></span></td>
+<td>  <span  th:text="${povereniciBrojac4}"></span></td>
+<td>  <span  th:text="${povereniciBrojac5}"></span></td>
+<td>  <span  th:text="${povereniciBrojac6}"></span></td>
+<td> <span  th:text="${povereniciBrojacSuma}"></span></td>
+<td>  <span  th:text="${povereniciBrojac7}"></span></td>
+</tr>
+</tbody>
+</table>
+<table class="table table-striped valign-middle">
+<tbody>
+    <tr ><td style="border: none"> <b>Јединице цивилне заштите</b></td> </tr>
+<tr>
+<td>Врста јединице  </td>
+<td>Број формираних јединица  </td>
+<td>Планирано број припадника  </td>
+<td>Попуњено број припадника  </td>
+<td>Укупан број обучаваних јединица  </td>
+<td>Укупан број припадника који су завршили обуку  </td>
+</tr>
+<tr>
+<td>Јединица ЦЗ опште намене  </td>
+<td><span  th:text="${jediniceBrojac1}"></span>  </td>
+<td><span  th:text="${jediniceBrojac2}"></span>  </td>
+<td><span  th:text="${jediniceBrojac3}"></span>  </td>
+<td><span  th:text="${jediniceBrojac4}"></span>  </td>
+<td><span  th:text="${jediniceBrojac5}"></span>  </td>
+</tr>
+<tr>
+<td>Специјализована јединица ЦЗ за узбуњивање  </td>
+<td><span  th:text="${jediniceBrojac6}"></span>  </td>
+<td><span  th:text="${jediniceBrojac7}"></span>  </td>
+<td><span  th:text="${jediniceBrojac8}"></span>  </td>
+<td><span  th:text="${jediniceBrojac9}"></span>  </td>
+<td><span  th:text="${jediniceBrojac10}"></span>  </td>
+</tr>
+ </tbody>
+</table>
+<table class="table table-striped valign-middle">
+<tbody>
+
+    <tr ><td style="border: none"><b>Преглед ситуационих центара</b></td> </tr>
+<tr>
+    <td>Руководилац ситуациониг центра  </td>
+    <td>Телефон руководиоца  </td>
+    <td>Планирано број припадника  </td>
+    <td>Попуњено број припадника  </td>
+    <td>Укупан број припадника који су завршили обуку  </td>
+</tr>
+
+<th:block th:if="${not #lists.isEmpty(scentarRedovi)}" th:each="scentarred, iRed : ${scentarRedovi}">    
+<tr>
+    <td> <span  th:text="${scentarred.getValueForColumn(scentar1)}"></span> </td>
+    <td> <span  th:text="${scentarred.getValueForColumn(scentar2)}"></span> </td>
+    <td> <span  th:text="${scentarred.getValueForColumn(scentar3)}"></span>  </td>
+    <td> <span  th:text="${scentarred.getValueForColumn(scentar4)}"></span>  </td>
+    <td> <span  th:text="${scentarred.getValueForColumn(scentar5)}"></span>  </td>
+</tr>
+</th:block>
+</tbody>
+</table>
+     <table class="table table-striped valign-middle">
+<tbody>               
+          <tr ><td style="border: none"><b>Материјално техничка средства</b></td> </tr>    
+          <tr >
+    <td>Група/врста/подврста МТС</td> 
+<td>Рег. ознака</td>
+<td>Марка/тип</td>
+<td>Година производње</td>
+<td>Снага</td>
+<td>Носивост</td>
+<td>Капацитет</td>
+<td>Број МТС</td>
+</tr>
+          <th:block th:if="${not #lists.isEmpty(listaKartonaMTS)}" th:each="kartonMTS, iRed : ${listaKartonaMTS}">  
+           <tr >
+    <td><span  th:text="${kartonMTS.getGrupaMTS().getNaziv()}"></span>/<span  th:text="${kartonMTS.getVrstaMTS().getNaziv()}"></span>/<span  th:text="${kartonMTS.getPodvrstaMTS().getNaziv()}"></span></td> 
+<td> <span  th:text="${kartonMTS.getRegistracija()}"></span></td>
+<td><span  th:text="${kartonMTS.getMarka()}"></span>/<span  th:text="${kartonMTS.getTip()}"></span></td>
+<td><span  th:text="${kartonMTS.getGodina_proizvodnje()}"></span></td>
+<td><span  th:text="${kartonMTS.getSnaga()}"></span></td>
+<td><span  th:text="${kartonMTS.getNosivost()}"></span></td>
+<td><span  th:text="${kartonMTS.getKapacitet()}"></span></td>
+<td><span  th:text="${kartonMTS.getBrojMTS_kolicina()}"></span></td>
+</tr>
+   </th:block>       
+          
+ </tbody>
+</table>                   
+<table class="table table-striped valign-middle">
+<tbody>
+    <tr ><td style="border: none"><b>Мере цивилне заштите</b></td> </tr>
+<tr >
+    <td>Врста мере</td> 
+<td>Врста капацитета/јединица мере</td>
+<td>Број</td>
+</tr>
+
+<tr th:if="${evakuacija1!=0}">
+<td>Евакуација</td> 
+<td>Превоз људи/број особа у једној тури)</td>
+<td><span  th:text="${evakuacija1}"></span></td>
+</tr>
+<tr th:if="${evakuacija2!=0}">
+<td>Евакуација</td> 
+<td>Превоз људи/број особа у једној тури)</td>
+<td><span  th:text="${evakuacija2}"></span></td>
+</tr>
+<tr th:if="${evakuacija3!=0}">
+<td>Евакуација</td> 
+<td>Превоз људи/број особа у једној тури)</td>
+<td><span  th:text="${evakuacija3}"></span></td>
+</tr>
+<tr th:if="${evakuacija4!=0}">
+<td>Евакуација</td> 
+<td>Превоз људи/број особа у једној тури)</td>
+<td><span  th:text="${evakuacija4}"></span></td>
+</tr>
+<tr th:if="${evakuacija5!=0}">
+<td>Евакуација</td> 
+<td>Превоз људи/број особа у једној тури)</td>
+<td><span  th:text="${evakuacija5}"></span></td>
+</tr>
+<tr th:if="${evakuacija6!=0}">
+<td>Евакуација</td> 
+<td>Превоз људи/број особа у једној тури)</td>
+<td><span  th:text="${evakuacija6}"></span></td>
+</tr>
+
+<tr th:if="${zbirnjavanje1!=0}">
+<td>Збрињавање угрожених и настрадалих</td> 
+<td>Превоз људи/број особа у једној тури)</td>
+<td><span  th:text="${zbirnjavanje1}"></span></td>
+</tr>
+<tr th:if="${zbirnjavanje2!=0}">
+<td>Збрињавање угрожених и настрадалих</td> 
+<td>Превоз људи/број особа у једној тури)</td>
+<td><span  th:text="${zbirnjavanje2}"></span></td>
+</tr>
+<tr th:if="${zbirnjavanje3!=0}">
+<td>Збрињавање угрожених и настрадалих</td> 
+<td>Превоз људи/број особа у једној тури)</td>
+<td><span  th:text="${zbirnjavanje3}"></span></td>
+</tr>
+<tr th:if="${zbirnjavanje4!=0}">
+<td>Збрињавање угрожених и настрадалих</td> 
+<td>Превоз људи/број особа у једној тури)</td>
+<td><span  th:text="${zbirnjavanje4}"></span></td>
+</tr>
+<tr th:if="${zbirnjavanje5!=0}">
+<td>Збрињавање угрожених и настрадалих</td> 
+<td>Превоз људи/број особа у једној тури)</td>
+<td><span  th:text="${zbirnjavanje5}"></span></td>
+</tr>
+<tr th:if="${zbirnjavanje6!=0}">
+<td>Збрињавање угрожених и настрадалих</td> 
+<td>Превоз људи/број особа у једној тури)</td>
+<td><span  th:text="${zbirnjavanje6}"></span></td>
+</tr>
+<tr th:if="${zbirnjavanje7!=0}">
+<td>Збрињавање угрожених и настрадалих</td> 
+<td>Превоз људи/број особа у једној тури)</td>
+<td><span  th:text="${zbirnjavanje7}"></span></td>
+</tr>
+
+<tr th:if="${prvaPomoc1!=0}">
+<td>Прва медицинска помоћ и лабараторије</td> 
+<td>Превоз људи/број особа у једној тури)</td>
+<td><span  th:text="${prvaPomoc1}"></span></td>
+</tr>
+<tr th:if="${prvaPomoc2!=0}">
+<td>Прва медицинска помоћ и лабараторије</td> 
+<td>Превоз људи/број особа у једној тури)</td>
+<td><span  th:text="${prvaPomoc2}"></span></td>
+</tr>
+<tr th:if="${prvaPomoc3!=0}">
+<td>Прва медицинска помоћ и лабараторије</td> 
+<td>Превоз људи/број особа у једној тури)</td>
+<td><span  th:text="${prvaPomoc3}"></span></td>
+</tr>
+<tr th:if="${prvaPomoc4!=0}">
+<td>Прва медицинска помоћ и лабараторије</td> 
+<td>Превоз људи/број особа у једној тури)</td>
+<td><span  th:text="${prvaPomoc4}"></span></td>
+</tr>
+<tr th:if="${prvaPomoc5!=0}">
+<td>Прва медицинска помоћ и лабараторије</td> 
+<td>Превоз људи/број особа у једној тури)</td>
+<td><span  th:text="${prvaPomoc5}"></span></td>
+</tr>
+<tr th:if="${prvaPomoc6!=0}">
+<td>Прва медицинска помоћ и лабараторије</td> 
+<td>Превоз људи/број особа у једној тури)</td>
+<td><span  th:text="${prvaPomoc6}"></span></td>
+</tr>
+<tr th:if="${prvaPomoc7!=0}">
+<td>Прва медицинска помоћ и лабараторије</td> 
+<td>Превоз људи/број особа у једној тури)</td>
+<td><span  th:text="${prvaPomoc7}"></span></td>
+</tr>
+<tr th:if="${prvaPomoc8!=0}">
+<td>Прва медицинска помоћ и лабараторије</td> 
+<td>Превоз људи/број особа у једној тури)</td>
+<td><span  th:text="${prvaPomoc8}"></span></td>
+</tr>
+<tr th:if="${prvaPomoc9!=0}">
+<td>Прва медицинска помоћ и лабараторије</td> 
+<td>Превоз људи/број особа у једној тури)</td>
+<td><span  th:text="${prvaPomoc9}"></span></td>
+</tr>
+<tr th:if="${prvaPomoc10!=0}">
+<td>Прва медицинска помоћ и лабараторије</td> 
+<td>Превоз људи/број особа у једној тури)</td>
+<td><span  th:text="${prvaPomoc10}"></span></td>
+</tr>
+<tr th:if="${prvaPomoc11!=0}">
+<td>Прва медицинска помоћ и лабараторије</td> 
+<td>Превоз људи/број особа у једној тури)</td>
+<td><span  th:text="${prvaPomoc11}"></span></td>
+</tr>
+<tr th:if="${prvaPomoc12!=0}">
+<td>Прва медицинска помоћ и лабараторије</td> 
+<td>Превоз људи/број особа у једној тури)</td>
+<td><span  th:text="${prvaPomoc12}"></span></td>
+</tr>
+
+<tr th:if="${asanacija1!=0}">
+<td>Асанација терена</td> 
+<td>Превоз људи/број особа у једној тури)</td>
+<td><span  th:text="${asanacija1}"></span></td>
+</tr>
+<tr th:if="${asanacija2!=0}">
+<td>Асанација терена</td> 
+<td>Превоз људи/број особа у једној тури)</td>
+<td><span  th:text="${asanacija2}"></span></td>
+</tr>
+<tr th:if="${asanacija3!=0}">
+<td>Асанација терена</td> 
+<td>Превоз људи/број особа у једној тури)</td>
+<td><span  th:text="${asanacija3}"></span></td>
+</tr>
+<tr th:if="${asanacija4!=0}">
+<td>Асанација терена</td> 
+<td>Превоз људи/број особа у једној тури)</td>
+<td><span  th:text="${asanacija4}"></span></td>
+</tr>
+<tr th:if="${asanacija5!=0}">
+<td>Асанација терена</td> 
+<td>Превоз људи/број особа у једној тури)</td>
+<td><span  th:text="${asanacija5}"></span></td>
+</tr>
+</tbody>
+</table>
+<table class="table table-striped valign-middle">
+<tbody>
+<tr ><td style="border: none"><b>Преглед сирена</b></td> </tr>
+<tr >
+<td style="border: none">Укупно: <span  th:text="${elektricneSirene+pneumatskeSirene+elektronskeSirene}"></span> </td>
+</tr> 
+<tr >
+<td style="border: none">Електронске:  <span  th:text="${elektronskeSirene}"></span></td>
+</tr> 
+<tr > <td style="border: none">Електричне:   <span  th:text="${elektricneSirene}"></span></td>
+</tr>
+<tr > 
+<td style="border: none">Пнеуматске:   <span  th:text="${pneumatskeSirene}"></span></td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+</div>
+</div>
+
+
+
+</div>
+
+
+                                                            <th:block th:insert="fragments/footer :: footer-standard" />
+                                                            <th:block th:insert="fragments/scripts :: standard" />
+                                                            </body>
+                                                            </html>

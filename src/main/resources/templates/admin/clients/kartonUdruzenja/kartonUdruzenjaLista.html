@@ -24,7 +24,7 @@
             
                       <div class="panel">
                 <div class="panel-heading">
-                    <span class="panel-title">Листа евиденционих картона Удружења / невладиних организација oд значаја  за заштиту и спасавање  <a th:href="@{/admin/clients/{clientID}/kartonUdruzenja/newKarton (clientID=${client.id})}" class=" btn-xs btn-warning btn-outline"><i class="fa fa-plus-square-o fa-lg"></i> Додај картон</a></span>
+                    <span class="panel-title">Листа евиденционих картона Удружења / невладиних организација oд значаја  за заштиту и спасавање  <a sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')"  th:href="@{/admin/clients/{clientID}/kartonUdruzenja/newKarton (clientID=${client.id})}" class=" btn-xs btn-warning btn-outline"><i class="fa fa-plus-square-o fa-lg"></i> Додај картон</a></span>
                 </div>
                 <div class="table-responsive">
                     <table class="table table-striped valign-middle">
@@ -51,7 +51,7 @@
                             </tr>
 </th:block>
                             <tr>
-                                <td>
+                                <td sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')" >
                                 <a th:href="@{/admin/clients/{clientID}/kartonUdruzenja/newKarton (clientID=${client.id})}" class=" btn-xs btn-warning btn-outline"><i class="fa fa-plus-square-o fa-lg"></i> Додај картон</a>
                            </td>
                             </tr>
@@ -62,7 +62,7 @@
                 </div>
                         
             </div>
-              <a  class="btn btn-primary" th:href="@{/admin/clients/{clientID}/kartonUdruzenja/newKarton (clientID=${client.id})}">Додај картон</a>   
+              <a sec:authorize="hasAnyAuthority('ADMIN','RIS','CLIENT')"  class="btn btn-primary" th:href="@{/admin/clients/{clientID}/kartonUdruzenja/newKarton (clientID=${client.id})}">Додај картон</a>   
             
             
                                                             </div>

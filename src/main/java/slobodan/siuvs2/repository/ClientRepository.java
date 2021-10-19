@@ -14,7 +14,7 @@ public interface ClientRepository extends JpaRepository<Client, Integer> {
     Page<Client> findAllByOrderByActiveDescNameAsc(Pageable pageable);
 
     List<Client> findByName(String name);
-    
+     Client findFirstByName(String name);
     List<Client> findAllBy();
     List<Client> findAllByOrderByNameAsc();
     
@@ -22,4 +22,8 @@ public interface ClientRepository extends JpaRepository<Client, Integer> {
 
     Page<Client> findByOpstinaInOrderByNameAsc(List<Opstina> opstina, Pageable pageable);
     Client findFirstByOpstina(Opstina opstina);
+    
+     Client findFirstByOpendataid(Integer id);
+    
+    
             }

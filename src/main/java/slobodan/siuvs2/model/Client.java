@@ -22,7 +22,11 @@ public class Client {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "client_id")
     private int id;
-
+    
+    
+    @Column(name = "open_data_id", unique = true)
+    private int opendataid;
+    
     @ManyToOne
     @JoinColumn(name = "opstina_id")
     private Opstina opstina;
@@ -57,6 +61,14 @@ public class Client {
 
     @Column(name = "active")
     private boolean active;
+
+    public int getOpendataid() {
+        return opendataid;
+    }
+
+    public void setOpendataid(int opendataid) {
+        this.opendataid = opendataid;
+    }
 
     public List<Calendar> getCalendar() {
         return calendar;

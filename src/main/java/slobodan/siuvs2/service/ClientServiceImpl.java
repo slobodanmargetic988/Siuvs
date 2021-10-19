@@ -90,4 +90,14 @@ public class ClientServiceImpl implements ClientService {
     public  Client findFirstByOpstina(Opstina opstina){
      return clientRepository.findFirstByOpstina(opstina);
     };
+     @Override
+    public   Client findFirstByName(String name){
+     return clientRepository.findFirstByName(name);
+    };
+    
+    
+      @Override
+    public    Client findFirstByOpendataid(Integer id){
+     return clientRepository.findFirstByOpendataid(id);
+    };
 }

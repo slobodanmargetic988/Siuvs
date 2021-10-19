@@ -30,4 +30,6 @@ public interface ClientService {
 
     Page<Client> findAllByOpstinaInOrderByNameAsc(List<Opstina> opstina, Pageable pageable);
       Client findFirstByOpstina(Opstina opstina);
+       Client findFirstByName(String name);
+         Client findFirstByOpendataid(Integer id);
 }

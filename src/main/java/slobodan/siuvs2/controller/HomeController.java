@@ -13,14 +13,17 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import slobodan.siuvs2.service.ClientService;
 
 @Controller
 public class HomeController {
    
-    
+
+ 
     @Autowired
     private UserService userService;
-    
+    @Autowired
+    private ClientService clientService;
   @RequestMapping(value = "/", method = RequestMethod.GET)
     public String login(final Model model) {
        

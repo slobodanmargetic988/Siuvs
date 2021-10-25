@@ -820,6 +820,7 @@ return total;
 /////////////////////////////////////////////////////////////////SEGMENT ZA SITUACIONE CENTRE
 
 
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////SEGMENT ZA MERE CIVILNE ZASTITE
      Integer evakuacija1=0;
         Integer evakuacija2=0;
@@ -848,12 +849,27 @@ return total;
          Integer prvaPomoc10=0;
          Integer prvaPomoc11=0;
          Integer prvaPomoc12=0;
+          Integer prvaPomoc13=0;
+           Integer prvaPomoc14=0;
+            Integer prvaPomoc15=0;
+             Integer prvaPomoc16=0;
+              Integer prvaPomoc17=0;
+               Integer prvaPomoc18=0;
          
          Integer asanacija1=0;
          Integer asanacija2=0;
          Integer asanacija3=0;
          Integer asanacija4=0;
          Integer asanacija5=0;
+         Integer asanacija6=0;
+         Integer asanacija7=0;
+         Integer asanacija8=0;
+         Integer asanacija9=0;
+         Integer asanacija10=0;
+         Integer asanacija11=0;
+         Integer asanacija12=0;
+         
+         
 
 /////////////////////////////////////////////////////////////////SEGMENT ZA EVAKUACIJU
 TableDefinitionId tableDefinitionIdEvakuacija = new TableDefinitionId(5001);
@@ -988,6 +1004,24 @@ prvaPomoc11 += Integer.parseInt(data.getValue());
 if (data.getColumn().getOrder()==25) {
 prvaPomoc12 += Integer.parseInt(data.getValue());
 };
+if (data.getColumn().getOrder()==26) {
+prvaPomoc13 += Integer.parseInt(data.getValue());
+};
+if (data.getColumn().getOrder()==27) {
+prvaPomoc14 += Integer.parseInt(data.getValue());
+};
+if (data.getColumn().getOrder()==28) {
+prvaPomoc15 += Integer.parseInt(data.getValue());
+};
+if (data.getColumn().getOrder()==29) {
+prvaPomoc16 += Integer.parseInt(data.getValue());
+};
+if (data.getColumn().getOrder()==30) {
+prvaPomoc17 += Integer.parseInt(data.getValue());
+};
+if (data.getColumn().getOrder()==31) {
+prvaPomoc18 += Integer.parseInt(data.getValue());
+};
 
                 } catch (Exception e) {
                     System.out.println("neki input nije brojka");
@@ -1008,7 +1042,12 @@ model.addAttribute("prvaPomoc9", prvaPomoc9);
 model.addAttribute("prvaPomoc10", prvaPomoc10);
 model.addAttribute("prvaPomoc11", prvaPomoc11);
 model.addAttribute("prvaPomoc12", prvaPomoc12);
-
+model.addAttribute("prvaPomoc13", prvaPomoc13);
+model.addAttribute("prvaPomoc14", prvaPomoc14);
+model.addAttribute("prvaPomoc15", prvaPomoc15);
+model.addAttribute("prvaPomoc16", prvaPomoc16);
+model.addAttribute("prvaPomoc17", prvaPomoc17);
+model.addAttribute("prvaPomoc18", prvaPomoc18);
 
 /////////////////////////////////////////////////////////////////SEGMENT ZA PRVU POMOC
 /////////////////////////////////////////////////////////////////SEGMENT ZA ASANACIJU
@@ -1035,6 +1074,27 @@ asanacija4 += Integer.parseInt(data.getValue());
 if (data.getColumn().getOrder()==18) {
 asanacija5 += Integer.parseInt(data.getValue());
 };
+if (data.getColumn().getOrder()==19) {
+asanacija6 += Integer.parseInt(data.getValue());
+};
+if (data.getColumn().getOrder()==20) {
+asanacija7 += Integer.parseInt(data.getValue());
+};
+if (data.getColumn().getOrder()==21) {
+asanacija8 += Integer.parseInt(data.getValue());
+};
+if (data.getColumn().getOrder()==22) {
+asanacija9 += Integer.parseInt(data.getValue());
+};
+if (data.getColumn().getOrder()==23) {
+asanacija10 += Integer.parseInt(data.getValue());
+};
+if (data.getColumn().getOrder()==24) {
+asanacija11 += Integer.parseInt(data.getValue());
+};
+if (data.getColumn().getOrder()==25) {
+asanacija12 += Integer.parseInt(data.getValue());
+};
 
                 } catch (Exception e) {
                     System.out.println("neki input nije brojka");
@@ -1048,7 +1108,13 @@ model.addAttribute("asanacija2", asanacija2);
 model.addAttribute("asanacija3", asanacija3);
 model.addAttribute("asanacija4", asanacija4);
 model.addAttribute("asanacija5", asanacija5);
-
+model.addAttribute("asanacija6", asanacija6);
+model.addAttribute("asanacija7", asanacija7);
+model.addAttribute("asanacija8", asanacija8);
+model.addAttribute("asanacija9", asanacija9);
+model.addAttribute("asanacija10", asanacija10);
+model.addAttribute("asanacija11", asanacija11);
+model.addAttribute("asanacija12", asanacija12);
 /////////////////////////////////////////////////////////////////SEGMENT ZA ASANACIJU
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////SEGMENT ZA MERE CIVILNE ZASTITE

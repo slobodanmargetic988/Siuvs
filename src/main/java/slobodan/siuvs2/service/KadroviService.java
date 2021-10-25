@@ -7,6 +7,7 @@ import slobodan.siuvs2.model.KartonSubjekti;
 
 import slobodan.siuvs2.model.Volonter;
 import slobodan.siuvs2.model.Zanimanja;
+import slobodan.siuvs2.model.ZanimanjaPodvrsta;
 import slobodan.siuvs2.valueObject.KadroviId;
 import slobodan.siuvs2.valueObject.ZanimanjaId;
 
@@ -18,6 +19,6 @@ public interface KadroviService {
     List<Kadrovi> findAllBy();
 
      void save(Kadrovi kadar);
-   Kadrovi findFirstByZanimanjeAndKartonsubjekti(Zanimanja zanimanje,KartonSubjekti kartonsubjekti);
+   Kadrovi findFirstByZanimanjeAndKartonsubjekti(ZanimanjaPodvrsta zanimanje,KartonSubjekti kartonsubjekti);
 
 }

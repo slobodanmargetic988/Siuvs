@@ -152,7 +152,8 @@
                             </tr>
                             <th:block th:each="kadar, iKadar : ${karton.kadrovi}">        
                                 <tr  >
-                                    <td colspan="3" ><span th:text="${kadar.zanimanje.naziv}?:'/'"></span></td> 
+                                      
+                                    <td colspan="3" ><span th:text="${kadar.zanimanjepodvrsta.naziv}?:'/'"></span></td> 
                                     <td colspan="2" > <span th:text="${kadar.broj}?:'/'"></span></td> 
                                 </tr>
 

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+<th:block th:include="fragments/head :: head" />
+</head>
+<body>
+
+<!-- Nav -->
+<th:block th:insert="fragments/navigation :: navigation-client"></th:block>
+
+<!-- Content -->
+<div class="px-content">
+
+<div class="page-header">
+<h1>
+<th:block th:insert="fragments/navigation :: nav-breadcrumbs-Kartoni-clanstaba" />
+</h1>
+</div>
+
+<div th:replace="fragments/alert :: success (${successMessage})"></div>
+
+<!-- Client details panel -->
+
+
+ 
+
+<div class="panel">
+<div class="panel-heading">
+<span class="panel-title">Листа евиденционих картона чланова стручно оперативног тима: <span th:text="${sot.naziv}"></span>  </span>
+</div>
+<div class="table-responsive">
+<table class="table table-striped valign-middle">
+<thead>
+<tr>
+<!--                                <th>#</th>-->
+<th class=" col-md-1">Редни број</th>
+<th class=" col-md-1" >Назив члана</th>
+<th class=" col-md-1">Функција у стручно оперативном тиму</th>
+<th class=" col-md-1">Службени мобилни</th>
+
+
+</tr>
+</thead>
+
+<tbody>
+<th:block th:each="osobaSOT, brojac : ${sot.osobe}">
+<tr th:attr="data-href=@{/supervisor/clients/{clientID}/kartonClanaSOT/{osobaSOTId} (clientID=${client.id},osobaSOTId=${osobaSOT.id})}" >
+<td> <span th:text="${brojac.count}"></span></td> 
+<td> <span th:text="${osobaSOT.osoba.ime}"></span></td> 
+<td> <span th:text="${osobaSOT.funkcija}"></span></td> 
+<td> <span th:text="${osobaSOT.osoba.mobilniposao}"></span></td> 
+</tr>
+</th:block>
+<tr>
+
+</tr>
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+<br></br>
+
+
+</div>
+
+<th:block th:insert="fragments/footer :: footer-standard" />
+<th:block th:insert="fragments/scripts :: standard" />
+</body>
+</html>

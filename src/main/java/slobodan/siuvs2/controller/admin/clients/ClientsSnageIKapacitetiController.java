@@ -7,27 +7,10 @@ package slobodan.siuvs2.controller.admin.clients;
  *
  * @author Slobodan Margetic slobodanmargetic988@gmail.com
  */
-import slobodan.siuvs2.controller.admin.*;
-import slobodan.siuvs2.controller.client.*;
-import slobodan.siuvs2.service.PosebanCiljFactory;
-import slobodan.siuvs2.service.RezultatFactory;
-import slobodan.siuvs2.service.RezultatService;
-import slobodan.siuvs2.service.PosebanCiljService;
-import slobodan.siuvs2.service.PodRezultatFactory;
-import slobodan.siuvs2.service.MeraService;
-import slobodan.siuvs2.service.MeraFactory;
-import slobodan.siuvs2.service.PodRezultatService;
-import slobodan.siuvs2.service.PlanService;
-import slobodan.siuvs2.service.PageService;
-import slobodan.siuvs2.service.PlanFactory;
-import slobodan.siuvs2.model.SiuvsUserPrincipal;
 import slobodan.siuvs2.model.Client;
-import slobodan.siuvs2.model.User;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -42,6 +25,7 @@ import slobodan.siuvs2.model.Kadrovi;
 import slobodan.siuvs2.model.KartonSubjekti;
 import slobodan.siuvs2.model.TableColumn;
 import slobodan.siuvs2.model.Zanimanja;
+import slobodan.siuvs2.model.ZanimanjaPodvrsta;
 import slobodan.siuvs2.service.ClientService;
 import slobodan.siuvs2.service.DelatnostService;
 import slobodan.siuvs2.service.DetaljiMTSService;
@@ -49,6 +33,7 @@ import slobodan.siuvs2.service.DynamicTableService;
 import slobodan.siuvs2.service.KadroviService;
 import slobodan.siuvs2.service.KartonSubjektiService;
 import slobodan.siuvs2.service.TableColumnService;
+import slobodan.siuvs2.service.ZanimanjaPodvrstaService;
 import slobodan.siuvs2.service.ZanimanjaService;
 import slobodan.siuvs2.valueObject.ClientId;
 import slobodan.siuvs2.valueObject.DelatnostId;
@@ -56,6 +41,7 @@ import slobodan.siuvs2.valueObject.KartonSubjektiId;
 import slobodan.siuvs2.valueObject.TableColumnId;
 import slobodan.siuvs2.valueObject.TableDefinitionId;
 import slobodan.siuvs2.valueObject.ZanimanjaId;
+import slobodan.siuvs2.valueObject.ZanimanjaPodvrstaId;
 
 @Scope(WebApplicationContext.SCOPE_REQUEST)
 @Controller
@@ -69,6 +55,8 @@ public class ClientsSnageIKapacitetiController {
     private KartonSubjektiService kartonSubjektiService;
     @Autowired
     private ZanimanjaService zanimanjaService;
+     @Autowired
+    private ZanimanjaPodvrstaService zanimanjaPodvrstaService;
     @Autowired
     private KadroviService kadroviService;
     @Autowired
@@ -591,7 +579,7 @@ model.addAttribute("asanacija5", asanacija5);
         KartonSubjekti karton = kartonSubjektiService.findOne(kartonId);
         model.addAttribute("karton", karton);
         model.addAttribute("zanimanja", zanimanjaService.findAllByOrderByNazivAsc());
-
+ model.addAttribute("zanimanjaPodvrste", zanimanjaPodvrstaService.findAllByOrderByNazivAsc());
         return "admin/clients/kartonSubjekta/newKadar";
     }
 
@@ -601,6 +589,7 @@ model.addAttribute("asanacija5", asanacija5);
             @PathVariable final KartonSubjektiId kartonId,
             @RequestParam(value = "action", required = true) String action,
             @RequestParam(value = "nazivStruke", required = true) ZanimanjaId nazivStrukeId,
+            @RequestParam(value = "nazivPodStruke", required = true) ZanimanjaPodvrstaId nazivPodStrukeId,
             @RequestParam(value = "brojIzvrsilaca", required = true) Integer brojIzvrsilaca,
             final RedirectAttributes redirectAttributes,
             final Model model
@@ -610,7 +599,8 @@ model.addAttribute("asanacija5", asanacija5);
         KartonSubjekti karton = kartonSubjektiService.findOne(kartonId);
         Kadrovi novKadar = new Kadrovi();
         Zanimanja zanimanje = zanimanjaService.findOne(nazivStrukeId);
-        Kadrovi checkKadar = kadroviService.findFirstByZanimanjeAndKartonsubjekti(zanimanje, karton);
+        ZanimanjaPodvrsta zanimanjePodvrsta=zanimanjaPodvrstaService.findOne(nazivPodStrukeId);
+        Kadrovi checkKadar = kadroviService.findFirstByZanimanjeAndKartonsubjekti(zanimanjePodvrsta, karton);
         if (checkKadar != null)//provera da li vec postoji ako postoji menjamo samo broj eventualno
         {
             novKadar = checkKadar;
@@ -618,7 +608,7 @@ model.addAttribute("asanacija5", asanacija5);
 
         novKadar.setBroj(brojIzvrsilaca);
 
-        novKadar.setZanimanje(zanimanje);
+        novKadar.setZanimanjepodvrsta(zanimanjePodvrsta);
         novKadar.setKartonsubjekti(karton);
         try {
             kadroviService.save(novKadar);
@@ -899,7 +889,7 @@ model.addAttribute("asanacija5", asanacija5);
             @PathVariable final ClientId clientId,
             @PathVariable final KartonSubjektiId kartonId,
             @RequestParam(value = "naziv", defaultValue = "/") String naziv,
-            @RequestParam(value = "sifra", defaultValue = "/") String sifra,
+         
             final RedirectAttributes redirectAttributes,
             final Model model
     ) {
@@ -908,7 +898,7 @@ model.addAttribute("asanacija5", asanacija5);
         model.addAttribute("kartonId", kartonId);
         Zanimanja newZanimanje = new Zanimanja();
         newZanimanje.setNaziv(naziv);
-        newZanimanje.setSifra(sifra);
+  
         try {
             zanimanjaService.save(newZanimanje);
         } catch (Exception e) {
@@ -916,6 +906,49 @@ model.addAttribute("asanacija5", asanacija5);
             return "redirect:/admin/clients/" + clientId + "/kartonSubjekti/" + kartonId.getValue() + "/dodajKadar";
         }
         redirectAttributes.addFlashAttribute("successMessage", "Novo delatnost je uspešno sačuvano!");
+        return "redirect:/admin/clients/" + clientId + "/kartonSubjekti/" + kartonId.getValue() + "/dodajKadar";
+    }
+    
+    
+     @GetMapping(value = "/admin/clients/{clientId}/kartonSubjekti/{kartonId}/dodajPodZanimanje")
+    public String adminDodajPodZanimanje(
+            @PathVariable final ClientId clientId,
+            @PathVariable final KartonSubjektiId kartonId,
+            final RedirectAttributes redirectAttributes,
+            final Model model
+    ) {
+        Client client = clientService.findOne(clientId);
+        model.addAttribute("client", client);
+        model.addAttribute("kartonId", kartonId);
+     model.addAttribute("zanimanja", zanimanjaService.findAllByOrderByNazivAsc());
+        
+
+        return "admin/clients/kartonSubjekta/newPodZanimanje";
+    }
+
+    @PostMapping(value = "/admin/clients/{clientId}/kartonSubjekti/{kartonId}/dodajPodZanimanje")
+    public String adminDodajPodZanimanjeSave(
+            @PathVariable final ClientId clientId,
+            @PathVariable final KartonSubjektiId kartonId,
+            @RequestParam(value = "naziv", defaultValue = "/") String naziv,
+         @RequestParam(value = "nazivStruke", required = true) ZanimanjaId nazivStrukeId,
+            final RedirectAttributes redirectAttributes,
+            final Model model
+    ) {
+        Client client = clientService.findOne(clientId);
+        model.addAttribute("client", client);
+        model.addAttribute("kartonId", kartonId);
+        ZanimanjaPodvrsta newZanimanje = new ZanimanjaPodvrsta();
+        newZanimanje.setNaziv(naziv);
+        newZanimanje.setZanimanje(zanimanjaService.findOne(nazivStrukeId));
+  
+        try {
+           zanimanjaPodvrstaService.save(newZanimanje);
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Novo pod-zanimanje nije uspešno sačuvano!");
+            return "redirect:/admin/clients/" + clientId + "/kartonSubjekti/" + kartonId.getValue() + "/dodajKadar";
+        }
+        redirectAttributes.addFlashAttribute("successMessage", "Novo pod-zanimanje je uspešno sačuvano!");
         return "redirect:/admin/clients/" + clientId + "/kartonSubjekti/" + kartonId.getValue() + "/dodajKadar";
     }
 

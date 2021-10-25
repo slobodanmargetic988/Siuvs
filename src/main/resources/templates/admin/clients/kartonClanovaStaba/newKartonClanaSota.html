@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+    <head>
+        <th:block th:include="fragments/head :: head" />
+    </head>
+    <body>
+
+        <!-- Nav -->
+        <th:block th:insert="fragments/navigation :: navigation-client"></th:block>
+
+        <!-- Content -->
+        <div class="px-content">
+
+            <div class="page-header">
+                <h1>
+                    <th:block th:insert="fragments/navigation :: nav-breadcrumbs-Kartoni-clanstaba" />
+                </h1>
+            </div>
+
+            <div th:replace="fragments/alert :: success (${successMessage})"></div>
+
+            <!-- Client details panel -->
+
+            <div class="panel panel-custom-width">
+                <div class="panel-heading">
+                    <span class="panel-title">Eвиденциони картон члана штаба за ванредне ситуације </span>
+                </div>
+                <div class="karton">
+                    <div class="table-responsive">
+                        <form th:action="@{/admin/clients/{clientId}/kartonClanaSOT/{sotId}/newKarton (clientId=${client.id},sotId=${sot.id})}"  method="post" class="form-horizontal" autocomplete="off">  
+                            <table class="table table-striped valign-middle">
+
+
+                                <tbody>
+   
+                                    <tr  >
+                                        <td   class="pl-custom highlighted-row-custom">Функција – дужност у стручно оперативном тиму </td> 
+                                       
+                                         <td  > <input type="text" name="funkcija_u_sotu" ></td> 
+                                    </tr>
+
+                                    <tr  >
+                                        <td   class="pl-custom highlighted-row-custom">Име, име једног родитеља, презиме</td> 
+                                        <td  > <input type="text" name="punoime" ></td> 
+                                    </tr>
+
+                                    <tr  >
+                                        <td   class="pl-custom highlighted-row-custom">Назив органа/службе/правног лица где ради</td> 
+                                        <td  > <input type="text" name="naziv_organa_gde_radi" ></td> 
+                                    </tr>
+
+                                    <tr  >
+                                        <td   class="pl-custom highlighted-row-custom">Адреса органа/службе/правног лица где ради</td> 
+                                        <td  > <input type="text" name="adresa_organa_gde_radi" ></td> 
+                                    </tr>
+
+                                    <tr  >
+                                        <td   class="pl-custom highlighted-row-custom">Функција/дужност на радном месту</td> 
+                                        <td  > <input type="text" name="funkcija_na_radu" ></td> 
+                                    </tr>
+
+                                    <tr  >
+                                        <td   class="pl-custom highlighted-row-custom">Контакт телефон службени фиксни</td> 
+                                        <td  > <input type="number" name="fiksni_telefon_sluzbeni" ></td> 
+                                    </tr>
+                                    
+                                      <tr  >
+                                        <td   class="pl-custom highlighted-row-custom">Контакт телефон службени мобилни</td> 
+                                        <td  > <input type="number" name="mobilni_telefon_sluzbeni" ></td> 
+                                    </tr>
+                                    
+                                     <tr  >
+                                        <td   class="pl-custom highlighted-row-custom">E-mail адреса службена</td> 
+                                        <td  > <input type="text" name="email_sluzbeni" ></td> 
+                                    </tr>
+                                    
+                                      <tr  >
+                                        <td   class="pl-custom highlighted-row-custom">E-mail адреса лична</td> 
+                                        <td  > <input type="text" name="email_licni" ></td> 
+                                    </tr>
+                                  
+                                    
+                                      <tr  >
+                                        <td   class="pl-custom highlighted-row-custom">Адреса становања</td> 
+                                        <td  > <input type="text" name="adresa_stanovanja" ></td> 
+                                    </tr>
+
+                                    <tr  >
+                                        <td   class="pl-custom highlighted-row-custom">Контакт телефон у стану</td> 
+                                        <td  > <input type="number" name="telefon_u_stanu" ></td> 
+                                    </tr>
+                                    
+                                     <tr  >
+                                        <td   class="pl-custom highlighted-row-custom">Учешће на обукама, семинарима, курсевима и вежбама у области смањења ризика од катастрофа и управљања ванредним ситуацијама</td> 
+                                        <td  > <input type="text" name="ucesce_na_obukama" ></td> 
+                                    </tr>
+
+
+                                </tbody>
+                            </table>
+
+                            <div class="col-md-offset-3  bottomTwoButtons">
+                                <button type="submit" name="action" value="save" class="btn btn-primary">Сачувај</button>
+
+                                <a th:href="@{/admin/clients/{clientID}/kartonClanaStaba (clientID=${client.id})}"  class="btn">Одустани</a>
+                            </div> 
+                        </form> 
+                    </div>
+                </div>       
+            </div>
+
+
+
+        </div>
+
+        <th:block th:insert="fragments/footer :: footer-standard" />
+        <th:block th:insert="fragments/scripts :: standard" />
+    </body>
+</html>

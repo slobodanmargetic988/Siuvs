@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+<th:block th:include="fragments/head :: head" />
+</head>
+<body>
+
+<!-- Nav -->
+<th:block th:insert="fragments/navigation :: navigation-client"></th:block>
+
+<!-- Content -->
+<div class="px-content">
+
+<div class="page-header">
+<h1>
+<th:block th:insert="fragments/navigation :: nav-breadcrumbs-Kartoni-clanstaba" />
+</h1>
+</div>
+
+<div th:replace="fragments/alert :: success (${successMessage})"></div>
+
+<!-- Client details panel -->
+
+<div class="panel panel-custom-width">
+<div class="panel-heading">
+<span class="panel-title">Eвиденциони картон члана стручно оперативног тима</span>
+</div>
+
+<div class="table-responsive">
+<table class="table table-striped valign-middle">
+
+
+<tbody>
+
+<tr  >
+<td   class="highlighted-row-custom custom-td-width-left">Назив стручно оперативног тима</td> 
+<td   > <span th:text="${osobaSOT.sot.naziv}?:'/'"></span></td> 
+</tr>
+
+<tr  >
+<td   class="highlighted-row-custom">Управни округ</td> 
+<td   > <span th:text="${osobaSOT.sot.client.opstina.distrikt.name}?:'/'"></span></td> 
+</tr>
+
+
+<tr  >
+<td   class="highlighted-row-custom">ЈЛС</td> 
+<td   > <span th:text="${osobaSOT.sot.client.opstina.name}?:'/'"></span></td> 
+</tr>
+
+<tr  >
+<td   class="highlighted-row-custom">Функција – дужност у стручно оперативном тиму</td> 
+<td   > <span th:text="${osobaSOT.funkcija}?:'/'"></span></td> 
+</tr>
+
+<tr  >
+<td   class="highlighted-row-custom">Име, име једног родитеља, презиме</td> 
+<td   > <span th:text="${osobaSOT.osoba.ime}?:'/'"></span></td> 
+</tr>
+
+<tr  >
+<td   class="highlighted-row-custom">Назив органа/службе/правног лица где ради</td> 
+<td   > <span th:text="${osobaSOT.osoba.radnomesto}?:'/'"></span></td> 
+</tr>
+
+<tr  >
+<td   class="highlighted-row-custom">Адреса органа/службе/правног лица где ради</td> 
+<td   > <span th:text="${osobaSOT.osoba.adresaposao}?:'/'"></span></td> 
+</tr>
+
+<tr  >
+<td   class="highlighted-row-custom">Функција/дужност на радном месту</td> 
+<td   > <span th:text="${osobaSOT.osoba.funkcijaposao}?:'/'"></span></td> 
+</tr>
+
+<tr  >
+<td   class="highlighted-row-custom">Контакт телефон службени фиксни</td> 
+<td   > <span th:text="${osobaSOT.osoba.fiksniposao}?:'/'"></span></td> 
+</tr>
+
+<tr  >
+<td   class="highlighted-row-custom">Контакт телефон службени мобилни</td> 
+<td   > <span th:text="${osobaSOT.osoba.mobilniposao}?:'/'"></span></td> 
+</tr>
+
+<tr  >
+<td   class="highlighted-row-custom">E-mail адреса службена</td> 
+<td   > <span th:text="${osobaSOT.osoba.emailposao}?:'/'"></span></td> 
+</tr>
+
+<tr  >
+<td   class="highlighted-row-custom">E-mail адреса лична</td> 
+<td   > <span th:text="${osobaSOT.osoba.email}?:'/'"></span></td> 
+</tr>
+
+<tr  >
+<td   class="highlighted-row-custom">Адреса становања</td> 
+<td   > <span th:text="${osobaSOT.osoba.adresa}?:'/'"></span></td> 
+</tr>
+
+<tr  >
+<td   class="highlighted-row-custom">Контакт телефон у стану</td> 
+<td   > <span th:text="${osobaSOT.osoba.telefon}?:'/'"></span></td> 
+</tr>
+
+<tr  >
+<td   class="highlighted-row-custom">Учешће на обукама, семинарима, курсевима и вежбама у области смањења ризика од катастрофа и управљања ванредним ситуацијама</td> 
+<td   > <span th:text="${osobaSOT.osoba.obuke}?:'/'"></span></td> 
+</tr>
+
+
+
+
+
+
+
+
+</tbody>
+</table>
+</div>
+
+</div>       
+
+
+
+
+</div>
+
+
+
+<th:block th:insert="fragments/footer :: footer-standard" />
+<th:block th:insert="fragments/scripts :: standard" />
+</body>
+</html>

@@ -24,13 +24,17 @@ import slobodan.siuvs2.model.Delatnost;
 import slobodan.siuvs2.model.Kadrovi;
 import slobodan.siuvs2.model.KartonSubjekti;
 import slobodan.siuvs2.model.Zanimanja;
+import slobodan.siuvs2.model.ZanimanjaPodvrsta;
 import slobodan.siuvs2.service.DelatnostService;
 import slobodan.siuvs2.service.KadroviService;
 import slobodan.siuvs2.service.KartonSubjektiService;
+import slobodan.siuvs2.service.ZanimanjaPodvrstaService;
 import slobodan.siuvs2.service.ZanimanjaService;
+import slobodan.siuvs2.valueObject.ClientId;
 import slobodan.siuvs2.valueObject.DelatnostId;
 import slobodan.siuvs2.valueObject.KartonSubjektiId;
 import slobodan.siuvs2.valueObject.ZanimanjaId;
+import slobodan.siuvs2.valueObject.ZanimanjaPodvrstaId;
 
 @Scope(WebApplicationContext.SCOPE_REQUEST)
 @Controller
@@ -42,6 +46,9 @@ public class SnageIKapacitetiController {
     private KartonSubjektiService kartonSubjektiService;
     @Autowired
     private ZanimanjaService zanimanjaService;
+     @Autowired
+    private ZanimanjaPodvrstaService zanimanjaPodvrstaService;
+    
     @Autowired
     private KadroviService kadroviService;
     @Autowired
@@ -300,6 +307,7 @@ public class SnageIKapacitetiController {
         model.addAttribute("karton", karton);
         model.addAttribute("zanimanja", zanimanjaService.findAllByOrderByNazivAsc());
 
+ model.addAttribute("zanimanjaPodvrste", zanimanjaPodvrstaService.findAllByOrderByNazivAsc());
         return "client/kartonSubjekta/newKadar";
     }
 
@@ -308,7 +316,8 @@ public class SnageIKapacitetiController {
           
             @PathVariable final KartonSubjektiId kartonId,
             @RequestParam(value = "action", required = true) String action,
-            @RequestParam(value = "nazivStruke", required = true) ZanimanjaId nazivStrukeId,
+             @RequestParam(value = "nazivStruke", required = true) ZanimanjaId nazivStrukeId,
+            @RequestParam(value = "nazivPodStruke", required = true) ZanimanjaPodvrstaId nazivPodStrukeId,
             @RequestParam(value = "brojIzvrsilaca", required = true) Integer brojIzvrsilaca,
             final RedirectAttributes redirectAttributes,
             final Model model
@@ -320,7 +329,8 @@ public class SnageIKapacitetiController {
         KartonSubjekti karton = kartonSubjektiService.findOne(kartonId);
         Kadrovi novKadar = new Kadrovi();
         Zanimanja zanimanje = zanimanjaService.findOne(nazivStrukeId);
-        Kadrovi checkKadar = kadroviService.findFirstByZanimanjeAndKartonsubjekti(zanimanje, karton);
+            ZanimanjaPodvrsta zanimanjePodvrsta=zanimanjaPodvrstaService.findOne(nazivPodStrukeId);
+        Kadrovi checkKadar = kadroviService.findFirstByZanimanjeAndKartonsubjekti(zanimanjePodvrsta, karton);
         if (checkKadar != null)//provera da li vec postoji ako postoji menjamo samo broj eventualno
         {
             novKadar = checkKadar;
@@ -328,7 +338,7 @@ public class SnageIKapacitetiController {
 
         novKadar.setBroj(brojIzvrsilaca);
 
-        novKadar.setZanimanje(zanimanje);
+        novKadar.setZanimanjepodvrsta(zanimanjePodvrsta);
         novKadar.setKartonsubjekti(karton);
         try {
             kadroviService.save(novKadar);
@@ -344,6 +354,7 @@ public class SnageIKapacitetiController {
             return "redirect:/client/kartonSubjekti/" + kartonId + "/dodajKadar";
         }
     }
+    
     @GetMapping(value = "/client/kartonSubjekti/{kartonId}/dodajDelatnost")
     public String clientDodajDelatnost(
          
@@ -425,7 +436,7 @@ public class SnageIKapacitetiController {
     public String clientDodajZanimanjeSave(
             @PathVariable final KartonSubjektiId kartonId,
             @RequestParam(value = "naziv", defaultValue = "/") String naziv,
-            @RequestParam(value = "sifra", defaultValue = "/") String sifra,
+       
             final RedirectAttributes redirectAttributes,
             final Model model
     ) {
@@ -436,7 +447,7 @@ public class SnageIKapacitetiController {
         model.addAttribute("kartonId", kartonId);
         Zanimanja newZanimanje = new Zanimanja();
         newZanimanje.setNaziv(naziv);
-        newZanimanje.setSifra(sifra);
+ 
         try {
             zanimanjaService.save(newZanimanje);
         } catch (Exception e) {
@@ -445,6 +456,54 @@ public class SnageIKapacitetiController {
         }
         redirectAttributes.addFlashAttribute("successMessage", "Novo delatnost je uspešno sačuvano!");
         return "redirect:/client/kartonSubjekti/" + kartonId.getValue() + "/dodajKadar";
+    }
+    
+    
+    
+       @GetMapping(value = "/client/kartonSubjekti/{kartonId}/dodajPodZanimanje")
+    public String adminDodajPodZanimanje(
+            @PathVariable final ClientId clientId,
+            @PathVariable final KartonSubjektiId kartonId,
+            final RedirectAttributes redirectAttributes,
+            final Model model
+    ) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = ((SiuvsUserPrincipal) authentication.getPrincipal()).getUser();
+        Client client = user.getClient();
+        model.addAttribute("client", client);
+        model.addAttribute("kartonId", kartonId);
+     model.addAttribute("zanimanja", zanimanjaService.findAllByOrderByNazivAsc());
+        
+
+        return "admin/clients/kartonSubjekta/newPodZanimanje";
+    }
+
+    @PostMapping(value = "/client/kartonSubjekti/{kartonId}/dodajPodZanimanje")
+    public String adminDodajPodZanimanjeSave(
+            @PathVariable final ClientId clientId,
+            @PathVariable final KartonSubjektiId kartonId,
+            @RequestParam(value = "naziv", defaultValue = "/") String naziv,
+         @RequestParam(value = "nazivStruke", required = true) ZanimanjaId nazivStrukeId,
+            final RedirectAttributes redirectAttributes,
+            final Model model
+    ) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = ((SiuvsUserPrincipal) authentication.getPrincipal()).getUser();
+        Client client = user.getClient();
+        model.addAttribute("client", client);
+        model.addAttribute("kartonId", kartonId);
+        ZanimanjaPodvrsta newZanimanje = new ZanimanjaPodvrsta();
+        newZanimanje.setNaziv(naziv);
+        newZanimanje.setZanimanje(zanimanjaService.findOne(nazivStrukeId));
+  
+        try {
+           zanimanjaPodvrstaService.save(newZanimanje);
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Novo pod-zanimanje nije uspešno sačuvano!");
+            return "redirect:/admin/clients/" + clientId + "/kartonSubjekti/" + kartonId.getValue() + "/dodajKadar";
+        }
+        redirectAttributes.addFlashAttribute("successMessage", "Novo pod-zanimanje je uspešno sačuvano!");
+        return "redirect:/admin/clients/" + clientId + "/kartonSubjekti/" + kartonId.getValue() + "/dodajKadar";
     }
 
 }

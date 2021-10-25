@@ -37,12 +37,20 @@
 
                         <form th:action="@{/client/kartonSubjekti/{kartonId}/dodajKadar (kartonId=${karton.id})}"  method="post" class="form-horizontal" autocomplete="off">
                             <div class="form-group">
-                                <label  class="col-md-3 " >Назив струке - занимања:  <a th:href="@{/client/kartonSubjekti/{kartonId}/dodajZanimanje (kartonId=${karton.id})}"  class=" btn-xs btn-warning btn-outline"><i class="fa fa-plus-square-o fa-lg"></i></a></label>
+                                <label  class="col-md-3 " >Назив струке - занимања:  <a th:href="@{/admin/clients/{clientId}/kartonSubjekti/{kartonId}/dodajZanimanje (clientId=${client.id},kartonId=${karton.id})}"  class=" btn-xs btn-warning btn-outline"><i class="fa fa-plus-square-o fa-lg"></i></a></label>
                                
                                 
-                                  <select class="col-md-6 "  name="nazivStruke"  >
-                                           
+                                  <select class="col-md-6 " id="selectZanimanje"  name="nazivStruke"  >
+                                              <option th:value="0" >Изаберите врсту струке - занимања</option>
                                          <option  th:each="zanimanje : ${zanimanja}" th:value="${zanimanje.id}" th:text="${zanimanje.naziv}">Текст</option>
+                                        </select> 
+                                <br> </br>
+                                  <label  class="col-md-3 " >Подврста струке - занимања:  <a th:href="@{/admin/clients/{clientId}/kartonSubjekti/{kartonId}/dodajPodZanimanje (clientId=${client.id},kartonId=${karton.id})}"  class=" btn-xs btn-warning btn-outline"><i class="fa fa-plus-square-o fa-lg"></i></a></label>
+                               
+                                
+                                  <select class="col-md-6 " id="selectPodzanimanje"  name="nazivPodStruke"  >
+                                              <option th:value="0" >Изаберите подврсту струке - занимања</option>
+                                         <option  th:each="podzanimanje : ${zanimanjaPodvrste}" th:zanimanjeId="${podzanimanje.zanimanje.id}" th:value="${podzanimanje.id}" th:text="${podzanimanje.naziv}">Текст</option>
                                         </select> 
                                 <br> </br>
                                <label  class="col-md-3 " >Број извршилаца: </label>

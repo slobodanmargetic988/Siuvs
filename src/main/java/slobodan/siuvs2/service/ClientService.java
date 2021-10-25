@@ -16,10 +16,11 @@ public interface ClientService {
     void update(ClientId clientId, Client client);
 
     Page<Client> findAllOrderByActiveDescNameAsc(Pageable pageable);
-    
+
     List<Client> findAll();
+
     List<Client> findAllByOrderByNameAsc();
-    
+
     Client findOne(ClientId clientId);
 
     Boolean isNameUsed(String name);
@@ -29,7 +30,10 @@ public interface ClientService {
     Page<Client> findAllByOpstinaIdOrderByNameAsc(List<Integer> opstinaId, Pageable pageable);
 
     Page<Client> findAllByOpstinaInOrderByNameAsc(List<Opstina> opstina, Pageable pageable);
-      Client findFirstByOpstina(Opstina opstina);
-       Client findFirstByName(String name);
-         Client findFirstByOpendataid(Integer id);
+
+    Client findFirstByOpstina(Opstina opstina);
+
+    Client findFirstByName(String name);
+
+    Client findFirstByOpendataid(Integer id);
 }

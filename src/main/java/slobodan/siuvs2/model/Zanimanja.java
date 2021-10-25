@@ -5,6 +5,8 @@
  */
 package slobodan.siuvs2.model;
 
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.*;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -25,8 +27,8 @@ public class Zanimanja {
     @Column(name = "naziv")
     private String naziv;
     
-  @Column(name = "sifra")
-    private String sifra;
+ @OneToMany(mappedBy = "zanimanje")
+    private List<ZanimanjaPodvrsta> zanimanjepodvrste= new ArrayList<>();
   
     public int getId() {
         return id;
@@ -44,13 +46,15 @@ public class Zanimanja {
         this.naziv = naziv;
     }
 
-    public String getSifra() {
-        return sifra;
+    public List<ZanimanjaPodvrsta> getZanimanjepodvrsta() {
+        return zanimanjepodvrste;
     }
 
-    public void setSifra(String sifra) {
-        this.sifra = sifra;
+    public void setZanimanjepodvrsta(List<ZanimanjaPodvrsta> zanimanjepodvrste) {
+        this.zanimanjepodvrste = zanimanjepodvrste;
     }
+
+
 
   
 }

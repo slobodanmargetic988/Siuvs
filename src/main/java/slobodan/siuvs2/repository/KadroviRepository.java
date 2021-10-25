@@ -18,13 +18,14 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import slobodan.siuvs2.model.Kadrovi;
 import slobodan.siuvs2.model.KartonSubjekti;
 import slobodan.siuvs2.model.Zanimanja;
+import slobodan.siuvs2.model.ZanimanjaPodvrsta;
 
 public interface KadroviRepository extends JpaRepository<Kadrovi, Integer> {
 
 
 
     List<Kadrovi> findAllBy();
-    Kadrovi findFirstByZanimanjeAndKartonsubjekti(Zanimanja zanimanje,KartonSubjekti kartonsubjekti);
+    Kadrovi findFirstByZanimanjepodvrstaAndKartonsubjekti(ZanimanjaPodvrsta zanimanje,KartonSubjekti kartonsubjekti);
     
        
 

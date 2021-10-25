@@ -139,6 +139,27 @@ public class ClientsKartonMTSController {
         Client client = clientService.findOne(clientId);
         model.addAttribute("client", client);
 //        KartonUdruzenja karton = kartonUdruzenjaService.findOne(kartonId);
+if(vlasnik_id.getValue()==0){
+ redirectAttributes.addFlashAttribute("errorMessage", "Karton nije uspešno izmenjen! Morate izabrati vlasnika");
+        return "redirect:/admin/clients/" + clientId + "/kartonMTS";
+}
+if(orgJedinicaMTS_id.getValue()==0){
+ redirectAttributes.addFlashAttribute("errorMessage", "Karton nije uspešno izmenjen! Morate organizacionu jedinicu");
+        return "redirect:/admin/clients/" + clientId + "/kartonMTS";
+}
+if(grupaMTS_id.getValue()==0){
+ redirectAttributes.addFlashAttribute("errorMessage", "Karton nije uspešno izmenjen! Morate izabrati grupu MTS");
+        return "redirect:/admin/clients/" + clientId + "/kartonMTS";
+}
+if(vrstaMTS_id.getValue()==0){
+ redirectAttributes.addFlashAttribute("errorMessage", "Karton nije uspešno izmenjen! Morate izabrati vrstu MTS");
+        return "redirect:/admin/clients/" + clientId + "/kartonMTS";
+}
+if(podvrstaMTS_id.getValue()==0){
+ redirectAttributes.addFlashAttribute("errorMessage", "Karton nije uspešno izmenjen! Morate izabrati podvrstu MTS, izaberite \"/\" ukoliko nema drugog izbora");
+        return "redirect:/admin/clients/" + clientId + "/kartonMTS";
+}
+
         DetaljiMTS detalji = detaljiMTSService.findOne(kartonId);
 
         VlasnikMTS vlasnik = vlasnikMTSService.findOne(vlasnik_id);
@@ -513,7 +534,26 @@ public class ClientsKartonMTSController {
     ) {
         Client client = clientService.findOne(clientId);
         model.addAttribute("client", client);
-
+if(vlasnik_id.getValue()==0){
+ redirectAttributes.addFlashAttribute("errorMessage", "Karton nije uspešno izmenjen! Morate izabrati vlasnika");
+        return "redirect:/admin/clients/" + clientId + "/kartonMTS";
+}
+if(orgJedinicaMTS_id.getValue()==0){
+ redirectAttributes.addFlashAttribute("errorMessage", "Karton nije uspešno izmenjen! Morate organizacionu jedinicu");
+        return "redirect:/admin/clients/" + clientId + "/kartonMTS";
+}
+if(grupaMTS_id.getValue()==0){
+ redirectAttributes.addFlashAttribute("errorMessage", "Karton nije uspešno izmenjen! Morate izabrati grupu MTS");
+        return "redirect:/admin/clients/" + clientId + "/kartonMTS";
+}
+if(vrstaMTS_id.getValue()==0){
+ redirectAttributes.addFlashAttribute("errorMessage", "Karton nije uspešno izmenjen! Morate izabrati vrstu MTS");
+        return "redirect:/admin/clients/" + clientId + "/kartonMTS";
+}
+if(podvrstaMTS_id.getValue()==0){
+ redirectAttributes.addFlashAttribute("errorMessage", "Karton nije uspešno izmenjen! Morate izabrati podvrstu MTS, izaberite \"/\" ukoliko nema drugog izbora");
+        return "redirect:/admin/clients/" + clientId + "/kartonMTS";
+}
         VlasnikMTS vlasnik = vlasnikMTSService.findOne(vlasnik_id);
 
         OrgJedinicaMTS orgJedinica = orgJedinicaMTSService.findOne(orgJedinicaMTS_id);

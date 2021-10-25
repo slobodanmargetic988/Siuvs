@@ -29,8 +29,8 @@ public class Kadrovi {
 
       
     @ManyToOne
-    @JoinColumn(name = "zanimanje_id")
-    private Zanimanja zanimanje;
+    @JoinColumn(name = "zanimanje_podvrsta_id")
+    private ZanimanjaPodvrsta zanimanjepodvrsta;
     
         @ManyToOne
     @JoinColumn(name = "kartonsubjekti_id")
@@ -53,13 +53,7 @@ public class Kadrovi {
         this.broj = broj;
     }
 
-    public Zanimanja getZanimanje() {
-        return zanimanje;
-    }
 
-    public void setZanimanje(Zanimanja zanimanje) {
-        this.zanimanje = zanimanje;
-    }
 
     public KartonSubjekti getKartonsubjekti() {
         return kartonsubjekti;
@@ -67,6 +61,14 @@ public class Kadrovi {
 
     public void setKartonsubjekti(KartonSubjekti kartonsubjekti) {
         this.kartonsubjekti = kartonsubjekti;
+    }
+
+    public ZanimanjaPodvrsta getZanimanjepodvrsta() {
+        return zanimanjepodvrsta;
+    }
+
+    public void setZanimanjepodvrsta(ZanimanjaPodvrsta zanimanjepodvrsta) {
+        this.zanimanjepodvrsta = zanimanjepodvrsta;
     }
 
 

@@ -9,13 +9,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
+
 import slobodan.siuvs2.model.Client;
 import slobodan.siuvs2.model.DynamicTable;
 import slobodan.siuvs2.model.OpenData;
 import slobodan.siuvs2.service.ClientService;
 import slobodan.siuvs2.service.DynamicTableService;
 import slobodan.siuvs2.service.OpenDataService;
-import slobodan.siuvs2.valueObject.ClientId;
 import slobodan.siuvs2.valueObject.TableDefinitionId;
 
 /**

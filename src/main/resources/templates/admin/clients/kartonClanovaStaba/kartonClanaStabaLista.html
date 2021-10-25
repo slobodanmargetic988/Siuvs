@@ -1,73 +1,181 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
-    <head>
-        <th:block th:include="fragments/head :: head" />
-    </head>
-    <body>
+<head>
+<th:block th:include="fragments/head :: head" />
+</head>
+<body>
 
-        <!-- Nav -->
-        <th:block th:insert="fragments/navigation :: navigation-client"></th:block>
+<!-- Nav -->
+<th:block th:insert="fragments/navigation :: navigation-client"></th:block>
 
-        <!-- Content -->
-        <div class="px-content">
+<!-- Content -->
+<div class="px-content">
 
-            <div class="page-header">
-                <h1>
-                    <th:block th:insert="fragments/navigation :: nav-breadcrumbs-Kartoni-clanstaba" />
-                </h1>
-            </div>
+<div class="page-header">
+<h1>
+<th:block th:insert="fragments/navigation :: nav-breadcrumbs-Kartoni-clanstaba" />
+</h1>
+</div>
 
-            <div th:replace="fragments/alert :: success (${successMessage})"></div>
+<div th:replace="fragments/alert :: success (${successMessage})"></div>
 
-            <!-- Client details panel -->
+<!-- Client details panel -->
 
-            <div class="panel">
-                <div class="panel-heading">
-                    <span class="panel-title">Листа евиденционих картона Субјекта од посебног  значаја за заштиту и спасавање  <a th:href="@{/admin/clients/{clientID}/kartonClanaStaba/newKarton (clientID=${client.id})}" class=" btn-xs btn-warning btn-outline"><i class="fa fa-plus-square-o fa-lg"></i> Додај картон</a></span>
-                </div>
-                <div class="table-responsive">
-                    <table class="table table-striped valign-middle">
-                        <thead>
-                            <tr>
-                                <!--                                <th>#</th>-->
-                                <th class=" col-md-1">Редни број</th>
-                                <th class=" col-md-1" >Назив члана</th>
-                                <th class=" col-md-1">Назив оперативног штаба</th>
-                                <th class=" col-md-1">Функција</th>
-
-
-
-                            </tr>
-                        </thead>
-
-                        <tbody>
-                            <th:block th:each="karton, iKarton : ${listaKartona}">
-                                <tr th:attr="data-href=@{/admin/clients/{clientID}/kartonClanaStaba/{kartonId} (clientID=${client.id},kartonId=${karton.id})}" >
-                                    <td> <span th:text="${iKarton.count}"></span></td> 
-                                    <td> <span th:text="${karton.punoime}"></span></td> 
-                                    <td> <span th:text="${karton.naziv_operativnog_staba}"></span></td> 
-                                    <td> <span th:text="${karton.funkcija_u_stabu}"></span></td> 
-                                </tr>
-                            </th:block>
-                            <tr>
-                                <td sec:authorize="hasAnyAuthority('ADMIN','RIS')" >
-                                    <a th:href="@{/admin/clients/{clientID}/kartonClanaStaba/newKarton (clientID=${client.id})}" class=" btn-xs btn-warning btn-outline"><i class="fa fa-plus-square-o fa-lg"></i> Додај картон</a>
-                                </td>
-                            </tr>
-                        </tbody>
-
-                    </table>
-
-                </div>
-
-            </div>
-            <a sec:authorize="hasAnyAuthority('ADMIN','RIS')" class="btn btn-primary" th:href="@{/admin/clients/{clientID}/kartonClanaStaba/newKarton (clientID=${client.id})}">Додај картон</a>   
+<div class="panel">
+<div class="panel-heading">
+<span class="panel-title">Листа евиденционих картона чланова штаба за ванредне ситуације  </span>
+</div>
+   
+<th:block th:if="${stab != null}" >
+<div class="table-responsive">
+<table class="table table-striped valign-middle">
+<thead>
+<tr>
+<!--                                <th>#</th>-->
+<th class=" col-md-1">Редни број</th>
+<th class=" col-md-1">Назив члана</th>
+<th class=" col-md-1">Функција у штабу</th>
+<th class=" col-md-1">Службени мобилни</th>
 
 
-        </div>
 
-        <th:block th:insert="fragments/footer :: footer-standard" />
-        <th:block th:insert="fragments/scripts :: standard" />
-    </body>
+
+</tr>
+</thead>
+
+<tbody>
+<th:block th:each="osobaStab, iStab : ${stab.osobe}">
+<tr th:attr="data-href=@{/admin/clients/{clientID}/kartonClanaStaba/{osobaStabId} (clientID=${client.id},osobaStabId=${osobaStab.id})}" >
+<td> <span th:text="${iStab.count}"></span></td> 
+<td> <span th:text="${osobaStab.osoba.ime}"></span></td> 
+<td> <span th:text="${osobaStab.funkcija}"></span></td> 
+<td> <span th:text="${osobaStab.osoba.mobilniposao}"></span></td> 
+</tr>
+</th:block>
+<tr>
+<td sec:authorize="hasAnyAuthority('ADMIN','RIS')" >
+<a th:href="@{/admin/clients/{clientID}/kartonClanaStaba/newKarton (clientID=${client.id})}" class=" btn-xs btn-warning btn-outline"><i class="fa fa-plus-square-o fa-lg"></i> Додај члана штаба</a>
+</td>
+</tr>
+</tbody>
+
+</table>
+
+</div>
+        </th:block>
+
+</div>
+<th:block th:if="${stab == null}" >
+        <a sec:authorize="hasAnyAuthority('ADMIN','RIS')" th:href="@{/admin/clients/{clientID}/newStab (clientID=${client.id})}"  class="btn btn-primary"><i class="fa fa-plus-square-o fa-lg"></i> Додај детаље штаба</a>
+       
+</th:block>
+<th:block th:if="${stab != null}" >
+        <a sec:authorize="hasAnyAuthority('ADMIN','RIS')" th:href="@{/admin/clients/{clientID}/editStab (clientID=${client.id})}"  class="btn btn-primary"><i class="fa fa-pencil-square-o fa-lg"></i> Измени детаље штаба</a>
+      <a sec:authorize="hasAnyAuthority('ADMIN','RIS')" class="btn btn-primary" th:href="@{/admin/clients/{clientID}/kartonClanaStaba/newKarton (clientID=${client.id})}">Додај члана штаба</a> 
+ 
+</th:block>
+<br></br>
+
+
+
+
+
+<div class="panel">
+<div class="panel-heading">
+<span class="panel-title">Листа стручно оперативних тимова  </span>
+</div>
+<div class="table-responsive">
+<table class="table table-striped valign-middle">
+<thead>
+<tr>
+<!--                                <th>#</th>-->
+<th class=" col-md-1">Редни број</th>
+<th class=" col-md-1" >Назив стручно оперативног тима</th>
+<th class=" col-md-1">Број чланова тима</th>
+
+
+
+
+</tr>
+</thead>
+
+<tbody>
+<th:block th:each="sot, iSot : ${sotovi}">
+<tr th:attr="data-href=@{/admin/clients/{clientID}/pregledSOTA/{sotId} (clientID=${client.id},sotId=${sot.id})}" >
+<td> <span th:text="${iSot.count}"></span></td> 
+<td> <span th:text="${sot.naziv}"></span></td> 
+<td> <span th:text="${sot.osobe.size()}"></span></td> 
+
+</tr>
+</th:block>
+<tr>
+<td sec:authorize="hasAnyAuthority('ADMIN','RIS')" >
+<a sec:authorize="hasAnyAuthority('ADMIN','RIS')" th:href="@{/admin/clients/{clientID}/kartonClanaStaba/newSOT (clientID=${client.id})}" class=" btn-xs btn-warning btn-outline"><i class="fa fa-plus-square-o fa-lg"></i> Додај стручно оперативни тим</a>
+</td>
+</tr>
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+<a sec:authorize="hasAnyAuthority('ADMIN','RIS')" class="btn btn-primary" th:href="@{/admin/clients/{clientID}/kartonClanaStaba/newSOT (clientID=${client.id})}">Додај стручно оперативни тим</a>   
+ <br></br> 
+ 
+ 
+ 
+ 
+<th:block th:each="sot, iSot : ${sotovi}">
+   
+
+<div class="panel">
+<div class="panel-heading">
+<span class="panel-title">Листа евиденционих картона чланова стручно оперативног тима: <span th:text="${sot.naziv}"></span>  </span>
+</div>
+<div class="table-responsive">
+<table class="table table-striped valign-middle">
+<thead>
+<tr>
+<!--                                <th>#</th>-->
+<th class=" col-md-1">Редни број</th>
+<th class=" col-md-1" >Назив члана</th>
+<th class=" col-md-1">Функција у стручно оперативном тиму</th>
+<th class=" col-md-1">Службени мобилни</th>
+
+
+</tr>
+</thead>
+
+<tbody>
+<th:block th:each="osobaSOT, brojac : ${sot.osobe}">
+<tr th:attr="data-href=@{/admin/clients/{clientID}/kartonClanaSOT/{osobaSOTId} (clientID=${client.id},osobaSOTId=${osobaSOT.id})}" >
+<td> <span th:text="${brojac.count}"></span></td> 
+<td> <span th:text="${osobaSOT.osoba.ime}"></span></td> 
+<td> <span th:text="${osobaSOT.funkcija}"></span></td> 
+<td> <span th:text="${osobaSOT.osoba.mobilniposao}"></span></td> 
+</tr>
+</th:block>
+<tr>
+<td sec:authorize="hasAnyAuthority('ADMIN','RIS')" >
+<a th:href="@{/admin/clients/{clientID}/kartonClanaSOT/{sotId}/newKarton (clientID=${client.id},sotId=${sot.id})}" class=" btn-xs btn-warning btn-outline"><i class="fa fa-plus-square-o fa-lg"></i> Додај картон члана стручно оперативног тима</a>
+</td>
+</tr>
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+<a sec:authorize="hasAnyAuthority('ADMIN','RIS')" class="btn btn-primary" th:href="@{/admin/clients/{clientID}/kartonClanaSOT/{sotId}/newKarton (clientID=${client.id},sotId=${sot.id})}">Додај картон члана стручно оперативног тима</a>   
+<br></br>
+</th:block>
+
+</div>
+
+<th:block th:insert="fragments/footer :: footer-standard" />
+<th:block th:insert="fragments/scripts :: standard" />
+</body>
 </html>

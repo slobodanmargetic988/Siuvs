@@ -7,60 +7,45 @@ package slobodan.siuvs2.controller.supervisor;
  *
  * @author Slobodan Margetic slobodanmargetic988@gmail.com
  */
-import slobodan.siuvs2.controller.admin.clients.*;
-import slobodan.siuvs2.controller.admin.*;
-import slobodan.siuvs2.controller.client.*;
-import slobodan.siuvs2.service.PosebanCiljFactory;
-import slobodan.siuvs2.service.RezultatFactory;
-import slobodan.siuvs2.service.RezultatService;
-import slobodan.siuvs2.service.PosebanCiljService;
-import slobodan.siuvs2.service.PodRezultatFactory;
-import slobodan.siuvs2.service.MeraService;
-import slobodan.siuvs2.service.MeraFactory;
-import slobodan.siuvs2.service.PodRezultatService;
-import slobodan.siuvs2.service.PlanService;
-import slobodan.siuvs2.service.PageService;
-import slobodan.siuvs2.service.PlanFactory;
-import slobodan.siuvs2.model.SiuvsUserPrincipal;
 import slobodan.siuvs2.model.Client;
-import slobodan.siuvs2.model.User;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import slobodan.siuvs2.model.Delatnost;
 import slobodan.siuvs2.model.DetaljiMTS;
-import slobodan.siuvs2.model.Kadrovi;
-import slobodan.siuvs2.model.KartonClanovaStaba;
 import slobodan.siuvs2.model.KartonSubjekti;
 import slobodan.siuvs2.model.KartonUdruzenja;
-import slobodan.siuvs2.model.Zanimanja;
+import slobodan.siuvs2.model.StabVS;
+import slobodan.siuvs2.model.StrucnoOT;
 import slobodan.siuvs2.service.ClientService;
 import slobodan.siuvs2.service.DelatnostService;
 import slobodan.siuvs2.service.DetaljiMTSService;
 import slobodan.siuvs2.service.GrupaMTSService;
 import slobodan.siuvs2.service.KadroviService;
-import slobodan.siuvs2.service.KartonClanovaStabaService;
 import slobodan.siuvs2.service.KartonSubjektiService;
 import slobodan.siuvs2.service.KartonUdruzenjaService;
 import slobodan.siuvs2.service.OrgJedinicaMTSService;
+import slobodan.siuvs2.service.OsobaSOTService;
+import slobodan.siuvs2.service.OsobaService;
+import slobodan.siuvs2.service.OsobaStabService;
 import slobodan.siuvs2.service.PodvrstaMTSService;
+import slobodan.siuvs2.service.StabVSService;
+import slobodan.siuvs2.service.StrucnoOTService;
 import slobodan.siuvs2.service.VlasnikMTSService;
 import slobodan.siuvs2.service.VrstaMTSService;
 import slobodan.siuvs2.service.ZanimanjaService;
 import slobodan.siuvs2.valueObject.ClientId;
-import slobodan.siuvs2.valueObject.DelatnostId;
 import slobodan.siuvs2.valueObject.DetaljiMTSId;
 import slobodan.siuvs2.valueObject.KartonClanovaStabaId;
 import slobodan.siuvs2.valueObject.KartonSubjektiId;
 import slobodan.siuvs2.valueObject.KartonUdruzenjaId;
-import slobodan.siuvs2.valueObject.ZanimanjaId;
+import slobodan.siuvs2.valueObject.OsobaSOTId;
+import slobodan.siuvs2.valueObject.OsobaStabId;
+import slobodan.siuvs2.valueObject.StrucnoOTId;
 
 @Scope(WebApplicationContext.SCOPE_REQUEST)
 @Controller
@@ -74,38 +59,22 @@ public class SupervizorKartoniController {
     private KartonSubjektiService kartonSubjektiService;
     @Autowired
     private KartonUdruzenjaService kartonUdruzenjaService;
-    
-    
-    @Autowired
-    private ZanimanjaService zanimanjaService;
-    @Autowired
-    private KadroviService kadroviService;
-    @Autowired
-    private DelatnostService delatnostService;
-    
-    
-    
+
     @Autowired
     private DetaljiMTSService detaljiMTSService;
-
     @Autowired
-    private VlasnikMTSService vlasnikMTSService;
-
-    @Autowired
-    private OrgJedinicaMTSService orgJedinicaMTSService;
-
-    @Autowired
-    private GrupaMTSService grupaMTSService;
-
-    @Autowired
-    private VrstaMTSService vrstaMTSService;
-
-    @Autowired
-    private PodvrstaMTSService podvrstaMTSService;
+    private OsobaSOTService osobaSOTService;
+@Autowired
+    private OsobaStabService osobaStabService;
+@Autowired
+    private OsobaService osobaService;
+@Autowired
+    private StabVSService stabVSService;
+@Autowired
+    private StrucnoOTService sotService;
+   
 
     
-     @Autowired
-    private KartonClanovaStabaService kartonClanovaStabaService;
 
     @GetMapping(value = "/supervisor/clients/{clientId}/Kartoni")
     public String adminZbirniObrasci(
@@ -177,33 +146,7 @@ public class SupervizorKartoniController {
 
     
     
-       @GetMapping(value = "/supervisor/clients/{clientId}/kartonClanaStaba")
-    public String supervisorkartonClanaStaba(
-            @PathVariable final ClientId clientId,
-            final RedirectAttributes redirectAttributes,
-            final Model model
-    ) {
-        Client client = clientService.findOne(clientId);
-        model.addAttribute("client", client);
-        List<KartonClanovaStaba> listaKartona = kartonClanovaStabaService.findAllByClientOrderByPunoimeAsc(client);
-        model.addAttribute("listaKartona", listaKartona);
-
-        return "supervisor/kartonClanaStabaLista";
-    }
-
-    @GetMapping(value = "/supervisor/clients/{clientId}/kartonClanaStaba/{kartonId}")
-    public String supervisorkartonClanaStabaJedan(
-            @PathVariable final ClientId clientId,
-            @PathVariable final KartonClanovaStabaId kartonId,
-            final RedirectAttributes redirectAttributes,
-            final Model model
-    ) {
-        Client client = clientService.findOne(clientId);
-        model.addAttribute("client", client);
-        KartonClanovaStaba karton = kartonClanovaStabaService.findOne(kartonId);
-        model.addAttribute("karton", karton);
-        return "supervisor/kartonClanaStaba";
-    }
+    
     
     
         @GetMapping(value = "/supervisor/clients/{clientId}/kartonMTS")
@@ -235,6 +178,63 @@ public class SupervizorKartoniController {
         return "supervisor/kartonMTS";
     }
     
+       @GetMapping(value = "/supervisor/clients/{clientId}/kartonClanaStaba")
+    public String supervisorkartonClanaStaba(
+            @PathVariable final ClientId clientId,
+            final RedirectAttributes redirectAttributes,
+            final Model model
+    ) {
+        Client client = clientService.findOne(clientId);
+        model.addAttribute("client", client);
+ StabVS stab = stabVSService.findFirstByClient(client);
+        List<StrucnoOT> sotovi = sotService.findAllByClient(client);
+        model.addAttribute("stab", stab);
+        model.addAttribute("sotovi", sotovi);
     
+
+        return "supervisor/kartonClanaStabaLista";
+    }
+
+    @GetMapping(value = "/supervisor/clients/{clientId}/kartonClanaStaba/{osobaStabId}")
+    public String supervisorClanStabaPregled(
+            @PathVariable final ClientId clientId,
+               @PathVariable final OsobaStabId osobaStabId,
+            final RedirectAttributes redirectAttributes,
+            final Model model
+    ) {
+        Client client = clientService.findOne(clientId);
+        model.addAttribute("client", client);
+       
+model.addAttribute("osobaStab", osobaStabService.findOne(osobaStabId));
+
+        return "supervisor/kartonClanaStaba";
+    }
     
+    @GetMapping(value = "/supervisor/clients/{clientId}/pregledSOTA/{sotId}")
+    public String supervisorpregledSOTA(
+            @PathVariable final ClientId clientId,
+             @PathVariable final StrucnoOTId sotId,
+            final RedirectAttributes redirectAttributes,
+            final Model model
+    ) {
+        Client client = clientService.findOne(clientId);
+        model.addAttribute("client", client);
+    
+        model.addAttribute("sot", sotService.findOne(sotId));
+    
+        return "supervisor/kartonClanaSotaLista";
+    }
+     @GetMapping(value = "/supervisor/clients/{clientId}/kartonClanaSOT/{osobaSOTId}")
+    public String adminClanSOTaPregled(
+            @PathVariable final ClientId clientId,
+            @PathVariable final OsobaSOTId osobaSOTId,
+            final RedirectAttributes redirectAttributes,
+            final Model model
+    ) {
+        Client client = clientService.findOne(clientId);
+        model.addAttribute("client", client);
+         model.addAttribute("osobaSOT", osobaSOTService.findOne(osobaSOTId));
+    
+        return "supervisor/KartonClanaSota";
+    }
 }

@@ -12,6 +12,7 @@ import slobodan.siuvs2.model.KartonSubjekti;
 import slobodan.siuvs2.model.Mobileappdata;
 import slobodan.siuvs2.model.Volonter;
 import slobodan.siuvs2.model.Zanimanja;
+import slobodan.siuvs2.model.ZanimanjaPodvrsta;
 import slobodan.siuvs2.repository.KadroviRepository;
 import slobodan.siuvs2.repository.MobileappdataRepository;
 import slobodan.siuvs2.repository.VolonterRepository;
@@ -48,8 +49,8 @@ public class KadroviServiceImpl implements KadroviService {
     
      
      @Override
-    public  Kadrovi findFirstByZanimanjeAndKartonsubjekti(Zanimanja zanimanje,KartonSubjekti kartonsubjekti){
-    return kadroviRepository.findFirstByZanimanjeAndKartonsubjekti(zanimanje,kartonsubjekti);
+    public  Kadrovi findFirstByZanimanjeAndKartonsubjekti(ZanimanjaPodvrsta zanimanje,KartonSubjekti kartonsubjekti){
+    return kadroviRepository.findFirstByZanimanjepodvrstaAndKartonsubjekti(zanimanje,kartonsubjekti);
     };
 
 

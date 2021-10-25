@@ -37,16 +37,12 @@
 
                         <form th:action="@{/admin/clients/{clientID}/kartonSubjekti/{kartonId}/dodajZanimanje (clientID=${client.id},kartonId=${kartonId})}"  method="post" class="form-horizontal" autocomplete="off">
                             <div class="form-group">
-                                <label  class="col-md-3 " >Назив струке - занимања: </label>
+                                <label  class="col-md-3 " >Назив врсте струке - занимања: </label>
                                
                                 
                                  <input type="text"   class="col-md-6"  name="naziv" > 
                                 <br> </br>
-                               <label  class="col-md-3 " >Шифра струке - занимања: </label>
-                             
-                                    <input type="text"   class="col-md-6"  name="sifra" > 
-                              
-                                <br> </br> <br> </br>
+                                  <br> </br>
                                 
                                 <div class="col-md-offset-3 col-md-9">
                                     <button type="submit"  class="btn btn-primary">Сачувај</button>

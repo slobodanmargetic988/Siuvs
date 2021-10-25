@@ -37,22 +37,25 @@
                                     <tr  >
                                         <td colspan="2" class="pl-custom highlighted-row-custom custom-td-width-left">Власник (правно лице):</td> 
                                         <td colspan="3" >
-                                            <select class="col-md-6 "  name="vlasnik_id"  >
+                                             <select class="col-md-6 " id="selectVlasnik" name="vlasnik_id"  >
+                                                 <option th:value="0" >Изаберите Власника (правно лице)</option>
                                                 <option  th:each="vlasnik : ${listaVlasnika}" th:value="${vlasnik.id}" th:text="${vlasnik.vlasnik_naziv}" th:selected="${karton.vlasnikMTS.id==vlasnik.id}">Текст</option>
                                             </select> 
                                     </tr>
                                     <tr  >
                                         <td colspan="2" class="pl-custom highlighted-row-custom">Нижа организациона јединица правног лица - власника</td> 
                                         <td colspan="3"> 
-                                            <select class="col-md-6 "  name="orgJedinicaMTS_id"  >
-                                                <option  th:each="orgJedinica : ${listaOrgJedinica}" th:value="${orgJedinica.id}" th:text="${orgJedinica.naziv_org_jedinice}" th:selected="${karton.orgJedinicaMTS.id==orgJedinica.id}">Текст</option>
+                                            <select class="col-md-6 " id="selectOrgJed" name="orgJedinicaMTS_id"  >
+                                                <option th:value="0" >Изаберите организациону јединицу</option>
+                                                <option  th:each="orgJedinica : ${listaOrgJedinica}" th:ojVlasnikId="${orgJedinica.vlasnikMTS.id}" th:value="${orgJedinica.id}" th:text="${orgJedinica.naziv_org_jedinice}" th:selected="${karton.orgJedinicaMTS.id==orgJedinica.id}">Текст</option>
                                             </select> 
                                         </td> 
                                     </tr>
                                     <tr  >
                                         <td colspan="2" class="pl-custom highlighted-row-custom">Група:</td> 
                                         <td colspan="3"> 
-                                            <select class="col-md-6 "  name="grupaMTS_id"  >
+                                          <select class="col-md-6 "  id="selectGrupa"  name="grupaMTS_id"  >
+                                                  <option th:value="0" >Изаберите групу</option>
                                                 <option  th:each="grupa : ${listaGrupa}" th:value="${grupa.id}" th:text="${grupa.naziv}" th:selected="${karton.grupaMTS.id==grupa.id}">Текст</option>
                                             </select> 
                                         </td> 
@@ -60,8 +63,9 @@
                                     <tr  >
                                         <td colspan="2" class="pl-custom highlighted-row-custom">Врста:</td> 
                                         <td colspan="3"> 
-                                            <select class="col-md-6 "  name="vrstaMTS_id"  >
-                                                <option  th:each="vrsta : ${listaVrsta}" th:value="${vrsta.id}" th:text="${vrsta.naziv}" th:selected="${karton.vrstaMTS.id==vrsta.id}">Текст</option>
+                                             <select class="col-md-6 " id="selectVrsta"  name="vrstaMTS_id"  >
+                                                  <option th:value="0" >Изаберите врсту</option>
+                                                <option  th:each="vrsta : ${listaVrsta}" th:grupaId="${vrsta.grupaMTS.id}" th:value="${vrsta.id}" th:text="${vrsta.naziv}" th:selected="${karton.vrstaMTS.id==vrsta.id}">Текст</option>
                                             </select> 
                                         </td> 
                                     </tr>
@@ -69,8 +73,9 @@
                                     <tr  >
                                         <td colspan="2" class="pl-custom highlighted-row-custom">Подврста:</td> 
                                         <td colspan="3"> 
-                                            <select class="col-md-6 "  name="podvrstaMTS_id"  >
-                                                <option  th:each="podvrsta : ${listaPodvrsta}" th:value="${podvrsta.id}" th:text="${podvrsta.naziv}" th:selected="${karton.podvrstaMTS.id==podvrsta.id}">Текст</option>
+                                             <select class="col-md-6 " id="selectPodvrsta"  name="podvrstaMTS_id"  >
+                                                 <option th:value="0" >Изаберите подврсту</option>
+                                                <option  th:each="podvrsta : ${listaPodvrsta}" th:vrstaId="${podvrsta.vrstaMTS.id}"th:value="${podvrsta.id}" th:text="${podvrsta.naziv}" th:selected="${karton.podvrstaMTS.id==podvrsta.id}">Текст</option>
                                             </select> 
                                         </td> 
                                     </tr>
@@ -82,7 +87,7 @@
 
                                     <tr  >
                                         <td colspan="2"  class="pl-custom highlighted-row-custom"> Број МТС (количина):</td> 
-                                        <td colspan="1" > <input type="text" name="brojMTS_kolicina" th:value="${karton.brojMTS_kolicina}?:'/'"></td> 
+                                        <td colspan="1" > <input type="number" name="brojMTS_kolicina" th:value="${karton.brojMTS_kolicina}?:'/'"></td> 
                                     </tr>
 
                                     <tr  >
@@ -150,5 +155,6 @@
         </div>
         <th:block th:insert="fragments/footer :: footer-standard" />
         <th:block th:insert="fragments/scripts :: standard" />
+          <script th:src="@{/js/kartonMTSdropdown.js}"type="text/javascript"></script>
     </body>
 </html>

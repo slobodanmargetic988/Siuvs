@@ -1,143 +1,135 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
-    <head>
-        <th:block th:include="fragments/head :: head" />
-    </head>
-    <body>
+<head>
+<th:block th:include="fragments/head :: head" />
+</head>
+<body>
 
-        <!-- Nav -->
-        <th:block th:insert="fragments/navigation :: navigation-supervisor-client"></th:block>
+<!-- Nav -->
+<th:block th:insert="fragments/navigation :: navigation-client"></th:block>
 
-        <!-- Content -->
-        <div class="px-content">
+<!-- Content -->
+<div class="px-content">
 
-            <div class="page-header">
-                <h1>
-                    <th:block th:insert="fragments/navigation :: nav-breadcrumbs-Kartoni-clanstaba" />
-                </h1>
-            </div>
+<div class="page-header">
+<h1>
+<th:block th:insert="fragments/navigation :: nav-breadcrumbs-Kartoni-clanstaba" />
+</h1>
+</div>
 
-            <div th:replace="fragments/alert :: success (${successMessage})"></div>
+<div th:replace="fragments/alert :: success (${successMessage})"></div>
 
-            <!-- Client details panel -->
+<!-- Client details panel -->
 
-            <div class="panel panel-custom-width">
-                <div class="panel-heading">
-                    <span class="panel-title">Eвиденциони картон члана штаба за ванредне ситуације / стручно оперативног тима</span>
-                </div>
+<div class="panel panel-custom-width">
+<div class="panel-heading">
+<span class="panel-title">Eвиденциони картон члана штаба за ванредне ситуације </span>
+</div>
 
-                <div class="table-responsive">
-                    <table class="table table-striped valign-middle">
-
-
-                        <tbody>
-
-                            <tr  >
-                                <td   class="highlighted-row-custom custom-td-width-left">Назив штаба за ванредне ситуације</td> 
-                                <td   > <span th:text="${karton.naziv_staba_vanr_situacije}?:'/'"></span></td> 
-                            </tr>
-
-                            <tr  >
-                                <td   class="highlighted-row-custom">Управни округ</td> 
-                                <td   > <span th:text="${client.opstina.distrikt.name}?:'/'"></span></td> 
-                            </tr>
+<div class="table-responsive">
+<table class="table table-striped valign-middle">
 
 
-                            <tr  >
-                                <td   class="highlighted-row-custom">ЈЛС</td> 
-                                <td   > <span th:text="${client.opstina.name}?:'/'"></span></td> 
-                            </tr>
+<tbody>
 
-                            <tr  >
-                                <td   class="highlighted-row-custom">Адреса штаба</td> 
-                                <td   > <span th:text="${karton.adresa_staba}?:'/'"></span></td> 
-                            </tr>
+<tr  >
+<td   class="highlighted-row-custom custom-td-width-left">Назив штаба за ванредне ситуације</td> 
+<td   > <span th:text="${osobaStab.stab.naziv}?:'/'"></span></td> 
+</tr>
 
-                            <tr  >
-                                <td   class="highlighted-row-custom">Контакт телефон штаба фиксни</td> 
-                                <td   > <span th:text="${karton.fiksni_telefon_staba}?:'/'"></span></td> 
-                            </tr>
+<tr  >
+<td   class="highlighted-row-custom">Управни округ</td> 
+<td   > <span th:text="${osobaStab.stab.client.opstina.distrikt.name}?:'/'"></span></td> 
+</tr>
 
-                            <tr  >
-                                <td   class="highlighted-row-custom">Контакт телефон штаба мобилни</td> 
-                                <td   > <span th:text="${karton.mobilni_telefon_staba}?:'/'"></span></td> 
-                            </tr>
 
-                            <tr  >
-                                <td   class="highlighted-row-custom">E-mail адреса штаба</td> 
-                                <td   > <span th:text="${karton.email_staba}?:'/'"></span></td> 
-                            </tr>
+<tr  >
+<td   class="highlighted-row-custom">ЈЛС</td> 
+<td   > <span th:text="${osobaStab.stab.client.opstina.name}?:'/'"></span></td> 
+</tr>
 
-                            <tr  >
-                                <td   class="highlighted-row-custom">Назив оперативног штаба</td> 
-                                <td   > <span th:text="${karton.naziv_operativnog_staba}?:'/'"></span></td> 
-                            </tr>
+<tr  >
+<td   class="highlighted-row-custom">Адреса штаба</td> 
+<td   > <span th:text="${osobaStab.stab.adresa}?:'/'"></span></td> 
+</tr>
 
-                            <tr  >
-                                <td   class="highlighted-row-custom">Назив стручно оперативног тима</td> 
-                                <td   > <span th:text="${karton.naziv_strucno_operativnog_tima}?:'/'"></span></td> 
-                            </tr>
+<tr  >
+<td   class="highlighted-row-custom">Контакт телефон штаба фиксни</td> 
+<td   > <span th:text="${osobaStab.stab.fiksni}?:'/'"></span></td> 
+</tr>
 
-                            <tr  >
-                                <td   class="highlighted-row-custom">Функција – дужност у штабу за ванредне ситуације / оперативном штабу / стручно оперативном тиму</td> 
-                                <td   > <span th:text="${karton.funkcija_u_stabu}?:'/'"></span></td> 
-                            </tr>
+<tr  >
+<td   class="highlighted-row-custom">Контакт телефон штаба мобилни</td> 
+<td   > <span th:text="${osobaStab.stab.mobilni}?:'/'"></span></td> 
+</tr>
 
-                            <tr  >
-                                <td   class="highlighted-row-custom">Име, име једног родитеља, презиме</td> 
-                                <td   > <span th:text="${karton.punoime}?:'/'"></span></td> 
-                            </tr>
+<tr  >
+<td   class="highlighted-row-custom">E-mail адреса штаба</td> 
+<td   > <span th:text="${osobaStab.stab.email}?:'/'"></span></td> 
+</tr>
 
-                            <tr  >
-                                <td   class="highlighted-row-custom">Назив органа/службе/правног лица где ради</td> 
-                                <td   > <span th:text="${karton.naziv_organa_gde_radi}?:'/'"></span></td> 
-                            </tr>
 
-                            <tr  >
-                                <td   class="highlighted-row-custom">Адреса органа/службе/правног лица где ради</td> 
-                                <td   > <span th:text="${karton.adresa_organa_gde_radi}?:'/'"></span></td> 
-                            </tr>
 
-                            <tr  >
-                                <td   class="highlighted-row-custom">Функција/дужност на радном месту</td> 
-                                <td   > <span th:text="${karton.funkcija_na_radu}?:'/'"></span></td> 
-                            </tr>
+<tr  >
+<td   class="highlighted-row-custom">Функција – дужност у штабу за ванредне ситуације</td> 
+<td   > <span th:text="${osobaStab.funkcija}?:'/'"></span></td> 
+</tr>
 
-                            <tr  >
-                                <td   class="highlighted-row-custom">Контакт телефон службени фиксни</td> 
-                                <td   > <span th:text="${karton.fiksni_telefon_sluzbeni}?:'/'"></span></td> 
-                            </tr>
+<tr  >
+<td   class="highlighted-row-custom">Име, име једног родитеља, презиме</td> 
+<td   > <span th:text="${osobaStab.osoba.ime}?:'/'"></span></td> 
+</tr>
 
-                            <tr  >
-                                <td   class="highlighted-row-custom">Контакт телефон службени мобилни</td> 
-                                <td   > <span th:text="${karton.mobilni_telefon_sluzbeni}?:'/'"></span></td> 
-                            </tr>
+<tr  >
+<td   class="highlighted-row-custom">Назив органа/службе/правног лица где ради</td> 
+<td   > <span th:text="${osobaStab.osoba.radnomesto}?:'/'"></span></td> 
+</tr>
 
-                            <tr  >
-                                <td   class="highlighted-row-custom">E-mail адреса службена</td> 
-                                <td   > <span th:text="${karton.email_sluzbeni}?:'/'"></span></td> 
-                            </tr>
+<tr  >
+<td   class="highlighted-row-custom">Адреса органа/службе/правног лица где ради</td> 
+<td   > <span th:text="${osobaStab.osoba.adresaposao}?:'/'"></span></td> 
+</tr>
 
-                            <tr  >
-                                <td   class="highlighted-row-custom">E-mail адреса лична</td> 
-                                <td   > <span th:text="${karton.email_licni}?:'/'"></span></td> 
-                            </tr>
+<tr  >
+<td   class="highlighted-row-custom">Функција/дужност на радном месту</td> 
+<td   > <span th:text="${osobaStab.osoba.funkcijaposao}?:'/'"></span></td> 
+</tr>
 
-                            <tr  >
-                                <td   class="highlighted-row-custom">Адреса становања</td> 
-                                <td   > <span th:text="${karton.adresa_stanovanja}?:'/'"></span></td> 
-                            </tr>
+<tr  >
+<td   class="highlighted-row-custom">Контакт телефон службени фиксни</td> 
+<td   > <span th:text="${osobaStab.osoba.fiksniposao}?:'/'"></span></td> 
+</tr>
 
-                            <tr  >
-                                <td   class="highlighted-row-custom">Контакт телефон у стану</td> 
-                                <td   > <span th:text="${karton.telefon_u_stanu}?:'/'"></span></td> 
-                            </tr>
+<tr  >
+<td   class="highlighted-row-custom">Контакт телефон службени мобилни</td> 
+<td   > <span th:text="${osobaStab.osoba.mobilniposao}?:'/'"></span></td> 
+</tr>
 
-                            <tr  >
-                                <td   class="highlighted-row-custom">Учешће на обукама, семинарима, курсевима и вежбама у области смањења ризика од катастрофа и управљања ванредним ситуацијама</td> 
-                                <td   > <span th:text="${karton.ucesce_na_obukama}?:'/'"></span></td> 
-                            </tr>
+<tr  >
+<td   class="highlighted-row-custom">E-mail адреса службена</td> 
+<td   > <span th:text="${osobaStab.osoba.emailposao}?:'/'"></span></td> 
+</tr>
+
+<tr  >
+<td   class="highlighted-row-custom">E-mail адреса лична</td> 
+<td   > <span th:text="${osobaStab.osoba.email}?:'/'"></span></td> 
+</tr>
+
+<tr  >
+<td   class="highlighted-row-custom">Адреса становања</td> 
+<td   > <span th:text="${osobaStab.osoba.adresa}?:'/'"></span></td> 
+</tr>
+
+<tr  >
+<td   class="highlighted-row-custom">Контакт телефон у стану</td> 
+<td   > <span th:text="${osobaStab.osoba.telefon}?:'/'"></span></td> 
+</tr>
+
+<tr  >
+<td   class="highlighted-row-custom">Учешће на обукама, семинарима, курсевима и вежбама у области смањења ризика од катастрофа и управљања ванредним ситуацијама</td> 
+<td   > <span th:text="${osobaStab.osoba.obuke}?:'/'"></span></td> 
+</tr>
 
 
 
@@ -146,19 +138,22 @@
 
 
 
-                        </tbody>
-                    </table>
-                </div>
-            </div>       
+</tbody>
+</table>
+</div>
+<div class="bottomTwoButtons">
+<a  sec:authorize="hasAnyAuthority('ADMIN','RIS')" th:href="@{/admin/clients/{clientID}/kartonClanaStaba/{osobaId}/editKarton (clientID=${client.id},osobaId=${osobaStab.osoba.id})}" class="btn btn-primary">Измени картон</a>
+</div>
+</div>       
 
 
 
 
-        </div>
+</div>
 
 
 
-        <th:block th:insert="fragments/footer :: footer-standard" />
-        <th:block th:insert="fragments/scripts :: standard" />
-    </body>
+<th:block th:insert="fragments/footer :: footer-standard" />
+<th:block th:insert="fragments/scripts :: standard" />
+</body>
 </html>

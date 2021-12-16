@@ -9,7 +9,7 @@
      <body class="dashboard">
 
      <th:block th:insert="fragments/navigation-publicaccess :: navigation"></th:block>
-
+   <div th:replace="fragments/alert :: error (${errorMessage})"></div>
         <!-- Content -->
         <div class="px-content contentmali">
 

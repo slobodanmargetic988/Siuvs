@@ -69,6 +69,7 @@ public class LoginController {
         } catch (SiuvsException e) {
             //Internal error with email shouldn't be reported to the user
             //Add logging?
+redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
         }
         redirectAttributes.addFlashAttribute("requestedPasswordReset", true);
         return "redirect:/";

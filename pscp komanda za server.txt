@@ -1,3 +1,0 @@
-pscp.exe -i "c:\program files\putty\keys\id_rsa.ppk" -P 22 slobodan@188.93.125.112:/home/siuvs/backup/siuvs-prod-2020-09-21-0100.sql.gz c:\newname.sql.gz
-
-obavezno cmd runujem kao admin

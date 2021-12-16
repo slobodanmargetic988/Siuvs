@@ -34,7 +34,14 @@ public class EmailNotificationService {
             message.setText(body);
             this.emailSender.send(message);
         } catch (MailException e) {
-            throw new SiuvsException("Грешка у слању маила", e);
+System.out.println(e.getMessage());
+            System.out.println();
+            System.out.println(e);
+            System.out.println();
+  //          System.out.println(e.getMostSpecificCause());
+            System.out.println();
+            System.out.println(e.toString());
+            throw new SiuvsException("Грешка у слању маила"+e.getMessage(), e);
         }
     }
 
@@ -48,7 +55,16 @@ public class EmailNotificationService {
             mimeMessageHelper.setText(body, true);
             this.emailSender.send(mimeMessage);
         } catch (MailException | MessagingException e) {
-            throw new SiuvsException("Грешка у слању маила", e);
+System.out.println(e.getMessage());
+            System.out.println();
+            System.out.println(e);
+            System.out.println();
+//            System.out.println(e.getMostSpecificCause());
+            System.out.println();
+            System.out.println(e.toString());
+            throw new SiuvsException("Грешка у слању маила"+e.getMessage(), e);
+
+//            throw new SiuvsException("Грешка у слању маила", e);
         }
     }
 

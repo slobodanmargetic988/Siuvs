@@ -76,4 +76,9 @@ public class DokumentServiceImpl implements DokumentService {
     public List<Dokument> findAllByClientId(Client client){
         return DokumentRepository.findByClientOrderByIdAsc(client);
     }
+    
+       @Override
+    public List<Dokument> findAll(){
+        return DokumentRepository.findAll();
+    }
 }

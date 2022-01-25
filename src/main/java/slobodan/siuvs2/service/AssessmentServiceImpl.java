@@ -1,5 +1,6 @@
 package slobodan.siuvs2.service;
 
+import java.util.List;
 import slobodan.siuvs2.model.Assessment;
 import slobodan.siuvs2.model.Client;
 import slobodan.siuvs2.model.Page;
@@ -25,4 +26,9 @@ public class AssessmentServiceImpl implements AssessmentService {
     public void save(Assessment assessment) {
         assessmentRepository.save(assessment);
     }
+    
+    @Override
+    public  List<Assessment> findAll(){
+     return assessmentRepository.findAll();
+    };
 }

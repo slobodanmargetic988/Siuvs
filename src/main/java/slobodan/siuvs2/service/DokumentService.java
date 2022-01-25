@@ -22,4 +22,5 @@ public interface DokumentService {
     List<Dokument> findAllByClientId(Client client);
     void delete(Client client, int docId);
     String findFileNameById(DokumentID DokumentID);
+      List<Dokument> findAll();
 }

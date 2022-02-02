@@ -49,7 +49,10 @@ import slobodan.siuvs2.model.TableColumnValue;
 import slobodan.siuvs2.service.TableColumnValueService;
 import slobodan.siuvs2.valueObject.ClientId;
 import slobodan.siuvs2.valueObject.PhotoId;
-
+/**
+ *
+ * @author Slobodan Margetic slobodanmargetic988@gmail.com
+ */
 @Scope(WebApplicationContext.SCOPE_REQUEST)
 @Controller
 @RequestMapping(value = "/client")

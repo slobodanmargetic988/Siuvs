@@ -33,7 +33,7 @@ import slobodan.siuvs2.valueObject.ClientId;
 
 /**
  *
- * @author Slobodan
+ * @author Slobodan Margetic slobodanmargetic988@gmail.com
  */
 @RestController
 public class MobileAppRestController {

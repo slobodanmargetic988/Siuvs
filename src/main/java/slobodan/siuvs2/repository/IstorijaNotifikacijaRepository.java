@@ -9,7 +9,10 @@ import org.springframework.stereotype.Repository;
 import slobodan.siuvs2.model.Client;
 import slobodan.siuvs2.model.IstorijaNotifikacija;
 import slobodan.siuvs2.model.User;
-
+/**
+ *
+ * @author Slobodan Margetic slobodanmargetic988@gmail.com
+ */
 @Repository("istorijaNotifikacijaRepository")
 public interface IstorijaNotifikacijaRepository extends JpaRepository<IstorijaNotifikacija, Long> {
     IstorijaNotifikacija findById(Integer istorijaNotifikacijaId);

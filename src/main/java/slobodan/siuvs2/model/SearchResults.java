@@ -2,7 +2,10 @@ package slobodan.siuvs2.model;
 
 import java.util.List;
 import slobodan.siuvs2.controller.SearchController;
-
+/**
+ *
+ * @author Slobodan Margetic slobodanmargetic988@gmail.com
+ */
 public class SearchResults {
 
     private String navigation;

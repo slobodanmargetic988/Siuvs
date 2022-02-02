@@ -32,7 +32,7 @@ import slobodan.siuvs2.service.DynamicDataService;
 
 /**
  *
- * @author Slobodan
+ * @author Slobodan Margetic slobodanmargetic988@gmail.com
  */
 @Controller
 public class SearchController {

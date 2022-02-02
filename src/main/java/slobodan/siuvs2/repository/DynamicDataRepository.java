@@ -9,7 +9,10 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import slobodan.siuvs2.model.DynamicRow;
 import slobodan.siuvs2.model.DynamicTable;
-
+/**
+ *
+ * @author Slobodan Margetic slobodanmargetic988@gmail.com
+ */
 public interface DynamicDataRepository extends JpaRepository<DynamicData, Integer> {
 
     @Modifying

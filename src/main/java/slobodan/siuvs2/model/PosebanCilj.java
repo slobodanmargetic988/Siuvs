@@ -7,7 +7,7 @@ package slobodan.siuvs2.model;
 
 /**
  *
- * @author Slobodan Margetic slobodanmargetic988@gmail.comba
+ * @author Slobodan Margetic slobodanmargetic988@gmail.com
  */
 import java.util.List;
 import javax.persistence.*;

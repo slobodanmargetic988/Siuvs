@@ -10,7 +10,10 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
-
+/**
+ *
+ * @author Slobodan Margetic slobodanmargetic988@gmail.com
+ */
 @Controller
 @ControllerAdvice
 public class GlobalMenuController {

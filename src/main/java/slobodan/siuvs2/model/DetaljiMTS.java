@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package slobodan.siuvs2.model;
 
 import java.time.LocalDateTime;
@@ -14,11 +10,11 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
 /**
  *
- * @author Sloba
+ * @author Slobodan Margetic slobodanmargetic988@gmail.com
  */
+
 @Entity
 @Table(name = "detalji_mts")
 @EntityListeners(AuditingEntityListener.class)

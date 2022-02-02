@@ -7,7 +7,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import java.util.List;
 import slobodan.siuvs2.model.Opstina;
-
+/**
+ *
+ * @author Slobodan Margetic slobodanmargetic988@gmail.com
+ */
 @Repository("clientRepository")
 public interface ClientRepository extends JpaRepository<Client, Integer> {
 

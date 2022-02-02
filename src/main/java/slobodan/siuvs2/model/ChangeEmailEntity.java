@@ -1,7 +1,10 @@
 package slobodan.siuvs2.model;
 
 import org.hibernate.validator.constraints.Email;
-
+/**
+ *
+ * @author Slobodan Margetic slobodanmargetic988@gmail.com
+ */
 public class ChangeEmailEntity {
 
     private User user;

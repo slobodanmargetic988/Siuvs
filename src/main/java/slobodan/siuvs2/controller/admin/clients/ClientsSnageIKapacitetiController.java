@@ -42,7 +42,10 @@ import slobodan.siuvs2.valueObject.TableColumnId;
 import slobodan.siuvs2.valueObject.TableDefinitionId;
 import slobodan.siuvs2.valueObject.ZanimanjaId;
 import slobodan.siuvs2.valueObject.ZanimanjaPodvrstaId;
-
+/**
+ *
+ * @author Slobodan Margetic slobodanmargetic988@gmail.com
+ */
 @Scope(WebApplicationContext.SCOPE_REQUEST)
 @Controller
 

@@ -5,7 +5,10 @@ import org.springframework.data.annotation.*;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import javax.persistence.*;
 import javax.persistence.Id;
-
+/**
+ *
+ * @author Slobodan Margetic slobodanmargetic988@gmail.com
+ */
 @Entity
 @Table(name = "istorija_notifikacija")
 @EntityListeners(AuditingEntityListener.class)

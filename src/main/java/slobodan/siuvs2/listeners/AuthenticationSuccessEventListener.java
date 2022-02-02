@@ -8,7 +8,10 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.security.authentication.event.AuthenticationSuccessEvent;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
-
+/**
+ *
+ * @author Slobodan Margetic slobodanmargetic988@gmail.com
+ */
 @Component
 public class AuthenticationSuccessEventListener implements ApplicationListener<AuthenticationSuccessEvent> {
 

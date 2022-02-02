@@ -5,7 +5,10 @@ import slobodan.siuvs2.shared.NumberHelper;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.*;
-
+/**
+ *
+ * @author Slobodan Margetic slobodanmargetic988@gmail.com
+ */
 @Entity
 @Table(name = "dynamic_table")
 public class DynamicTable {

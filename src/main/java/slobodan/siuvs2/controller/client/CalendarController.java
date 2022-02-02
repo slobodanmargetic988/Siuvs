@@ -28,7 +28,10 @@ import slobodan.siuvs2.model.SiuvsUserPrincipal;
 import slobodan.siuvs2.model.User;
 
 import slobodan.siuvs2.service.CalendarService;
-
+/**
+ *
+ * @author Slobodan Margetic slobodanmargetic988@gmail.com
+ */
 
 @Scope(WebApplicationContext.SCOPE_REQUEST)
 @Controller

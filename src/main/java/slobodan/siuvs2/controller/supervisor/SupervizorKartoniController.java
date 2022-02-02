@@ -1,6 +1,4 @@
-/*
- * 
- */
+
 package slobodan.siuvs2.controller.supervisor;
 
 /**

@@ -8,7 +8,10 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import slobodan.siuvs2.model.Mobileappdata;
 import slobodan.siuvs2.model.Volonter;
-
+/**
+ *
+ * @author Slobodan Margetic slobodanmargetic988@gmail.com
+ */
 @Repository
 public interface VolonterRepository extends JpaRepository<Volonter, Integer> {
 

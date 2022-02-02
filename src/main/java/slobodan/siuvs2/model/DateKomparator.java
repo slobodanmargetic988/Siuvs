@@ -8,7 +8,7 @@ import java.time.Period;
 
 /**
  *
- * @author deca
+ * @author Slobodan Margetic slobodanmargetic988@gmail.com
  */
 public class DateKomparator {
 

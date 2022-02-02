@@ -5,7 +5,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import java.util.List;
 import slobodan.siuvs2.model.Calendar;
-
+/**
+ *
+ * @author Slobodan Margetic slobodanmargetic988@gmail.com
+ */
 @Repository("calendarRepository")
 public interface CalendarRepository extends JpaRepository<Calendar, Integer> {
 

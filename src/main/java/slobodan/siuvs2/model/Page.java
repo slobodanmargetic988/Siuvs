@@ -4,7 +4,10 @@ import javax.persistence.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+/**
+ *
+ * @author Slobodan Margetic slobodanmargetic988@gmail.com
+ */
 @Entity
 @Table(name = "page")
 public class Page {

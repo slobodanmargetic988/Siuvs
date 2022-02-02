@@ -1,6 +1,4 @@
-/*
- * 
- */
+
 package slobodan.siuvs2.model;
 
 import javax.persistence.Column;
@@ -16,7 +14,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 /**
  *
- * @author Slobodan
+ * @author Slobodan Margetic slobodanmargetic988@gmail.com
  */
 
 @Entity

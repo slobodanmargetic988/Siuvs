@@ -27,7 +27,10 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import slobodan.siuvs2.service.StorageException;
 import slobodan.siuvs2.valueObject.PhotoId;
-
+/**
+ *
+ * @author Slobodan Margetic slobodanmargetic988@gmail.com
+ */
 @Scope(WebApplicationContext.SCOPE_REQUEST)
 @Controller
 @RequestMapping(value = "/admin/clients")

@@ -1,7 +1,10 @@
 package slobodan.siuvs2.shared.role;
 
 import slobodan.siuvs2.model.Roles;
-
+/**
+ *
+ * @author Slobodan Margetic slobodanmargetic988@gmail.com
+ */
 public class RoleToString {
 
     public static String forClient(Roles role) {

@@ -2,7 +2,10 @@ package slobodan.siuvs2.model;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-
+/**
+ *
+ * @author Slobodan Margetic slobodanmargetic988@gmail.com
+ */
 @Entity
 @Table(name = "password_reset_token")
 public class PasswordResetToken {

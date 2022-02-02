@@ -28,7 +28,10 @@ import slobodan.siuvs2.service.SpecijalnostService;
 import slobodan.siuvs2.valueObject.ClientId;
 import slobodan.siuvs2.valueObject.KartonUdruzenjaId;
 import slobodan.siuvs2.valueObject.SpecijalnostId;
-
+/**
+ *
+ * @author Slobodan Margetic slobodanmargetic988@gmail.com
+ */
 @Scope(WebApplicationContext.SCOPE_REQUEST)
 @Controller
 

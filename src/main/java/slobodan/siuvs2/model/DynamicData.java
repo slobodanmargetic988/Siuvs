@@ -2,7 +2,10 @@ package slobodan.siuvs2.model;
 
 import javax.persistence.*;
 import java.io.Serializable;
-
+/**
+ *
+ * @author Slobodan Margetic slobodanmargetic988@gmail.com
+ */
 @Entity
 @IdClass(DynamicData.PK.class)
 @Table(name = "dynamic_data")

@@ -13,7 +13,7 @@ import slobodan.siuvs2.service.DokumentService;
 
 /**
  *
- * @author Sloba
+ * @author Slobodan Margetic slobodanmargetic988@gmail.com
  */
 @Entity
 @Table(name = "public_policy_documents")

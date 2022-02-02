@@ -20,7 +20,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
+/**
+ *
+ * @author Slobodan Margetic slobodanmargetic988@gmail.com
+ */
 @Scope(WebApplicationContext.SCOPE_REQUEST)
 @Controller
 //@RequestMapping(value = "/publicaccess/home")

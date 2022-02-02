@@ -37,7 +37,10 @@ import slobodan.siuvs2.valueObject.OsobaId;
 import slobodan.siuvs2.valueObject.OsobaSOTId;
 import slobodan.siuvs2.valueObject.OsobaStabId;
 import slobodan.siuvs2.valueObject.StrucnoOTId;
-
+/**
+ *
+ * @author Slobodan Margetic slobodanmargetic988@gmail.com
+ */
 @Scope(WebApplicationContext.SCOPE_REQUEST)
 @Controller
 

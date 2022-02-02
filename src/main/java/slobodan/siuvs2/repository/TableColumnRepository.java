@@ -5,7 +5,10 @@ import slobodan.siuvs2.model.TableDefinition;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
-
+/**
+ *
+ * @author Slobodan Margetic slobodanmargetic988@gmail.com
+ */
 public interface TableColumnRepository extends JpaRepository<TableColumn, Integer> {
 
     TableColumn findOne(Integer tableColumnId);

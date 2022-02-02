@@ -6,7 +6,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.LinkedList;
-
+/**
+ *
+ * @author Slobodan Margetic slobodanmargetic988@gmail.com
+ */
 public class SiuvsUserPrincipal implements UserDetails {
 
     private User user;

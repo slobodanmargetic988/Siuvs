@@ -1,5 +1,8 @@
 package slobodan.siuvs2.model;
-
+/**
+ *
+ * @author Slobodan Margetic slobodanmargetic988@gmail.com
+ */
 public class ChangePasswordEntity {
 
     private User user;

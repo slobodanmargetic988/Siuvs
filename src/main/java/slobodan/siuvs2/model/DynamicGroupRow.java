@@ -3,7 +3,10 @@ package slobodan.siuvs2.model;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ *
+ * @author Slobodan Margetic slobodanmargetic988@gmail.com
+ */
 @Entity
 @Table(name = "dynamic_group_row")
 public class DynamicGroupRow {

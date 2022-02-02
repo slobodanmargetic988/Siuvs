@@ -61,7 +61,10 @@ import slobodan.siuvs2.valueObject.PageId;
 import slobodan.siuvs2.valueObject.PhotoId;
 import slobodan.siuvs2.valueObject.PublicPolicyDocumentsID;
 import slobodan.siuvs2.valueObject.TasksID;
-
+/**
+ *
+ * @author Slobodan Margetic slobodanmargetic988@gmail.com
+ */
 @Scope(WebApplicationContext.SCOPE_REQUEST)
 @Controller
 @RequestMapping(value = "/admin")

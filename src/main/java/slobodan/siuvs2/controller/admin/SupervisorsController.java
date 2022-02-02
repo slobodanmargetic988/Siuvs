@@ -41,7 +41,7 @@ import slobodan.siuvs2.valueObject.ProvincijaID;
 
 /**
  *
- * @author Sloba
+ * @author Slobodan Margetic slobodanmargetic988@gmail.com
  */
 @Scope(WebApplicationContext.SCOPE_REQUEST)
 @Controller

@@ -7,7 +7,7 @@ package slobodan.siuvs2.repository;
 
 /**
  *
- * @author Slobodan Margetic slobodanmargetic988@gmail.comba
+ * @author Slobodan Margetic slobodanmargetic988@gmail.com
  */
 import slobodan.siuvs2.model.InternationalAgreements;
 import org.springframework.data.jpa.repository.JpaRepository;

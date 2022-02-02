@@ -2,11 +2,11 @@
  * 
  */
 package slobodan.siuvs2.service;
-
 /**
  *
  * @author Slobodan Margetic slobodanmargetic988@gmail.com
  */
+
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

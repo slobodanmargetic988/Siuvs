@@ -9,7 +9,10 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import slobodan.siuvs2.model.Notifikacije;
 
-
+/**
+ *
+ * @author Slobodan Margetic slobodanmargetic988@gmail.com
+ */
 @Repository
 public interface NotifikacijeRepository extends JpaRepository<Notifikacije, Integer> {
 

@@ -3,7 +3,10 @@ package slobodan.siuvs2.model;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
-
+/**
+ *
+ * @author Slobodan Margetic slobodanmargetic988@gmail.com
+ */
 @Entity
 @Table(name = "table_column")
 public class TableColumn implements Serializable {

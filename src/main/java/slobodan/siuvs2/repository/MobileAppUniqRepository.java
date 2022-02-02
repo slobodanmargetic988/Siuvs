@@ -10,7 +10,10 @@ import org.springframework.stereotype.Repository;
 import slobodan.siuvs2.model.MobileAppUniq;
 
 import slobodan.siuvs2.model.Volonter;
-
+/**
+ *
+ * @author Slobodan Margetic slobodanmargetic988@gmail.com
+ */
 @Repository
 public interface MobileAppUniqRepository extends JpaRepository<MobileAppUniq, Integer> {
 

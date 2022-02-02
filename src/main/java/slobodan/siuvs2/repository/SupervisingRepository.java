@@ -5,7 +5,10 @@ import slobodan.siuvs2.model.Distrikt;
 import slobodan.siuvs2.model.Provincija;
 
 import slobodan.siuvs2.model.Supervising;
-
+/**
+ *
+ * @author Slobodan Margetic slobodanmargetic988@gmail.com
+ */
 //@Repository("supervisingRepository")
 public interface SupervisingRepository extends JpaRepository<Supervising, Integer> {
 

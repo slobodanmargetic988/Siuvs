@@ -7,7 +7,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-
+/**
+ *
+ * @author Slobodan Margetic slobodanmargetic988@gmail.com
+ */
 @Repository("photoRepository")
 public interface PhotoRepository extends JpaRepository<Photo, Integer> {
 

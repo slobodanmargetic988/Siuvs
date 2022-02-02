@@ -7,7 +7,10 @@ import org.springframework.data.domain.AuditorAware;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-
+/**
+ *
+ * @author Slobodan Margetic slobodanmargetic988@gmail.com
+ */
 @Configuration
 @EnableJpaAuditing
 public class SpringSecurityAuditorAware implements AuditorAware<User> {

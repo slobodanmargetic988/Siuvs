@@ -6,7 +6,10 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-
+/**
+ *
+ * @author Slobodan Margetic slobodanmargetic988@gmail.com
+ */
 @Entity
 @Table(name = "dokument")
 @EntityListeners(AuditingEntityListener.class)

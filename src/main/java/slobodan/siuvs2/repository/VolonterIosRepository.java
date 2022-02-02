@@ -9,7 +9,10 @@ import org.springframework.stereotype.Repository;
 import slobodan.siuvs2.model.Mobileappdata;
 import slobodan.siuvs2.model.Volonter;
 import slobodan.siuvs2.model.VolonterIos;
-
+/**
+ *
+ * @author Slobodan Margetic slobodanmargetic988@gmail.com
+ */
 @Repository
 public interface VolonterIosRepository extends JpaRepository<VolonterIos, Integer> {
 

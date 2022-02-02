@@ -36,7 +36,10 @@ import slobodan.siuvs2.valueObject.PodvrstaMTSId;
 import slobodan.siuvs2.valueObject.VlasnikMTSId;
 import slobodan.siuvs2.valueObject.VrstaMTSId;
 import slobodan.siuvs2.valueObject.DetaljiMTSId;
-
+/**
+ *
+ * @author Slobodan Margetic slobodanmargetic988@gmail.com
+ */
 @Scope(WebApplicationContext.SCOPE_REQUEST)
 @Controller
 

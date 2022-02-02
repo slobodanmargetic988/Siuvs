@@ -5,7 +5,10 @@ import org.hibernate.validator.constraints.NotEmpty;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ *
+ * @author Slobodan Margetic slobodanmargetic988@gmail.com
+ */
 @Entity
 @Table(name = "table_definition")
 public class TableDefinition {

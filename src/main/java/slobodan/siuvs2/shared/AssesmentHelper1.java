@@ -1,5 +1,8 @@
 package slobodan.siuvs2.shared;
-
+/**
+ *
+ * @author Slobodan Margetic slobodanmargetic988@gmail.com
+ */
 public class AssesmentHelper1 {
 
     public static final String Zemljotres = "земљотреса";

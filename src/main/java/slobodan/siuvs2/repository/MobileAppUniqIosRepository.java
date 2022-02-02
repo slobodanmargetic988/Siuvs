@@ -11,7 +11,10 @@ import slobodan.siuvs2.model.MobileAppUniq;
 import slobodan.siuvs2.model.MobileAppUniqIos;
 
 import slobodan.siuvs2.model.Volonter;
-
+/**
+ *
+ * @author Slobodan Margetic slobodanmargetic988@gmail.com
+ */
 @Repository
 public interface MobileAppUniqIosRepository extends JpaRepository<MobileAppUniqIos, Integer> {
 

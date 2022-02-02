@@ -8,7 +8,10 @@ import org.thymeleaf.extras.springsecurity4.dialect.SpringSecurityDialect;
 import org.thymeleaf.extras.java8time.dialect.Java8TimeDialect;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.thymeleaf.spring4.SpringTemplateEngine;
-
+/**
+ *
+ * @author Slobodan Margetic slobodanmargetic988@gmail.com
+ */
 @Configuration
 public class ThymeleafConfig extends WebMvcConfigurerAdapter {
 

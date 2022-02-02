@@ -8,7 +8,10 @@ import org.springframework.data.repository.query.Param;
 import slobodan.siuvs2.model.TableColumn;
 
 import slobodan.siuvs2.model.TableColumnValue;
-
+/**
+ *
+ * @author Slobodan Margetic slobodanmargetic988@gmail.com
+ */
 public interface TableColumnValueRepository extends JpaRepository<TableColumnValue, Integer> {
 
     TableColumnValue findOne(Integer tableColumnValueId);

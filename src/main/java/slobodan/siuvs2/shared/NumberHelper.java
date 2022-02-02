@@ -1,7 +1,10 @@
 package slobodan.siuvs2.shared;
 
 import java.math.BigDecimal;
-
+/**
+ *
+ * @author Slobodan Margetic slobodanmargetic988@gmail.com
+ */
 public class NumberHelper {
 
     public static String getValidNumberString(String text) {

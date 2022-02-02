@@ -1,4 +1,8 @@
 package slobodan.siuvs2.service;
+/**
+ *
+ * @author Slobodan Margetic slobodanmargetic988@gmail.com
+ */
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;

@@ -60,7 +60,10 @@ import slobodan.siuvs2.service.StorageService;
 import slobodan.siuvs2.service.VolonterIosService;
 import slobodan.siuvs2.service.VolonterService;
 import slobodan.siuvs2.valueObject.ClientId;
-
+/**
+ *
+ * @author Slobodan Margetic slobodanmargetic988@gmail.com
+ */
 @Controller
 public class MobileAppController {
 

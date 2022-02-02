@@ -1,5 +1,8 @@
 package slobodan.siuvs2.valueObject;
-
+/**
+ *
+ * @author Slobodan Margetic slobodanmargetic988@gmail.com
+ */
 public class SpecijalnostId implements IdValueObjectInterface {
 
     private Integer value;

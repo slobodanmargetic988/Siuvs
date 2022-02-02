@@ -7,7 +7,10 @@ import java.util.List;
 import slobodan.siuvs2.model.Dokument;
 import slobodan.siuvs2.model.InternationalAgreements;
 import slobodan.siuvs2.model.PublicPolicyDocuments;
-
+/**
+ *
+ * @author Slobodan Margetic slobodanmargetic988@gmail.com
+ */
 @Repository("dokumentRepository")
 public interface DokumentRepository extends JpaRepository<Dokument, Integer> {
 

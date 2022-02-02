@@ -13,7 +13,10 @@ import slobodan.siuvs2.model.Notifikacije;
 import slobodan.siuvs2.model.NotifikacijeIos;
 import slobodan.siuvs2.model.Opstina;
 import slobodan.siuvs2.model.Volonter;
-
+/**
+ *
+ * @author Slobodan Margetic slobodanmargetic988@gmail.com
+ */
 @Repository
 public interface NotifikacijeIosRepository extends JpaRepository<NotifikacijeIos, Integer> {
 

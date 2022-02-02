@@ -10,7 +10,10 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ *
+ * @author Slobodan Margetic slobodanmargetic988@gmail.com
+ */
 @Entity
 @Table(name = "dynamic_row")
 @EntityListeners(AuditingEntityListener.class)

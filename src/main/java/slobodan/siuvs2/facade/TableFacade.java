@@ -29,7 +29,10 @@ import slobodan.siuvs2.valueObject.TableColumnId;
 import slobodan.siuvs2.shared.SiuvsException;
 import org.springframework.ui.Model;
 import java.util.List;
-
+/**
+ *
+ * @author Slobodan Margetic slobodanmargetic988@gmail.com
+ */
 public class TableFacade {
 
     private User user;

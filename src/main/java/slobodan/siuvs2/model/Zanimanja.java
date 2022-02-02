@@ -12,7 +12,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 /**
  *
- * @author Sloba
+ * @author Slobodan Margetic slobodanmargetic988@gmail.com
  */
 @Entity
 @Table(name = "zanimanja")

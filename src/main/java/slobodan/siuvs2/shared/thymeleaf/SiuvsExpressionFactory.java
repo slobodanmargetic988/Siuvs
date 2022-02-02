@@ -7,7 +7,10 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
-
+/**
+ *
+ * @author Slobodan Margetic slobodanmargetic988@gmail.com
+ */
 public class SiuvsExpressionFactory implements IExpressionObjectFactory {
 
     private static final String SIUVS_EVALUATION_VARIABLE_NAME = "siuvs";

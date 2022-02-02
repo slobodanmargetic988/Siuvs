@@ -65,7 +65,7 @@ public class OpenDataRestController {
      @Autowired
     private PhotoService photoService;
 
-    @GetMapping("/openData/{openDataClientId}/{tableId}/[apiToken}")
+    @GetMapping("/openData/{openDataClientId}/{tableId}/{apiToken}")
     DynamicTable serveTable(//serves entire dynamic table based on table definition id and client id if token sent with the request exists. 
             //token is given to entities who are allowed to call this service
             @PathVariable final Integer openDataClientId,
@@ -81,7 +81,7 @@ public class OpenDataRestController {
         }
     }
     
-        @GetMapping("/openData/allAssessments/[apiToken}")
+        @GetMapping("/openData/allAssessments/{apiToken}")
     List<Assessment>  serveAllAssessments(//serves entire dynamic table based on table definition id and client id if token sent with the request exists. 
             //token is given to entities who are allowed to call this service
             @PathVariable final String apiToken) {
@@ -93,7 +93,7 @@ public class OpenDataRestController {
             return null;
         }
     }
-            @GetMapping("/openData/allDocuments/[apiToken}")
+            @GetMapping("/openData/allDocuments/{apiToken}")
     List<Dokument>  serveAllDokuments(//serves entire dynamic table based on table definition id and client id if token sent with the request exists. 
             //token is given to entities who are allowed to call this service
             @PathVariable final String apiToken) {

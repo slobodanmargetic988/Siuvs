@@ -58,6 +58,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/php/**").permitAll()
                 .antMatchers("/login/**").permitAll()
                 .antMatchers("/forgotpassword/**").permitAll()
+                .antMatchers("/openData/**").permitAll()    
                 .antMatchers("/publicaccess/**").permitAll()
                 .antMatchers("/admin/**").hasAnyAuthority(Roles.ADMIN.toString(), Roles.RIS.toString(), Roles.MUP.toString())
                 .antMatchers("/supervisor/**").hasAnyAuthority(Roles.DISTRIKT.toString(), Roles.PROVINCE.toString())

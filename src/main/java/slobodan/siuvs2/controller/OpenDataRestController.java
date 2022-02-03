@@ -49,7 +49,11 @@ import slobodan.siuvs2.valueObject.TableDefinitionId;
  */
 @RestController
 public class OpenDataRestController {
-
+//za clijenta ciklicno ucitava usera pa clienta pa u krug
+    
+    //za dokumente proveriti da li su migrirani kako treba
+    
+    
     @Autowired
     private ClientService clientService;
     @Autowired
@@ -76,14 +80,19 @@ public class OpenDataRestController {
             Client client = clientService.findFirstByOpendataid(openDataClientId);
             DynamicTable tabela = dynamicTableService.findByTableDefinitionIdAndClient(tableId, client);
             return tabela;
+            
         } else {
             return null;
+            
+            
         }
     }
     
         @GetMapping("/openData/allAssessments/{apiToken}")
     List<Assessment>  serveAllAssessments(//serves entire dynamic table based on table definition id and client id if token sent with the request exists. 
             //token is given to entities who are allowed to call this service
+            
+            
             @PathVariable final String apiToken) {
         OpenData token = openDataService.findFirstByToken(apiToken);
         if (token != null) {

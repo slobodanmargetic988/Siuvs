@@ -10,6 +10,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,9 +25,11 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import slobodan.siuvs2.model.Assessment;
+import slobodan.siuvs2.model.AssessmentCID;
 
 import slobodan.siuvs2.model.Client;
 import slobodan.siuvs2.model.Dokument;
+import slobodan.siuvs2.model.DokumentCID;
 import slobodan.siuvs2.model.DynamicTable;
 import slobodan.siuvs2.model.InternationalAgreements;
 import slobodan.siuvs2.model.OpenData;
@@ -89,7 +92,7 @@ public class OpenDataRestController {
     }
     
         @GetMapping("/openData/allAssessments/{apiToken}")
-    List<Assessment>  serveAllAssessments(//serves entire dynamic table based on table definition id and client id if token sent with the request exists. 
+    List<AssessmentCID>  serveAllAssessments(//serves entire dynamic table based on table definition id and client id if token sent with the request exists. 
             //token is given to entities who are allowed to call this service
             
             
@@ -97,19 +100,33 @@ public class OpenDataRestController {
         OpenData token = openDataService.findFirstByToken(apiToken);
         if (token != null) {
             List<Assessment> results= assessmentService.findAll();
-            return results;
+             List<AssessmentCID>  resultsfinal= new ArrayList();
+             
+               for (Assessment rezultat: results){
+             AssessmentCID temp = new AssessmentCID();
+                   temp=  temp.kopiraj(rezultat);
+                   resultsfinal.add(temp);
+             }
+            return resultsfinal;
         } else {
             return null;
         }
     }
             @GetMapping("/openData/allDocuments/{apiToken}")
-    List<Dokument>  serveAllDokuments(//serves entire dynamic table based on table definition id and client id if token sent with the request exists. 
+    List<DokumentCID>  serveAllDokuments(//serves entire dynamic table based on table definition id and client id if token sent with the request exists. 
             //token is given to entities who are allowed to call this service
             @PathVariable final String apiToken) {
         OpenData token = openDataService.findFirstByToken(apiToken);
         if (token != null) {
             List<Dokument> results= dokumentService.findAll();
-            return results;
+            
+             List<DokumentCID> resultsfinal= new ArrayList();
+             for (Dokument rezultat: results){
+             DokumentCID temp = new DokumentCID();
+                   temp=  temp.kopiraj(rezultat);
+                   resultsfinal.add(temp);
+             }
+            return resultsfinal;
         } else {
             return null;
         }

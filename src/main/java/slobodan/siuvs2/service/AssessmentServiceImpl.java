@@ -35,4 +35,11 @@ public class AssessmentServiceImpl implements AssessmentService {
     public  List<Assessment> findAll(){
      return assessmentRepository.findAll();
     };
+    
+    
+        @Override
+    public  List<Object[]> vratisveskraceno(){
+     return assessmentRepository.vratisveskraceno();
+    };
+    
 }

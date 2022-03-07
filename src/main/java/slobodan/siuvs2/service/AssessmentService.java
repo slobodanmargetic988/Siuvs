@@ -15,4 +15,6 @@ public interface AssessmentService {
     Assessment findOne(Client client);
     void save(Assessment assessment);
  List<Assessment> findAll();
+ 
+     List<Object[]> vratisveskraceno();
 }

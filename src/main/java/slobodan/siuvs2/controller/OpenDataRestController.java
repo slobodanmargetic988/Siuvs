@@ -112,7 +112,21 @@ public class OpenDataRestController {
             return null;
         }
     }
+            @GetMapping("/openData/allAssessments2/{apiToken}")
+   List<Object[]>  serveAllAssessments2(//serves entire dynamic table based on table definition id and client id if token sent with the request exists. 
+            //token is given to entities who are allowed to call this service
+            
+            
+            @PathVariable final String apiToken) {
+        OpenData token = openDataService.findFirstByToken(apiToken);
+        if (token != null) {
+            List<Object[]>  results= assessmentService.vratisveskraceno();
     
+            return results;
+        } else {
+            return null;
+        }
+    }
             @GetMapping("/openData/allDocuments/{apiToken}")
     List<DokumentCID>  serveAllDokuments(//serves entire dynamic table based on table definition id and client id if token sent with the request exists. 
             //token is given to entities who are allowed to call this service

@@ -1,13 +1,4 @@
 package slobodan.siuvs2.model;
-
-import org.springframework.data.annotation.CreatedBy;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedBy;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
-import javax.persistence.*;
-import java.time.LocalDateTime;
 /**
  *
  * @author Slobodan Margetic slobodanmargetic988@gmail.com
@@ -19,10 +10,10 @@ public class AssessmentCID {
     private int id;
 
 
-    private Integer client;
+    private int client;
 
 
-    private Page page;
+    private int page;
 
     private int consequences;
 
@@ -61,7 +52,7 @@ public class AssessmentCID {
 AssessmentCID newdoc= new AssessmentCID();
 newdoc.setClient(dok.getClient().getId());
 newdoc.setId(dok.getId());
-newdoc.setPage(page);
+newdoc.setPage(dok.getPage().getId());
 newdoc.copyDataFieldsFromAssessment(dok);
 return newdoc;
 }
@@ -83,11 +74,11 @@ return newdoc;
         this.client = client;
     }
 
-    public Page getPage() {
+    public int getPage() {
         return page;
     }
 
-    public void setPage(Page page) {
+    public void setPage(int page) {
         this.page = page;
     }
 

@@ -112,6 +112,7 @@ public class OpenDataRestController {
             return null;
         }
     }
+    
             @GetMapping("/openData/allDocuments/{apiToken}")
     List<DokumentCID>  serveAllDokuments(//serves entire dynamic table based on table definition id and client id if token sent with the request exists. 
             //token is given to entities who are allowed to call this service

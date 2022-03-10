@@ -143,7 +143,7 @@
                                                                             </tr>
                                                                         </thead>
                                                                         <tbody>
-                                                                            <tr th:each="clientA, , indexD: ${clientSaAssessment}" th:attr="data-href=@{/admin/clients/{id}(id=${clientA.id})}">
+                                                                            <tr th:each="clientA, indexD: ${clientSaAssessment}" th:attr="data-href=@{/admin/clients/{id}(id=${clientA.id})}">
                                                                                 <th class="table-border-custom" scope="row" th:text="${indexD.index}"></th>
                                                                                 <td class="table-border-custom" th:text="${clientA.name}"></td>
 

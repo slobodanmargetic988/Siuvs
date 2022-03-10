@@ -16,5 +16,5 @@ public interface AssessmentService {
     void save(Assessment assessment);
  List<Assessment> findAll();
  
-     List<Object[]> vratisveskraceno();
+  //   List<Object[]> vratisveskraceno();
 }

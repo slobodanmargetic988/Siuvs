@@ -37,9 +37,9 @@ public class AssessmentServiceImpl implements AssessmentService {
     };
     
     
-        @Override
+     /*   @Override
     public  List<Object[]> vratisveskraceno(){
      return assessmentRepository.vratisveskraceno();
-    };
+    };*/
     
 }

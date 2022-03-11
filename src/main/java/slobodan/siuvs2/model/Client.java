@@ -38,7 +38,7 @@ public class Client {
     @NotEmpty(message = "* Молимо унесите назив корисника")
     private String name;
 
-    @OneToMany(mappedBy = "client", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "client")
     private List<User> users = new ArrayList<>();
     
      @OneToMany(mappedBy = "client")

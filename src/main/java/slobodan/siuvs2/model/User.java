@@ -51,7 +51,7 @@ public class User {
     @JoinColumn(name = "supervising_id")
     private Supervising supervising;
 
-    @ManyToOne( fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "client_id")
     private Client client;
 
